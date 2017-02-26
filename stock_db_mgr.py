@@ -122,6 +122,7 @@ def updateAllSymbols(basedir, startDate=None, endDate=None):
         downloadData(s, basedir, startDate, endDate)
 
 #-------------------------------------------------------------------------------
+# TBD: currently only error print when incorrect data...
 def loadData(csvFile, startDate, endDate):
     print "Loading:%s" % csvFile
     bars = [] # array
