@@ -15,39 +15,52 @@ def ramp(T):
     return T * step(T)
 
 #-------------------------------------
+# Various technical indicators
+#-------------------------------------
 
+# Linear regression of 'n' points used to give the smoothed point
 def linFit(X, n):
     if n < 2:
         raise "n must be >= 2"
     t = np.arange(len(X))
     Y = np.array([np.polyval(np.polyfit(t[i-n+1:i+1], X[i-n+1:i+1], 1), i) for i in np.arange(n-1, len(t), 1)])
+    # NaN at beginning (invalid value)
     Y = np.concatenate((np.array([np.nan] * (n-1)), Y))
     return Y
 
-def linFitROC(X, n):
+# Return the Rate Of Change (1st derivative) based on 'n' points linear regression
+def rateOfChange(X, n):
     t = np.arange(len(X))
     Y = np.array([np.polyfit(t[i-n+1:i+1], X[i-n+1:i+1], 1)[0] for i in np.arange(n-1, len(t), 1)])
     # NaN at beginning (invalid value)
     #Y = np.concatenate((np.array([np.nan] * (n-1)), Y))
     # Zero at beginning (invalid value)
-    Y = np.concatenate((np.array([0] * (n-1)), Y))
+    Y = np.concatenate((np.zeros(n-1), Y))
     return Y
 
-def linFitROC2(X, n):
+# Return the "Acceleration" (2nd derivative) based on 'n' points 2nd order regression
+def acceleration(X, n):
     t = np.arange(len(X))
     Y = np.array([np.polyfit(t[i-n+1:i+1], X[i-n+1:i+1], 2)[0]*2 for i in np.arange(n-1, len(t), 1)])
     # NaN at beginning (invalid value)
     #Y = np.concatenate((np.array([np.nan] * (n-1)), Y))
     # Zero at beginning (invalid value)
-    Y = np.concatenate((np.array([0] * (n-1)), Y))
+    Y = np.concatenate((np.zeros(n-1), Y))
     return Y
 
 # Filter Design
 def iir(X, order, period):
     wn = 2.0/period
-    b, a = signal.iirfilter(order, wn, rp = None, rs = None,
-                            btype = 'lowpass', analog = 0,
-                            ftype = 'butter', output = 'ba')
+    b, a = signal.iirfilter(
+        order,
+        wn,
+        rp = None,
+        rs = None,
+        btype = 'lowpass',
+        analog = False,
+        ftype = 'butter',
+        output = 'ba'
+    )
     zi = signal.lfilter_zi(b, a)
     Y, zf = signal.lfilter(b, a, X, zi = zi * X[0])
     return Y
@@ -69,7 +82,7 @@ def ema(X, n):
 
     return Y
 
-# Adaptive EMA
+# Adaptive EMA (my invention...)
 def aema(X, n):
     if n < 1:
         raise "n must be >= 1"
@@ -123,16 +136,20 @@ def mmax(X, n):
 def _main():
     import matplotlib as mpl
     import matplotlib.pyplot as plt
+
     N = 100
-    T = np.arange(N)
+    T = np.arange(N) # [0 .. N-1]
 
     # triangle
     #X = np.concatenate((np.arange(0,N/2,1), np.arange(N/2,0,-1)))
+
     # step
     X = step(T - N/2) * 10
+
     # ramp
     #X = ramp(T - N/2)
 
+    # normalized random
     #X = np.cumsum(np.random.randn(N))
 
     #X = np.sin(8 * np.pi/N * t) + (.1 * t)
@@ -144,7 +161,7 @@ def _main():
 
     #Y = ema(X, 3)
     #Y = iir(X, 3, 20)
-    #Y = linFitROC(X, 2)
+    #Y = rateOfChange(X, 2)
     #Y = linFit(X, 5)
     #print Y
 
@@ -154,18 +171,20 @@ def _main():
     #fig.hold()
     ax.plot(
         T, X, 'o',
-        T, sma(X, 10),
-        T, ema(X, 10),
+        #T, sma(X, 10),
+        #T, ema(X, 10),
         #T, linFit(X, 10),
-        #T, iir(X, 1, 20),
+        T, rateOfChange(X, 10),
+        T, acceleration(X, 10),
+        #T, iir(X, 1, 10),
         #T, mmin(X, 10),
         #T, mmax(X, 10)
-        T, aema(X, 10)
+        #T, aema(X, 10)
         )
     ax.grid(True)
     #ax2 = fig.add_subplot(212)
     #ax2.plot(
-    #    T, linFitROC2(X, 10), 'o--'
+    #    T, acceleration(X, 10), 'o--'
     #    )
     #ax2.grid(True)
     plt.show()
