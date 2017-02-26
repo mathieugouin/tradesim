@@ -18,6 +18,7 @@ from Position import *
 import technical_indicators as ti
 import gstockquote as gsq
 import ystockquote as ysq
+import stock_db_mgr as sdm
 
 startDate = datetime.date(1900, 1, 1)
 #endDate = datetime.date(2012, 12, 1)
@@ -167,59 +168,13 @@ def loadData():
     global dataDir
     global dataDic
 
+    sd = sdm.CStockDBMgr(dataDir)
+
     if dataDir[-1] == '\\':
         dataDir = dataDir[0:-2]
 
-#    for csvFile in glob.glob(os.path.join(dataDir, '*.csv')):
-#        bars = [] # array
-#        print "Loading data from: " + csvFile
-#        symbol = os.path.basename(csvFile).replace('.csv', '')
-#        #print "> %s" % gsq.get_company_name(symbol)
-#
-#        # The CSV files are downloaded from yahoo historical data
-#        f = open(csvFile, 'r')
-#        #lineSplit  0,   1,   2,   3,  4,    5,     6
-#        #priceData       0,   1,   2,  3,    4,     5
-#        #           Date,Open,High,Low,Close,Volume,Adj Close
-#        #           2012-03-21,204.32,205.77,204.30,204.69,3329900,204.69
-#        f.seek(0)
-#        f.readline() # skip header row
-#        for l in f.readlines():
-#            # Date,Open,High,Low,Close,Volume,Adj Close
-#            lineSplit = l.strip().split(',')
-#            if len(lineSplit) != 7:
-#                print "Error: Invalid line"
-#                continue
-#            dateSplit = map(int, lineSplit[0].split('-'))
-#            date = datetime.date(dateSplit[0], dateSplit[1], dateSplit[2])
-#            # Yahoo CSV data is most recent first
-#            if date < startDate: # Data starting with this line in the file is too old
-#                break # stop processing this file
-#            if startDate <= date and date <= endDate:
-#                priceData = map(float, lineSplit[1:])
-#                adjRatio = priceData[5] / priceData[3] # Adj Close / Close
-#
-#                # %Adjust for dividends, splits, etc.
-#                # DATEtemp{ptr,1} = DATEvar;
-#                # OPENtemp(ptr,1) = OPENvar  * adj_close / CLOSEvar;
-#                # HIGHtemp(ptr,1) = HIGHvar  * adj_close / CLOSEvar;
-#                # LOWtemp (ptr,1) = LOWvar   * adj_close / CLOSEvar;
-#                # CLOSEtemp(ptr,1)= CLOSEvar * adj_close / CLOSEvar;
-#                # VOLtemp(ptr,1)  = VOLvar;
-#
-#                bar = CBar(
-#                            date,
-#                            priceData[0] * adjRatio, # open
-#                            priceData[1] * adjRatio, # high
-#                            priceData[2] * adjRatio, # low
-#                            priceData[3] * adjRatio, # close
-#                            priceData[4]             # volume (in nb of shares)
-#                         )
-#                bars.append(bar)
-#        f.close()
-#        bars.reverse() # now bars[0] is the earliest
-
-        dataDic[symbol] = bars
+    for symbol in sd.getAllSymbolsAvailable():
+        dataDic[symbol] = sd.getSymbolData(symbol)
 
 
 ###############################################################################
