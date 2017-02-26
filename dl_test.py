@@ -7,8 +7,8 @@ import ystockquote as ysq
 startdate = datetime.date(1900, 1, 1)
 today = enddate = datetime.date.today()
 
-tickerfile = r'./stock_db/tsx.txt'
-#tickerfile = r'./stock_db/qt.txt'
+tickerfile = './stock_db/tsx.txt'
+#tickerfile = './stock_db/qt.txt'
 
 # Create data base:
 db = sdm.CStockDBMgr('./stock_db/tsx')
