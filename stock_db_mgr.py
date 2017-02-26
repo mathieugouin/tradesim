@@ -234,8 +234,9 @@ def _main():
     t0 = time.clock()
     for s in sdm.getAllSymbolsAvailable():
         d = sdm.getSymbolData(s)
-    dt = (time.clock() - t0)
+    dt = time.clock() - t0
     print dt
+    return
 
     _defBaseDir = './stock_db/test'
     s = 'CP.TO'
