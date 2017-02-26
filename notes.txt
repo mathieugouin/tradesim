@@ -1,0 +1,6 @@
+G-Docs:
+http://finance.yahoo.com/d/quotes.csv?s=CP.TO&f=l1
+
+TODO:
+Analyze invalid stock
+Cleanup ticker files

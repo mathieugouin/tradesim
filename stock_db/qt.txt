@@ -1,0 +1,10 @@
+################################################################################
+# Questrade Portfolio
+# as of April 2014
+################################################################################
+# Yahoo Symbol	Company Name
+XBB.TO	ISHARES CANADIAN UNIVERSE BOND INDEX ETF
+ZCN.TO	BMO S&P/TSX CAPPED COMPOSITE INDEX ETF UNIT
+VUN.TO	VANGUARD U S TOTAL MARKET INDEX ETF TR UNIT
+XEF.TO	ISHARES MSCI EAFE IMI INDEX ETF UNIT
+XEC.TO	ISHARES MSCI EMERGING MKTS IMI INDEX ETF UNIT
