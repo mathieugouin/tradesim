@@ -5,7 +5,7 @@
 #Yahoo Symbol	Company 	Sector
 AAV.TO	Advantage Oil & Gas Ltd. 	Energy
 ABX.TO	Barrick Gold Corporation 	Materials
-ACM-A.TO	Astral Media Inc. 	Consumer Discretionary
+#ACM-A.TO	Astral Media Inc. 	Consumer Discretionary
 ACO-X.TO	Atco Ltd. 	Utilities
 AEM.TO	Agnico-Eagle Mines Ltd. 	Materials
 AGF-B.TO	AGF Management Limited 	Financials
@@ -23,7 +23,7 @@ ASR.TO	Alacer Gold Corp. 	Materials
 ATD-B.TO	Alimentation Couche-Tard Inc. 	Consumer Staples
 ATH.TO	Athabasca Oil Corporation 	Energy
 ATP.TO	Atlantic Power Corporation 	Utilities
-AUQ.TO	AuRico Gold Inc. 	Materials
+#AUQ.TO	AuRico Gold Inc. 	Materials
 AX-UN.TO	Artis Real Estate Investment Trust 	Financials
 BA.TO	Bell Aliant Inc. 	Telecommunication Services
 BAA.TO	Banro Corporation 	Materials

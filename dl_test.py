@@ -30,6 +30,10 @@ for s in symbolList:
     t = startdate
     if len(r) > 0:
         t = r[-1].date
+    else:
+        inv.append(s)
+        continue
+
     #gsq.get_company_name(s)
     #t = float(ysq.get_price(s))
     #print "%s: %s" % (s, t)
