@@ -157,7 +157,7 @@ def _main():
     #X = 20 * np.sin(2 * 2*np.pi/N * T)
 
     # Add noise:
-    #X = X + 2.0 * np.random.randn(len(X))
+    #X = X + 0.2 * np.random.randn(len(X))
 
     #Y = ema(X, 3)
     #Y = iir(X, 3, 20)
@@ -171,11 +171,11 @@ def _main():
     #fig.hold()
     ax.plot(
         T, X, 'o',
-        #T, sma(X, 10),
-        #T, ema(X, 10),
+        T, sma(X, 10),
+        T, ema(X, 10),
         #T, linFit(X, 10),
-        T, rateOfChange(X, 10),
-        T, acceleration(X, 10),
+        #T, rateOfChange(X, 10),
+        #T, acceleration(X, 10),
         #T, iir(X, 1, 10),
         #T, mmin(X, 10),
         #T, mmax(X, 10)
