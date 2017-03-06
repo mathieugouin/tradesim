@@ -1,12 +1,7 @@
 #-------------------------------------------------------------------------------
-# Name:        module1
+# Name:        Class Position
 # Purpose:
 #
-# Author:      temp
-#
-# Created:     24/02/2013
-# Copyright:   (c) temp 2013
-# Licence:     <your licence>
 #-------------------------------------------------------------------------------
 
 ###############################################################################
@@ -60,5 +55,5 @@ class CPosition:
         return pc
 
     def toString(self):
-        print "TBD"
+        return "TBD"
 

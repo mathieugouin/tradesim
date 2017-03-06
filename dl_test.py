@@ -24,6 +24,10 @@ print len(symbolList)
 for s in symbolList:
     #print s, ysq.get_dividend_yield(s)
 
+    if not db.validateSymbolData(s):
+        inv.append(s)
+        continue
+
     #db.downloadData(s)
     r = db.getSymbolData(s)
 

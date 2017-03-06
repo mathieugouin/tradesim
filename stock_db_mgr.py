@@ -170,6 +170,39 @@ def loadData(csvFile, startDate, endDate):
     return bars
 
 #-------------------------------------------------------------------------------
+# Check for basic errors in historical market data
+def validateData(csvFile):
+    print "Validating:%s" % csvFile
+    valid = True # Default
+    # The CSV files are downloaded from yahoo historical data
+    f = open(csvFile, 'r')
+    #lineSplit  0,   1,   2,   3,  4,    5,     6
+    #priceData       0,   1,   2,  3,    4,     5
+    #           Date,Open,High,Low,Close,Volume,Adj Close
+    #           2012-03-21,204.32,205.77,204.30,204.69,3329900,204.69
+    f.seek(0)
+    f.readline() # skip header row
+    for l in f.readlines():
+        # Date,Open,High,Low,Close,Volume,Adj Close
+        lineSplit = l.strip().split(',')
+        if len(lineSplit) != 7:
+            print "Error: Invalid line, missing data"
+            valid = False
+            break
+        dateSplit = map(int, lineSplit[0].split('-'))
+        if len(dateSplit) != 3:
+            print "Error: Invalid date format"
+            valid = False
+            break
+        priceData = map(float, lineSplit[1:])
+        if priceData[3] == 0 or priceData[5] == 0:
+            print "Error: Invalid price data"
+            valid = False
+            break
+    f.close()
+    return valid
+
+#-------------------------------------------------------------------------------
 def getSymbolData(symbol, basedir, startDate=None, endDate=None):
     if startDate == None:
         startDate = _defStartDate
@@ -218,11 +251,15 @@ class CStockDBMgr:
             endDate = self.endDate
         return getSymbolData(symbol, self.basedir, startDate, endDate)
 
+    def validateSymbolData(self, symbol):
+        return validateData(symbolToFilename(symbol, self.basedir))
+
 #-------------------------------------------------------------------------------
 def _main():
     sdm = CStockDBMgr('./stock_db/qt')
     symbolList = sdm.getAllSymbolsAvailable()
     print symbolList
+    sdm.validateSymbolData(symbolList[0])
     d = sdm.getSymbolData(symbolList[0])
     print d[0].toString()
     print getDate(d)[0]
@@ -233,6 +270,12 @@ def _main():
     print getVolume(d)[0]
 
     #sdm.updateAllSymbols()
+    t0 = time.clock()
+    for s in sdm.getAllSymbolsAvailable():
+        print sdm.validateSymbolData(s)
+    dt = time.clock() - t0
+    print dt
+
     t0 = time.clock()
     for s in sdm.getAllSymbolsAvailable():
         d = sdm.getSymbolData(s)

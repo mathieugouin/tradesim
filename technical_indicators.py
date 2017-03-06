@@ -120,14 +120,14 @@ def crossUnder(X, Y, i):
             c = True
     return c
 
-# Moving minimum
-def mmin(X, n):
+# Moving minimum over the last n element
+def movingMin(X, n):
     if n < 1:
         raise "n must be >= 1"
     return np.array([min(X[max(0, i-n+1):i+1]) for i in xrange(len(X))])
 
-# Moving maximum
-def mmax(X, n):
+# Moving maximum over the last n element
+def movingMax(X, n):
     if n < 1:
         raise "n must be >= 1"
     return np.array([max(X[max(0, i-n+1):i+1]) for i in xrange(len(X))])
@@ -177,8 +177,8 @@ def _main():
         #T, rateOfChange(X, 10),
         #T, acceleration(X, 10),
         #T, iir(X, 1, 10),
-        #T, mmin(X, 10),
-        #T, mmax(X, 10)
+        #T, movingMin(X, 10),
+        #T, movingMax(X, 10)
         #T, aema(X, 10)
         )
     ax.grid(True)
