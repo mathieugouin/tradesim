@@ -63,6 +63,13 @@ a = [1/k, (k-1)/k]
 
 
 #==================================
+def pandas_test():
+    df = pd.read_csv('stock_db/tsx/CP.TO.csv')
+    df['Close'].plot()
+    df[['Open', 'High', 'Low', 'Close']][:100].plot()
+    df['Close'].max()
+    df['Close'].mean()
+    df['Close'].std()
 
 def main():
     pass
