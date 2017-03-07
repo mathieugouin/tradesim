@@ -6,6 +6,7 @@
 - NumPy (<http://www.numpy.org>)
 - SciPy (<http://www.scipy.org>)
 - Pandas (<http://pandas.pydata.org/>): Optionnal for now
+- mpl_finance (<https://github.com/matplotlib/mpl_finance>)
 
 ## Tools
 
