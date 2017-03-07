@@ -1,6 +1,6 @@
 # Trade Simulator
 
-## Pre-requisite
+## Prerequisites
 
 - Python 2.7
 - NumPy (<http://www.numpy.org>)
