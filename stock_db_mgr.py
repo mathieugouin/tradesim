@@ -14,7 +14,7 @@ import time
 
 # custom
 import numpy as np
-from matplotlib.finance import parse_yahoo_historical
+#from matplotlib.finance import parse_yahoo_historical
 
 # user
 import Bar
@@ -217,12 +217,13 @@ def getSymbolData(symbol, basedir, startDate=None, endDate=None):
     if True:  # default
         return loadData(f, startDate, endDate)
     else:
+        pass
         # This method does not support date range
-        print "Loading:%s" % symbol
-        fh = open(f, 'r')
-        d = parse_yahoo_historical(fh, adjusted=True, asobject=True)
-        fh.close()
-        return d
+        #print "Loading:%s" % symbol
+        #fh = open(f, 'r')
+        #d = parse_yahoo_historical(fh, adjusted=True, asobject=True)
+        #fh.close()
+        #return d
 
 #-------------------------------------------------------------------------------
 class CStockDBMgr:
