@@ -34,14 +34,14 @@ BCB.TO	Cott Corporation 	Consumer Staples
 BCE.TO	BCE Inc. 	Telecommunication Services
 BDI.TO	Black Diamond Group Limited 	Industrials
 BEI-UN.TO	Boardwalk Real Estate Investment Trust 	Financials
-BIN.TO	Progressive Waste Solutions Ltd. 	Industrials
+#BIN.TO	Progressive Waste Solutions Ltd. 	Industrials
 BIR.TO	Birchcliff Energy Ltd. 	Energy
 BMO.TO	Bank of Montreal 	Financials
 BNE.TO	Bonterra Energy Corp. 	Energy
 BNK.TO	Bankers Petroleum Ltd. 	Energy
 BNP.TO	Bonavista Energy Corporation 	Energy
 BNS.TO	Bank of Nova Scotia 	Financials
-BPO.TO	Brookfield Office Properties Inc. 	Financials
+#BPO.TO	Brookfield Office Properties Inc. 	Financials
 BTE.TO	Baytex Energy Corp. 	Energy
 BTO.TO	B2Gold Corp. 	Materials
 CAE.TO	CAE Inc. 	Industrials
@@ -49,21 +49,21 @@ CAR-UN.TO	Canadian Apartment Properties Real Estate Investment Trust 	Financials
 CCA.TO	Cogeco Cable Inc. 	Consumer Discretionary
 CCL-B.TO	CCL Industries Inc. 	Materials
 CCO.TO	Cameco Corporation 	Energy
-CCT.TO	Catamaran Corporation 	Health Care
+#CCT.TO	Catamaran Corporation 	Health Care
 CFP.TO	Canfor Corporation 	Materials
 CFW.TO	Calfrac Well Services Ltd. 	Energy
 CG.TO	Centerra Gold Inc. 	Materials
 CGG.TO	China Gold International Resources Corp. Ltd. 	Materials
 CGX.TO	Cineplex Inc. 	Consumer Discretionary
-CHR-B.TO	Chorus Aviation Inc. 	Industrials
+#CHR-B.TO	Chorus Aviation Inc. 	Industrials
 CIX.TO	CI Financial Corp. 	Financials
 CJR-B.TO	Corus Entertainment Inc. 	Consumer Discretionary
-CLC.TO	CML HealthCare Inc. 	Health Care
+#CLC.TO	CML HealthCare Inc. 	Health Care
 CLS.TO	Celestica Inc. 	Information Technology
 CM.TO	Canadian Imperial Bank of Commerce 	Financials
 CNQ.TO	Canadian Natural Resources Limited 	Energy
 CNR.TO	Canadian National Railway Company 	Industrials
-COS.TO	Canadian Oil Sands Limited 	Energy
+#COS.TO	Canadian Oil Sands Limited 	Energy
 CP.TO	Canadian Pacific Railway Limited 	Industrials
 CPG.TO	Crescent Point Energy Corp. 	Energy
 CPX.TO	Capital Power Corporation 	Utilities
@@ -113,14 +113,14 @@ GBU.TO	Gabriel Resources Ltd. 	Materials
 GEI.TO	Gibson Energy Inc. 	Energy
 GIB-A.TO	CGI Group Inc. 	Information Technology
 GIL.TO	Gildan Activewear Inc. 	Consumer Discretionary
-GNV.TO	GENIVAR Inc. 	Industrials
+#GNV.TO	GENIVAR Inc. 	Industrials
 GRT-UN.TO	Granite Real Estate Investment Trust 	Financials
 GWO.TO	Great-West Lifeco Inc. 	Financials
 HBM.TO	HudBay Minerals Inc. 	Materials
 HCG.TO	Home Capital Group Inc. 	Financials
 HR-UN.TO	H&R Real Estate Investment Trust 	Financials
 HSE.TO	Husky Energy Inc. 	Energy
-HW.TO	Harry Winston Diamond Corporation 	Materials
+#HW.TO	Harry Winston Diamond Corporation 	Materials
 IAG.TO	Industrial Alliance Insurance and Financial Services Inc. 	Financials
 IFC.TO	Intact Financial Corporation 	Financials
 IGM.TO	IGM Financial Inc. 	Financials
@@ -134,7 +134,7 @@ KEY.TO	Keyera Corp. 	Energy
 KGI.TO	Kirkland Lake Gold Inc. 	Materials
 L.TO	Loblaw Companies Limited 	Consumer Staples
 LB.TO	Laurentian Bank of Canada 	Financials
-LEG.TO	Legacy Oil + Gas Inc. 	Energy
+#LEG.TO	Legacy Oil + Gas Inc. 	Energy
 LIF.TO	Labrador Iron Ore Royalty Corporation 	Materials
 LNR.TO	Linamar Corporation 	Consumer Discretionary
 LUN.TO	Lundin Mining Corporation 	Materials
@@ -156,7 +156,7 @@ NG.TO	NovaGold Resources Inc. 	Materials
 NGD.TO	New Gold Inc. 	Materials
 NKO.TO	Niko Resources Ltd. 	Energy
 NPI.TO	Northland Power Inc. 	Utilities
-NPR-UN.TO	Northern Property Real Estate Investment Trust 	Financials
+#NPR-UN.TO	Northern Property Real Estate Investment Trust 	Financials
 NSU.TO	Nevsun Resources Ltd. 	Materials
 NWC.TO	The North West Company Inc. 	Consumer Staples
 OCX.TO	Onex Corporation 	Financials
@@ -164,8 +164,8 @@ OGC.TO	OceanaGold Corporation 	Materials
 OSK.TO	Osisko Mining Corporation 	Materials
 OTC.TO	Open Text Corporation 	Information Technology
 PAA.TO	Pan American Silver Corp. 	Materials
-PBG.TO	Petrobank Energy and Resources Ltd. 	Energy
-PBN.TO	PetroBakken Energy Ltd. 	Energy
+#PBG.TO	Petrobank Energy and Resources Ltd. 	Energy
+#PBN.TO	PetroBakken Energy Ltd. 	Energy
 PD.TO	Precision Drilling Corporation 	Energy
 PEY.TO	Peyto Exploration & Development Corp. 	Energy
 PG.TO	Premier Gold Mines Limited 	Materials
@@ -178,7 +178,7 @@ POT.TO	Potash Corporation of Saskatchewan Inc. 	Materials
 POU.TO	Paramount Resources Ltd. 	Energy
 POW.TO	Power Corporation of Canada 	Financials
 PPL.TO	Pembina Pipeline Corporation 	Energy
-PRE.TO	Pacific Rubiales Energy Corp. 	Energy
+#PRE.TO	Pacific Rubiales Energy Corp. 	Energy
 PSI.TO	Pason Systems Inc. 	Energy
 PVG.TO	Pretium Resources Inc. 	Materials
 PWF.TO	Power Financial Corporation 	Financials
@@ -197,7 +197,7 @@ RY.TO	Royal Bank of Canada 	Financials
 S.TO	Sherritt International Corporation 	Materials
 SAP.TO	Saputo Inc. 	Consumer Staples
 SC.TO	Shoppers Drug Mart Corporation 	Consumer Staples
-SCL-A.TO	ShawCor Ltd. 	Energy
+#SCL-A.TO	ShawCor Ltd. 	Energy
 SES.TO	Secure Energy Services Inc. 	Energy
 SJR-B.TO	Shaw Communications Inc. 	Consumer Discretionary
 SLF.TO	Sun Life Financial Inc. 	Financials
@@ -221,11 +221,11 @@ TDG.TO	Trinidad Drilling Ltd. 	Energy
 TET.TO	Trilogy Energy Corp. 	Energy
 TFI.TO	TransForce Inc. 	Industrials
 TGL.TO	TransGlobe Energy Corporation 	Energy
-THI.TO	Tim Hortons Inc. 	Consumer Discretionary
+#THI.TO	Tim Hortons Inc. 	Consumer Discretionary
 THO.TO	Tahoe Resources Inc. 	Materials
 TIH.TO	Toromont Industries Ltd. 	Industrials
 TKO.TO	Taseko Mines Limited 	Materials
-TLM.TO	Talisman Energy Inc. 	Energy
+#TLM.TO	Talisman Energy Inc. 	Energy
 TOU.TO	Tourmaline Oil Corp. 	Energy
 TRI.TO	Thomson Reuters Corporation 	Consumer Discretionary
 TRP.TO	TransCanada Corporation 	Energy
