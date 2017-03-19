@@ -6,18 +6,18 @@
 #-------------------------------------------------------------------------------
 
 # system
-import os
-import glob
 import datetime
-import urllib
 import time
+import csv
 
 # custom
 import numpy as np
 #from matplotlib.finance import parse_yahoo_historical
+import pandas as pd
 
 # user
 import Bar
+from finance_utils import *
 
 
 # Defaults:
@@ -44,82 +44,23 @@ def getClose(barArray):
 def getVolume(barArray):
     return np.array([b.volume for b in barArray], dtype=np.float64)
 
-def filenameToSymbol(filename):
-    return os.path.basename(filename).replace('.csv', '')
-
-def symbolToFilename(symbol, basedir):
-    return os.path.join(basedir, symbol.upper()) + '.csv'
-
-def getAllSymbolsAvailable(basedir):
-    return map(filenameToSymbol, glob.glob(os.path.join(basedir, '*.csv')))
-
-def getSymbolsFromFile(tickerFile):
-    tickerList = []
+#-------------------------------------------------------------------------------
+# TBD: Date range not supported yet...
+def loadDataFrame(csvFile, startDate, endDate):
     try:
-        f = open(tickerFile, 'r')
-        for tickerRow in f.readlines():
-            tickerRow = tickerRow.strip() # remove leading and trailing whitespace
-            if not tickerRow or tickerRow[0] == "#":  # skip comment line starting with #
-                continue
-            ticker = tickerRow.split()[0] # split on whitespace
-            tickerList.append(ticker)
-        f.close()
+        df = pd.read_csv(csvFile, index_col='Date', parse_dates=True, na_values=['nan', 'NaN', 'NAN'])
+        df.sort_index(inplace=True)
+
+        # Adjusting Columns based on Adjusted Close
+        r = df['Adj Close'] / df['Close'] # ratio
+        for col in ['Open', 'High', 'Low', 'Close']:
+            df[col] *= r
+
+        df.drop('Adj Close', axis=1, inplace=True)
+
+        return df
     except:
-        print "Error: ticker file %s not found" % tickerFile
-    return tickerList
-
-def downloadUrl(url):
-    tryAgain = True
-    count = 0
-    s = ""
-    while tryAgain and count < 5:
-        try:
-            s = urllib.urlopen(url).read()
-            tryAgain = False
-        except:
-            print "Error, will try again"
-            count += 1
-    return s
-
-#-------------------------------------------------------------------------------
-# http://www.quantshare.com/sa-43-10-ways-to-download-historical-stock-quotes-data-for-free
-def downloadData(symbol, basedir, startDate=None, endDate=None):
-    print "Downloading:%s" % symbol
-    if startDate == None:
-        startDate = _defStartDate
-    if endDate == None:
-        endDate = _defEndDate
-    ticker = symbol.upper()
-    # Date 1
-    d1 = (startDate.month-1, startDate.day, startDate.year)
-    # Date 2
-    d2 = (endDate.month-1, endDate.day, endDate.year)
-
-    dividends = False # not supported for now
-    if dividends:
-        g='v'
-    else:
-        g='d'
-
-    #   or:  'http://ichart.finance.yahoo.com/table.csv?'
-    urlFmt = 'http://table.finance.yahoo.com/table.csv?a=%d&b=%d&c=%d&d=%d&e=%d&f=%d&s=%s&y=0&g=%s&ignore=.csv'
-
-    url =  urlFmt % (d1[0], d1[1], d1[2], d2[0], d2[1], d2[2], ticker, g)
-
-    cachename = symbolToFilename(symbol, basedir)
-
-    fh = open(cachename, 'w')
-    fh.write(downloadUrl(url))
-    fh.close()
-
-#-------------------------------------------------------------------------------
-def updateAllSymbols(basedir, startDate=None, endDate=None):
-    if startDate == None:
-        startDate = _defStartDate
-    if endDate == None:
-        endDate = _defEndDate
-    for s in getAllSymbolsAvailable(basedir):
-        downloadData(s, basedir, startDate, endDate)
+        print 'Error parsing ' + csvFile
 
 #-------------------------------------------------------------------------------
 # TBD: currently only error print when incorrect data...
@@ -171,8 +112,8 @@ def loadData(csvFile, startDate, endDate):
 
 #-------------------------------------------------------------------------------
 # Check for basic errors in historical market data
-def validateData(csvFile):
-    print "Validating:%s" % csvFile
+def validateSymbolData(csvFile):
+    #print "Validating:%s" % csvFile
     valid = True # Default
     # The CSV files are downloaded from yahoo historical data
     f = open(csvFile, 'r')
@@ -181,24 +122,33 @@ def validateData(csvFile):
     #           Date,Open,High,Low,Close,Volume,Adj Close
     #           2012-03-21,204.32,205.77,204.30,204.69,3329900,204.69
     f.seek(0)
-    f.readline() # skip header row
-    for l in f.readlines():
-        # Date,Open,High,Low,Close,Volume,Adj Close
-        lineSplit = l.strip().split(',')
-        if len(lineSplit) != 7:
-            print "Error: Invalid line, missing data"
+    try:
+        dialect = csv.Sniffer().sniff(f.read(1024))
+        if dialect:
+            if False: # temp for now, csv only...
+                f.seek(0)
+                f.readline() # skip header row
+                for l in f.readlines():
+                    # Date,Open,High,Low,Close,Volume,Adj Close
+                    lineSplit = l.strip().split(',')
+                    if len(lineSplit) != 7:
+                        print "Error: Invalid line, missing data"
+                        valid = False
+                        break
+                    dateSplit = map(int, lineSplit[0].split('-'))
+                    if len(dateSplit) != 3:
+                        print "Error: Invalid date format"
+                        valid = False
+                        break
+                    priceData = map(float, lineSplit[1:])
+                    if priceData[3] == 0 or priceData[5] == 0:
+                        print "Error: Invalid price data"
+                        valid = False
+                        break
+        else: # csv was not able to find a dialect, consider not valid CSV
             valid = False
-            break
-        dateSplit = map(int, lineSplit[0].split('-'))
-        if len(dateSplit) != 3:
-            print "Error: Invalid date format"
-            valid = False
-            break
-        priceData = map(float, lineSplit[1:])
-        if priceData[3] == 0 or priceData[5] == 0:
-            print "Error: Invalid price data"
-            valid = False
-            break
+    except:
+        valid = False
     f.close()
     return valid
 
@@ -214,16 +164,21 @@ def getSymbolData(symbol, basedir, startDate=None, endDate=None):
     # if data is already there, assume it is up to date (to save repetive download)
 
     # TBD to check which is faster...
-    if True:  # default
-        return loadData(f, startDate, endDate)
-    else:
-        pass
-        # This method does not support date range
-        #print "Loading:%s" % symbol
-        #fh = open(f, 'r')
-        #d = parse_yahoo_historical(fh, adjusted=True, asobject=True)
-        #fh.close()
-        #return d
+
+    # Case 1
+    #return loadData(f, startDate, endDate)
+
+    # Case 2
+    # This method does not support date range
+    #print "Loading:%s" % symbol
+    #fh = open(f, 'r')
+    #d = parse_yahoo_historical(fh, adjusted=True, asobject=True)
+    #fh.close()
+    #return d
+
+    # Case 3
+    df = loadDataFrame(f, startDate, endDate)
+    return df
 
 #-------------------------------------------------------------------------------
 class CStockDBMgr:
@@ -253,47 +208,56 @@ class CStockDBMgr:
         return getSymbolData(symbol, self.basedir, startDate, endDate)
 
     def validateSymbolData(self, symbol):
-        return validateData(symbolToFilename(symbol, self.basedir))
+        return validateSymbolData(symbolToFilename(symbol, self.basedir))
 
 #-------------------------------------------------------------------------------
 def _main():
-    sdm = CStockDBMgr('./stock_db/qt')
-    symbolList = sdm.getAllSymbolsAvailable()
+    #db = CStockDBMgr('./stock_db/tsx')
+    db = CStockDBMgr('./stock_db/test')
+    #db.updateAllSymbols()
+    symbolList = db.getAllSymbolsAvailable()
     print symbolList
-    sdm.validateSymbolData(symbolList[0])
-    d = sdm.getSymbolData(symbolList[0])
-    print d[0].toString()
-    print getDate(d)[0]
-    print getOpen(d)[0]
-    print getHigh(d)[0]
-    print getLow(d)[0]
-    print getClose(d)[0]
-    print getVolume(d)[0]
 
-    #sdm.updateAllSymbols()
-    t0 = time.clock()
-    for s in sdm.getAllSymbolsAvailable():
-        print sdm.validateSymbolData(s)
-    dt = time.clock() - t0
-    print dt
+    # Do with only first symbol
+    s = symbolList[0]
+    print db.validateSymbolData(s)
+    d = db.getSymbolData(s)
 
-    t0 = time.clock()
-    for s in sdm.getAllSymbolsAvailable():
-        d = sdm.getSymbolData(s)
-    dt = time.clock() - t0
-    print dt
+    if False:
+        print d[0].toString()
+        print getDate(d)[0]
+        print getOpen(d)[0]
+        print getHigh(d)[0]
+        print getLow(d)[0]
+        print getClose(d)[0]
+        print getVolume(d)[0]
+
+    if True:
+        print "Validating symbols"
+        t0 = time.clock()
+        for s in db.getAllSymbolsAvailable():
+            print db.validateSymbolData(s)
+        dt = time.clock() - t0
+        print dt
+
+    if True:
+        print "Loading symbols to a panel"
+        t0 = time.clock()
+        d = {}
+        for s in db.getAllSymbolsAvailable():
+            df = db.getSymbolData(s)
+            print len(df['Close'])
+            d[s] = df
+        dt = time.clock() - t0
+        print dt
+
+        wp = pd.Panel(d)
+        print wp
+
     return
 
-    _defBaseDir = './stock_db/test'
-    s = 'CP.TO'
-    f = symbolToFilename(s, _defBaseDir)
-    print f
-    print filenameToSymbol(f)
-    print getAllSymbolsAvailable(_defBaseDir)
-    downloadData(s, _defBaseDir)
+    # -----------------
     d = getSymbolData(s, _defBaseDir)
-    updateAllSymbols(_defBaseDir)
-    print getSymbolsFromFile('stock_db/dj.txt')
 
 if __name__ == '__main__':
     _main()
