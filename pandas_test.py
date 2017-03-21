@@ -44,8 +44,7 @@ def dataFrameTest():
     print df.loc['2017-02-02']
 
     # Alternate method:
-    # From date & up, Close only
-    print df.ix['2017-2-2':, 'Close']
+    # From date & up, Open & Close only
     print df.ix['2017-2-2':, ['Open', 'Close']]
 
     # Adjusting Columns based on Adjusted Close

@@ -2,11 +2,12 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
 
-
 import technical_indicators as ti
+import stock_db_mgr as sdm
 
-%load_ext autoreload
-%autoreload 2
+
+#   %load_ext autoreload
+#   %autoreload 2
 
 # step
 N = 10
@@ -23,10 +24,10 @@ R = R * .8
 std(R)
 Xr = X + R
 
+xn = Xr
 plot(abs(fft.rfft(xn))
 
 
-xn = Xr
 b, a = butter(3, 0.01)
 # tbd simple filter
 
@@ -60,16 +61,6 @@ k = 2.0/(N+1)
 b = [1]
 a = [1/k, (k-1)/k]
 
-
-
-#==================================
-def pandas_test():
-    df = pd.read_csv('stock_db/tsx/CP.TO.csv')
-    df['Close'].plot()
-    df[['Open', 'High', 'Low', 'Close']][:100].plot()
-    df['Close'].max()
-    df['Close'].mean()
-    df['Close'].std()
 
 def main():
     pass

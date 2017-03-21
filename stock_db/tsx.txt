@@ -1,6 +1,7 @@
 ################################################################################
 # TSX Index
 # as of TBD
+# Need to update with current listings
 ################################################################################
 #Yahoo Symbol	Company 	Sector
 AAV.TO	Advantage Oil & Gas Ltd. 	Energy

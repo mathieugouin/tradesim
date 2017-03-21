@@ -46,6 +46,7 @@ def getVolume(barArray):
 
 #-------------------------------------------------------------------------------
 # TBD: Date range not supported yet...
+# TBD: candidate for moving to finance_utils
 def loadDataFrame(csvFile, startDate, endDate):
     try:
         df = pd.read_csv(csvFile, index_col='Date', parse_dates=True, na_values=['nan', 'NaN', 'NAN'])
@@ -64,6 +65,7 @@ def loadDataFrame(csvFile, startDate, endDate):
 
 #-------------------------------------------------------------------------------
 # TBD: currently only error print when incorrect data...
+# TBD: candidate for moving to finance_utils
 def loadData(csvFile, startDate, endDate):
     print "Loading:%s" % csvFile
     bars = [] # array
