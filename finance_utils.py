@@ -1,19 +1,17 @@
 #-------------------------------------------------------------------------------
 # Name:        finance_utils
-# Purpose:
-#
-# Author:      temp
-#
-# Created:     18-03-2017
-# Copyright:   (c) temp 2017
-# Licence:     <your licence>
+# Purpose:     Finance utilities library.
+# Author:      mgouin
 #-------------------------------------------------------------------------------
 
+# System
 import os
 import glob
 import urllib
 import datetime
 
+# User
+import yqd
 
 def filenameToSymbol(filename):
     return os.path.basename(filename).replace('.csv', '')
@@ -53,31 +51,28 @@ def downloadUrl(url):
     return s
 
 #-------------------------------------------------------------------------------
-# http://www.quantshare.com/sa-43-10-ways-to-download-historical-stock-quotes-data-for-free
+# Wrapper to yqd
 def downloadData(symbol, basedir, startDate, endDate):
     print "Downloading:%s" % symbol
     ticker = symbol.upper()
     # Date 1
-    d1 = (startDate.month-1, startDate.day, startDate.year)
+    d1 = "{0:0>4}".format(startDate.year) + \
+         "{0:0>2}".format(startDate.month) + \
+         "{0:0>2}".format(startDate.day)
+
     # Date 2
-    d2 = (endDate.month-1, endDate.day, endDate.year)
+    d2 = "{0:0>4}".format(endDate.year) + \
+         "{0:0>2}".format(endDate.month) + \
+         "{0:0>2}".format(endDate.day)
 
-    dividends = False # not supported for now
-    if dividends:
-        g='v'
-    else:
-        g='d'
+    f = symbolToFilename(symbol, basedir)
 
-    #   or:  'http://ichart.finance.yahoo.com/table.csv?'
-    urlFmt = 'http://table.finance.yahoo.com/table.csv?a=%d&b=%d&c=%d&d=%d&e=%d&f=%d&s=%s&y=0&g=%s&ignore=.csv'
-
-    url =  urlFmt % (d1[0], d1[1], d1[2], d2[0], d2[1], d2[2], ticker, g)
-
-    cachename = symbolToFilename(symbol, basedir)
-
-    fh = open(cachename, 'w')
-    fh.write(downloadUrl(url))
-    fh.close()
+    data = yqd.load_yahoo_quote(symbol, d1, d2)
+    # prevent writing invalid data
+    if len(data) > 0:
+        fh = open(f, 'w')
+        fh.write(data)
+        fh.close()
 
 #-------------------------------------------------------------------------------
 def updateAllSymbols(basedir, startDate, endDate):
@@ -86,20 +81,20 @@ def updateAllSymbols(basedir, startDate, endDate):
 
 
 def main():
-    _defBaseDir = './stock_db/test'
+    dir = './stock_db/test'
 
     startDate = datetime.date(1900, 1, 1)
     endDate = datetime.date.today()
 
     s = 'SPY'
 
-    f = symbolToFilename(s, _defBaseDir)
+    f = symbolToFilename(s, dir)
     print f
     print filenameToSymbol(f)
 
-    print getAllSymbolsAvailable(_defBaseDir)
-    downloadData(s, _defBaseDir, startDate, endDate)
-    updateAllSymbols(_defBaseDir, startDate, endDate)
+    print getAllSymbolsAvailable(dir)
+    downloadData(s, dir, startDate, endDate)
+    updateAllSymbols(dir, startDate, endDate)
     print getSymbolsFromFile('stock_db/dj.txt')
 
 

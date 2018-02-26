@@ -9,6 +9,7 @@
 import datetime
 import time
 import csv
+import os
 
 # custom
 import numpy as np
@@ -17,7 +18,7 @@ import pandas as pd
 
 # user
 import Bar
-from finance_utils import *
+import finance_utils as fu
 
 
 # Defaults:
@@ -49,7 +50,17 @@ def getVolume(barArray):
 # TBD: candidate for moving to finance_utils
 def loadDataFrame(csvFile, startDate, endDate):
     try:
-        df = pd.read_csv(csvFile, index_col='Date', parse_dates=True, na_values=['nan', 'NaN', 'NAN'])
+        df = pd.read_csv(csvFile, index_col='Date', parse_dates=True)
+        # Discarding NaN values that are all NaN for a given row
+        df.dropna(how='all', inplace=True)
+
+        # Make sure none isolated remains:
+        if df.isna().any().any():
+            print "ERROR ", csvFile, "contains isolated NaN"
+
+        # to show the NaN
+        #df.loc[df.isna().all(axis=1)]
+
         df.sort_index(inplace=True)
 
         # Adjusting Columns based on Adjusted Close
@@ -156,14 +167,16 @@ def validateSymbolData(csvFile):
 
 #-------------------------------------------------------------------------------
 def getSymbolData(symbol, basedir, startDate=None, endDate=None):
+    # Default dates handling
     if startDate == None:
         startDate = _defStartDate
     if endDate == None:
         endDate = _defEndDate
-    f = symbolToFilename(symbol, basedir)
+
+    f = fu.symbolToFilename(symbol, basedir)
     if (not os.path.exists(f)):
-        downloadData(symbol, basedir, startDate, endDate)
-    # if data is already there, assume it is up to date (to save repetive download)
+        fu.downloadData(symbol, basedir, startDate, endDate)
+    # if data is already there, assume it is up to date (to save repetitive download)
 
     # TBD to check which is faster...
 
@@ -256,10 +269,6 @@ def _main():
         wp = pd.Panel(d)
         print wp
 
-    return
-
-    # -----------------
-    d = getSymbolData(s, _defBaseDir)
 
 if __name__ == '__main__':
     _main()

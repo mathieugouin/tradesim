@@ -19,6 +19,7 @@ __credits__ = "queue and MT code was shamelessly stolen from pycurl example retr
 # ^GSPC 19500103 # S&P 500
 # ^N225 19840104 # Nikkei 225
 
+# System
 import sys
 import threading
 import Queue
@@ -26,6 +27,10 @@ import datetime
 import traceback
 import urllib
 from optparse import OptionParser
+import os
+
+# User
+import yqd
 
 # this thread ask the queue for job and does it!
 class WorkerThread(threading.Thread):
@@ -40,53 +45,28 @@ class WorkerThread(threading.Thread):
                 ticker, fromdate, todate = self.queue.get_nowait()
             except Queue.Empty:
                 raise SystemExit
-            if ticker[0] == "^":
+            if ticker[0] == "^": # make sure filename compatible
                 filenameTicker = ticker[1:]
             else:
                 filenameTicker = ticker
-            #filename = options.downloadTo + "%s_%s.csv" % (filenameTicker, todate)
-            filename = options.downloadTo + "%s.csv" % (filenameTicker)
-            fp = open(filename, "wb")
+            filename = os.path.join(options.downloadTo, filenameTicker + '.csv')
+
             if options.verbose:
                 print "ticker:", ticker
                 print "last date asked:", todate, todate[0:4], todate[4:6], todate[6:8]
                 print "first date asked:", fromdate, fromdate[0:4], fromdate[4:6], fromdate[6:8]
-            quote = dict()
-            quote['s'] = ticker
-            quote['d'] = str(int(todate[4:6]) - 1)
-            quote['e'] = str(int(todate[6:8]))
-            quote['f'] = str(int(todate[0:4]))
-            quote['g'] = "d"
-            quote['a'] = str(int(fromdate[4:6]) - 1)
-            quote['b'] = str(int(fromdate[6:8]))
-            quote['c'] = str(int(fromdate[0:4]))
-            #print quote
-            params = urllib.urlencode(quote)
-            params += "&ignore=.csv"
-
-            #      http://www.google.ca/finance/historical?q=NYSE:IBM&output=csv
-            #      http://ichart.finance.yahoo.com/table.csv?s=VSN.TO&a=09&b=9&c=1900&d=03&e=1&f=2012&g=d&ignore=.csv
-            #      http://ichart.finance.yahoo.com/table.csv?s=NAE.TO&d=3&e=1&f=2012&g=d&a=7&b=13&c=1996&ignore=.csv
-            url = "http://ichart.finance.yahoo.com/table.csv?%s" % params
-            if options.verbose:
-                print "fetching:", url
 
             if not options.offline:
-                tryAgain = True
-                tryCount = 5
-                while tryAgain and tryCount > 0:
-                    try:
-                        fp.write(urllib.urlopen(url).read())
-                        tryAgain = False
-                    except:
-                        tryCount = tryCount - 1
-                        print "Error, will try again"
-                        traceback.print_exc(file=sys.stderr)
-                        sys.stderr.flush()
+                # download ticker data using yqd
+                alllines = yqd.load_yahoo_quote(ticker, fromdate, todate)
 
-            fp.close()
+                if len(alllines) > 5: # safety check
+                    fp = open(filename, "wb")
+                    fp.write(alllines)
+                    fp.close()
+
             if options.verbose:
-                print "fetched: ", url
+                print "fetched: ", ticker
             else:
                 sys.stdout.write(".")
                 sys.stdout.flush()
@@ -133,7 +113,7 @@ if __name__ == '__main__':
         tickerRow = tickerRow.strip() # remove leading and trailing whitespace
         if not tickerRow or tickerRow[0] == "#":  # skip comment line starting with #
             continue
-        tickerSplit = tickerRow.split() # split on whitespace
+        tickerSplit = tickerRow.split() # split on whitespace to ignore optional description after the ticker
 
         if options.verbose:
             print "Adding (ticker, startdate, todate):",\
@@ -151,6 +131,9 @@ if __name__ == '__main__':
 
     if options.verbose:
         print "----- Getting", numTickers, "Tickers using", connections, "simultaneous connections -----"
+
+    # At this point, get a dummy small quote from Y! to get the crumb & cookie before the threads start
+    assert len(yqd.load_yahoo_quote('^GSPC', '20180212', '20180212')) > 5, "Error: initial download did not work"
 
     # start a bunch of threads, passing them the queue of jobs to do
     threads = []
