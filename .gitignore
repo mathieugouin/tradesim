@@ -1,6 +1,9 @@
 # Project specific folder exclusion
 stock_db/*/*.csv
 
+# PyCharm folder
+.idea/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

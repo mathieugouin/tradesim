@@ -1,33 +1,33 @@
 # Dow-Jones
-# as of ???
-# Symbol 	Company 	Industry
-AA 	Alcoa 	Aluminum
-AXP 	American Express 	Consumer finance
-BA 	Boeing 	Aerospace and defense
-BAC 	Bank of America 	Banking
-CAT 	Caterpillar 	Construction and mining equipment
-CSCO 	Cisco Systems 	Computer networking
-CVX 	Chevron Corporation 	Oil & gas
-DD 	DuPont 	Chemical industry
-DIS 	Walt Disney 	Broadcasting and entertainment
-GE 	General Electric 	Conglomerate
-HD 	The Home Depot 	Home improvement retailer
-HPQ 	Hewlett-Packard 	Computers and technology
-IBM 	IBM 	Computers and technology
-INTC 	Intel 	Semiconductors
-JNJ 	Johnson & Johnson 	Pharmaceuticals
-JPM 	JPMorgan Chase 	Banking
-KO 	Coca-Cola 	Beverages
-MCD 	McDonald's 	Fast food
-MMM 	3M 	Conglomerate
-MRK 	Merck 	Pharmaceuticals
-MSFT 	Microsoft 	Software
-PFE 	Pfizer 	Pharmaceuticals
-PG 	Procter & Gamble 	Consumer goods
-T 	AT&T 	Telecommunication
-TRV 	Travelers 	Insurance
-UNH 	UnitedHealth Group 	Managed health care
-UTX 	United Technologies Corporation 	Conglomerate
-VZ 	Verizon 	Telecommunication
-WMT 	Wal-Mart 	Retail
-XOM 	ExxonMobil 	Oil & gas
+# as of 2017-09-01
+# Symbol              Company
+AAPL                Apple
+AXP                 American Express
+BA                  Boeing
+CAT                 Caterpillar
+CSCO                Cisco Systems
+CVX                 Chevron
+DIS                 Walt Disney
+DWDP                DowDuPont
+GE                  General Electric
+GS                  Goldman Sachs
+HD                  The Home Depot
+IBM                 IBM
+INTC                Intel
+JNJ                 Johnson & Johnson
+JPM                 JPMorgan Chase
+KO                  Coca-Cola
+MCD                 McDonald's
+MMM                 3M
+MRK                 Merck
+MSFT                Microsoft
+NKE                 Nike
+PFE                 Pfizer
+PG                  Procter & Gamble
+TRV                 Travelers
+UNH                 UnitedHealth Group
+UTX                 United Technologies
+V                   Visa
+VZ                  Verizon
+WMT                 Walmart
+XOM                 ExxonMobil

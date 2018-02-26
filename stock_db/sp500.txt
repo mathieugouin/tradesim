@@ -68,7 +68,7 @@ BMC	BMC Software	reports	Information Technology	Houston, Texas
 BMS	Bemis Company	reports	Materials	Neenah, Wisconsin
 BMY	Bristol-Myers Squibb	reports	Health Care	New York, New York
 BRCM	Broadcom Corporation	reports	Information Technology	Irvine, California
-BRK.B	Berkshire Hathaway	reports	Financials	Omaha, Nebraska
+BRK-B	Berkshire Hathaway	reports	Financials	Omaha, Nebraska
 BSX	Boston Scientific	reports	Health Care	Natick, Massachusetts
 BTU	Peabody Energy	reports	Energy	St. Louis, Missouri
 BWA	BorgWarner	reports	Consumer Discretionary	Auburn Hills, Michigan
@@ -257,7 +257,7 @@ JPM	JPMorgan Chase & Co.	reports	Financials	New York, New York
 JWN	Nordstrom	reports	Consumer Discretionary	Seattle, Washington
 K	Kellogg Co.	reports	Consumer Staples	Battle Creek, Michigan
 KEY	KeyCorp	reports	Financials	Cleveland, Ohio
-KFT	Kraft Foods Inc-A	reports	Consumer Staples	Northfield, Illinois
+KHC	Kraft Heinz	reports	Consumer Staples	Northfield, Illinois
 KIM	Kimco Realty	reports	Financials	New Hyde Park, New York
 KLAC	KLA-Tencor Corp.	reports	Information Technology	Milpitas, California
 KMB	Kimberly-Clark	reports	Consumer Staples	Irving, Texas
