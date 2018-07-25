@@ -1,21 +1,25 @@
 import datetime
 import stock_db_mgr as sdm
 
-import gstockquote as gsq
-import ystockquote as ysq
+#import gstockquote as gsq
+#import ystockquote as ysq
 
 startdate = datetime.date(1900, 1, 1)
-today = enddate = datetime.date.today()
+today = datetime.date.today()
+
+# Pick one:
+#enddate = datetime.date(2018, 2, 22)
+enddate = today
 
 tickerfile = './stock_db/tsx.txt'
 #tickerfile = './stock_db/qt.txt'
 
 # Create data base:
-db = sdm.CStockDBMgr('./stock_db/tsx')
+db = sdm.CStockDBMgr('./stock_db/qt', startdate, enddate)
 #db = sdm.CStockDBMgr('./stock_db/sp500')
 #db = sdm.CStockDBMgr('./stock_db/test')
 
-#db.updateAllSymbols()
+db.updateAllSymbols()
 
 inv = []
 
@@ -30,8 +34,7 @@ for s in symbolList:
         continue
 
     # Only applies if recent download...
-    if False:
-        #db.downloadData(s)
+    if True:
         r = db.getSymbolData(s)
 
         t = startdate

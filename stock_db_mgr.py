@@ -27,101 +27,24 @@ _defEndDate = datetime.date.today()
 
 #-------------------------------------------------------------------------------
 # Utils
-def getDate(barArray):
-    return np.array([b.date for b in barArray])
+def getDate(df):
+    #return df.index.values
+    return [i.date() for i in df.index]
 
-def getOpen(barArray):
-    return np.array([b.open for b in barArray], dtype=np.float64)
+def getOpen(df):
+    return df['Open'].values
 
-def getHigh(barArray):
-    return np.array([b.high for b in barArray], dtype=np.float64)
+def getHigh(df):
+    return df['High'].values
 
-def getLow(barArray):
-    return np.array([b.low for b in barArray], dtype=np.float64)
+def getLow(df):
+    return df['Low'].values
 
-def getClose(barArray):
-    return np.array([b.close for b in barArray], dtype=np.float64)
+def getClose(df):
+    return df['Close'].values
 
-def getVolume(barArray):
-    return np.array([b.volume for b in barArray], dtype=np.float64)
-
-#-------------------------------------------------------------------------------
-# TBD: Date range not supported yet...
-# TBD: candidate for moving to finance_utils
-def loadDataFrame(csvFile, startDate, endDate):
-    try:
-        df = pd.read_csv(csvFile, index_col='Date', parse_dates=True)
-        # Discarding NaN values that are all NaN for a given row
-        df.dropna(how='all', inplace=True)
-
-        # Make sure none isolated remains:
-        if df.isna().any().any():
-            print "ERROR ", csvFile, "contains isolated NaN"
-
-        # to show the NaN
-        #df.loc[df.isna().all(axis=1)]
-
-        df.sort_index(inplace=True)
-
-        # Adjusting Columns based on Adjusted Close
-        r = df['Adj Close'] / df['Close'] # ratio
-        for col in ['Open', 'High', 'Low', 'Close']:
-            df[col] *= r
-
-        df.drop('Adj Close', axis=1, inplace=True)
-
-        return df
-    except:
-        print 'Error parsing ' + csvFile
-
-#-------------------------------------------------------------------------------
-# TBD: currently only error print when incorrect data...
-# TBD: candidate for moving to finance_utils
-def loadData(csvFile, startDate, endDate):
-    print "Loading:%s" % csvFile
-    bars = [] # array
-    # The CSV files are downloaded from yahoo historical data
-    f = open(csvFile, 'r')
-    #lineSplit  0,   1,   2,   3,  4,    5,     6
-    #priceData       0,   1,   2,  3,    4,     5
-    #           Date,Open,High,Low,Close,Volume,Adj Close
-    #           2012-03-21,204.32,205.77,204.30,204.69,3329900,204.69
-    f.seek(0)
-    f.readline() # skip header row
-    for l in f.readlines():
-        # Date,Open,High,Low,Close,Volume,Adj Close
-        lineSplit = l.strip().split(',')
-        if len(lineSplit) != 7:
-            print "Error: Invalid line, missing data"
-            continue
-        dateSplit = map(int, lineSplit[0].split('-'))
-        date = datetime.date(dateSplit[0], dateSplit[1], dateSplit[2])
-        # Yahoo CSV data is most recent first
-        if date < startDate: # Data starting with this line in the file is too old
-            break # stop processing this file
-        if startDate <= date and date <= endDate:
-            priceData = map(float, lineSplit[1:])
-            if priceData[3] != 0:
-                adjRatio = priceData[5] / priceData[3] # Adj Close / Close
-            else:
-                adjRatio = 1.0
-                print "Error: Invalid line, close price = 0"
-                continue
-
-            # Create new Bar data
-            bar = Bar.CBar(
-                        date,
-                        priceData[0] * adjRatio, # open
-                        priceData[1] * adjRatio, # high
-                        priceData[2] * adjRatio, # low
-                        priceData[3] * adjRatio, # close
-                        priceData[4]             # volume (in nb of shares)
-                    )
-            # Add to the list
-            bars.append(bar)
-    f.close()
-    bars.reverse() # now bars[0] is the earliest
-    return bars
+def getVolume(df):
+    return df['Volume'].values
 
 #-------------------------------------------------------------------------------
 # Check for basic errors in historical market data
@@ -168,9 +91,9 @@ def validateSymbolData(csvFile):
 #-------------------------------------------------------------------------------
 def getSymbolData(symbol, basedir, startDate=None, endDate=None):
     # Default dates handling
-    if startDate == None:
+    if startDate is None:
         startDate = _defStartDate
-    if endDate == None:
+    if endDate is None:
         endDate = _defEndDate
 
     f = fu.symbolToFilename(symbol, basedir)
@@ -178,52 +101,54 @@ def getSymbolData(symbol, basedir, startDate=None, endDate=None):
         fu.downloadData(symbol, basedir, startDate, endDate)
     # if data is already there, assume it is up to date (to save repetitive download)
 
-    # TBD to check which is faster...
-
-    # Case 1
-    #return loadData(f, startDate, endDate)
-
-    # Case 2
-    # This method does not support date range
-    #print "Loading:%s" % symbol
-    #fh = open(f, 'r')
-    #d = parse_yahoo_historical(fh, adjusted=True, asobject=True)
-    #fh.close()
-    #return d
-
-    # Case 3
-    df = loadDataFrame(f, startDate, endDate)
+    df = fu.loadDataFrame(f, startDate, endDate)
     return df
 
 #-------------------------------------------------------------------------------
 class CStockDBMgr:
     def __init__(self, basedir, startDate=None, endDate=None):
-        if startDate == None:
+        if startDate is None:
             startDate = _defStartDate
-        if endDate == None:
+        if endDate is None:
             endDate = _defEndDate
         self.basedir   = basedir
         self.startDate = startDate
         self.endDate   = endDate
+        self.wp        = None
 
     def getAllSymbolsAvailable(self):
-        return getAllSymbolsAvailable(self.basedir)
+        return fu.getAllSymbolsAvailable(self.basedir)
 
     def downloadData(self, symbol):
-        downloadData(symbol, self.basedir, self.startDate, self.endDate)
+        fu.downloadData(symbol, self.basedir, self.startDate, self.endDate)
 
     def updateAllSymbols(self):
-        updateAllSymbols(self.basedir, self.startDate, self.endDate)
+        fu.updateAllSymbols(self.basedir, self.startDate, self.endDate)
 
     def getSymbolData(self, symbol, startDate=None, endDate=None):
-        if startDate == None:
+        if startDate is None:
             startDate = self.startDate
-        if endDate == None:
+        if endDate is None:
             endDate = self.endDate
         return getSymbolData(symbol, self.basedir, startDate, endDate)
 
+    def getAllSymbolData(self, startDate=None, endDate=None):
+        # Load it once
+        if self.wp is None:
+            t0 = time.clock()
+            dic = {}
+            for s in self.getAllSymbolsAvailable():
+                df = self.getSymbolData(s, startDate, endDate)
+                #print df.shape[0]
+                dic[s] = df
+            dt = time.clock() - t0
+            #print dt
+            self.wp = pd.Panel(dic)
+        return self.wp
+
+
     def validateSymbolData(self, symbol):
-        return validateSymbolData(symbolToFilename(symbol, self.basedir))
+        return validateSymbolData(fu.symbolToFilename(symbol, self.basedir))
 
 #-------------------------------------------------------------------------------
 def _main():
@@ -235,11 +160,10 @@ def _main():
 
     # Do with only first symbol
     s = symbolList[0]
-    print db.validateSymbolData(s)
+    print s, 'Valid', db.validateSymbolData(s)
     d = db.getSymbolData(s)
 
-    if False:
-        print d[0].toString()
+    if True:
         print getDate(d)[0]
         print getOpen(d)[0]
         print getHigh(d)[0]
@@ -251,22 +175,14 @@ def _main():
         print "Validating symbols"
         t0 = time.clock()
         for s in db.getAllSymbolsAvailable():
-            print db.validateSymbolData(s)
+            if not db.validateSymbolData(s):
+                print s, " failed validation"
         dt = time.clock() - t0
         print dt
 
     if True:
-        print "Loading symbols to a panel"
-        t0 = time.clock()
-        d = {}
-        for s in db.getAllSymbolsAvailable():
-            df = db.getSymbolData(s)
-            print len(df['Close'])
-            d[s] = df
-        dt = time.clock() - t0
-        print dt
-
-        wp = pd.Panel(d)
+        print "Loading all symbols to a panel"
+        wp = db.getAllSymbolData()
         print wp
 
 

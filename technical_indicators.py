@@ -134,7 +134,6 @@ def movingMax(X, n):
 
 # To test various indicators
 def _main():
-    import matplotlib as mpl
     import matplotlib.pyplot as plt
 
     N = 100
@@ -166,7 +165,7 @@ def _main():
     #print Y
 
     fig = plt.figure()
-    ax = fig.add_subplot(111)
+    ax = fig.add_subplot(211)
     #ax.stem(t, X, 'g')
     #fig.hold()
     ax.plot(
@@ -182,11 +181,13 @@ def _main():
         #T, aema(X, 10)
         )
     ax.grid(True)
-    #ax2 = fig.add_subplot(212)
-    #ax2.plot(
-    #    T, acceleration(X, 10), 'o--'
-    #    )
-    #ax2.grid(True)
+
+    ax2 = fig.add_subplot(212)
+    ax2.plot(
+        T, rateOfChange(X, 20), 'x',
+        T, acceleration(X, 20), 'o--'
+        )
+    ax2.grid(True)
     plt.show()
 
 if __name__ == '__main__':

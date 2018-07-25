@@ -1,7 +1,6 @@
 # Demo of 3D plot using the OAT formula
 
 import numpy as np
-import matplotlib as mpl
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d.axes3d import Axes3D
 

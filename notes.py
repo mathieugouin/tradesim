@@ -29,7 +29,7 @@ plot(abs(fft.rfft(xn))
 
 
 b, a = butter(3, 0.01)
-# tbd simple filter
+# TBD simple filter
 
 
 y = filtfilt(b, a, xn)

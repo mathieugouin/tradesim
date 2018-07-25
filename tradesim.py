@@ -27,7 +27,7 @@ endDate = datetime.date.today() #.today() #now()
 options = 0
 
 # default
-dataDir = r'.\stock_db\test'
+dataDir = './stock_db/qt'
 # Global data dictionary
 dataDic = {}
 
@@ -35,29 +35,31 @@ dataDic = {}
 
 ###############################################################################
 class CVirtualAccount:
-    def __init__(self, initialCapital, commission = 9.95):
+    def __init__(self, initialCapital):
         self._initialCapital    = initialCapital
         self._cash              = self._initialCapital
-        self._commission        = commission
         self._positions         = []
+
+    def calcComission(self, nbShare):
+        return nbShare * 0.0045 + min(9.95, max(0.01 * nbShare, 4.95))
 
     def buyAtMarket(self, bar, symbol, nbShare, name = "buyAtMarket"):
         print "buyAtMarket()"
         #buyPrice = dataDic[symbol][bar].open
-        buyPrice = dataDic[symbol][bar].high # Worst case simulation
+        buyPrice = dataDic[symbol].iloc[bar]['High'] # Worst case simulation
         nbShare = int(nbShare)
-        cost = buyPrice * nbShare + self._commission;
+        comission = self.calcComission(nbShare)
+        cost = buyPrice * nbShare + comission;
         if cost < self._cash:
-            self._positions.append(CPosition(bar, symbol, nbShare, buyPrice, name, self._commission))
+            self._positions.append(CPosition(bar, symbol, nbShare, buyPrice, name, comission))
             self._cash -= cost
         else:
             print "Error: not enough money"
 
     def sellAtMarket(self, position, bar, name = "sellAtMarket"):
         print "sellAtMarket()"
-        #sellPrice = dataDic[position.getSymbol()][bar].close
-        sellPrice = dataDic[position.getSymbol()][bar].low # Worst case
-        cost = self._commission;
+        sellPrice = dataDic[position.getSymbol()].iloc[bar]['Low'] # Worst case
+        cost = self.calcComission(position.getNbShare());
         if cost < self._cash:
             self._cash -= cost
             self._cash += position.close(bar, sellPrice, name)
@@ -89,7 +91,7 @@ class CVirtualAccount:
 def simulate():
     print "simulate()"
 
-    va = CVirtualAccount(50000, 9.95)
+    va = CVirtualAccount(50000.00)
 
     print "Initial cash", va.getCash()
 
@@ -101,11 +103,11 @@ def simulate():
         crtBars = dataDic[crtSymbol]
 
         # The various series (starting with s):
-        sOpen   = np.array([b.open   for b in crtBars], dtype=np.float64)
-        sHigh   = np.array([b.high   for b in crtBars], dtype=np.float64)
-        sLow    = np.array([b.low    for b in crtBars], dtype=np.float64)
-        sClose  = np.array([b.close  for b in crtBars], dtype=np.float64)
-        sVolume = np.array([b.volume for b in crtBars], dtype=np.float64)
+        sOpen   = sdm.getOpen(crtBars)
+        sHigh   = sdm.getHigh(crtBars)
+        sLow    = sdm.getLow(crtBars)
+        sClose  = sdm.getClose(crtBars)
+        sVolume = sdm.getVolume(crtBars)
 
         # Technical indicators
         sVolumeSma = ti.sma(sVolume, 21)
@@ -117,7 +119,7 @@ def simulate():
         # end at -1 to include "tomorrow" (corresponds to last valid bar)
         # TBD to fix this with real signals
         for bar in range(200, len(crtBars) - 1):
-            barObj = crtBars[bar]
+            barObj = crtBars.iloc[bar]
             #date = barObj.date
 
             # Positions loop
@@ -147,9 +149,9 @@ def plotTest():
     symbolList.sort()
     for crtSymbol in symbolList:
         print "Plotting with", crtSymbol
-        crtBars = dataDic[crtSymbol]
+        df = dataDic[crtSymbol]
 
-        X = np.array([b.close  for b in crtBars], dtype=np.float64)
+        X = sdm.getClose(df)
         t = np.arange(len(X))
         plt.plot(t, X,)
         #plt.plot(t, ti.sma(X, 200))
@@ -165,16 +167,13 @@ def plotTest():
 def loadData():
     print "loadData()"
 
-    global dataDir
+    #global dataDir
     global dataDic
 
-    sd = sdm.CStockDBMgr(dataDir)
+    db = sdm.CStockDBMgr(dataDir)
 
-    if dataDir[-1] == '\\':
-        dataDir = dataDir[0:-2]
-
-    for symbol in sd.getAllSymbolsAvailable():
-        dataDic[symbol] = sd.getSymbolData(symbol)
+    for symbol in db.getAllSymbolsAvailable():
+        dataDic[symbol] = db.getSymbolData(symbol)
 
 
 ###############################################################################
@@ -193,9 +192,9 @@ def main():
 
     loadData()
 
-    plotTest()
+    #plotTest()
 
-    #simulate()
+    simulate()
 
 if __name__ == '__main__':
     main()

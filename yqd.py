@@ -83,7 +83,7 @@ def load_yahoo_quote(ticker, begindate, enddate, info='quote'):
     '''
     # Check to make sure that the cookie and crumb has been loaded
     global _cookie, _crumb
-    if _cookie == None or _crumb == None:
+    if _cookie is None or _crumb is None:
         _get_cookie_crumb()
 
     # Prepare the parameters and the URL
@@ -124,7 +124,6 @@ def load_yahoo_quote(ticker, begindate, enddate, info='quote'):
 
     if len(alines) < 5:
         print('ERROR: Symbol not found:', ticker)
-        pass
 
     # print(alines)
 

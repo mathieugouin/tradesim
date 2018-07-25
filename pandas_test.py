@@ -47,6 +47,10 @@ def dataFrameTest():
     # From date & up, Open & Close only
     print df.ix['2017-2-2':, ['Open', 'Close']]
 
+    # NA test
+    print df.isna().any(1).sum()
+    print df.isna().all(1).sum()
+
     # Adjusting Columns based on Adjusted Close
     r = df['Adj Close'] / df['Close'] # ratio
     for col in ['Open', 'High', 'Low', 'Close']:
@@ -55,11 +59,11 @@ def dataFrameTest():
     df.drop('Adj Close', axis=1, inplace=True)
 
     print df.head()
-    #print df.describe()
+    print df.describe()
 
 def main():
-    #dataFrameTest()
-    panelTest()
+    dataFrameTest()
+    #panelTest()
 
 if __name__ == '__main__':
     main()
