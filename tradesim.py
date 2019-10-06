@@ -18,6 +18,7 @@ from Position import *
 import technical_indicators as ti
 import gstockquote as gsq
 import ystockquote as ysq
+import tmxstockquote as tmx
 import stock_db_mgr as sdm
 
 startDate = datetime.date(1900, 1, 1)

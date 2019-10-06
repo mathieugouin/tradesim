@@ -6,7 +6,7 @@ AA	Alcoa Inc	reports	Materials	Pittsburgh, Pennsylvania
 AAPL	Apple Inc.	reports	Information Technology	Cupertino, California
 ABC	AmerisourceBergen Corp	reports	Health Care	Chesterbrook, Pennsylvania
 ABT	Abbott Laboratories	reports	Health Care	North Chicago, Illinois
-ACE	ACE Limited	reports	Financials	Zurich, Switzerland
+#ACE	ACE Limited	reports	Financials	Zurich, Switzerland
 ACN	Accenture	reports	Information Technology	Dublin, Ireland
 ADBE	Adobe Systems Inc	reports	Information Technology	San Jose, California
 ADI	Analog Devices Inc	reports	Information Technology	Norwood, Massachusetts
@@ -33,14 +33,14 @@ AMT	American Tower Corp A	reports	Financials	Boston, Massachusetts
 AMZN	Amazon.com Inc	reports	Consumer Discretionary	Seattle, Washington
 AN	AutoNation Inc	reports	Consumer Discretionary	Fort Lauderdale, Florida
 ANF	Abercrombie & Fitch Company A	reports	Consumer Discretionary	New Albany, Ohio
-ANR	Alpha Natural Resources	reports	Energy	Abingdon, Virginia
+#ANR	Alpha Natural Resources	reports	Energy	Abingdon, Virginia
 AON	Aon plc	reports	Financials	London, United Kingdom
 APA	Apache Corporation	reports	Energy	Houston, Texas
 APC	Anadarko Petroleum Corp	reports	Energy	The Woodlands, Texas
 APD	Air Products & Chemicals Inc	reports	Materials	Allentown, Pennsylvania
 APH	Amphenol Corp A	reports	Industrials	Wallingford, Connecticut
-APOL	Apollo Group Inc	reports	Consumer Discretionary	Phoenix, Arizona
-ARG	Airgas Inc	reports	Materials	Radnor Township, Pennsylvania
+#APOL	Apollo Group Inc	reports	Consumer Discretionary	Phoenix, Arizona
+#ARG	Airgas Inc	reports	Materials	Radnor Township, Pennsylvania
 ATI	Allegheny Technologies Inc	reports	Materials	Pittsburgh, Pennsylvania
 AVB	AvalonBay Communities, Inc.	reports	Financials	Arlington, Virginia[1]
 AVP	Avon Products	reports	Consumer Staples	New York, New York
@@ -53,21 +53,21 @@ BAX	Baxter International Inc.	reports	Health Care	Deerfield, Illinois
 BBBY	Bed Bath & Beyond	reports	Consumer Discretionary	Union, New Jersey
 BBT	BB&T Corporation	reports	Financials	Winston-Salem, North Carolina
 BBY	Best Buy Co. Inc.	reports	Consumer Discretionary	Richfield, Minnesota
-BCR	Bard (C.R.) Inc.	reports	Health Care	Murray Hill, New Jersey
+#BCR	Bard (C.R.) Inc.	reports	Health Care	Murray Hill, New Jersey
 BDX	Becton Dickinson	reports	Health Care	Franklin Lakes, New Jersey
-BEAM	Beam Inc.	reports	Consumer Discretionary	Deerfield, Illinois
+#BEAM	Beam Inc.	reports	Consumer Discretionary	Deerfield, Illinois
 BEN	Franklin Resources	reports	Financials	San Mateo, California
 BFB	Brown-Forman Corporation	reports	Consumer Staples	Louisville, Kentucky
-BHI	Baker Hughes Inc	reports	Energy	Houston, Texas
+#BHI	Baker Hughes Inc	reports	Energy	Houston, Texas
 BIG	Big Lots Inc.	reports	Consumer Discretionary	Columbus, Ohio
 BIIB	BIOGEN IDEC Inc.	reports	Health Care	Weston, Massachusetts
 BK	The Bank of New York Mellon Corp.	reports	Financials	New York, New York
 BLK	BlackRock	reports	Financials	New York, New York
 BLL	Ball Corp	reports	Materials	Broomfield, Colorado
-BMC	BMC Software	reports	Information Technology	Houston, Texas
+#BMC	BMC Software	reports	Information Technology	Houston, Texas
 BMS	Bemis Company	reports	Materials	Neenah, Wisconsin
 BMY	Bristol-Myers Squibb	reports	Health Care	New York, New York
-BRCM	Broadcom Corporation	reports	Information Technology	Irvine, California
+#BRCM	Broadcom Corporation	reports	Information Technology	Irvine, California
 BRK-B	Berkshire Hathaway	reports	Financials	Omaha, Nebraska
 BSX	Boston Scientific	reports	Health Care	Natick, Massachusetts
 BTU	Peabody Energy	reports	Energy	St. Louis, Missouri
@@ -77,11 +77,11 @@ C	Citigroup Inc.	reports	Financials	New York, New York
 CA	CA, Inc.	reports	Information Technology	Islandia, New York
 CAG	ConAgra Foods Inc.	reports	Consumer Staples	Omaha, Nebraska
 CAH	Cardinal Health Inc.	reports	Health Care	Dublin, Ohio
-CAM	Cameron International Corp.	reports	Energy	Houston, Texas
+#CAM	Cameron International Corp.	reports	Energy	Houston, Texas
 CAT	Caterpillar Inc.	reports	Industrials	Peoria, Illinois
 CB	Chubb Corp.	reports	Financials	Warren, New Jersey
 CBE	Cooper Industries	reports	Industrials	Houston, Texas
-CBG	CBRE Group	reports	Financials	Los Angeles, California
+#CBG	CBRE Group	reports	Financials	Los Angeles, California
 CBS	CBS Corp.	reports	Consumer Discretionary	New York, New York
 CCE	Coca-Cola Enterprises	reports	Consumer Staples	Atlanta, Georgia
 CCI	Crown Castle International Corp.	reports	Telecommunications Services	Houston, Texas
@@ -89,7 +89,7 @@ CCL	Carnival Corp.	reports	Consumer Discretionary	Miami, Florida
 CELG	Celgene Corp.	reports	Health Care	Summit, New Jersey
 CERN	Cerner	reports	Health Care	North Kansas City, Missouri
 CF	CF Industries Holdings Inc	reports	Materials	Deerfield, Illinois
-CFN	Carefusion	reports	Health Care	San Diego, California[2]
+#CFN	Carefusion	reports	Health Care	San Diego, California[2]
 CHK	Chesapeake Energy	reports	Energy	Oklahoma City, Oklahoma
 CHRW	C. H. Robinson Worldwide	reports	Industrials	Eden Prairie, Minnesota
 CI	CIGNA Corp.	reports	Health Care	Philadelphia, Pennsylvania
@@ -107,28 +107,28 @@ CNP	CenterPoint Energy	reports	Utilities	Houston, Texas
 CNX	CONSOL Energy Inc.	reports	Energy	Cecil Township, Pennsylvania
 COF	Capital One Financial	reports	Financials	Tysons Corner, Virginia
 COG	Cabot Oil & Gas	reports	Energy	Houston, Texas
-COH	Coach Inc.	reports	Consumer Discretionary	New York, New York
+#COH	Coach Inc.	reports	Consumer Discretionary	New York, New York
 COL	Rockwell Collins	reports	Industrials	Cedar Rapids, Iowa
 COP	ConocoPhillips	reports	Energy	Houston, Texas
 COST	Costco Co.	reports	Consumer Staples	Issaquah, Washington
-COV	Covidien plc	reports	Health Care	Dublin, Ireland
+#COV	Covidien plc	reports	Health Care	Dublin, Ireland
 CPB	Campbell Soup	reports	Consumer Staples	Camden, New Jersey
 CRM	Salesforce.com	reports	Information Technology	San Francisco, California
-CSC	Computer Sciences Corp.	reports	Information Technology	Falls Church, Virginia
+#CSC	Computer Sciences Corp.	reports	Information Technology	Falls Church, Virginia
 CSCO	Cisco Systems	reports	Information Technology	San Jose, California
 CSX	CSX Corp.	reports	Industrials	Jacksonville, Florida
 CTAS	Cintas Corporation	reports	Industrials	Mason, Ohio
 CTL	CenturyLink Inc	reports	Telecommunications Services	Monroe, Louisiana
 CTSH	Cognizant Technology Solutions	reports	Information Technology	Teaneck, New Jersey
 CTXS	Citrix Systems	reports	Information Technology	Fort Lauderdale, Florida
-CVC	Cablevision Systems Corp.	reports	Consumer Discretionary	Bethpage, New York
-CVH	Coventry Health Care Inc.	reports	Health Care	Bethesda, Maryland
+#CVC	Cablevision Systems Corp.	reports	Consumer Discretionary	Bethpage, New York
+#CVH	Coventry Health Care Inc.	reports	Health Care	Bethesda, Maryland
 CVS	CVS Caremark Corp.	reports	Consumer Staples	Woonsocket, Rhode Island
 CVX	Chevron Corp.	reports	Energy	San Ramon, California
 D	Dominion Resources	reports	Utilities	Richmond, Virginia
-DD	Du Pont (E.I.)	reports	Materials	Wilmington, Delaware
+#DD	Du Pont (E.I.)	reports	Materials	Wilmington, Delaware
 DE	Deere & Co.	reports	Industrials	Moline, Illinois
-DELL	Dell Inc.	reports	Information Technology	Round Rock, Texas
+#DELL	Dell Inc.	reports	Information Technology	Round Rock, Texas
 DF	Dean Foods	reports	Consumer Staples	Dallas, Texas
 DFS	Discover Financial Services	reports	Financials	Riverwoods, Illinois
 DGX	Quest Diagnostics	reports	Health Care	Madison, New Jersey
@@ -141,13 +141,13 @@ DNB	Dun & Bradstreet	reports	Industrials	Short Hills, New Jersey
 DNR	Denbury Resources Inc.	reports	Energy	Plano, Texas[3]
 DO	Diamond Offshore Drilling	reports	Energy	Houston, Texas
 DOV	Dover Corp.	reports	Industrials	Downers Grove, Illinois
-DOW	Dow Chemical	reports	Materials	Midland, Michigan
+#DOW	Dow Chemical	reports	Materials	Midland, Michigan
 DPS	Dr Pepper Snapple Group	reports	Consumer Staples	Plano, Texas
 DRI	Darden Restaurants	reports	Consumer Discretionary	Orlando, Florida
 DTE	DTE Energy Co.	reports	Utilities	Detroit, Michigan
 DTV	DirecTV	reports	Consumer Discretionary	El Segundo, California
 DUK	Duke Energy	reports	Utilities	Charlotte, North Carolina
-DV	DeVry, Inc.	reports	Consumer Discretionary	Downers Grove, Illinois
+#DV	DeVry, Inc.	reports	Consumer Discretionary	Downers Grove, Illinois
 DVA	DaVita Inc.	reports	Health Care	Denver, Colorado
 DVN	Devon Energy Corp.	reports	Energy	Oklahoma City, Oklahoma
 EA	Electronic Arts	reports	Information Technology	Redwood City, California
@@ -157,7 +157,7 @@ ED	Consolidated Edison	reports	Utilities	New York, New York
 EFX	Equifax Inc.	reports	Financials	Atlanta, Georgia
 EIX	Edison Int'l	reports	Utilities	Rosemead, California
 EL	Estee Lauder Cos.	reports	Consumer Staples	New York, New York
-EMC	EMC Corp.	reports	Information Technology	Hopkinton, Massachusetts
+#EMC	EMC Corp.	reports	Information Technology	Hopkinton, Massachusetts
 EMN	Eastman Chemical	reports	Materials	Kingsport, Tennessee
 EMR	Emerson Electric	reports	Industrials	Ferguson, Missouri
 EOG	EOG Resources	reports	Energy	Houston, Texas
@@ -175,7 +175,7 @@ EXPE	Expedia Inc.	reports	Consumer Discretionary	Bellevue, Washington
 F	Ford Motor	reports	Consumer Discretionary	Dearborn, Michigan
 FAST	Fastenal Co	reports	Industrials	Winona, Minnesota
 FCX	Freeport-McMoran Cp & Gld	reports	Materials	Phoenix, Arizona
-FDO	Family Dollar Stores	reports	Consumer Discretionary	Matthews, North Carolina
+#FDO	Family Dollar Stores	reports	Consumer Discretionary	Matthews, North Carolina
 FDX	FedEx Corporation	reports	Industrials	Memphis, Tennessee
 FE	FirstEnergy Corp	reports	Utilities	Akron, Ohio
 FFIV	F5 Networks	reports	Information Technology	Seattle, Washington
@@ -189,11 +189,11 @@ FLR	Fluor Corp.	reports	Industrials	Irving, Texas
 FLS	Flowserve Corporation	reports	Industrials	Irving, Texas
 FMC	FMC Corporation	reports	Materials	Philadelphia, Pennsylvania
 FOSL	Fossil, Inc.	reports	Consumer Discretionary	Richardson, Texas
-FRX	Forest Laboratories	reports	Health Care	New York, New York
+#FRX	Forest Laboratories	reports	Health Care	New York, New York
 FSLR	First Solar Inc	reports	Industrials	Tempe, Arizona
 FTI	FMC Technologies Inc.	reports	Energy	Houston, Texas
 FTR	Frontier Communications	reports	Telecommunications Services	Stamford, Connecticut
-GAS	AGL Resources Inc.	reports	Utilities	Atlanta, Georgia
+#GAS	AGL Resources Inc.	reports	Utilities	Atlanta, Georgia
 GCI	Gannett Co.	reports	Consumer Discretionary	McLean, Virginia
 GD	General Dynamics	reports	Industrials	Falls Church, Virginia
 GE	General Electric	reports	Industrials	Fairfield, Connecticut
@@ -210,11 +210,11 @@ GS	Goldman Sachs Group	reports	Financials	New York, New York
 GT	Goodyear Tire & Rubber	reports	Consumer Discretionary	Akron, Ohio
 GWW	Grainger (W.W.) Inc.	reports	Industrials	Lake Forest, Illinois
 HAL	Halliburton Co.	reports	Energy	Houston, Texas
-HAR	Harman Int'l Industries	reports	Consumer Discretionary	Stamford, Connecticut
+#HAR	Harman Int'l Industries	reports	Consumer Discretionary	Stamford, Connecticut
 HAS	Hasbro Inc.	reports	Consumer Discretionary	Pawtucket, Rhode Island
 HBAN	Huntington Bancshares	reports	Financials	Columbus, Ohio
-HCBK	Hudson City Bancorp	reports	Financials	Paramus, New Jersey
-HCN	Health Care REIT	reports	Financials	Toledo, Ohio[4]
+#HCBK	Hudson City Bancorp	reports	Financials	Paramus, New Jersey
+#HCN	Health Care REIT	reports	Financials	Toledo, Ohio[4]
 HCP	HCP Inc.	reports	Financials	Long Beach, California
 HD	Home Depot	reports	Consumer Discretionary	Cobb County, Georgia
 HES	Hess Corporation	reports	Energy	New York, New York
@@ -222,13 +222,13 @@ HIG	Hartford Financial Svc.Gp.	reports	Financials	Hartford, Connecticut
 HNZ	Heinz (H.J.)	reports	Consumer Staples	Pittsburgh, Pennsylvania
 HOG	Harley-Davidson	reports	Consumer Discretionary	Milwaukee, Wisconsin
 HON	Honeywell Int'l Inc.	reports	Industrials	Morristown, New Jersey
-HOT	Starwood Hotels & Resorts	reports	Consumer Discretionary	White Plains, New York
+#HOT	Starwood Hotels & Resorts	reports	Consumer Discretionary	White Plains, New York
 HP	Helmerich & Payne	reports	Energy	Tulsa, Oklahoma[5]
 HPQ	Hewlett-Packard	reports	Information Technology	Palo Alto, California
 HRB	Block H&R	reports	Consumer Discretionary	Kansas City, Missouri
 HRL	Hormel Foods Corp.	reports	Consumer Staples	Austin, Minnesota
 HRS	Harris Corporation	reports	Information Technology	Melbourne, Florida
-HSP	Hospira Inc.	reports	Health Care	Lake Forest, Illinois
+#HSP	Hospira Inc.	reports	Health Care	Lake Forest, Illinois
 HST	Host Hotels & Resorts	reports	Financials	Bethesda, Maryland
 HSY	The Hershey Company	reports	Consumer Staples	Hershey, Pennsylvania
 HUM	Humana Inc.	reports	Health Care	Louisville, Kentucky
@@ -248,11 +248,11 @@ IVZ	Invesco Ltd.	reports	Financials	Atlanta, Georgia
 JBL	Jabil Circuit	reports	Information Technology	St. Petersburg, Florida
 JCI	Johnson Controls	reports	Consumer Discretionary	Milwaukee, Wisconsin
 JCP	Penney (J.C.)	reports	Consumer Discretionary	Plano, Texas
-JDSU	JDS Uniphase Corp.	reports	Information Technology	Milpitas, California
+#JDSU	JDS Uniphase Corp.	reports	Information Technology	Milpitas, California
 JEC	Jacobs Engineering Group	reports	Industrials	Pasadena, California
 JNJ	Johnson & Johnson	reports	Health Care	New Brunswick, New Jersey
 JNPR	Juniper Networks	reports	Information Technology	Sunnyvale, California
-JOY	Joy Global Inc.	reports	Industrials	Milwaukee, Wisconsin
+#JOY	Joy Global Inc.	reports	Industrials	Milwaukee, Wisconsin
 JPM	JPMorgan Chase & Co.	reports	Financials	New York, New York
 JWN	Nordstrom	reports	Consumer Discretionary	Seattle, Washington
 K	Kellogg Co.	reports	Consumer Staples	Battle Creek, Michigan
@@ -271,18 +271,18 @@ LEN	Lennar Corp.	reports	Consumer Discretionary	Miami, Florida
 LH	Laboratory Corp. of America Holding	reports	Health Care	Burlington, North Carolina
 LIFE	Life Technologies	reports	Health Care	Carlsbad, California
 LLL	L-3 Communications Holdings	reports	Industrials	New York, New York
-LLTC	Linear Technology Corp.	reports	Information Technology	Milpitas, California
+#LLTC	Linear Technology Corp.	reports	Information Technology	Milpitas, California
 LLY	Lilly (Eli) & Co.	reports	Health Care	Indianapolis, Indiana
 LM	Legg Mason	reports	Financials	Baltimore, Maryland
 LMT	Lockheed Martin Corp.	reports	Industrials	Bethesda, Maryland
 LNC	Lincoln National	reports	Financials	Radnor, Pennsylvania
-LO	Lorillard Inc.	reports	Consumer Staples	Greensboro, North Carolina
+#LO	Lorillard Inc.	reports	Consumer Staples	Greensboro, North Carolina
 LOW	Lowe's Cos.	reports	Consumer Discretionary	North Wilkesboro, North Carolina
 LSI	LSI Corporation	reports	Information Technology	Milpitas, California
 LTD	Limited Brands Inc.	reports	Consumer Discretionary	Columbus, Ohio
 LUK	Leucadia National Corp.	reports	Financials	New York, New York
 LUV	Southwest Airlines	reports	Industrials	Dallas, Texas
-LXK	Lexmark Int'l Inc	reports	Information Technology	Lexington, Kentucky
+#LXK	Lexmark Int'l Inc	reports	Information Technology	Lexington, Kentucky
 M	Macy's Inc.	reports	Consumer Discretionary	Cincinnati, Ohio
 MA	Mastercard Inc.	reports	Information Technology	Harrison, New York
 MAR	Marriott Int'l.	reports	Consumer Discretionary	Bethesda, Maryland
@@ -313,7 +313,7 @@ MSI	Motorola Solutions Inc.	reports	Information Technology	Schaumburg, Illinois
 MTB	M&T Bank Corp.	reports	Financials	Buffalo, New York
 MU	Micron Technology	reports	Information Technology	Boise, Idaho
 MUR	Murphy Oil	reports	Energy	El Dorado, Arkansas
-MWV	MeadWestvaco Corporation	reports	Materials	Richmond, Virginia
+#MWV	MeadWestvaco Corporation	reports	Materials	Richmond, Virginia
 MYL	Mylan Inc.	reports	Health Care	Canonsburg, Pennsylvania
 NBL	Noble Energy Inc	reports	Energy	Houston, Texas
 NBR	Nabors Industries Ltd.	reports	Energy	Hamilton, Bermuda
@@ -350,16 +350,16 @@ PBI	Pitney-Bowes	reports	Industrials	Stamford, Connecticut
 PCAR	PACCAR Inc.	reports	Industrials	Bellevue, Washington
 PCG	PG&E Corp.	reports	Utilities	San Francisco, California
 PCL	Plum Creek Timber Co.	reports	Financials	Seattle, Washington
-PCLN	Priceline.com Inc	reports	Industrials	Norwalk, Connecticut
+#PCLN	Priceline.com Inc	reports	Industrials	Norwalk, Connecticut
 PCP	Precision Castparts	reports	Industrials	Portland, Oregon
-PCS	MetroPCS Communications Inc.	reports	Telecommunications Services	Richardson, Texas
+#PCS	MetroPCS Communications Inc.	reports	Telecommunications Services	Richardson, Texas
 PDCO	Patterson Companies	reports	Health Care	St. Paul, Minnesota
 PEG	Public Serv. Enterprise Inc.	reports	Utilities	Newark, New Jersey
 PEP	PepsiCo Inc.	reports	Consumer Staples	Purchase, New York
 PFE	Pfizer Inc.	reports	Health Care	New York, New York
 PFG	Principal Financial Group	reports	Financials	Des Moines, Iowa
 PG	Procter & Gamble	reports	Consumer Staples	Cincinnati, Ohio
-PGN	Progress Energy Inc.	reports	Utilities	Raleigh, North Carolina
+#PGN	Progress Energy Inc.	reports	Utilities	Raleigh, North Carolina
 PGR	Progressive Corp.	reports	Financials	Mayfield Village, Ohio
 PH	Parker-Hannifin	reports	Industrials	Cleveland, Ohio
 PHM	Pulte Homes Inc.	reports	Consumer Discretionary	Bloomfield Hills, Michigan
@@ -369,7 +369,7 @@ PLL	Pall Corp.	reports	Industrials	Port Washington, New York
 PM	Philip Morris International	reports	Consumer Staples	New York, New York
 PNC	PNC Financial Services	reports	Financials	Pittsburgh, Pennsylvania
 PNW	Pinnacle West Capital	reports	Utilities	Phoenix, Arizona
-POM	Pepco Holdings Inc.	reports	Utilities	Washington D.C
+#POM	Pepco Holdings Inc.	reports	Utilities	Washington D.C
 PPG	PPG Industries	reports	Materials	Pittsburgh, Pennsylvania
 PPL	PPL Corp.	reports	Utilities	Allentown, Pennsylvania
 PRGO	Perrigo	reports	Health Care	Allegan, Michigan
@@ -413,11 +413,11 @@ SNDK	SanDisk Corporation	reports	Information Technology	Milpitas, California
 SNI	Scripps Networks Interactive Inc.	reports	Consumer Discretionary	Cincinnati, Ohio
 SO	Southern Co.	reports	Utilities	Atlanta, Georgia
 SPG	Simon Property Group Inc	reports	Financials	Indianapolis, Indiana
-SPLS	Staples Inc.	reports	Consumer Discretionary	Framingham, Massachusetts
+#SPLS	Staples Inc.	reports	Consumer Discretionary	Framingham, Massachusetts
 SRCL	Stericycle Inc	reports	Industrials	Lake Forest, Illinois
 SRE	Sempra Energy	reports	Utilities	San Diego, California
 STI	SunTrust Banks	reports	Financials	Atlanta, Georgia
-STJ	St Jude Medical	reports	Health Care	Little Canada, Minnesota
+#STJ	St Jude Medical	reports	Health Care	Little Canada, Minnesota
 STT	State Street Corp.	reports	Financials	Boston, Massachusetts
 STZ	Constellation Brands	reports	Consumer Staples	Victor, New York
 SUN	Sunoco Inc.	reports	Energy	Philadelphia, Pennsylvania
@@ -446,7 +446,7 @@ TRIP	TripAdvisor	reports	Consumer Discretionary	Bellevue, Washington
 TROW	T. Rowe Price Group	reports	Financials	Baltimore, Maryland
 TRV	The Travelers Companies Inc.	reports	Financials	New York, New York
 TSN	Tyson Foods	reports	Consumer Staples	Springdale, Arkansas
-TSO	Tesoro Petroleum Co.	reports	Energy	San Antonio, Texas
+#TSO	Tesoro Petroleum Co.	reports	Energy	San Antonio, Texas
 TSS	Total System Services	reports	Information Technology	Columbus, Georgia
 TWC	Time Warner Cable Inc.	reports	Consumer Discretionary	New York, New York
 TWX	Time Warner Inc.	reports	Consumer Discretionary	New York, New York
@@ -475,15 +475,15 @@ WAT	Waters Corporation	reports	Health Care	Milford, Massachusetts
 WDC	Western Digital	reports	Information Technology	Irvine, California
 WEC	Wisconsin Energy Corporation	reports	Utilities	Milwaukee, Wisconsin
 WFC	Wells Fargo	reports	Financials	San Francisco, California
-WFM	Whole Foods Market	reports	Consumer Staples	Austin, Texas
+#WFM	Whole Foods Market	reports	Consumer Staples	Austin, Texas
 WHR	Whirlpool Corp.	reports	Consumer Discretionary	Benton Harbor, Michigan
 WIN	Windstream Corporation	reports	Telecommunications Services	Little Rock, Arkansas
-WLP	WellPoint Inc.	reports	Health Care	Indianapolis, Indiana
+#WLP	WellPoint Inc.	reports	Health Care	Indianapolis, Indiana
 WM	Waste Management Inc.	reports	Industrials	Houston, Texas
 WMB	Williams Cos.	reports	Energy	Tulsa, Oklahoma
 WMT	Wal-Mart Stores	reports	Consumer Staples	Bentonville, Arkansas
 WPI	Watson Pharmaceuticals	reports	Health Care	Corona, California
-WPO	Washington Post Co B	reports	Consumer Discretionary	Washington D.C
+#WPO	Washington Post Co B	reports	Consumer Discretionary	Washington D.C
 WPX	WPX Energy, Inc.	reports	Energy	Tulsa, OK
 WU	Western Union Co	reports	Information Technology	Englewood, Colorado
 WY	Weyerhaeuser Corp.	reports	Financials	Federal Way, Washington
@@ -497,7 +497,7 @@ XOM	Exxon Mobil Corp.	reports	Energy	Irving, Texas
 XRAY	Dentsply International	reports	Health Care	York, Pennsylvania
 XRX	Xerox Corp.	reports	Information Technology	Norwalk, Connecticut
 XYL	Xylem Inc.	reports	Industrials	White Plains, New York
-YHOO	Yahoo Inc.	reports	Information Technology	Sunnyvale, California
+#YHOO	Yahoo Inc.	reports	Information Technology	Sunnyvale, California
 YUM	Yum! Brands Inc	reports	Consumer Discretionary	Louisville, Kentucky
 ZION	Zions Bancorp	reports	Financials	Salt Lake City, Utah
 ZMH	Zimmer Holdings	reports	Health Care	Warsaw, Indiana

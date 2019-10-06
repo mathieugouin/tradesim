@@ -133,16 +133,27 @@ class CStockDBMgr:
         return getSymbolData(symbol, self.basedir, startDate, endDate)
 
     def getAllSymbolData(self, startDate=None, endDate=None):
+        if startDate is None:
+            startDate = self.startDate
+        if endDate is None:
+            endDate = self.endDate
         # Load it once
         if self.wp is None:
             t0 = time.clock()
             dic = {}
             for s in self.getAllSymbolsAvailable():
+                print "Loading " + s + " ..."
                 df = self.getSymbolData(s, startDate, endDate)
                 #print df.shape[0]
                 dic[s] = df
             dt = time.clock() - t0
             #print dt
+
+            noneKeys = [k for k in dic.keys() if dic[k] is None]
+            for k in noneKeys:
+                print "Removing {} as it contains error".format(k)
+                del dic[k]
+
             self.wp = pd.Panel(dic)
         return self.wp
 
@@ -152,8 +163,8 @@ class CStockDBMgr:
 
 #-------------------------------------------------------------------------------
 def _main():
-    #db = CStockDBMgr('./stock_db/tsx')
-    db = CStockDBMgr('./stock_db/test')
+    db = CStockDBMgr('./stock_db/qt', datetime.date(2017, 1, 1), datetime.date(2018, 1, 1))
+    #db = CStockDBMgr('./stock_db/test')
     #db.updateAllSymbols()
     symbolList = db.getAllSymbolsAvailable()
     print symbolList
@@ -163,7 +174,7 @@ def _main():
     print s, 'Valid', db.validateSymbolData(s)
     d = db.getSymbolData(s)
 
-    if True:
+    if False:
         print getDate(d)[0]
         print getOpen(d)[0]
         print getHigh(d)[0]
@@ -171,7 +182,7 @@ def _main():
         print getClose(d)[0]
         print getVolume(d)[0]
 
-    if True:
+    if False:
         print "Validating symbols"
         t0 = time.clock()
         for s in db.getAllSymbolsAvailable():

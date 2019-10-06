@@ -3,6 +3,7 @@ import stock_db_mgr as sdm
 
 #import gstockquote as gsq
 #import ystockquote as ysq
+import tmxstockquote as tsq
 
 startdate = datetime.date(1900, 1, 1)
 today = datetime.date.today()
@@ -15,26 +16,29 @@ tickerfile = './stock_db/tsx.txt'
 #tickerfile = './stock_db/qt.txt'
 
 # Create data base:
-db = sdm.CStockDBMgr('./stock_db/qt', startdate, enddate)
+#db = sdm.CStockDBMgr('./stock_db/qt', startdate, enddate)
+db = sdm.CStockDBMgr('./stock_db/tsx')
 #db = sdm.CStockDBMgr('./stock_db/sp500')
 #db = sdm.CStockDBMgr('./stock_db/test')
 
-db.updateAllSymbols()
+#db.updateAllSymbols()
 
 inv = []
 
 symbolList = db.getAllSymbolsAvailable()
 print len(symbolList)
+print symbolList
 
 for s in symbolList:
     print s #, ysq.get_dividend_yield(s), ysq.get_name(s)
+    print tsq.relative_range(s), tsq.test_indicator(s)
 
     if not db.validateSymbolData(s):
         inv.append(s)
         continue
 
     # Only applies if recent download...
-    if True:
+    if False:
         r = db.getSymbolData(s)
 
         t = startdate

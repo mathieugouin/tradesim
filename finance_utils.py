@@ -24,7 +24,7 @@ def symbolToFilename(symbol, basedir):
     return os.path.join(basedir, symbol.upper()) + '.csv'
 
 def getAllSymbolsAvailable(basedir):
-    return map(filenameToSymbol, glob.glob(os.path.join(basedir, '*.csv')))
+    return sorted(map(filenameToSymbol, glob.glob(os.path.join(basedir, '*.csv'))))
 
 def getSymbolsFromFile(tickerFile):
     tickerList = []
@@ -89,6 +89,9 @@ def loadDataFrame(csvFile, startDate, endDate):
     try:
         df = pd.read_csv(csvFile, index_col='Date', parse_dates=True)
 
+        if len(df.index.get_duplicates()) > 0:
+            raise Exception('Duplicated index in file {}'.format(csvFile))
+
         df.sort_index(inplace=True)
 
         # Re-index to only have the relevant date range
@@ -115,6 +118,7 @@ def loadDataFrame(csvFile, startDate, endDate):
         return df
     except:
         print 'Error parsing ' + csvFile
+        return None
 
 
 #-------------------------------------------------------------------------------
@@ -184,6 +188,8 @@ def main():
     updateAllSymbols(dir, startDate, endDate)
     print getSymbolsFromFile('stock_db/dj.txt')
     df = loadDataFrame(f, datetime.date(2018, 1, 1), datetime.date(2018, 2, 1))
+    print df.describe()
+    df = loadDataFrame(f, startDate, endDate)
     print df.describe()
 
 

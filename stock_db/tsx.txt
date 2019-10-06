@@ -17,7 +17,7 @@ ATD-B.TO	Alimentation Couche-Tard Inc.	Consumer staples	Retail
 AP-UN.TO	Allied Properties Real Estate Investment Trust	Financials	REITs
 ALA.TO	AltaGas Ltd.	Energy	Midstream
 AIF.TO	Altus Group Limited	Financials	Application Software
-APH.TO	Aphria Inc.	Health care
+APHA.TO	Aphria Inc.	Health care
 ARX.TO	ARC Resources Ltd.	Energy
 AX-UN.TO	Artis Real Estate Investment Trust	Financials
 ACO-X.TO	ATCO Ltd.	Utilities
@@ -90,10 +90,10 @@ EFN.TO	Element Fleet Management Corp.	Financials
 EMA.TO	Emera Incorporated	Utilities
 EMP-A.TO	Empire Company Limited	Consumer staples
 ENB.TO	Enbridge Inc.	Energy
-ENF.TO	Enbridge Income Fund Holdings Inc.	Energy
+#ENF.TO	Enbridge Income Fund Holdings Inc.	Energy
 ECA.TO	Encana Corporation	Energy
 EDV.TO	Endeavour Mining Corporation	Materials
-ECI.TO	EnerCare Inc.	Industrials
+#ECI.TO	EnerCare Inc.	Industrials
 EFX.TO	Enerflex Ltd.	Energy
 ERF.TO	Enerplus Corporation	Energy
 ENGH.TO	Enghouse Systems Limited	Information technology
@@ -144,7 +144,7 @@ KXS.TO	Kinaxis Inc.	Information technology
 KML.TO	Kinder Morgan Canada	Energy
 K.TO	Kinross Gold Corporation	Materials
 KL.TO	Kirkland Lake Gold Inc.	Materials
-KDX.TO	Klondex Mines Ltd.	Materials
+#KDX.TO	Klondex Mines Ltd.	Materials
 GUD.TO	Knight Therapeutics Inc.	Health care	Drug manufacturers
 LIF.TO	Labrador Iron Ore Royalty Corporation	Materials
 LB.TO	Laurentian Bank of Canada	Financials
@@ -161,7 +161,7 @@ MAXR.TO	Maxar Technologies Ltd.	Information technology
 MEG.TO	MEG Energy Corp.	Energy
 MX.TO	Methanex Corporation	Materials
 MRU.TO	Metro Inc.	Consumer staples
-MNW.TO	Mitel Networks Corporation	Information technology
+#MNW.TO	Mitel Networks Corporation	Information technology
 MSI.TO	Morneau Shepell Inc.	Industrials
 MTL.TO	Mullen Group Ltd.	Energy
 NA.TO	National Bank of Canada	Financials
@@ -193,9 +193,9 @@ PD.TO	Precision Drilling Corporation	Energy
 PBH.TO	Premium Brands Holdings Corporation	Consumer staples
 PVG.TO	Pretium Resources Inc.	Materials
 PLI.TO	ProMetic Life Sciences Inc.	Health care
-AAR-UN.TO	Pure Industrial Real Estate Trust	Financials
+#AAR-UN.TO	Pure Industrial Real Estate Trust	Financials
 QBR-B.TO	Quebecor Inc.	Consumer discretionary
-RRX.TO	Raging River Exploration Inc.	Energy
+#RRX.TO	Raging River Exploration Inc.	Energy
 QSR.TO	Restaurant Brands International Inc.	Consumer discretionary
 REI-UN.TO	RioCan Real Estate Investment Trust	Financials
 RBA.TO	Ritchie Bros. Auctioneers Incorporated	Industrials
@@ -214,7 +214,7 @@ SW.TO	Sierra Wireless Inc.	Information technology
 ZZZ.TO	Sleep Country Canada Holdings Inc.	Consumer discretionary
 SRU-UN.TO	SmartCentres Real Estate Investment Trust	Financials
 SNC.TO	SNC-Lavalin Group Inc.	Industrials
-SPE.TO	Spartan Energy Corp.	Energy
+#SPE.TO	Spartan Energy Corp.	Energy
 TOY.TO	Spin Master Corp.	Consumer discretionary
 SSRM.TO	SSR Mining	Materials
 STN.TO	Stantec Inc.	Industrials
@@ -243,7 +243,7 @@ TCW.TO	Trican Well Service Ltd.	Energy
 TCN.TO	Tricon Capital Group Inc.	Financials
 TRQ.TO	Turquoise Hill Resources Ltd.	Materials
 UNS.TO	Uni-Select Inc.	Consumer discretionary
-VRX.TO	Valeant Pharmaceuticals International Inc.	Health care
+#VRX.TO	Valeant Pharmaceuticals International Inc.	Health care
 VET.TO	Vermilion Energy Inc.	Energy
 WCN.TO	Waste Connections Inc.	Industrials
 WFT.TO	West Fraser Timber Co. Ltd.	Materials
