@@ -115,6 +115,7 @@ class CStockDBMgr:
         self.startDate = startDate
         self.endDate   = endDate
         self.wp        = None
+        self.dataDic   = None
 
     def getAllSymbolsAvailable(self):
         return fu.getAllSymbolsAvailable(self.basedir)
@@ -132,29 +133,36 @@ class CStockDBMgr:
             endDate = self.endDate
         return getSymbolData(symbol, self.basedir, startDate, endDate)
 
+    # TBD Remove date args for this class...
+    def getAllSymbolDataDic(self):
+        # Load it once
+        if self.dataDic is None:
+            t0 = time.clock()
+            self.dataDic = {}
+            for s in self.getAllSymbolsAvailable():
+                print "Loading " + s + " ..."
+                df = self.getSymbolData(s, self.startDate, self.endDate)
+                #print df.shape[0]
+                self.dataDic[s] = df
+            dt = time.clock() - t0
+            print "Load time:", dt
+
+            noneKeys = [k for k in self.dataDic.keys() if self.dataDic[k] is None]
+            for k in noneKeys:
+                print "Removing {} as it contains error".format(k)
+                del self.dataDic[k]
+
+        return self.dataDic
+
     def getAllSymbolData(self, startDate=None, endDate=None):
-        if startDate is None:
-            startDate = self.startDate
-        if endDate is None:
-            endDate = self.endDate
         # Load it once
         if self.wp is None:
             t0 = time.clock()
-            dic = {}
-            for s in self.getAllSymbolsAvailable():
-                print "Loading " + s + " ..."
-                df = self.getSymbolData(s, startDate, endDate)
-                #print df.shape[0]
-                dic[s] = df
+            dic = self.getAllSymbolDataDic()
             dt = time.clock() - t0
-            #print dt
-
-            noneKeys = [k for k in dic.keys() if dic[k] is None]
-            for k in noneKeys:
-                print "Removing {} as it contains error".format(k)
-                del dic[k]
-
             self.wp = pd.Panel(dic)
+            print "Load time:", dt
+
         return self.wp
 
 
