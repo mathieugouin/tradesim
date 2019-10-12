@@ -8,8 +8,9 @@ class CVirtualAccount:
         self._dataDic           = dataDic
         self._positions         = []
 
-    def calcComission(self, nbShare):
-        return nbShare * 0.0045 + min(9.95, max(0.01 * nbShare, 4.95))
+    # Valid for Questrade stock trading only
+    def calcCommission(self, nbShare):
+        return nbShare * 0.0035 + min(9.95, max(0.01 * nbShare, 4.95))
 
     def buyAtMarket(self, bar, symbol, nbShare, name = "buyAtMarket"):
         print "buyAtMarket()"
@@ -17,7 +18,7 @@ class CVirtualAccount:
         if nbShare > 0:
             #buyPrice = dataDic[symbol].iloc[bar]['Close']
             buyPrice = self._dataDic[symbol].iloc[bar]['High'] # Worst case simulation
-            comission = self.calcComission(nbShare)
+            comission = self.calcCommission(nbShare)
             cost = buyPrice * nbShare + comission;
             if cost < self._cash:
                 self._positions.append(Position.CPosition(bar, symbol, nbShare, buyPrice, name, comission))
@@ -31,7 +32,7 @@ class CVirtualAccount:
         print "sellAtMarket()"
         # sellPrice = dataDic[position.getSymbol()].iloc[bar]['Close']
         sellPrice = self._dataDic[position.getSymbol()].iloc[bar]['Low'] # Worst case
-        cost = self.calcComission(position.getNbShare());
+        cost = self.calcCommission(position.getNbShare());
         if cost < self._cash:
             self._cash -= cost
             self._cash += position.close(bar, sellPrice, name)
@@ -64,7 +65,7 @@ def _main():
     import stock_db_mgr as sdm
     db = sdm.CStockDBMgr('./stock_db/qt')
     va = CVirtualAccount(100000, db.getAllSymbolDataDic())
-    print "comm = ", va.calcComission(300)
+    print "comm = ", va.calcCommission(300)
     print "$ = ", va.getCash()
     print "pos = ", va.getAllPositions()
     va.buyAtMarket(3, 'XBB.TO', 100)
