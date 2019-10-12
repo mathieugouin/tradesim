@@ -61,6 +61,13 @@ class CVirtualAccount:
         return self._cash
 
 
+    def deltaCash(self, delta):
+        self._cash += delta
+        if self._cash < 0:
+            #print "Error: not enough money", wouldBeCash
+            pass
+
+
 def _main():
     import stock_db_mgr as sdm
     db = sdm.CStockDBMgr('./stock_db/qt')

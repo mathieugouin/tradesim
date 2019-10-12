@@ -46,7 +46,8 @@ def calcCommissionETF(nbShare):
 def simulate():
     print "simulate()"
 
-    a = va.CVirtualAccount(100000.00, dataDic)
+    initialCash = 100000.0
+    a = va.CVirtualAccount(initialCash, dataDic)
 
     print "Initial cash", a.getCash()
 
@@ -62,22 +63,24 @@ def simulate():
     # Symbol loop
     symbolList = dataDic.keys()
     symbolList.sort()
-    for i in range(max([len(dataDic[s]) for s in symbolList])):
-        if i % 20 == 0: # TBD rebalance freq
-            print "rebalance", i
-            vDic = {}
-            nbShDic = {}
 
-            # Matching StockPortfolio_RRSP column ordering
+    df = pd.DataFrame(
+        index = symbolList,
+        data = [ratio[s] for s in symbolList],
+        columns = ['TgtAlloc'])
 
-            df = pd.DataFrame(
-                index = symbolList,
-                data = [dataDic[s].ix[i, 'High'] for s in symbolList],
-                columns=['Price'])
+    df['NbShare'] = np.zeros(len(symbolList))
 
-            df['NbShare'] = [sum([p.getNbShare() for p in a.getOpenPositions(s)]) for s in symbolList]
+    # TBD i is not ok for non matching df of each symbols. Fix with having a common aggregated df of only the 'Close'
+    for i in range(min([len(dataDic[s]) for s in symbolList])):
+        if i % 100 == 0: # Adjust rebalance frequency
+            print "Rebalance", i
+
+            # Roughly Matching StockPortfolio_RRSP column ordering
+
+            df['Price'] = [dataDic[s].ix[i, 'Close'] for s in symbolList]
+
             df['MktValue'] = df['Price'] * df['NbShare']
-            df['TgtAlloc'] = [ratio[s] for s in symbolList]  # could be moved above and be done only once
 
             totalValue = sum(df['Price'] * df['NbShare']) + a.getCash()
 
@@ -93,20 +96,31 @@ def simulate():
 
             # TBD not sure about the commission formula for both buy & sell...
 
-            # TBD rework buy / sell to work with partial position buy & sell
-            if False:
-                for s in symbolList:
-                    n = df.ix[s, 'DeltaShare']
-                    if n > 0:
-                        a.buyAtMarket(i, s, n)
-                    else:
-                        #va.sellAtMarket()
-                        pass
+            for s in symbolList:
+                n = df.ix[s, 'DeltaShare']
+                if n > 0:
+                    print "  Buy {} of {}".format(n, s)
+                    a.deltaCash(-n * df.ix[s, 'Price'])
+                    df.ix[s, 'NbShare'] += n
+                    #a.buyAtMarket(i, s, n)
+                elif n < 0:
+                    print "  Sell {} of {}".format(-n, s)
+                    a.deltaCash(-n * df.ix[s, 'Price'])
+                    df.ix[s, 'NbShare'] += n
+                    #a.sellAtMarket()
+
+            # Do not tolerate after all transactions are done.
+            if a.getCash() < 0:
+                print "Error: not enough money", a.getCash()
+
         else:
-            print "skip", i
+            #print "skip", i
             pass
 
-    print "Final cash", a.getCash()
+    print "Initial Cash = ", initialCash
+    # Update last price
+    df['Price'] = [dataDic[s].ix[-1, 'Close'] for s in symbolList]
+    print "Final Cash = ", sum(df['Price'] * df['NbShare']) + a.getCash()
     #print "Entering debugger..."; import pdb; pdb.set_trace()
 
 
