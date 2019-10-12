@@ -22,7 +22,7 @@ import gstockquote as gsq
 import ystockquote as ysq
 import tmxstockquote as tmx
 import stock_db_mgr as sdm
-import VirtualAccount as VA
+import VirtualAccount as va
 
 startDate = datetime.date(1900, 1, 1)
 startDate = datetime.date(2014, 1, 6) # Start of Questrade portfolio
@@ -36,13 +36,19 @@ dataDir = './stock_db/qt'
 # Global data dictionary
 dataDic = {}
 
+# +:Buy
+# -:Sell
+def calcCommissionETF(nbShare):
+    #       (V2 < 0)     * min(9.95, max(4.95, -V2 * 0.01))     + abs(V2) * 0.0035
+    return (nbShare < 0) * min(9.95, max(4.95, -nbShare * 0.01)) + math.fabs(nbShare) * 0.0035
+
 ###############################################################################
 def simulate():
     print "simulate()"
 
-    va = VA.CVirtualAccount(100000.00, dataDic)
+    a = va.CVirtualAccount(100000.00, dataDic)
 
-    print "Initial cash", va.getCash()
+    print "Initial cash", a.getCash()
 
     # Target allocation:
     ratio = {
@@ -62,39 +68,45 @@ def simulate():
             vDic = {}
             nbShDic = {}
 
+            # Matching StockPortfolio_RRSP column ordering
+
             df = pd.DataFrame(
                 index = symbolList,
                 data = [dataDic[s].ix[i, 'High'] for s in symbolList],
                 columns=['Price'])
 
-            df['NbShare'] = [sum([p.getNbShare() for p in va.getOpenPositions(s)]) for s in symbolList]
-
+            df['NbShare'] = [sum([p.getNbShare() for p in a.getOpenPositions(s)]) for s in symbolList]
             df['MktValue'] = df['Price'] * df['NbShare']
-
             df['TgtAlloc'] = [ratio[s] for s in symbolList]  # could be moved above and be done only once
 
-            totalValue = sum(df['Price'] * df['NbShare']) + va.getCash()
+            totalValue = sum(df['Price'] * df['NbShare']) + a.getCash()
+
+            df['CurrAlloc'] = df['MktValue'] / totalValue
+            df['DeltaAlloc'] = df['CurrAlloc'] - df['TgtAlloc']
 
             df['TgtValue'] = df['TgtAlloc'] * totalValue
 
-            df['DeltaValue'] = df['TgtValue'] - df['MktValue']
+            # +:Buy  -:Sell
+            df['DeltaShare'] = np.floor((df['TgtValue']) / df['Price']) - df['NbShare']
 
-            c = [va.calcComission(math.fabs(n)) for n in np.floor(df['DeltaValue'] / df['Price']).values]
+            c = [calcCommissionETF(n) for n in df['DeltaShare'].values]
 
-            df['DeltaShare'] = np.floor((df['DeltaValue'] - c) / df['Price'])
+            # TBD not sure about the commission formula for both buy & sell...
 
-            for s in symbolList:
-                n = df.ix[s, 'DeltaShare']
-                if n > 0:
-                    va.buyAtMarket(i, s, n)
-                else:
-                    #va.sellAtMarket()
-                    pass
+            # TBD rework buy / sell to work with partial position buy & sell
+            if False:
+                for s in symbolList:
+                    n = df.ix[s, 'DeltaShare']
+                    if n > 0:
+                        a.buyAtMarket(i, s, n)
+                    else:
+                        #va.sellAtMarket()
+                        pass
         else:
             print "skip", i
             pass
 
-    print "Final cash", va.getCash()
+    print "Final cash", a.getCash()
     #print "Entering debugger..."; import pdb; pdb.set_trace()
 
 
@@ -102,9 +114,9 @@ def simulate():
 def simulate2():
     print "simulate()"
 
-    va = VA.CVirtualAccount(50000.00, dataDic)
+    a = va.CVirtualAccount(50000.00, dataDic)
 
-    print "Initial cash", va.getCash()
+    print "Initial cash", a.getCash()
 
     # Symbol loop
     symbolList = dataDic.keys()
@@ -134,24 +146,24 @@ def simulate2():
             #date = barObj.date
 
             # Positions loop
-            openPositions = va.getOpenPositions(crtSymbol)
+            openPositions = a.getOpenPositions(crtSymbol)
             for pos in openPositions:
                 # TBD sell logic
                 sellSignal = sClose[bar] > 1.15 * pos.getEntryPrice() or \
                              sClose[bar] < 0.95 * pos.getEntryPrice()
                 if sellSignal:
-                    va.sellAtMarket(pos, bar + 1) # bar + 1 = tomorrow
+                    a.sellAtMarket(pos, bar + 1) # bar + 1 = tomorrow
             if not openPositions:
                 # TBD buy logic
                 buySignal = ti.crossOver(sClose, sCloseSma, bar)
                 if buySignal:
                     nbShare = int(2500 / sClose[bar]) # 2500$ => about 0.8% comission buy + sell
-                    va.buyAtMarket(bar + 1, crtSymbol, nbShare) # bar + 1 = tomorrow
+                    a.buyAtMarket(bar + 1, crtSymbol, nbShare) # bar + 1 = tomorrow
 
-    for p in va.getAllPositions():
+    for p in a.getAllPositions():
         print p.toString()
 
-    print "Final cash", va.getCash()
+    print "Final cash", a.getCash()
     #print "Entering debugger..."; import pdb; pdb.set_trace()
 
 
@@ -181,7 +193,6 @@ def plotTest():
 def loadData():
     print "loadData()"
 
-    #global dataDir
     global dataDic
 
     db = sdm.CStockDBMgr(dataDir, startDate, endDate)
@@ -190,7 +201,7 @@ def loadData():
 
 
 ###############################################################################
-def main():
+def _main():
     print "main()"
 
     global dataDir
@@ -211,4 +222,4 @@ def main():
     #simulate2()
 
 if __name__ == '__main__':
-    main()
+    _main()
