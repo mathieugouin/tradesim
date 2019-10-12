@@ -8,7 +8,6 @@
 # system
 import datetime
 import time
-import csv
 import os
 
 # custom
@@ -47,48 +46,6 @@ def getVolume(df):
     return df['Volume'].values
 
 #-------------------------------------------------------------------------------
-# Check for basic errors in historical market data
-def validateSymbolData(csvFile):
-    #print "Validating:%s" % csvFile
-    valid = True # Default
-    # The CSV files are downloaded from yahoo historical data
-    f = open(csvFile, 'r')
-    #lineSplit  0,   1,   2,   3,  4,    5,     6
-    #priceData       0,   1,   2,  3,    4,     5
-    #           Date,Open,High,Low,Close,Volume,Adj Close
-    #           2012-03-21,204.32,205.77,204.30,204.69,3329900,204.69
-    f.seek(0)
-    try:
-        dialect = csv.Sniffer().sniff(f.read(1024))
-        if dialect:
-            if False: # temp for now, csv only...
-                f.seek(0)
-                f.readline() # skip header row
-                for l in f.readlines():
-                    # Date,Open,High,Low,Close,Volume,Adj Close
-                    lineSplit = l.strip().split(',')
-                    if len(lineSplit) != 7:
-                        print "Error: Invalid line, missing data"
-                        valid = False
-                        break
-                    dateSplit = map(int, lineSplit[0].split('-'))
-                    if len(dateSplit) != 3:
-                        print "Error: Invalid date format"
-                        valid = False
-                        break
-                    priceData = map(float, lineSplit[1:])
-                    if priceData[3] == 0 or priceData[5] == 0:
-                        print "Error: Invalid price data"
-                        valid = False
-                        break
-        else: # csv was not able to find a dialect, consider not valid CSV
-            valid = False
-    except:
-        valid = False
-    f.close()
-    return valid
-
-#-------------------------------------------------------------------------------
 def getSymbolData(symbol, basedir, startDate=None, endDate=None):
     # Default dates handling
     if startDate is None:
@@ -111,63 +68,58 @@ class CStockDBMgr:
             startDate = _defStartDate
         if endDate is None:
             endDate = _defEndDate
-        self.basedir   = basedir
-        self.startDate = startDate
-        self.endDate   = endDate
-        self.wp        = None
-        self.dataDic   = None
+        self._basedir   = basedir
+        self._startDate = startDate
+        self._endDate   = endDate
+        self._wp        = None
+        self._dataDic   = None
 
     def getAllSymbolsAvailable(self):
-        return fu.getAllSymbolsAvailable(self.basedir)
+        return fu.getAllSymbolsAvailable(self._basedir)
 
     def downloadData(self, symbol):
-        fu.downloadData(symbol, self.basedir, self.startDate, self.endDate)
+        fu.downloadData(symbol, self._basedir, self._startDate, self._endDate)
 
     def updateAllSymbols(self):
-        fu.updateAllSymbols(self.basedir, self.startDate, self.endDate)
+        fu.updateAllSymbols(self._basedir, self._startDate, self._endDate)
 
-    def getSymbolData(self, symbol, startDate=None, endDate=None):
-        if startDate is None:
-            startDate = self.startDate
-        if endDate is None:
-            endDate = self.endDate
-        return getSymbolData(symbol, self.basedir, startDate, endDate)
+    def getSymbolData(self, symbol):
+        return getSymbolData(symbol, self._basedir, self._startDate, self._endDate)
 
-    # TBD Remove date args for this class...
     def getAllSymbolDataDic(self):
         # Load it once
-        if self.dataDic is None:
+        if self._dataDic is None:
             t0 = time.clock()
-            self.dataDic = {}
+            self._dataDic = {}
             for s in self.getAllSymbolsAvailable():
                 print "Loading " + s + " ..."
-                df = self.getSymbolData(s, self.startDate, self.endDate)
+                df = self.getSymbolData(s)
                 #print df.shape[0]
-                self.dataDic[s] = df
+                self._dataDic[s] = df
             dt = time.clock() - t0
             print "Load time:", dt
 
-            noneKeys = [k for k in self.dataDic.keys() if self.dataDic[k] is None]
+            noneKeys = [k for k in self._dataDic.keys() if self._dataDic[k] is None]
             for k in noneKeys:
                 print "Removing {} as it contains error".format(k)
-                del self.dataDic[k]
+                del self._dataDic[k]
 
-        return self.dataDic
+        return self._dataDic
 
-    def getAllSymbolData(self, startDate=None, endDate=None):
+    def getAllSymbolData(self):
         # Load it once
-        if self.wp is None:
+        if self._wp is None:
             t0 = time.clock()
             dic = self.getAllSymbolDataDic()
             dt = time.clock() - t0
-            self.wp = pd.Panel(dic)
+            self._wp = pd.Panel(dic)
             print "Load time:", dt
 
-        return self.wp
+        return self._wp
 
 
     def validateSymbolData(self, symbol):
-        return validateSymbolData(fu.symbolToFilename(symbol, self.basedir))
+        return fu.validateSymbolData(fu.symbolToFilename(symbol, self._basedir))
 
 #-------------------------------------------------------------------------------
 def _main():
@@ -179,16 +131,16 @@ def _main():
 
     # Do with only first symbol
     s = symbolList[0]
-    print s, 'Valid', db.validateSymbolData(s)
-    d = db.getSymbolData(s)
+    print s, 'Valid? : ', db.validateSymbolData(s)
+    df = db.getSymbolData(s)
 
     if False:
-        print getDate(d)[0]
-        print getOpen(d)[0]
-        print getHigh(d)[0]
-        print getLow(d)[0]
-        print getClose(d)[0]
-        print getVolume(d)[0]
+        print getDate(df)[0]
+        print getOpen(df)[0]
+        print getHigh(df)[0]
+        print getLow(df)[0]
+        print getClose(df)[0]
+        print getVolume(df)[0]
 
     if False:
         print "Validating symbols"
@@ -198,6 +150,11 @@ def _main():
                 print s, " failed validation"
         dt = time.clock() - t0
         print dt
+
+    if True:
+        print "Loading all symbols to a dict"
+        dd = db.getAllSymbolDataDic()
+        print dd
 
     if True:
         print "Loading all symbols to a panel"

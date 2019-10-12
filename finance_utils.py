@@ -9,6 +9,7 @@ import os
 import glob
 import urllib
 import datetime
+import csv
 
 # Custom
 import pandas as pd
@@ -85,7 +86,7 @@ def updateAllSymbols(basedir, startDate, endDate):
 
 
 #-------------------------------------------------------------------------------
-def loadDataFrame(csvFile, startDate, endDate):
+def loadDataFrame(csvFile, startDate, endDate, adjustPrice=True):
     try:
         df = pd.read_csv(csvFile, index_col='Date', parse_dates=True)
 
@@ -103,23 +104,27 @@ def loadDataFrame(csvFile, startDate, endDate):
 
         # Make sure none isolated remains:
         if df.isna().any().any():
-            print "ERROR ", csvFile, "contains isolated NaN"
+            # To show the NaN
+            print df.loc[df.isna().all(axis=1)]
+            raise Exception("ERROR {} contains isolated NaN".format(csvFile))
 
-        # to show the NaN
-        #df.loc[df.isna().all(axis=1)]
-
-        # Adjusting Columns based on Adjusted Close
-        r = df['Adj Close'] / df['Close'] # ratio
-        for col in ['Open', 'High', 'Low', 'Close']:
-            df[col] *= r
-
-        df.drop('Adj Close', axis=1, inplace=True)
+        if adjustPrice:
+            # Adjusting Columns based on Adjusted Close
+            r = df['Adj Close'] / df['Close'] # ratio
+            for col in ['Open', 'High', 'Low', 'Close']:
+                df[col] *= r
+            df.drop('Adj Close', axis=1, inplace=True)
 
         return df
-    except:
-        print 'Error parsing ' + csvFile
-        return None
 
+    except Exception as inst:
+        print type(inst)    # the exception instance
+        print inst.args     # arguments stored in .args
+        print inst          # __str__ allows args to be printed directly,
+                            # but may be overridden in exception subclasses
+        print 'Error parsing ' + csvFile
+
+        return None
 
 #-------------------------------------------------------------------------------
 # TBD: currently only error print when incorrect data...
@@ -168,6 +173,50 @@ def loadData(csvFile, startDate, endDate):
     f.close()
     bars.reverse() # now bars[0] is the earliest
     return bars
+
+
+
+#-------------------------------------------------------------------------------
+# Check for basic errors in historical market data
+def validateSymbolData(csvFile):
+    #print "Validating:%s" % csvFile
+    valid = True # Default
+    # The CSV files are downloaded from yahoo historical data
+    f = open(csvFile, 'r')
+    #lineSplit  0,   1,   2,   3,  4,    5,     6
+    #priceData       0,   1,   2,  3,    4,     5
+    #           Date,Open,High,Low,Close,Volume,Adj Close
+    #           2012-03-21,204.32,205.77,204.30,204.69,3329900,204.69
+    f.seek(0)
+    try:
+        dialect = csv.Sniffer().sniff(f.read(1024))
+        if dialect:
+            if False: # temp for now, csv only...
+                f.seek(0)
+                f.readline() # skip header row
+                for l in f.readlines():
+                    # Date,Open,High,Low,Close,Volume,Adj Close
+                    lineSplit = l.strip().split(',')
+                    if len(lineSplit) != 7:
+                        print "Error: Invalid line, missing data"
+                        valid = False
+                        break
+                    dateSplit = map(int, lineSplit[0].split('-'))
+                    if len(dateSplit) != 3:
+                        print "Error: Invalid date format"
+                        valid = False
+                        break
+                    priceData = map(float, lineSplit[1:])
+                    if priceData[3] == 0 or priceData[5] == 0:
+                        print "Error: Invalid price data"
+                        valid = False
+                        break
+        else: # csv was not able to find a dialect, consider not valid CSV
+            valid = False
+    except:
+        valid = False
+    f.close()
+    return valid
 
 
 #-------------------------------------------------------------------------------
