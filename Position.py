@@ -1,9 +1,3 @@
-#-------------------------------------------------------------------------------
-# Name:        Class Position
-# Purpose:
-#
-#-------------------------------------------------------------------------------
-
 ###############################################################################
 class CPosition:
     # Buy
@@ -23,6 +17,8 @@ class CPosition:
         self._open       = True
 
     def close(self, bar, price, name = "sell"):
+        if not self._open:
+            print "Error: position already closed."
         self._open      = False
         self._exitPrice = price
         self._exitBar   = bar
@@ -55,5 +51,33 @@ class CPosition:
         return pc
 
     def toString(self):
-        return "TBD"
+        s = "Position " + self._symbol + " "
+        s += "Open: bar={}, price={}, commission={}, name={}".format(
+            self._entryBar,
+            self._entryPrice,
+            self._entryCommission,
+            self._entryName
+        )
+        if not self._open:
+            s += " Close: bar={}, price={}, commission={}, name={}, gain={}".format(
+                self._exitBar,
+                self._exitPrice,
+                self._exitCommission,
+                self._exitName,
+                self.getPctGain()
+            )
+        return s
 
+
+def _main():
+    p1 = CPosition(3, 'XBB.TO', 10, 23.45)
+    print p1.toString()
+    p1.close(4, 23.46)
+    p2 = CPosition(6, 'XBB.TO', 10, 23.45, name='Test Pos', commission=0.1)
+    p2.close(30, 25.68)
+    print p1.toString()
+    print p2.toString()
+
+
+if __name__ == '__main__':
+    _main()
