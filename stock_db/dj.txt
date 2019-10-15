@@ -1,5 +1,6 @@
 # Dow-Jones
 # as of 2017-09-01
+# https://en.wikipedia.org/wiki/Dow_Jones_Industrial_Average#Components
 # Symbol              Company
 AAPL                Apple
 AXP                 American Express
@@ -8,7 +9,7 @@ CAT                 Caterpillar
 CSCO                Cisco Systems
 CVX                 Chevron
 DIS                 Walt Disney
-DWDP                DowDuPont
+#DOW                 Dow
 GE                  General Electric
 GS                  Goldman Sachs
 HD                  The Home Depot

@@ -114,7 +114,7 @@ MIC.TO	Genworth MI Canada Inc.	Financials
 WN.TO	George Weston Limited	Consumer staples
 GEI.TO	Gibson Energy Inc.	Energy	Integrated Oil and Gas
 GIL.TO	Gildan Activewear Inc.	Consumer discretionary
-G.TO	Goldcorp Inc.	Materials
+#G.TO	Goldcorp Inc.	Materials
 GTE.TO	Gran Tierra Energy Inc.	Energy
 GRT-UN.TO	Granite Real Estate Investment Trust	Financials
 GC.TO	Great Canadian Gaming Corporation	Consumer discretionary
@@ -165,7 +165,7 @@ MRU.TO	Metro Inc.	Consumer staples
 MSI.TO	Morneau Shepell Inc.	Industrials
 MTL.TO	Mullen Group Ltd.	Energy
 NA.TO	National Bank of Canada	Financials
-NSU.TO	Nevsun Resources Ltd.	Materials
+#NSU.TO	Nevsun Resources Ltd.	Materials
 NFI.TO	New Flyer Industries Inc.	Industrials
 NGD.TO	New Gold Inc.	Materials
 NXE.TO	NexGen Energy Ltd.	Materials
@@ -222,7 +222,7 @@ SJ.TO	Stella-Jones Inc.	Materials
 SLF.TO	Sun Life Financial Inc.	Financials
 SU.TO	Suncor Energy Inc.	Energy
 SPB.TO	Superior Plus Corp.	Industrials
-THO.TO	Tahoe Resources Inc.	Materials
+#THO.TO	Tahoe Resources Inc.	Materials
 TECK-B.TO	Teck Resources Limited	Materials
 T.TO	Telus Corporation	Telecommunication services
 TFII.TO	TFI International Inc.	Industrials
