@@ -1,4 +1,7 @@
 import numpy as np
+import scipy as sp
+import scipy.fftpack as spf
+import scipy.signal as sps
 import matplotlib.pyplot as plt
 import pandas as pd
 
@@ -15,45 +18,44 @@ t = np.arange(N)
 X = np.zeros(len(t)/2)
 X = np.concatenate((X, X+1))
 
-stem(t, X)
+plt.stem(t, X)
 
-R = random.random(X.size)
+R = np.random.random(X.size)
 R = R * .8
 R = R * .8
 R = R * .8
-std(R)
+sp.std(R)
 Xr = X + R
 
 xn = Xr
-plot(abs(fft.rfft(xn))
+plt.plot(abs(np.fft.rfft(xn)))
 
 
-b, a = butter(3, 0.01)
+b, a = sps.butter(3, 0.01)
 # TBD simple filter
 
+y = sps.filtfilt(b, a, xn)
+plt.plot(t,xn,t,y)
 
-y = filtfilt(b, a, xn)
-plot(t,xn,t,y)
-
-p2 = polyfit(t[-150:],xn[-150:],2)
-plot(t[-150:], polyval(p2, t)[-150:])
-std(xn[-150:] - polyval(p2, t[-150:]))
+p2 = np.polyfit(t[-150:],xn[-150:],2)
+plt.plot(t[-150:], np.polyval(p2, t)[-150:])
+sp.std(xn[-150:] - np.polyval(p2, t[-150:]))
 
 
 n = 100
-r = np.array([polyfit(t[i-n:i], xn[i-n:i], 1)[0] for i in arange(n, len(t), 1)])
-r2 = np.concatenate((zeros(n), r))
-plot(t, xn)
-twinx()
-plot(t, r2, 'r')
-plot(t, zeros(len(t)), 'y')
+r = np.array([np.polyfit(t[i-n:i], xn[i-n:i], 1)[0] for i in np.arange(n, len(t), 1)])
+r2 = np.concatenate((np.zeros(n), r))
+plt.plot(t, xn)
+plt.twinx()
+plt.plot(t, r2, 'r')
+plt.plot(t, np.zeros(len(t)), 'y')
 
 # plot
-plot(x, y)
-figure(2)
-plot(x, y**2)
-
-
+x = np.arange(10)
+y = 2 * x + 3
+plt.plot(x, y)
+plt.figure(2)
+plt.plot(x, y**2)
 
 # filters
 N = 200
@@ -62,8 +64,3 @@ b = [1]
 a = [1/k, (k-1)/k]
 
 
-def main():
-    pass
-
-if __name__ == '__main__':
-    main()
