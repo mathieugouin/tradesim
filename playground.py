@@ -3,11 +3,16 @@ import pandas as pd
 import numpy as np
 import datetime
 import math
+import scipy as sp
+import scipy.stats as sps
 
+# user
+import finance_utils as fu
 import stock_db_mgr as sdm
 import tmxstockquote as tsq
 
 startdate = datetime.date(2014, 1, 6) # Start of Questrade portfolio
+startdate = datetime.date(2013, 8, 12) # Start of Questrade portfolio component highest start date (VUN.TO)
 today = datetime.date.today()
 
 # Pick one:
@@ -79,9 +84,30 @@ def qt_test():
     #pd.concat([pf, pf2], axis=1).plot()
     pass
 
+def correlation_test():
+    db = sdm.CStockDBMgr('./stock_db/qt', startdate, enddate)
+    df = db.getAllSymbolDataSingleItem('Close')
+    df.dropna(axis=1, how='any', inplace=True)
+    symbols = list(df.columns)
+    n = len(symbols)
+    dfc = pd.DataFrame(index=symbols, data=np.zeros((n, n)), columns=symbols)
+
+    for s1 in symbols:
+        for s2 in symbols:
+            c = sps.pearsonr(df.ix[:, s1], df.ix[:, s2])[0]
+            dfc.ix[s1, s2] = c
+
+    #print dfc
+
+    # Find inverse correlation
+    print dfc.min()
+    print dfc.idxmin()
+    pass
+
 def _main():
     #indicator_test()
-    qt_test()
+    #qt_test()
+    correlation_test()
 
 if __name__ == '__main__':
     _main()

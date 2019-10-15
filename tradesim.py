@@ -15,6 +15,7 @@ import matplotlib as mpl
 import matplotlib.pyplot as plt
 import pandas as pd
 
+import finance_utils as fu
 from Bar import *
 from Position import *
 import technical_indicators as ti
@@ -26,8 +27,8 @@ import VirtualAccount as va
 
 startDate = datetime.date(1900, 1, 1)
 startDate = datetime.date(2014, 1, 6) # Start of Questrade portfolio
-#endDate = datetime.date(2012, 12, 1)
-endDate = datetime.date.today() #.today() #now()
+startdate = datetime.date(2013, 8, 12) # Start of Questrade portfolio component highest start date (VUN.TO)
+endDate = datetime.date.today()
 
 options = 0
 
@@ -35,6 +36,7 @@ options = 0
 dataDir = './stock_db/qt'
 # Global data dictionary
 dataDic = {}
+db = None
 
 # +:Buy
 # -:Sell
@@ -71,14 +73,14 @@ def simulate():
 
     df['NbShare'] = np.zeros(len(symbolList))
 
-    # TBD i is not ok for non matching df of each symbols. Fix with having a common aggregated df of only the 'Close'
-    for i in range(min([len(dataDic[s]) for s in symbolList])):
+    dfPrices = db.getAllSymbolDataSingleItem('Close')
+    for i in range(len(dfPrices)):
         if i % 100 == 0: # Adjust rebalance frequency
             print "Rebalance", i
 
             # Roughly Matching StockPortfolio_RRSP column ordering
 
-            df['Price'] = [dataDic[s].ix[i, 'Close'] for s in symbolList]
+            df['Price'] = dfPrices.ix[i]
 
             df['MktValue'] = df['Price'] * df['NbShare']
 
@@ -208,6 +210,7 @@ def loadData():
     print "loadData()"
 
     global dataDic
+    global db
 
     db = sdm.CStockDBMgr(dataDir, startDate, endDate)
 

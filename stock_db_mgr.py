@@ -46,22 +46,6 @@ def getVolume(df):
     return df['Volume'].values
 
 #-------------------------------------------------------------------------------
-def getSymbolData(symbol, basedir, startDate=None, endDate=None):
-    # Default dates handling
-    if startDate is None:
-        startDate = _defStartDate
-    if endDate is None:
-        endDate = _defEndDate
-
-    f = fu.symbolToFilename(symbol, basedir)
-    if (not os.path.exists(f)):
-        fu.downloadData(symbol, basedir, startDate, endDate)
-    # if data is already there, assume it is up to date (to save repetitive download)
-
-    df = fu.loadDataFrame(f, startDate, endDate)
-    return df
-
-#-------------------------------------------------------------------------------
 class CStockDBMgr:
     def __init__(self, basedir, startDate=None, endDate=None):
         if startDate is None:
@@ -84,7 +68,14 @@ class CStockDBMgr:
         fu.updateAllSymbols(self._basedir, self._startDate, self._endDate)
 
     def getSymbolData(self, symbol):
-        return getSymbolData(symbol, self._basedir, self._startDate, self._endDate)
+        f = fu.symbolToFilename(symbol, self._basedir)
+        if (not os.path.exists(f)):
+            fu.downloadData(symbol, self._basedir, self._startDate, self._endDate)
+        # if data is already there, assume it is up to date (to save repetitive download)
+
+        df = fu.loadDataFrame(f, self._startDate, self._endDate)
+        return df
+
 
     def getAllSymbolDataDic(self):
         # Load it once
@@ -106,6 +97,7 @@ class CStockDBMgr:
 
         return self._dataDic
 
+    # Deprecated
     def getAllSymbolData(self):
         # Load it once
         if self._wp is None:
@@ -116,6 +108,34 @@ class CStockDBMgr:
             print "Load time:", dt
 
         return self._wp
+
+    def getAllSymbolDataSingleItem(self, item):
+        # Re-index to only have the relevant date range
+        dateRange = pd.date_range(self._startDate, self._endDate)
+
+        dic = self.getAllSymbolDataDic()
+
+        keys = dic.keys()
+        keys.sort()
+
+        df = pd.DataFrame(index=dateRange)
+        for k in keys:
+            #print len(dic[k][item])
+            df[k] = dic[k][item]
+
+        # Discarding NaN values that are all NaN for a given row
+        df.dropna(how='all', inplace=True)
+
+        # Need to replace na if any
+        if df.isna().any().any():
+            #print df.loc[df.isna().any(axis=1)]
+            # Forward fill nan with last known good value.
+            # This will ensure all days have values
+            df.fillna(method='ffill', inplace=True, limit=5)
+            if df.isna().any().any():
+                print "Error: too many NAN: {}".format(df.columns[df.isna().sum() > 0])
+
+        return df
 
 
     def validateSymbolData(self, symbol):
@@ -154,7 +174,11 @@ def _main():
     if True:
         print "Loading all symbols to a dict"
         dd = db.getAllSymbolDataDic()
-        print dd
+        #print dd
+
+        df = db.getAllSymbolDataSingleItem('Close')
+        pass
+        #print df
 
     if True:
         print "Loading all symbols to a panel"
