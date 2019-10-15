@@ -86,6 +86,11 @@ def updateAllSymbols(basedir, startDate, endDate):
 
 
 #-------------------------------------------------------------------------------
+def normalizeDataFrame(df):
+    return df / df.ix[0]
+
+
+#-------------------------------------------------------------------------------
 def loadDataFrame(csvFile, startDate, endDate, adjustPrice=True):
     try:
         df = pd.read_csv(csvFile, index_col='Date', parse_dates=True)
@@ -175,7 +180,6 @@ def loadData(csvFile, startDate, endDate):
     return bars
 
 
-
 #-------------------------------------------------------------------------------
 # Check for basic errors in historical market data
 def validateSymbolData(csvFile):
@@ -220,7 +224,7 @@ def validateSymbolData(csvFile):
 
 
 #-------------------------------------------------------------------------------
-def main():
+def _main():
     dir = './stock_db/test'
 
     startDate = datetime.date(1900, 1, 1)
@@ -241,6 +245,9 @@ def main():
     df = loadDataFrame(f, startDate, endDate)
     print df.describe()
 
+    # Not for single stock, but just to test...
+    print normalizeDataFrame(df).head()
+
 
 if __name__ == '__main__':
-    main()
+    _main()
