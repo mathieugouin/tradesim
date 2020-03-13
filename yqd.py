@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
-Created on Thu May 18 22:58:12 2017
-
+yqd.py - Yahoo Quote Downloader
+Created on May 18 2017
 @author: c0redumb
 """
 
@@ -12,7 +12,7 @@ from __future__ import print_function
 from six.moves import urllib
 # If you don't want to use six, please comment out the line above
 # and use the line below instead (for Python3 only).
-# import urllib.request, urllib.parse, urllib.error
+#import urllib.request, urllib.parse, urllib.error
 
 import time
 
@@ -37,7 +37,7 @@ _crumb = None
 
 # Headers to fake a user agent
 _headers = {
-    'User-Agent': 'Mozilla/5.0 (X11; U; Linux i686) Gecko/20071127 Firefox/2.0.0.11'
+    'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.101 Safari/537.36'
 }
 
 
@@ -45,14 +45,16 @@ def _get_cookie_crumb():
     '''
     This function perform a query and extract the matching cookie and crumb.
     '''
+    global cookier, _cookie, _crumb
 
     # Perform a Yahoo financial lookup on SP500
-    req = urllib.request.Request('https://finance.yahoo.com/quote/^GSPC', headers=_headers)
-    f = urllib.request.urlopen(req)
+    cookier.cookiejar.clear()
+    req = urllib.request.Request(
+        'https://finance.yahoo.com/quote/^GSPC', headers=_headers)
+    f = urllib.request.urlopen(req, timeout=5)
     alines = f.read().decode('utf-8')
 
     # Extract the crumb from the response
-    global _crumb
     cs = alines.find('CrumbStore')
     cr = alines.find('crumb', cs + 10)
     cl = alines.find(':', cr + 5)
@@ -62,7 +64,6 @@ def _get_cookie_crumb():
     _crumb = crumb
 
     # Extract the cookie from cookiejar
-    global cookier, _cookie
     for c in cookier.cookiejar:
         if c.domain != '.yahoo.com':
             continue
@@ -80,6 +81,9 @@ def _get_cookie_crumb():
 def load_yahoo_quote(ticker, begindate, enddate, info='quote'):
     '''
     This function load the corresponding history/divident/split from Yahoo.
+    The "begindate" and "enddate" are in the format of YYYYMMDD.
+    The "info" can be "quote" for price, "divident" for divident events,
+    or "split" for split events.
     '''
     # Check to make sure that the cookie and crumb has been loaded
     global _cookie, _crumb
@@ -87,8 +91,10 @@ def load_yahoo_quote(ticker, begindate, enddate, info='quote'):
         _get_cookie_crumb()
 
     # Prepare the parameters and the URL
-    tb = time.mktime((int(begindate[0:4]), int(begindate[4:6]), int(begindate[6:8]), 4, 0, 0, 0, 0, 0))
-    te = time.mktime((int(enddate[0:4]), int(enddate[4:6]), int(enddate[6:8]), 18, 0, 0, 0, 0, 0))
+    tb = time.mktime((int(begindate[0:4]), int(
+        begindate[4:6]), int(begindate[6:8]), 4, 0, 0, 0, 0, 0))
+    te = time.mktime((int(enddate[0:4]), int(
+        enddate[4:6]), int(enddate[6:8]), 18, 0, 0, 0, 0, 0))
 
     param = dict()
     param['period1'] = int(tb)
@@ -102,8 +108,8 @@ def load_yahoo_quote(ticker, begindate, enddate, info='quote'):
         param['events'] = 'split'
     param['crumb'] = _crumb
     params = urllib.parse.urlencode(param)
-    # https://query1.finance.yahoo.com/v7/finance/download/VUN.TO?period1=1516340435&period2=1519018835&interval=1d&events=history&crumb=K1c3kFjssmv
-    url = 'https://query1.finance.yahoo.com/v7/finance/download/{}?{}'.format(ticker, params)
+    url = 'https://query1.finance.yahoo.com/v7/finance/download/{}?{}'.format(
+        ticker, params)
     # print(url)
     req = urllib.request.Request(url, headers=_headers)
 
@@ -114,7 +120,7 @@ def load_yahoo_quote(ticker, begindate, enddate, info='quote'):
     tryCount = 3
     while tryAgain and tryCount > 0:
         try:
-            f = urllib.request.urlopen(req)
+            f = urllib.request.urlopen(req, timeout=5)
             alines = f.read().decode('utf-8')
             tryAgain = False
         except:
@@ -123,7 +129,7 @@ def load_yahoo_quote(ticker, begindate, enddate, info='quote'):
             alines = ""
 
     if len(alines) < 5:
-        print('ERROR: Symbol not found:', ticker)
+        print('\nERROR: Symbol not found:', ticker)
 
     # print(alines)
 
