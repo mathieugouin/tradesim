@@ -49,7 +49,6 @@ class WorkerThread(threading.Thread):
                 filenameTicker = ticker[1:]
             else:
                 filenameTicker = ticker
-            filename = os.path.join(options.downloadTo, filenameTicker + '.csv')
 
             if options.verbose:
                 print "ticker:", ticker
@@ -61,6 +60,7 @@ class WorkerThread(threading.Thread):
                 alllines = yqd.load_yahoo_quote(ticker, fromdate, todate)
 
                 if len(alllines) > 5: # safety check
+                    filename = os.path.join(options.downloadTo, filenameTicker + '.csv')
                     fp = open(filename, "wb")
                     fp.write(alllines)
                     fp.close()
@@ -121,7 +121,6 @@ if __name__ == '__main__':
 
         # ticker, fromdate, todate
         queue.put((tickerSplit[0], options.startdate, options.todate))
-
 
     # Check args
     assert queue.queue, "no Tickers given"
