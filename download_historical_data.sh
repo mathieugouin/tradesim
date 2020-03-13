@@ -4,6 +4,9 @@
 echo Test
 python getYahooFinanceData.py -c 1 -f stock_db/test.txt -d ./stock_db/test
 
+# Indices
+python getYahooFinanceData.py -c 1 -f stock_db/indices.txt -d ./stock_db/indices
+
 # Questrade portfolio
 echo Questrade
 python getYahooFinanceData.py -f stock_db/qt.txt -d ./stock_db/qt
