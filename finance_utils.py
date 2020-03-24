@@ -84,11 +84,9 @@ def updateAllSymbols(basedir, startDate, endDate):
     for s in getAllSymbolsAvailable(basedir):
         downloadData(s, basedir, startDate, endDate)
 
-
 #-------------------------------------------------------------------------------
 def normalizeDataFrame(df):
     return df / df.ix[0]
-
 
 #-------------------------------------------------------------------------------
 def loadDataFrame(csvFile, startDate, endDate, adjustPrice=True):
@@ -101,8 +99,8 @@ def loadDataFrame(csvFile, startDate, endDate, adjustPrice=True):
         df.sort_index(inplace=True)
 
         # Re-index to only have the relevant date range
-        dateRange = pd.date_range(startDate, endDate)
-        df = df.reindex(dateRange)
+        date_range = pd.date_range(startDate, endDate)
+        df = df.reindex(date_range)
 
         # Discarding NaN values that are all NaN for a given row
         df.dropna(how='all', inplace=True)
@@ -116,7 +114,7 @@ def loadDataFrame(csvFile, startDate, endDate, adjustPrice=True):
         if adjustPrice:
             # Adjusting Columns based on Adjusted Close
             r = df['Adj Close'] / df['Close'] # ratio
-            for col in ['Open', 'High', 'Low', 'Close']:
+            for col in ['Open', 'High', 'Low', 'Close']: # n/a for 'Volume'
                 df[col] *= r
             df.drop('Adj Close', axis=1, inplace=True)
 
@@ -130,55 +128,6 @@ def loadDataFrame(csvFile, startDate, endDate, adjustPrice=True):
         print 'Error parsing ' + csvFile
 
         return None
-
-#-------------------------------------------------------------------------------
-# TBD: currently only error print when incorrect data...
-def loadData(csvFile, startDate, endDate):
-    print "Loading:%s" % csvFile
-    bars = [] # array
-    # The CSV files are downloaded from yahoo historical data
-    f = open(csvFile, 'r')
-    #lineSplit  0,   1,   2,   3,  4,    5,     6
-    #priceData       0,   1,   2,  3,    4,     5
-    #           Date,Open,High,Low,Close,Volume,Adj Close
-    #           2012-03-21,204.32,205.77,204.30,204.69,3329900,204.69
-    f.seek(0)
-    f.readline() # skip header row
-    for l in f.readlines():
-        # Date,Open,High,Low,Close,Volume,Adj Close
-        lineSplit = l.strip().split(',')
-        if len(lineSplit) != 7:
-            print "Error: Invalid line, missing data"
-            continue
-        dateSplit = map(int, lineSplit[0].split('-'))
-        date = datetime.date(dateSplit[0], dateSplit[1], dateSplit[2])
-        # Yahoo CSV data is most recent first
-        if date < startDate: # Data starting with this line in the file is too old
-            break # stop processing this file
-        if startDate <= date and date <= endDate:
-            priceData = map(float, lineSplit[1:])
-            if priceData[3] != 0:
-                adjRatio = priceData[5] / priceData[3] # Adj Close / Close
-            else:
-                adjRatio = 1.0
-                print "Error: Invalid line, close price = 0"
-                continue
-
-            # Create new Bar data
-            bar = Bar.CBar(
-                        date,
-                        priceData[0] * adjRatio, # open
-                        priceData[1] * adjRatio, # high
-                        priceData[2] * adjRatio, # low
-                        priceData[3] * adjRatio, # close
-                        priceData[4]             # volume (in nb of shares)
-                    )
-            # Add to the list
-            bars.append(bar)
-    f.close()
-    bars.reverse() # now bars[0] is the earliest
-    return bars
-
 
 #-------------------------------------------------------------------------------
 # Check for basic errors in historical market data
@@ -222,7 +171,6 @@ def validateSymbolData(csvFile):
     f.close()
     return valid
 
-
 #-------------------------------------------------------------------------------
 def _main():
     dir = './stock_db/test'
@@ -247,7 +195,6 @@ def _main():
 
     # Not for single stock, but just to test...
     print normalizeDataFrame(df).head()
-
 
 if __name__ == '__main__':
     _main()

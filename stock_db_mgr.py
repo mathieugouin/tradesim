@@ -11,12 +11,9 @@ import time
 import os
 
 # custom
-import numpy as np
-#from matplotlib.finance import parse_yahoo_historical
 import pandas as pd
 
 # user
-import Bar
 import finance_utils as fu
 
 
@@ -26,6 +23,9 @@ _defEndDate = datetime.date.today()
 
 #-------------------------------------------------------------------------------
 # Utils
+
+# TBD move this to finance utils??
+
 def getDate(df):
     #return df.index.values
     return [i.date() for i in df.index]
@@ -70,12 +70,11 @@ class CStockDBMgr:
     def getSymbolData(self, symbol):
         f = fu.symbolToFilename(symbol, self._basedir)
         if (not os.path.exists(f)):
-            fu.downloadData(symbol, self._basedir, self._startDate, self._endDate)
+            self.downloadData(symbol)
+            #fu.downloadData(symbol, self._basedir, self._startDate, self._endDate)
         # if data is already there, assume it is up to date (to save repetitive download)
-
         df = fu.loadDataFrame(f, self._startDate, self._endDate)
         return df
-
 
     def getAllSymbolDataDic(self):
         # Load it once
@@ -85,19 +84,17 @@ class CStockDBMgr:
             for s in self.getAllSymbolsAvailable():
                 print "Loading " + s + " ..."
                 df = self.getSymbolData(s)
-                #print df.shape[0]
-                self._dataDic[s] = df
+                # print df.shape[0]
+                if df is not None:
+                    self._dataDic[s] = df
+                else:
+                    print "ERROR: data for {} contains error, skipping".format(s)
             dt = time.clock() - t0
             print "Load time:", dt
 
-            noneKeys = [k for k in self._dataDic.keys() if self._dataDic[k] is None]
-            for k in noneKeys:
-                print "Removing {} as it contains error".format(k)
-                del self._dataDic[k]
-
         return self._dataDic
 
-    # Deprecated
+    # TBD Deprecated because it uses Pandas panel
     def getAllSymbolData(self):
         # Load it once
         if self._wp is None:
@@ -110,15 +107,17 @@ class CStockDBMgr:
         return self._wp
 
     def getAllSymbolDataSingleItem(self, item):
+        """Combine one item of all available stock into a single DataFrame.
+        Available item are 'Open', 'High', 'Low', 'Close'."""
         # Re-index to only have the relevant date range
-        dateRange = pd.date_range(self._startDate, self._endDate)
+        date_range = pd.date_range(self._startDate, self._endDate)
 
         dic = self.getAllSymbolDataDic()
 
         keys = dic.keys()
         keys.sort()
 
-        df = pd.DataFrame(index=dateRange)
+        df = pd.DataFrame(index=date_range)
         for k in keys:
             #print len(dic[k][item])
             df[k] = dic[k][item]
@@ -143,8 +142,8 @@ class CStockDBMgr:
 
 #-------------------------------------------------------------------------------
 def _main():
-    db = CStockDBMgr('./stock_db/qt', datetime.date(2017, 1, 1), datetime.date(2018, 1, 1))
-    #db = CStockDBMgr('./stock_db/test')
+    #db = CStockDBMgr('./stock_db/qt', datetime.date(2017, 1, 1), datetime.date(2018, 1, 1))
+    db = CStockDBMgr('./stock_db/test')
     #db.updateAllSymbols()
     symbolList = db.getAllSymbolsAvailable()
     print symbolList
@@ -154,13 +153,13 @@ def _main():
     print s, 'Valid? : ', db.validateSymbolData(s)
     df = db.getSymbolData(s)
 
-    if False:
-        print getDate(df)[0]
-        print getOpen(df)[0]
-        print getHigh(df)[0]
-        print getLow(df)[0]
-        print getClose(df)[0]
-        print getVolume(df)[0]
+    if True:
+        print getDate(df)[0:3]
+        print getOpen(df)[0:3]
+        print getHigh(df)[0:3]
+        print getLow(df)[0:3]
+        print getClose(df)[0:3]
+        print getVolume(df)[0:3]
 
     if False:
         print "Validating symbols"
@@ -177,8 +176,8 @@ def _main():
         #print dd
 
         df = db.getAllSymbolDataSingleItem('Close')
+        print df.head()
         pass
-        #print df
 
     if True:
         print "Loading all symbols to a panel"
