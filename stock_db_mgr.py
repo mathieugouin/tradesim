@@ -59,7 +59,7 @@ class CStockDBMgr:
         self._startDate = startDate
         self._endDate   = endDate
         self._wp        = None
-        self._dataDic   = None
+        self._dataDic   = {}
 
     def getAllSymbolsAvailable(self):
         """Return a list of ticker symbols corresponding to the data available locally on disk."""
@@ -78,25 +78,23 @@ class CStockDBMgr:
         f = fu.symbolToFilename(symbol, self._basedir)
         if not os.path.exists(f):
             self.downloadData(symbol)
+        if symbol not in self._dataDic:
+            df = fu.loadDataFrame(f, self._startDate, self._endDate)
+            self._dataDic[symbol] = df  # Store it for next time
         # if data is already there, assume it is up to date (to save repetitive download)
-        df = fu.loadDataFrame(f, self._startDate, self._endDate)
-        return df
+        return self._dataDic[symbol]
 
     def getAllSymbolDataDic(self):
-        # Load it once
-        if self._dataDic is None:
-            t0 = time.clock()
-            self._dataDic = {}
-            for s in self.getAllSymbolsAvailable():
-                print "Loading " + s + " ..."
+        #t0 = time.clock()
+        for s in self.getAllSymbolsAvailable():
+            if s not in self._dataDic:
+                print "Loading {} ...".format(s)
                 df = self.getSymbolData(s)
-                # print df.shape[0]
                 if df is not None:
                     self._dataDic[s] = df
                 else:
                     print "ERROR: data for {} contains error, skipping".format(s)
-            dt = time.clock() - t0
-            print "Load time:", dt
+        #print "Load time:", time.clock() - t0
 
         return self._dataDic
 
@@ -157,6 +155,9 @@ def _main():
     # Do with only first symbol
     s = symbolList[0]
     print s, 'Valid? : ', db.validateSymbolData(s)
+
+    # To test caching
+    df = db.getSymbolData(s)
     df = db.getSymbolData(s)
 
     if True:
@@ -178,6 +179,8 @@ def _main():
 
     if True:
         print "Loading all symbols to a dict"
+        # To test caching
+        dd = db.getAllSymbolDataDic()
         dd = db.getAllSymbolDataDic()
         #print dd
 
