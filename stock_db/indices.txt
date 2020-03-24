@@ -1,7 +1,9 @@
 ################################################################################
 # Key Stock Market Indices
 ################################################################################
-# Yahoo Symbol	Name
-^VIX	CBOE Volatility Index
-^GSPC	SP-500
-^GSPTSE	S&P/TSX Composite index
+# Symbol    Name
+^VIX        CBOE Volatility Index
+^GSPC       SP-500
+^DJI        Dow Jones Industrial Average
+^IXIC       NASDAQ Composite
+^GSPTSE     S&P/TSX Composite index
