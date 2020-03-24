@@ -12,9 +12,6 @@ today = datetime.date.today()
 #enddate = datetime.date(2018, 2, 22)
 enddate = today
 
-tickerfile = './stock_db/tsx.txt'
-#tickerfile = './stock_db/qt.txt'
-
 # Create data base:
 #db = sdm.CStockDBMgr('./stock_db/qt', startdate, enddate)
 db = sdm.CStockDBMgr('./stock_db/tsx')

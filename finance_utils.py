@@ -18,14 +18,18 @@ import pandas as pd
 import yqd
 import Bar
 
+
 def filenameToSymbol(filename):
     return os.path.basename(filename).replace('.csv', '')
+
 
 def symbolToFilename(symbol, basedir):
     return os.path.join(basedir, symbol.upper()) + '.csv'
 
+
 def getAllSymbolsAvailable(basedir):
     return sorted(map(filenameToSymbol, glob.glob(os.path.join(basedir, '*.csv'))))
+
 
 def getSymbolsFromFile(tickerFile):
     tickerList = []
@@ -42,6 +46,7 @@ def getSymbolsFromFile(tickerFile):
         print "Error: ticker file %s not found" % tickerFile
     return tickerList
 
+
 def downloadUrl(url):
     tryAgain = True
     count = 0
@@ -55,7 +60,7 @@ def downloadUrl(url):
             count += 1
     return s
 
-#-------------------------------------------------------------------------------
+
 # Wrapper to yqd
 def downloadData(symbol, basedir, startDate, endDate):
     print "Downloading:%s" % symbol
@@ -79,16 +84,16 @@ def downloadData(symbol, basedir, startDate, endDate):
         fh.write(data)
         fh.close()
 
-#-------------------------------------------------------------------------------
+
 def updateAllSymbols(basedir, startDate, endDate):
     for s in getAllSymbolsAvailable(basedir):
         downloadData(s, basedir, startDate, endDate)
 
-#-------------------------------------------------------------------------------
+
 def normalizeDataFrame(df):
     return df / df.ix[0]
 
-#-------------------------------------------------------------------------------
+
 def loadDataFrame(csvFile, startDate, endDate, adjustPrice=True):
     try:
         df = pd.read_csv(csvFile, index_col='Date', parse_dates=True)
@@ -129,9 +134,9 @@ def loadDataFrame(csvFile, startDate, endDate, adjustPrice=True):
 
         return None
 
-#-------------------------------------------------------------------------------
-# Check for basic errors in historical market data
+
 def validateSymbolData(csvFile):
+    """Check for basic errors in historical market data"""
     #print "Validating:%s" % csvFile
     valid = True # Default
     # The CSV files are downloaded from yahoo historical data
@@ -171,7 +176,7 @@ def validateSymbolData(csvFile):
     f.close()
     return valid
 
-#-------------------------------------------------------------------------------
+
 def _main():
     dir = './stock_db/test'
 
@@ -195,6 +200,7 @@ def _main():
 
     # Not for single stock, but just to test...
     print normalizeDataFrame(df).head()
+
 
 if __name__ == '__main__':
     _main()

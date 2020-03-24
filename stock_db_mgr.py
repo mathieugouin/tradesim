@@ -21,31 +21,34 @@ import finance_utils as fu
 _defStartDate = datetime.date(1900, 1, 1)
 _defEndDate = datetime.date.today()
 
-#-------------------------------------------------------------------------------
+
 # Utils
-
 # TBD move this to finance utils??
-
 def getDate(df):
     #return df.index.values
     return [i.date() for i in df.index]
 
+
 def getOpen(df):
     return df['Open'].values
+
 
 def getHigh(df):
     return df['High'].values
 
+
 def getLow(df):
     return df['Low'].values
+
 
 def getClose(df):
     return df['Close'].values
 
+
 def getVolume(df):
     return df['Volume'].values
 
-#-------------------------------------------------------------------------------
+
 class CStockDBMgr:
     def __init__(self, basedir, startDate=None, endDate=None):
         if startDate is None:
@@ -59,19 +62,22 @@ class CStockDBMgr:
         self._dataDic   = None
 
     def getAllSymbolsAvailable(self):
+        """Return a list of ticker symbols corresponding to the data available locally on disk."""
         return fu.getAllSymbolsAvailable(self._basedir)
 
     def downloadData(self, symbol):
+        """Download the data for the given symbol."""
         fu.downloadData(symbol, self._basedir, self._startDate, self._endDate)
 
     def updateAllSymbols(self):
+        """Re-download all symbol data available on disk."""
         fu.updateAllSymbols(self._basedir, self._startDate, self._endDate)
 
     def getSymbolData(self, symbol):
+        """Return a single symbol data as a DataFrame."""
         f = fu.symbolToFilename(symbol, self._basedir)
-        if (not os.path.exists(f)):
+        if not os.path.exists(f):
             self.downloadData(symbol)
-            #fu.downloadData(symbol, self._basedir, self._startDate, self._endDate)
         # if data is already there, assume it is up to date (to save repetitive download)
         df = fu.loadDataFrame(f, self._startDate, self._endDate)
         return df
