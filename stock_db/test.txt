@@ -2,8 +2,8 @@
 # Udacity data
 ################################################################################
 # Symbol    Name
-AAPL
-GLD
-GOOG
-IBM
-SPY
+AAPL        Apple
+GLD         Gold ETF
+GOOG        Google
+IBM         IBM
+SPY         SP-500 ETF
