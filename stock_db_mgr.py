@@ -7,7 +7,6 @@
 
 # system
 import datetime
-import time
 import os
 
 # custom
@@ -89,7 +88,6 @@ class CStockDBMgr:
         return self._dataDic[symbol]
 
     def getAllSymbolDataDic(self):
-        #t0 = time.clock()
         for s in self.getAllSymbolsAvailable():
             if s not in self._dataDic:
                 print "Loading {} ...".format(s)
@@ -98,19 +96,14 @@ class CStockDBMgr:
                     self._dataDic[s] = df
                 else:
                     print "ERROR: data for {} contains error, skipping".format(s)
-        #print "Load time:", time.clock() - t0
-
         return self._dataDic
 
     # TBD Deprecated because it uses Pandas panel
     def getAllSymbolData(self):
         # Load it once
         if self._wp is None:
-            t0 = time.clock()
             dic = self.getAllSymbolDataDic()
-            dt = time.clock() - t0
             self._wp = pd.Panel(dic)
-            print "Load time:", dt
 
         return self._wp
 
@@ -146,8 +139,7 @@ class CStockDBMgr:
 
 
 def _main():
-    #db = CStockDBMgr('./stock_db/qt', datetime.date(2017, 1, 1), datetime.date(2018, 1, 1))
-    db = CStockDBMgr('./stock_db/test')
+    db = CStockDBMgr('./stock_db/test', datetime.date(2017, 1, 1), datetime.date(2018, 1, 1))
     #db.updateAllSymbols()
     symbolList = db.getAllSymbolsAvailable()
     print symbolList
@@ -168,21 +160,18 @@ def _main():
         print getClose(df)[0:3]
         print getVolume(df)[0:3]
 
-    if False:
+    if True:
         print "Validating symbols"
-        t0 = time.clock()
         for s in db.getAllSymbolsAvailable():
             if not db.validateSymbolData(s):
                 print s, " failed validation"
-        dt = time.clock() - t0
-        print dt
 
     if True:
         print "Loading all symbols to a dict"
         # To test caching
         dd = db.getAllSymbolDataDic()
         dd = db.getAllSymbolDataDic()
-        #print dd
+        print dd.keys()
 
         df = db.getAllSymbolDataSingleItem('Close')
         print df.head()
