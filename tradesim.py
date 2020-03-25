@@ -142,11 +142,11 @@ def simulate2():
         crtBars = dataDic[crtSymbol]
 
         # The various series (starting with s):
-        sOpen   = sdm.getOpen(crtBars)
-        sHigh   = sdm.getHigh(crtBars)
-        sLow    = sdm.getLow(crtBars)
-        sClose  = sdm.getClose(crtBars)
-        sVolume = sdm.getVolume(crtBars)
+        sOpen   = fu.getOpen(crtBars)
+        sHigh   = fu.getHigh(crtBars)
+        sLow    = fu.getLow(crtBars)
+        sClose  = fu.getClose(crtBars)
+        sVolume = fu.getVolume(crtBars)
 
         # Technical indicators
         sVolumeSma = ti.sma(sVolume, 21)

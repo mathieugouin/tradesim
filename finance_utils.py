@@ -61,9 +61,9 @@ def downloadUrl(url):
     return s
 
 
-# Wrapper to yqd
 def downloadData(symbol, basedir, startDate, endDate):
-    print "Downloading:%s" % symbol
+    """This is a wrapper to yqd library."""
+    print "Downloading:{} ...".format(symbol)
     symbol = symbol.upper()
     # Date 1
     d1 = "{0:0>4}".format(startDate.year) + \
@@ -91,7 +91,31 @@ def updateAllSymbols(basedir, startDate, endDate):
 
 
 def normalizeDataFrame(df):
-    return df / df.ix[0]
+    return df / df.iloc[0]
+
+
+def getDate(df):
+    return [i.date() for i in df.index]
+
+
+def getOpen(df):
+    return df['Open'].values
+
+
+def getHigh(df):
+    return df['High'].values
+
+
+def getLow(df):
+    return df['Low'].values
+
+
+def getClose(df):
+    return df['Close'].values
+
+
+def getVolume(df):
+    return df['Volume'].values
 
 
 def loadDataFrame(csvFile, startDate, endDate, adjustPrice=True):
@@ -104,7 +128,7 @@ def loadDataFrame(csvFile, startDate, endDate, adjustPrice=True):
         df.sort_index(inplace=True)
 
         # Re-index to only have the relevant date range
-        date_range = pd.date_range(startDate, endDate)
+        date_range = pd.date_range(start=startDate, end=endDate, name='Date')
         df = df.reindex(date_range)
 
         # Discarding NaN values that are all NaN for a given row
@@ -122,6 +146,9 @@ def loadDataFrame(csvFile, startDate, endDate, adjustPrice=True):
             for col in ['Open', 'High', 'Low', 'Close']: # n/a for 'Volume'
                 df[col] *= r
             df.drop('Adj Close', axis=1, inplace=True)
+
+        # Axis naming
+        df.rename_axis('DATA', axis='columns', inplace=True)
 
         return df
 
@@ -178,23 +205,34 @@ def validateSymbolData(csvFile):
 
 
 def _main():
+    sf = 'stock_db/dj.txt'
+    print "Symbol file {} contains the following stocks: {}".format(sf, getSymbolsFromFile(sf))
+
     dir = './stock_db/test'
 
-    startDate = datetime.date(1900, 1, 1)
-    endDate = datetime.date.today()
-
     s = 'SPY'
-
     f = symbolToFilename(s, dir)
     print f
     print filenameToSymbol(f)
 
-    print getAllSymbolsAvailable(dir)
-    downloadData(s, dir, startDate, endDate)
-    updateAllSymbols(dir, startDate, endDate)
-    print getSymbolsFromFile('stock_db/dj.txt')
-    df = loadDataFrame(f, datetime.date(2018, 1, 1), datetime.date(2018, 2, 1))
+    print "Directory {} contains the following stocks: {}".format(dir, getAllSymbolsAvailable(dir))
+
+    startDate = datetime.date(1900, 1, 1)
+    endDate = datetime.date.today()
+
+    if False:
+        downloadData(s, dir, startDate, endDate)
+        updateAllSymbols(dir, startDate, endDate)
+    df = loadDataFrame(f, datetime.date(2018, 1, 1), datetime.date(2018, 4, 1))
     print df.describe()
+
+    print getDate(df)[0:3]
+    print getOpen(df)[0:3]
+    print getHigh(df)[0:3]
+    print getLow(df)[0:3]
+    print getClose(df)[0:3]
+    print getVolume(df)[0:3]
+
     df = loadDataFrame(f, startDate, endDate)
     print df.describe()
 

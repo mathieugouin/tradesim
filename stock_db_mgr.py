@@ -21,33 +21,6 @@ _defStartDate = datetime.date(1900, 1, 1)
 _defEndDate = datetime.date.today()
 
 
-# Utils
-# TBD move this to finance utils??
-def getDate(df):
-    #return df.index.values
-    return [i.date() for i in df.index]
-
-
-def getOpen(df):
-    return df['Open'].values
-
-
-def getHigh(df):
-    return df['High'].values
-
-
-def getLow(df):
-    return df['Low'].values
-
-
-def getClose(df):
-    return df['Close'].values
-
-
-def getVolume(df):
-    return df['Volume'].values
-
-
 class CStockDBMgr:
     def __init__(self, basedir, startDate=None, endDate=None):
         if startDate is None:
@@ -151,14 +124,6 @@ def _main():
     # To test caching
     df = db.getSymbolData(s)
     df = db.getSymbolData(s)
-
-    if True:
-        print getDate(df)[0:3]
-        print getOpen(df)[0:3]
-        print getHigh(df)[0:3]
-        print getLow(df)[0:3]
-        print getClose(df)[0:3]
-        print getVolume(df)[0:3]
 
     if True:
         print "Validating symbols"
