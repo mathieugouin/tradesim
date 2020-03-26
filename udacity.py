@@ -18,6 +18,16 @@ def test_pandas():
     print df[10:21]
 
 
+def test_plot():
+    df = db.getSymbolData('IBM')
+    df['High'].plot()
+    plt.show()
+
+    df[['Low', 'High']].plot()
+    plt.show()
+    pass
+
+
 def test_multi_symbol():
     df = db.getAllSymbolDataSingleItem('Close')
     print df[['AAPL', 'IBM']].max()
@@ -27,19 +37,28 @@ def test_multi_symbol():
     pass
 
 
-def test_plot():
-    df = db.getSymbolData('IBM')
-    df['High'].plot()
-    plt.show()
+def test_slice():
+    df = db.getAllSymbolDataSingleItem('Close')
 
-    df[['Low', 'High']].plot()
-    plt.show()
+    df_row = df.loc['2010-01-01':'2010-01-10']
+    print df_row
 
+    df_col = df[['GOOG', 'IBM']]
+    print df_col.head(1)  # too big
+
+    df_both = df.loc['2010-01-01':'2010-01-10', ['AAPL', 'SPY']]
+    print df_both
+    pass
+
+
+def test_normalize():
     pass
 
 
 def _main():
     # Reverser order as seen in course
+    test_normalize()
+    test_slice()
     test_multi_symbol()
     test_plot()
     test_pandas()
