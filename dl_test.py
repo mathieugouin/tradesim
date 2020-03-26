@@ -28,31 +28,27 @@ print symbolList
 
 for s in symbolList:
     print s #, ysq.get_dividend_yield(s), ysq.get_name(s)
-    print tsq.relative_range(s), tsq.test_indicator(s)
+    # TBD: TMX fetch broken: print tsq.relative_range(s), tsq.test_indicator(s)
 
     if not db.validateSymbolData(s):
         inv.append(s)
         continue
 
     # Only applies if recent download...
-    if False:
-        r = db.getSymbolData(s)
+    if True:
+        df = db.getSymbolData(s)
 
         t = startdate
-        if len(r) > 0:
+        if df is not None and len(df) > 0:
             #t = r[-1].date
-            t = r.ix[-1].name.date()
+            t = df.iloc[-1].name.date()
         else:
             inv.append(s)
             continue
 
-        #gsq.get_company_name(s)
-        #t = float(ysq.get_price(s))
-        #print "%s: %s" % (s, t)
-
         if (today - t) > datetime.timedelta(4):
             inv.append(s)
-            print "%s: len = %d" %(s, len(r))
+            print "%s: len = %d" %(s, len(df))
 
 print "Invalid list:"
 for s in inv:

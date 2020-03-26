@@ -16,9 +16,9 @@ def panelTest():
                   minor_axis=['O', 'H', 'L', 'C', 'V'])
     print wp
     # All stocks, all dates, Open only:
-    print wp.ix[:,:,'O']
+    print wp.loc[:, :, 'O']
     # IBM only, all dates, High Low only:
-    print wp.ix['IBM', :, ['H', 'L']]
+    print wp.loc['IBM', :, ['H', 'L']]
 
 
 def data_frame_test2():
@@ -75,7 +75,7 @@ def dataFrameTest():
 def main():
     data_frame_test2()
     dataFrameTest()
-    #panelTest()
+    panelTest()
 
 if __name__ == '__main__':
     main()

@@ -30,7 +30,6 @@ class CStockDBMgr:
         self._basedir   = basedir
         self._startDate = startDate
         self._endDate   = endDate
-        self._wp        = None
         self._dataDic   = {}
 
     def getAllSymbolsAvailable(self):
@@ -70,15 +69,6 @@ class CStockDBMgr:
                 else:
                     print "ERROR: data for {} contains error, skipping".format(s)
         return self._dataDic
-
-    # TBD Deprecated because it uses Pandas panel
-    def getAllSymbolData(self):
-        # Load it once
-        if self._wp is None:
-            dic = self.getAllSymbolDataDic()
-            self._wp = pd.Panel(dic)
-
-        return self._wp
 
     def getAllSymbolDataSingleItem(self, item):
         """Combine one item of all available stock into a single DataFrame.
@@ -141,11 +131,6 @@ def _main():
         df = db.getAllSymbolDataSingleItem('Close')
         print df.head()
         pass
-
-    if True:
-        print "Loading all symbols to a panel"
-        wp = db.getAllSymbolData()
-        print wp
 
 
 if __name__ == '__main__':
