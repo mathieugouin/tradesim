@@ -30,8 +30,6 @@ startDate = datetime.date(2014, 1, 6) # Start of Questrade portfolio
 startdate = datetime.date(2013, 8, 12) # Start of Questrade portfolio component highest start date (VUN.TO)
 endDate = datetime.date.today()
 
-options = 0
-
 # default
 dataDir = './stock_db/qt'
 # Global data dictionary
@@ -80,7 +78,7 @@ def simulate():
 
             # Roughly Matching StockPortfolio_RRSP column ordering
 
-            df['Price'] = dfPrices.ix[i]
+            df['Price'] = dfPrices.iloc[i]
 
             df['MktValue'] = df['Price'] * df['NbShare']
 
@@ -99,16 +97,16 @@ def simulate():
             # TBD not sure about the commission formula for both buy & sell...
 
             for s in symbolList:
-                n = df.ix[s, 'DeltaShare']
+                n = df.loc[s, 'DeltaShare']
                 if n > 0:
                     print "  Buy {} of {}".format(n, s)
-                    a.deltaCash(-n * df.ix[s, 'Price'])
-                    df.ix[s, 'NbShare'] += n
+                    a.deltaCash(-n * df.loc[s, 'Price'])
+                    df.loc[s, 'NbShare'] += n
                     #a.buyAtMarket(i, s, n)
                 elif n < 0:
                     print "  Sell {} of {}".format(-n, s)
-                    a.deltaCash(-n * df.ix[s, 'Price'])
-                    df.ix[s, 'NbShare'] += n
+                    a.deltaCash(-n * df.loc[s, 'Price'])
+                    df.loc[s, 'NbShare'] += n
                     #a.sellAtMarket()
 
             # Do not tolerate after all transactions are done.
@@ -119,9 +117,9 @@ def simulate():
             #print "skip", i
             pass
 
-    print "Initial Cash = ", initialCash
+    print "Initial Cash =", initialCash
     # Update last price
-    df['Price'] = [dataDic[s].ix[-1, 'Close'] for s in symbolList]
+    df['Price'] = [dataDic[s].iloc[-1]['Close'] for s in symbolList]
     print "Final Cash = ", sum(df['Price'] * df['NbShare']) + a.getCash()
     #print "Entering debugger..."; import pdb; pdb.set_trace()
 
@@ -142,11 +140,11 @@ def simulate2():
         crtBars = dataDic[crtSymbol]
 
         # The various series (starting with s):
-        sOpen   = sdm.getOpen(crtBars)
-        sHigh   = sdm.getHigh(crtBars)
-        sLow    = sdm.getLow(crtBars)
-        sClose  = sdm.getClose(crtBars)
-        sVolume = sdm.getVolume(crtBars)
+        sOpen   = fu.getOpen(crtBars)
+        sHigh   = fu.getHigh(crtBars)
+        sLow    = fu.getLow(crtBars)
+        sClose  = fu.getClose(crtBars)
+        sVolume = fu.getVolume(crtBars)
 
         # Technical indicators
         sVolumeSma = ti.sma(sVolume, 21)
@@ -190,10 +188,10 @@ def plotTest():
     symbolList = dataDic.keys()
     symbolList.sort()
     for crtSymbol in symbolList:
-        print "Plotting with", crtSymbol
+        print "Plotting with " + crtSymbol
         df = dataDic[crtSymbol]
 
-        X = sdm.getClose(df)
+        X = fu.getClose(df)
         t = np.arange(len(X))
         plt.plot(t, X,)
         #plt.plot(t, ti.sma(X, 200))
@@ -222,7 +220,6 @@ def _main():
     print "main()"
 
     global dataDir
-    global options
 
     # parse arguments
     parser = OptionParser()

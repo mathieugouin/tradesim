@@ -12,36 +12,36 @@ import stock_db_mgr as sdm
 import tmxstockquote as tsq
 
 startdate = datetime.date(2014, 1, 6) # Start of Questrade portfolio
-startdate = datetime.date(2013, 8, 12) # Start of Questrade portfolio component highest start date (VUN.TO)
+#startdate = datetime.date(2013, 8, 12) # Start of Questrade portfolio component highest start date (VUN.TO)
 today = datetime.date.today()
 
 # Pick one:
-#enddate = datetime.date(2018, 1, 1)
-enddate = today
+enddate = datetime.date(2018, 1, 1)
+#enddate = today
 
 
 def indicator_test():
     db = sdm.CStockDBMgr('./stock_db/tsx', startdate, enddate)
-    print "Loading all symbols to a panel."
-    wp = db.getAllSymbolData()
+    print "Loading all symbols..."
+    df = db.getAllSymbolDataSingleItem('Close')
     print "Loading done."
 
-    rp = (wp.ix[:, :, "Close"].ix[-1] - wp.ix[:, :, "Close"].min()) / (wp.ix[:, :, "Close"].max() - wp.ix[:, :, "Close"].min())
+    rp = (df.iloc[-1] - df.min()) / (df.max() - df.min())
     rps = 2.0 * rp - 1.0
-    rr = (wp.ix[:, :, "Close"].max() - wp.ix[:, :, "Close"].min()) / wp.ix[:, :, "Close"].max()
+    rr = (df.max() - df.min()) / df.max()
 
     t = rps * rr.pow(0.1)
 
     # Price in the floor (5% tolerance) & 15% drop
-    t.ix[(rp < 0.05) & (rr > 0.15)]
+    print t.loc[(rp < 0.05) & (rr > 0.15)]
 
     pass
 
 # TBD bad bad bad design... math does not work
 def qt_test():
     db = sdm.CStockDBMgr('./stock_db/qt', startdate, enddate)
-    print "Loading all symbols to a panel."
-    wp = db.getAllSymbolData()
+    print "Loading all symbols..."
+    df = db.getAllSymbolDataSingleItem('Close')
     print "Loading done."
 
     # Base ratio
@@ -53,7 +53,6 @@ def qt_test():
         'XEC.TO': 0.1
     }
 
-    df = wp.ix[:, :, "Close"]
     df.dropna(inplace=True)
 
     pf = (df * ratio).sum(axis=1)
@@ -94,8 +93,8 @@ def correlation_test():
 
     for s1 in symbols:
         for s2 in symbols:
-            c = sps.pearsonr(df.ix[:, s1], df.ix[:, s2])[0]
-            dfc.ix[s1, s2] = c
+            c = sps.pearsonr(df.loc[:, s1], df.loc[:, s2])[0]
+            dfc.loc[s1, s2] = c
 
     #print dfc
 
@@ -105,8 +104,8 @@ def correlation_test():
     pass
 
 def _main():
-    #indicator_test()
-    #qt_test()
+    indicator_test()
+    qt_test()
     correlation_test()
 
 if __name__ == '__main__':

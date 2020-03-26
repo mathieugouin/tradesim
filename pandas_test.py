@@ -3,6 +3,7 @@
 # http://pandas.pydata.org/pandas-docs/stable/dsintro.html
 #-------------------------------------------------------------------------------
 
+import string
 import pandas as pd
 import numpy as np
 import stock_db_mgr as sdm
@@ -15,9 +16,18 @@ def panelTest():
                   minor_axis=['O', 'H', 'L', 'C', 'V'])
     print wp
     # All stocks, all dates, Open only:
-    print wp.ix[:,:,'O']
+    print wp.loc[:, :, 'O']
     # IBM only, all dates, High Low only:
-    print wp.ix['IBM', :, ['H', 'L']]
+    print wp.loc['IBM', :, ['H', 'L']]
+
+
+def data_frame_test2():
+    nrow = 8
+    ncol = 5
+    dates = pd.date_range('2000-01-01', periods=nrow)
+    df = pd.DataFrame(data=np.random.randn(nrow, ncol), index=dates, columns=list(string.ascii_uppercase[0:ncol]))
+    df.rename_axis('Date', inplace=True)
+    print df
 
 
 def dataFrameTest():
@@ -40,12 +50,13 @@ def dataFrameTest():
     print df['Close'].std()
 
     # Row indexing
-    print df.iloc[0]
-    print df.loc['2017-02-02']
+    print df.iloc[0]  # Integer based
+    print df.loc['2017-02-02']  # Label based
 
-    # Alternate method:
+    # Both
+    print df.loc['2018-01-04', 'High']
     # From date & up, Open & Close only
-    print df.ix['2017-2-2':, ['Open', 'Close']]
+    print df.loc['2017-2-2':, ['Open', 'Close']]
 
     # NA test
     print df.isna().any(1).sum()
@@ -62,8 +73,9 @@ def dataFrameTest():
     print df.describe()
 
 def main():
+    data_frame_test2()
     dataFrameTest()
-    #panelTest()
+    panelTest()
 
 if __name__ == '__main__':
     main()

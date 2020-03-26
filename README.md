@@ -1,16 +1,16 @@
 # Trade Simulator
 
+## Overview
+
+My ramblings on various stock analysis and data mining.
+
 ## Prerequisites
 
 - Python 2.7
 - NumPy (<http://www.numpy.org>)
 - SciPy (<http://www.scipy.org>)
-- Pandas (<http://pandas.pydata.org/>): Optionnal for now
+- Pandas (<http://pandas.pydata.org/>)
 - mpl_finance (<https://github.com/matplotlib/mpl_finance>)
-
-## Tools
-
-- PyScripter (<https://sourceforge.net/projects/pyscripter>): Optionnal but very good open source Python IDE.
 
 ## Notes
 
