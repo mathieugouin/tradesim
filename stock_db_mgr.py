@@ -22,7 +22,7 @@ _defEndDate = datetime.date.today()
 
 
 class CStockDBMgr:
-    def __init__(self, basedir, startDate=None, endDate=None):
+    def __init__(self, basedir, startDate=None, endDate=None, adjustPrice=True):
         if startDate is None:
             startDate = _defStartDate
         if endDate is None:
@@ -31,6 +31,7 @@ class CStockDBMgr:
         self._startDate = startDate
         self._endDate   = endDate
         self._dataDic   = {}
+        self._adjustPrice = adjustPrice
 
     def getAllSymbolsAvailable(self):
         """Return a list of ticker symbols corresponding to the data available locally on disk."""
@@ -50,11 +51,11 @@ class CStockDBMgr:
 
     def getSymbolData(self, symbol):
         """Return a single symbol data as a DataFrame."""
-        f = fu.symbolToFilename(symbol, self._basedir)
-        if not os.path.exists(f):
-            self.downloadData(symbol)
         if symbol not in self._dataDic:
-            df = fu.loadDataFrame(f, self._startDate, self._endDate)
+            f = fu.symbolToFilename(symbol, self._basedir)
+            if not os.path.exists(f):
+                self.downloadData(symbol)
+            df = fu.loadDataFrame(f, self._startDate, self._endDate, adjustPrice=self._adjustPrice)
             self._dataDic[symbol] = df  # Store it for next time
         # if data is already there, assume it is up to date (to save repetitive download)
         return self._dataDic[symbol]
@@ -131,6 +132,11 @@ def _main():
         df = db.getAllSymbolDataSingleItem('Close')
         print df.head()
         pass
+
+    if True:
+        db = CStockDBMgr('./stock_db/test', datetime.date(2017, 1, 1), datetime.date(2018, 1, 1), adjustPrice=False)
+        df = db.getSymbolData(symbolList[0])
+        print df.describe()
 
 
 if __name__ == '__main__':
