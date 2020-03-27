@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 
-# TBD not completed....
-
 import urllib
 import re
+import time
 import math
+
 
 """
 This module provides a Python API for retrieving stock data from TMX
@@ -44,7 +44,7 @@ def _get_url(url):
             try_again = False
         except:
             print "Error, will try again"
-            # TBD Sleep?
+            time.sleep(0.5)  # 500 ms sleep
             count += 1
     return s
 
@@ -113,12 +113,6 @@ def _request_tmx(symbol, stat):
     return _str_to_float(_request_tmx_str(symbol, stat))
 
 
-def get_price(symbol):
-    # <div class="l-p c-d">$204.66</div>
-    reStr = r'<div class="l-p (?:c-u)?(?:c-d)?">\$' + '([0-9\., ]+)'
-    return _str_to_float(_request_tmx_re(symbol, reStr))
-
-
 def get_company_name(symbol):
     re_str = re.escape('<h4>') + '(.*?)' + re.escape('</h4>')
     return _request_tmx_re(symbol, re_str)
@@ -130,6 +124,10 @@ def get_volume(symbol):
         '\\<strong.*?(-?[0-9 ,.]{1,})'
     ]
     return _str_to_float(_request_tmx_multi_re(symbol, re_arr))
+
+
+def get_price(symbol):
+    return _str_to_float(_request_tmx_re(symbol, '\\$\\s+<span>([0-9\., ]+)</span>'))
 
 
 def get_currency(symbol):
@@ -209,7 +207,7 @@ def _main():
         print "s " + s
 
         print "get_company_name", get_company_name(s)
-        #print "price", get_price(s)
+        print "price", get_price(s)
         print "get_52_week_low", get_52_week_low(s)
         print "get_52_week_high", get_52_week_high(s)
         print "get_volume", get_volume(s)
