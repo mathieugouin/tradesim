@@ -100,12 +100,13 @@ def _request_tmx_multi_re(symbol, re_arr):
 
 def _request_tmx_str(symbol, stat):
     """Default TMX card display grabber (string return)"""
-    re_str = re.escape(r'<td> <span class="l">') + \
-             re.escape(stat) + \
-             re.escape(r'</span></td><td> <span class="dt">') + '(.*?)' + \
-             re.escape(r'</span></td>')
+    re_arr = [
+        re.escape('<div class="dq-card">'),
+        re.escape(stat),
+        re.escape('<strong>') + '(.*?)' + re.escape('</strong>')
+    ]
 
-    return _request_tmx_re(symbol, re_str)
+    return _request_tmx_multi_re(symbol, re_arr)
 
 
 def _request_tmx(symbol, stat):
@@ -113,7 +114,7 @@ def _request_tmx(symbol, stat):
     return _str_to_float(_request_tmx_str(symbol, stat))
 
 
-def get_company_name(symbol):
+def get_name(symbol):
     """Full company name from symbol."""
     re_str = re.escape('<h4>') + '(.*?)' + re.escape('</h4>')
     return _request_tmx_re(symbol, re_str)
@@ -165,9 +166,15 @@ def get_52_week_low(symbol):
 
 
 def get_currency(symbol):
-    """TBD Not implemented"""
-    return "N/A"
+    """Currency the stock trades in.  Quick implementation based on the ticker."""
+    if _yahoo_to_tmx_stock_name(symbol).endswith(':US'):
+        return 'USD'
+    else:
+        return 'CAD'
 
+
+def get_market_cap(symbol):
+    return _request_tmx(symbol, "Market Cap<sup>1</sup>:")
 
 # Test Indicator ##############################
 # def relative_position(symbol):
@@ -218,13 +225,16 @@ def _main():
         print "============================================="
         print "s " + s
 
-        print "get_company_name", get_company_name(s)
+        print "get_name", get_name(s)
         print "price", get_price(s)
+        print "get_change", get_change(s)
+        print "get_volume", get_volume(s)
+        print "get_stock_exchange", get_stock_exchange(s)
+        print "get_market_cap", get_market_cap(s)
+
         print "get_52_week_low", get_52_week_low(s)
         print "get_52_week_high", get_52_week_high(s)
-        print "get_volume", get_volume(s)
-        print "get_change", get_change(s)
-        print "get_stock_exchange", get_stock_exchange(s)
+        print "get_currency", get_currency(s)
 
         #print "rp", relative_position(s)
         #print "rr", relative_range(s)

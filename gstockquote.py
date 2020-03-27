@@ -10,6 +10,9 @@
 #  version 2.1 of the License, or (at your option) any later version.
 
 
+# TBD not working... to delete
+
+
 import urllib
 import xml.etree.ElementTree as ET
 
