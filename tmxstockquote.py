@@ -144,6 +144,7 @@ def get_change(symbol):
 
 
 def get_stock_exchange(symbol):
+    """Return the name of the stock exchange the stock is traded."""
     re_arr = [
         re.escape('<p class="blurb text-darkgrey"><strong class="text-darkgrey">'),
         '\\s*(.+?) <\/strong> \|'
@@ -175,6 +176,19 @@ def get_currency(symbol):
 
 def get_market_cap(symbol):
     return _request_tmx(symbol, "Market Cap<sup>1</sup>:")
+
+
+def get_dividend_yield(symbol):
+    return _request_tmx(symbol, "Yield:")
+
+
+def get_price_earnings_ratio(symbol):
+    return _request_tmx(symbol, "P/E Ratio:")
+
+
+def get_price_book_ratio(symbol):
+    return _request_tmx(symbol, "P/B Ratio:")
+
 
 # Test Indicator ##############################
 # def relative_position(symbol):
@@ -223,7 +237,7 @@ def _main():
 
     for s in ["NA.TO", "XBB.TO", "BRK-A", "AAPL"]:
         print "============================================="
-        print "s " + s
+        print "s", s
 
         print "get_name", get_name(s)
         print "price", get_price(s)
@@ -231,6 +245,9 @@ def _main():
         print "get_volume", get_volume(s)
         print "get_stock_exchange", get_stock_exchange(s)
         print "get_market_cap", get_market_cap(s)
+        print "get_dividend_yield", get_dividend_yield(s)
+        print "get_price_earnings_ratio", get_price_earnings_ratio(s)
+        print "get_price_book_ratio", get_price_book_ratio(s)
 
         print "get_52_week_low", get_52_week_low(s)
         print "get_52_week_high", get_52_week_high(s)
