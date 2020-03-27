@@ -114,11 +114,13 @@ def _request_tmx(symbol, stat):
 
 
 def get_company_name(symbol):
+    """Full company name from symbol."""
     re_str = re.escape('<h4>') + '(.*?)' + re.escape('</h4>')
     return _request_tmx_re(symbol, re_str)
 
 
 def get_volume(symbol):
+    """Current day's trading volume in number of shares."""
     re_arr = [
         '\\b' + re.escape('VOLUME<br />'),
         '\\<strong.*?(-?[0-9 ,.]{1,})'
@@ -127,25 +129,34 @@ def get_volume(symbol):
 
 
 def get_price(symbol):
+    """Current day's trading last price."""
     return _str_to_float(_request_tmx_re(symbol, '\\$\\s+<span>([0-9\., ]+)</span>'))
 
 
-def get_currency(symbol):
-    return ""
-
-
 def get_change(symbol):
-    #   // US:    <div class="q-c"> <span class="c-u"> 1,581.01
-    #   // CAN:   <td class="last">27.06</td><td class="c-d">-0.30 (-1.10%)</td></tr>
-    reStr = r'(?:<div class="q-c"> <span class="(?:c-[ud])?">\s*|<td class="last">[0-9 ,.]+<\/td><td class="(?:c-[ud])?">)(-?[0-9 ,.]+)'
-    return _str_to_float(_request_tmx_re(symbol, reStr))
+    """Change in $ for the day"""
+    re_arr = [
+        '\\b' + re.escape('CHANGE<br />'),
+        '\\<strong.*?(-?[0-9 ,.]{3,})'
+    ]
+    return _str_to_float(_request_tmx_multi_re(symbol, re_arr))
+
+
+def get_stock_exchange(symbol):
+    re_arr = [
+        re.escape('<p class="blurb text-darkgrey"><strong class="text-darkgrey">'),
+        '\\s*(.+?) <\/strong> \|'
+    ]
+    return _request_tmx_multi_re(symbol, re_arr)
 
 
 def get_52_week_high(symbol):
+    """Highest price value during the last 52 weeks."""
     return _str_to_float(_request_tmx_re(symbol, '<strong>52 Week High:</strong></a>\\s*(.+?)</div>'))
 
 
 def get_52_week_low(symbol):
+    """Lowest price value during the last 52 weeks."""
     re_arr = [
         '<strong>52 Week Low:</strong></a>',
         '\\s*(.+?)</div>'
@@ -153,8 +164,9 @@ def get_52_week_low(symbol):
     return _str_to_float(_request_tmx_multi_re(symbol, re_arr))
 
 
-def get_stock_exchange(symbol):
-    return _request_tmx_re(symbol, r'<div class="qmCompanyExchange">Exchange: (.+?)</div>')
+def get_currency(symbol):
+    """TBD Not implemented"""
+    return "N/A"
 
 
 # Test Indicator ##############################
@@ -211,8 +223,8 @@ def _main():
         print "get_52_week_low", get_52_week_low(s)
         print "get_52_week_high", get_52_week_high(s)
         print "get_volume", get_volume(s)
-        #print "get_change", get_change(s)
-        #print "get_stock_exchange", get_stock_exchange(s)
+        print "get_change", get_change(s)
+        print "get_stock_exchange", get_stock_exchange(s)
 
         #print "rp", relative_position(s)
         #print "rr", relative_range(s)
