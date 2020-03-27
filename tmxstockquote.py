@@ -81,10 +81,11 @@ def _request_tmx_re(symbol, re_str):
 
 
 def _request_tmx_multi_re(symbol, re_arr):
+    """Scan using an array of re str, starting from the 1st element.  The last element must be the match."""
     value = ""
     lines = _download_tmx_page(symbol)
-    j = 0  # re_arr indexer
     if len(re_arr) > 0:
+        j = 0  # re_arr indexer
         for line in lines:
             m = re.search(re_arr[j], line)
             if m:
@@ -94,13 +95,11 @@ def _request_tmx_multi_re(symbol, re_arr):
                     break
                 else:
                     j = j + 1  # continue at next re
-
-    #myAssert_(value != "");
-
     return value
 
 
 def _request_tmx_str(symbol, stat):
+    """Default TMX card display grabber (string return)"""
     re_str = re.escape(r'<td> <span class="l">') + \
              re.escape(stat) + \
              re.escape(r'</span></td><td> <span class="dt">') + '(.*?)' + \
@@ -110,6 +109,7 @@ def _request_tmx_str(symbol, stat):
 
 
 def _request_tmx(symbol, stat):
+    """Default TMX card display grabber (float return)"""
     return _str_to_float(_request_tmx_str(symbol, stat))
 
 
@@ -124,6 +124,14 @@ def get_company_name(symbol):
     return _request_tmx_re(symbol, re_str)
 
 
+def get_volume(symbol):
+    re_arr = [
+        '\\b' + re.escape('VOLUME<br />'),
+        '\\<strong.*?(-?[0-9 ,.]{1,})'
+    ]
+    return _str_to_float(_request_tmx_multi_re(symbol, re_arr))
+
+
 def get_currency(symbol):
     return ""
 
@@ -136,11 +144,15 @@ def get_change(symbol):
 
 
 def get_52_week_high(symbol):
-    return _request_tmx(symbol, "Yr High:")
+    return _str_to_float(_request_tmx_re(symbol, '<strong>52 Week High:</strong></a>\\s*(.+?)</div>'))
 
 
 def get_52_week_low(symbol):
-    return _request_tmx(symbol, "Yr Low:")
+    re_arr = [
+        '<strong>52 Week Low:</strong></a>',
+        '\\s*(.+?)</div>'
+    ]
+    return _str_to_float(_request_tmx_multi_re(symbol, re_arr))
 
 
 def get_stock_exchange(symbol):
@@ -196,10 +208,11 @@ def _main():
         print "============================================="
         print "s " + s
 
-        #print "price", get_price(s)
-        #print "get_52_week_low", get_52_week_low(s)
-        #print "get_52_week_high", get_52_week_high(s)
         print "get_company_name", get_company_name(s)
+        #print "price", get_price(s)
+        print "get_52_week_low", get_52_week_low(s)
+        print "get_52_week_high", get_52_week_high(s)
+        print "get_volume", get_volume(s)
         #print "get_change", get_change(s)
         #print "get_stock_exchange", get_stock_exchange(s)
 
