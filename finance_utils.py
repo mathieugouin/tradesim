@@ -16,7 +16,6 @@ import pandas as pd
 
 # User
 import yqd
-import Bar
 
 
 def filenameToSymbol(filename):
