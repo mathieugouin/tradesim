@@ -40,6 +40,9 @@ class CStockDBMgr:
     def downloadData(self, symbol):
         """Download the data for the given symbol."""
         fu.downloadData(symbol, self._basedir, self._startDate, self._endDate)
+        # Make sure the data is re-fetched from disk
+        if symbol in self._dataDic:
+            del self._dataDic[symbol]
 
     def validateSymbolData(self, symbol):
         """Perform basic data validation on symbol, return True/False based on the result."""
@@ -48,6 +51,8 @@ class CStockDBMgr:
     def updateAllSymbols(self):
         """Re-download all symbol data available on disk."""
         fu.updateAllSymbols(self._basedir, self._startDate, self._endDate)
+        # Make sure the data is re-fetched from disk
+        self._dataDic = {}
 
     def getSymbolData(self, symbol):
         """Return a single symbol data as a DataFrame."""
