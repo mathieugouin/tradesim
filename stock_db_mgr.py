@@ -68,10 +68,15 @@ class CStockDBMgr:
     def downloadData(self, symbol):
         """Download the data for the given symbol."""
         fu.downloadData(symbol, self._basedir, self._startDate, self._endDate)
+        # Make sure the data is re-fetched from disk
+        if symbol in self._dataDic:
+            del self._dataDic[symbol]
 
     def updateAllSymbols(self):
         """Re-download all symbol data available on disk."""
         fu.updateAllSymbols(self._basedir, self._startDate, self._endDate)
+        # Make sure the data is re-fetched from disk
+        self._dataDic = {}
 
     def getSymbolData(self, symbol):
         """Return a single symbol data as a DataFrame."""
@@ -148,7 +153,6 @@ class CStockDBMgr:
 def _main():
     #db = CStockDBMgr('./stock_db/qt', datetime.date(2017, 1, 1), datetime.date(2018, 1, 1))
     db = CStockDBMgr('./stock_db/test')
-    #db.updateAllSymbols()
     symbolList = db.getAllSymbolsAvailable()
     print symbolList
 
@@ -158,6 +162,10 @@ def _main():
 
     # To test caching
     df = db.getSymbolData(s)
+    df = db.getSymbolData(s)
+    db.downloadData(s)
+    df = db.getSymbolData(s)
+    #db.updateAllSymbols()
     df = db.getSymbolData(s)
 
     if True:
