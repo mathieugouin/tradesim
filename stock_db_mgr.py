@@ -109,16 +109,18 @@ class CStockDBMgr:
 
 def _main():
     db = CStockDBMgr('./stock_db/test', datetime.date(2017, 1, 1), datetime.date(2018, 1, 1))
-    #db.updateAllSymbols()
-    symbolList = db.getAllSymbolsAvailable()
-    print symbolList
+    symbol_list = db.getAllSymbolsAvailable()
+    print symbol_list
 
-    # Do with only first symbol
-    s = symbolList[0]
-    print s, 'Valid? : ', db.validateSymbolData(s)
+    # Work with first symbol only
+    s = symbol_list[0]
 
     # To test caching
     df = db.getSymbolData(s)
+    df = db.getSymbolData(s)
+    db.downloadData(s)
+    df = db.getSymbolData(s)
+    db.updateAllSymbols()
     df = db.getSymbolData(s)
 
     if True:
@@ -140,7 +142,7 @@ def _main():
 
     if True:
         db = CStockDBMgr('./stock_db/test', datetime.date(2017, 1, 1), datetime.date(2018, 1, 1), adjustPrice=False)
-        df = db.getSymbolData(symbolList[0])
+        df = db.getSymbolData(symbol_list[0])
         print df.describe()
 
 
