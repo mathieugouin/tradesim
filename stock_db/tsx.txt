@@ -1,6 +1,5 @@
 ################################################################################
 # TSX Index
-# as of TBD
 # Need to update with current listings
 # https://en.wikipedia.org/wiki/S%26P/TSX_Composite_Index
 ################################################################################
