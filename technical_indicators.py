@@ -1,6 +1,9 @@
+import math
 import numpy as np
 #import scipy as sp
 import scipy.signal as signal
+import tmxstockquote as tmx
+
 
 #-------------------------------------
 # Utility math functions
@@ -11,12 +14,14 @@ def step(T):
     Y[T >= 0] = 1
     return Y
 
+
 def ramp(T):
     return T * step(T)
 
 #-------------------------------------
 # Various technical indicators
 #-------------------------------------
+
 
 # Linear regression of 'n' points used to give the smoothed point
 def linFit(X, n):
@@ -28,6 +33,7 @@ def linFit(X, n):
     Y = np.concatenate((np.array([np.nan] * (n-1)), Y))
     return Y
 
+
 # Return the Rate Of Change (1st derivative) based on 'n' points linear regression
 def rateOfChange(X, n):
     t = np.arange(len(X))
@@ -38,6 +44,7 @@ def rateOfChange(X, n):
     Y = np.concatenate((np.zeros(n-1), Y))
     return Y
 
+
 # Return the "Acceleration" (2nd derivative) based on 'n' points 2nd order regression
 def acceleration(X, n):
     t = np.arange(len(X))
@@ -47,6 +54,7 @@ def acceleration(X, n):
     # Zero at beginning (invalid value)
     Y = np.concatenate((np.zeros(n-1), Y))
     return Y
+
 
 # Filter Design
 def iir(X, order, period):
@@ -65,6 +73,7 @@ def iir(X, order, period):
     Y, zf = signal.lfilter(b, a, X, zi = zi * X[0])
     return Y
 
+
 # Exponential Moving Average
 def ema(X, n):
     if n < 1:
@@ -82,6 +91,7 @@ def ema(X, n):
 
     return Y
 
+
 # Adaptive EMA (my invention...)
 def aema(X, n):
     if n < 1:
@@ -92,6 +102,7 @@ def aema(X, n):
     # TBD: tune factor here...
     Y = E + 0.5 * ema(X - E, int(n))
     return Y
+
 
 # Simple Moving Average
 # from Y[:n-2] is invalid
@@ -104,6 +115,7 @@ def sma(X, n):
     Y[:n-2] = np.nan
     return Y
 
+
 # If X just crossed over Y at bar index i
 def crossOver(X, Y, i):
     c = False
@@ -111,6 +123,7 @@ def crossOver(X, Y, i):
         if X[i - 1] <= Y[i - 1] and X[i] > Y[i]:
             c = True
     return c
+
 
 # If X just crossed under Y at bar index i
 def crossUnder(X, Y, i):
@@ -120,11 +133,13 @@ def crossUnder(X, Y, i):
             c = True
     return c
 
+
 # Moving minimum over the last n element
 def movingMin(X, n):
     if n < 1:
         raise "n must be >= 1"
     return np.array([min(X[max(0, i-n+1):i+1]) for i in xrange(len(X))])
+
 
 # Moving maximum over the last n element
 def movingMax(X, n):
@@ -132,9 +147,36 @@ def movingMax(X, n):
         raise "n must be >= 1"
     return np.array([max(X[max(0, i-n+1):i+1]) for i in xrange(len(X))])
 
+
+def relative_position(symbol):
+    price = tmx.get_price(symbol)
+    pmin = tmx.get_52_week_low(symbol)
+    pmax = tmx.get_52_week_high(symbol)
+    return (price - pmin) / (pmax - pmin)
+
+
+def relative_range(symbol):
+    pmin = tmx.get_52_week_low(symbol)
+    pmax = tmx.get_52_week_high(symbol)
+    return (pmax - pmin) / pmax
+
+
+def test_indicator(symbol):
+    # [-1, 1]
+    rps = relative_position(symbol) * 2.0 - 1.0
+
+    # [0, 1]
+    rr = relative_range(symbol)
+
+    # reduce the rr influence
+    return rps * math.pow(rr, 0.1)
+
+
 # To test various indicators
 def _main():
     import matplotlib.pyplot as plt
+
+    print test_indicator('XBB.TO')
 
     N = 100
     T = np.arange(N) # [0 .. N-1]
