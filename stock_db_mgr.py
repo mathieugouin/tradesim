@@ -17,16 +17,18 @@ import finance_utils as fu
 
 
 # Defaults:
-_defStartDate = datetime.date(1900, 1, 1)
-_defEndDate = datetime.date.today()
+_default_start_date = datetime.date(1900, 1, 1)
+_default_end_date = datetime.date.today()
 
 
 class CStockDBMgr:
+    """Handles reading a list of stock CSV files from a storage directory."""
     def __init__(self, basedir, startDate=None, endDate=None, adjustPrice=True):
+        """Instantiate the class."""
         if startDate is None:
-            startDate = _defStartDate
+            startDate = _default_start_date
         if endDate is None:
-            endDate = _defEndDate
+            endDate = _default_end_date
         self._basedir   = basedir
         self._startDate = startDate
         self._endDate   = endDate
@@ -39,7 +41,7 @@ class CStockDBMgr:
 
     def downloadData(self, symbol):
         """Download the data for the given symbol."""
-        fu.downloadData(symbol, self._basedir, self._startDate, self._endDate)
+        fu.downloadData(symbol, self._basedir, _default_start_date, _default_end_date)
         # Make sure the data is re-fetched from disk
         if symbol in self._dataDic:
             del self._dataDic[symbol]
@@ -50,7 +52,7 @@ class CStockDBMgr:
 
     def updateAllSymbols(self):
         """Re-download all symbol data available on disk."""
-        fu.updateAllSymbols(self._basedir, self._startDate, self._endDate)
+        fu.updateAllSymbols(self._basedir, _default_start_date, _default_end_date)
         # Make sure the data is re-fetched from disk
         self._dataDic = {}
 
