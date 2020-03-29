@@ -116,14 +116,29 @@ def test_np_arrays():
     pass
 
 
+def test_time_series():
+    df = db.getAllSymbolDataSingleItem('Close')
+    symbols = ['SPY', 'XOM', 'GOOG', 'GLD']
+    df2 = df.loc[:, symbols]
+    df2.dropna(inplace=True)
+    plot_data(df2)
+
+    print df2.mean()
+    print df2.std()
+
+    # TBD continue @ lesson 5 01-04
+
+    pass
+
+
 def _main():
-    # Reverser order as seen in course
+    # Reverse order as seen in course
+    test_time_series()
     test_np_arrays()
     test_plot()
     test_normalize()
     test_slice()
     test_multi_symbol()
-    test_plot()
     test_pandas()
 
 
