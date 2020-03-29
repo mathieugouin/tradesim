@@ -6,11 +6,11 @@ import numpy as np
 import stock_db_mgr as sdm
 import finance_utils as fu
 
-startdate = datetime.date(2010, 1, 1)
-enddate = datetime.date.today()
+start_date = datetime.date(2010, 1, 1)
+end_date = datetime.date.today()
 
 # Create data base:
-db = sdm.CStockDBMgr('./stock_db/test', startdate, enddate)
+db = sdm.CStockDBMgr('./stock_db/test', start_date, end_date)
 
 
 def test_pandas():
@@ -88,12 +88,30 @@ def test_np_arrays():
     print a1
     print a2
 
-    r1 = np.random.random(size=(2, 3))
-    r2 = np.random.normal(size=(2,3))
+    r1 = np.random.rand(2, 3)
+    r2 = np.random.randn(2, 3)
     print r1
     print r2
 
-    # TBD continue at lesson 4 : 18 (boolean mask)
+    a = np.random.randn(5)
+    print a
+    indices = np.array([1,1,2,3])
+    print indices
+    print a[indices]
+
+    a = np.array([(20,25,10,23,26,32,10,5,0), (0,2,50,20,0,1,28,5,0)])
+    print a
+    m = a.mean()
+    print m
+    print a[a < m]
+    a[a < m] = -1
+    print a
+
+    a = np.array([(1,2,3,4,5), (10,20,30,40,50)])
+    print a
+    print 2 * a
+    print a / 2
+    print a / 2.0
 
     pass
 
