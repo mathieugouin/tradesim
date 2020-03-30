@@ -2,11 +2,13 @@
 
 import datetime
 import matplotlib.pyplot as plt
+import pandas as pd
 import numpy as np
 import stock_db_mgr as sdm
 import finance_utils as fu
 
 start_date = datetime.date(2010, 1, 1)
+#end_date  = datetime.date(2014, 1, 1)
 end_date = datetime.date.today()
 
 # Create data base:
@@ -58,6 +60,13 @@ def test_normalize():
     df2 = fu.normalizeDataFrame(df)
     plot_data(df2)
     pass
+
+
+def get_data(symbols, dates):
+    df = db.getAllSymbolDataSingleItem('Close')
+    df = df.loc[dates, symbols]
+    df.dropna(inplace=True)
+    return df
 
 
 def plot_data(df, title="Stock Prices"):
@@ -117,14 +126,14 @@ def test_np_arrays():
 
 
 def test_time_series():
-    df = db.getAllSymbolDataSingleItem('Close')
+    dates = pd.date_range('2010-01-01', '2012-12-31')
     symbols = ['SPY', 'XOM', 'GOOG', 'GLD']
-    df2 = df.loc[:, symbols]
-    df2.dropna(inplace=True)
-    plot_data(df2)
+    df = get_data(symbols, dates)
+    plot_data(df)
 
-    print df2.mean()
-    print df2.std()
+    print 'Mean:', df.mean()
+    print 'Median', df.median()
+    print 'Std dev', df.std()
 
     # TBD continue @ lesson 5 01-04
 
