@@ -82,7 +82,7 @@ class CStockDBMgr:
         """Combine one item of all available stock into a single DataFrame.
         Available item are 'Open', 'High', 'Low', 'Close'."""
         # Re-index to only have the relevant date range
-        date_range = pd.date_range(self._startDate, self._endDate)
+        date_range = pd.date_range(self._startDate, self._endDate, name='Date')
 
         dic = self.getAllSymbolDataDic()
 
@@ -106,6 +106,9 @@ class CStockDBMgr:
             if df.isna().any().any():
                 print "Error: too many NAN: {}".format(df.columns[df.isna().sum() > 0])
 
+        # Axis naming
+        df.rename_axis(item, axis='columns', inplace=True)
+
         return df
 
 
@@ -117,13 +120,14 @@ def _main():
     # Work with first symbol only
     s = symbol_list[0]
 
-    # To test caching
-    df = db.getSymbolData(s)
-    df = db.getSymbolData(s)
-    db.downloadData(s)
-    df = db.getSymbolData(s)
-    db.updateAllSymbols()
-    df = db.getSymbolData(s)
+    if False:
+        # To test caching
+        df = db.getSymbolData(s)
+        df = db.getSymbolData(s)
+        db.downloadData(s)
+        df = db.getSymbolData(s)
+        db.updateAllSymbols()
+        df = db.getSymbolData(s)
 
     if True:
         print "Validating symbols"
@@ -139,6 +143,8 @@ def _main():
         print dd.keys()
 
         df = db.getAllSymbolDataSingleItem('Close')
+        print df.head()
+        df = db.getAllSymbolDataSingleItem('Volume')
         print df.head()
         pass
 
