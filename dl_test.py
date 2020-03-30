@@ -1,8 +1,6 @@
 import datetime
 import stock_db_mgr as sdm
 
-#import gstockquote as gsq
-#import ystockquote as ysq
 import tmxstockquote as tsq
 
 startdate = datetime.date(1900, 1, 1)
@@ -27,7 +25,7 @@ print len(symbolList)
 print symbolList
 
 for s in symbolList:
-    print s #, ysq.get_dividend_yield(s), ysq.get_name(s)
+    print s #,tsq.get_dividend_yield(s), tsq.get_name(s)
     # TBD: TMX fetch broken: print tsq.relative_range(s), tsq.test_indicator(s)
 
     if not db.validateSymbolData(s):
