@@ -22,7 +22,7 @@ def test_pandas():
     print df[10:21]
 
 
-def test_plot():
+def test_plot_data():
     df = db.getSymbolData('IBM')
     df['High'].plot()
     plt.show()
@@ -135,19 +135,38 @@ def test_time_series():
     print 'Median', df.median()
     print 'Std dev', df.std()
 
-    # TBD continue @ lesson 5 01-04
+
+def test_rolling_stats():
+    s = pd.Series(np.random.randn(1000), index=pd.date_range('2000-01-01', periods=1000))
+    c = s.cumsum()
+
+    r = c.rolling(window=60)
+
+    d = {}
+    d['raw'] = c
+    d['mean'] = r.mean()
+    d['min'] = r.min()
+    d['max'] = r.max()
+
+    df = pd.DataFrame(d)
+    df.plot()
+    plt.show()
+
+    # Lesson 5.7
 
     pass
 
 
 def _main():
     # Reverse order as seen in course
+    test_rolling_stats()
     test_time_series()
     test_np_arrays()
     test_plot()
     test_normalize()
     test_slice()
     test_multi_symbol()
+    test_plot_data()
     test_pandas()
 
 
