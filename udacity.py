@@ -64,8 +64,9 @@ def test_normalize():
 
 def get_data(symbols, dates):
     df = db.getAllSymbolDataSingleItem('Close')
-    df = df.loc[dates, symbols]
-    df.dropna(inplace=True)
+    df = df.loc[:, symbols]  # keep only required symbols
+    df = df.reindex(dates)  # keep only required dates
+    df.dropna(inplace=True)  # flush nan
     return df
 
 
@@ -137,28 +138,58 @@ def test_time_series():
 
 
 def test_rolling_stats():
+    # Ref: https://pandas.pydata.org/pandas-docs/stable/user_guide/computation.html
     s = pd.Series(np.random.randn(1000), index=pd.date_range('2000-01-01', periods=1000))
     c = s.cumsum()
 
     r = c.rolling(window=60)
 
-    d = {}
-    d['raw'] = c
-    d['mean'] = r.mean()
-    d['min'] = r.min()
-    d['max'] = r.max()
+    d = {
+        'raw':  c,
+        'mean': r.mean(),
+        'min':  r.min(),
+        'max':  r.max(),
+        'std':  r.std()
+    }
 
     df = pd.DataFrame(d)
     df.plot()
     plt.show()
 
-    # Lesson 5.7
 
+def get_bollinger_bands(series, window):
+    r = series.rolling(window=window)
+    rm = r.mean()
+    rs = r.std()
+    upper_band = rm + 2.0 * rs
+    lower_band = rm - 2.0 * rs
+
+    return rm, upper_band, lower_band
+
+
+def test_rolling_stats2():
+    df = get_data(['SPY'], pd.date_range('2019-01-01', '2020-04-01'))
+    ax = df['SPY'].plot(title='SPY Bollinger Bands', label='SPY', legend=True)
+
+    rm, upper_band, lower_band = get_bollinger_bands(df['SPY'], 20)
+
+    rm.plot(style=':', label='Rolling mean', ax=ax, legend=True)
+    upper_band.plot(style='--', label='Upper band', ax=ax, legend=True)
+    lower_band.plot(style='--', label='Lower band', ax=ax, legend=True)
+
+    plt.show()
+    pass
+
+
+def test_daily_returns():
+    # 5.10
     pass
 
 
 def _main():
     # Reverse order as seen in course
+    test_daily_returns()
+    test_rolling_stats2()
     test_rolling_stats()
     test_time_series()
     test_np_arrays()
