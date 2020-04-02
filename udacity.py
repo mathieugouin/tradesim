@@ -171,9 +171,9 @@ def test_rolling_stats2():
     df = get_data(['SPY'], pd.date_range('2019-01-01', '2020-04-01'))
     ax = df['SPY'].plot(title='SPY Bollinger Bands', label='SPY', legend=True)
 
-    rm, upper_band, lower_band = get_bollinger_bands(df['SPY'], 20)
+    rolling_mean, upper_band, lower_band = get_bollinger_bands(df['SPY'], 20)
 
-    rm.plot(style=':', label='Rolling mean', ax=ax, legend=True)
+    rolling_mean.plot(style=':', label='Rolling mean', ax=ax, legend=True)
     upper_band.plot(style='--', label='Upper band', ax=ax, legend=True)
     lower_band.plot(style='--', label='Lower band', ax=ax, legend=True)
 
