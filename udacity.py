@@ -70,11 +70,11 @@ def get_data(symbols, dates):
     return df
 
 
-def plot_data(df, title="Stock Prices"):
+def plot_data(df, title="Stock Prices", ylabel="Prices"):
     """Plot the data frame"""
     ax = df.plot(title=title)
     ax.set_xlabel("Date")
-    ax.set_ylabel("Prices")
+    ax.set_ylabel(ylabel)
     plt.grid()
     plt.show()
 
@@ -181,11 +181,34 @@ def test_rolling_stats2():
 
 def test_daily_returns():
     # 5.10
+    dates = pd.date_range('2012-07-01', '2012-07-31')  # one month only
+    symbols = ['SPY', 'XOM']
+    df = get_data(symbols, dates)
+    plot_data(df)
+
+    # Compute daily returns
+    dr = df.pct_change() * 100.0  # make it directly in %
+    #dr.iloc[0] = 0.0 # asked by quiz, not sure it makes sense
+    plot_data(dr, title='daily returns', ylabel='%')
+    #dr.plot(marker='.', linestyle='')  # alternate plot style
+
+
+def test_cumulative_returns():
+    # 5.12
+    dates = pd.date_range('2012-01-01', '2012-12-31')  # one year
+    #symbols = ['SPY', 'XOM']
+    df = get_data(db.getAllSymbolsAvailable(), dates)
+    #plot_data(df)
+
+    # Compute cumulative return
+    cr = (df / df.iloc[0] - 1.0) * 100.0  # make it in % directly
+    plot_data(cr, title='Cumulative Returns', ylabel='%')
     pass
 
 
 def _main():
     # Reverse order as seen in course
+    test_cumulative_returns()
     test_daily_returns()
     test_rolling_stats2()
     test_rolling_stats()
