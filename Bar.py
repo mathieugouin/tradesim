@@ -12,7 +12,6 @@ class CBar:                  # P = Price
         self.low    = lowP
         self.close  = closeP
         self.volume = volume
-        #self.adjclose = adjCloseP
 
     def toString(self):
         return "D:%s, O:%f, H:%f, L:%f, C:%f, V:%d" % (
