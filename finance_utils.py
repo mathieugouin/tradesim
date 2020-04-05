@@ -119,6 +119,8 @@ def getVolume(df):
 
 def loadDataFrame(csvFile, startDate, endDate, adjustPrice=True):
     try:
+        print "Loading {} ...".format(filenameToSymbol(csvFile))
+
         df = pd.read_csv(csvFile, index_col='Date', parse_dates=True)
 
         if len(df.index.get_duplicates()) > 0:
@@ -205,25 +207,26 @@ def validateSymbolData(csvFile):
 
 def _main():
     sf = 'stock_db/dj.txt'
-    print "Symbol file {} contains the following stocks: {}".format(sf, getSymbolsFromFile(sf))
+    print "symbol file {} contains the following stocks: {}".format(sf, getSymbolsFromFile(sf))
 
-    dir = './stock_db/test'
+    d = './stock_db/test'
 
     s = 'SPY'
-    f = symbolToFilename(s, dir)
-    print f
-    print filenameToSymbol(f)
+    f = symbolToFilename(s, d)
+    print "symbol {} with directory {} gives filename {}".format(s, d, f)
+    print "filename {} gives symbol {}".format(f, filenameToSymbol(f))
 
-    print "Directory {} contains the following stocks: {}".format(dir, getAllSymbolsAvailable(dir))
+    print "directory {} contains the following stocks: {}".format(d, getAllSymbolsAvailable(d))
 
-    startDate = datetime.date(1900, 1, 1)
-    endDate = datetime.date.today()
+    start_date = datetime.date(1900, 1, 1)
+    end_date = datetime.date.today()
 
     if False:
-        downloadData(s, dir, startDate, endDate)
-        updateAllSymbols(dir, startDate, endDate)
+        downloadData(s, d, start_date, end_date)
+        updateAllSymbols(d, start_date, end_date)
     df = loadDataFrame(f, datetime.date(2018, 1, 1), datetime.date(2018, 4, 1))
     print df.describe()
+    print df.head()
 
     print getDate(df)[0:3]
     print getOpen(df)[0:3]
@@ -232,7 +235,7 @@ def _main():
     print getClose(df)[0:3]
     print getVolume(df)[0:3]
 
-    df = loadDataFrame(f, startDate, endDate)
+    df = loadDataFrame(f, start_date, end_date)
     print df.describe()
 
     # Not for single stock, but just to test...
