@@ -39,7 +39,7 @@ stem(t, x)
 plot(t, ti.mmax(x, 3), 'g')
 grid()
 N = 100
- t = np.arange(N)
+t = np.arange(N)
 t = np.arange(N)
 X = np.concatenate((np.arange(0,N/2,1), np.arange(N/2,0,-1)))
 range(len(X))
@@ -65,8 +65,8 @@ X[50:51]
 max(_)
 plot(t, ti.mmax(x, 3), 'g')
 plot(t, ti.mmax(X, 3), 'g')
-    if n < 1:
-            raise "n must be >= 1"
+if n < 1:
+    raise "n must be >= 1"
 get_ipython().magic(u'hist')
 get_ipython().magic(u'cls ')
 get_ipython().magic(u'logstart')
