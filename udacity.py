@@ -139,9 +139,7 @@ def test_time_series():
 
 def test_rolling_stats():
     # Ref: https://pandas.pydata.org/pandas-docs/stable/user_guide/computation.html
-    s = pd.Series(np.random.randn(1000), index=pd.date_range('2000-01-01', periods=1000))
-    c = s.cumsum()
-
+    c = db.getSymbolData('SPY').loc[:, 'Close']
     r = c.rolling(window=60)
 
     d = {
