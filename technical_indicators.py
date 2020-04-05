@@ -57,7 +57,7 @@ def acceleration(X, n):
 
 
 # Filter Design
-def iir(X, order, period):
+def iir(x, order, period):
     wn = 2.0/period
     b, a = signal.iirfilter(
         order,
@@ -70,8 +70,8 @@ def iir(X, order, period):
         output = 'ba'
     )
     zi = signal.lfilter_zi(b, a)
-    Y, zf = signal.lfilter(b, a, X, zi = zi * X[0])
-    return Y
+    y, _zf = signal.lfilter(b, a, x, zi=zi * x[0])
+    return y
 
 
 # Exponential Moving Average
@@ -232,6 +232,6 @@ def _main():
     ax2.grid(True)
     plt.show()
 
+
 if __name__ == '__main__':
     _main()
-
