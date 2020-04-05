@@ -97,6 +97,7 @@ class CStockDBMgr:
         # Discarding NaN values that are all NaN for a given row
         df.dropna(how='all', inplace=True)
 
+        # TBD not sure ok to ffill here...
         # Need to replace na if any
         if df.isna().any().any():
             #print df.loc[df.isna().any(axis=1)]

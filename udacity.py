@@ -206,8 +206,27 @@ def test_cumulative_returns():
     pass
 
 
+def fudge_data():
+    f = 'stock_db/test/JAVA.csv'
+    df = pd.read_csv(f + '.bak', index_col='Date')
+
+    # Fudge data
+    df.loc[:, 'Volume'] = df.loc[:, 'Volume'] / 100.0
+    df.iloc[:, 1:-1] = df.iloc[:, 1:-1] * 0.7
+    df.to_csv(f)
+
+
+def test_missing_data():
+    # TBD continue @ 6.3
+    df = db.getAllSymbolDataSingleItem('Close')
+    df.loc[:, ['SPY', 'JAVA', 'FAKE1', 'FAKE2']].plot()
+    pass
+
+
 def _main():
     # Reverse order as seen in course
+
+    test_missing_data()
     test_cumulative_returns()
     test_daily_returns()
     test_rolling_stats2()
