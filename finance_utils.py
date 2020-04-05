@@ -154,10 +154,9 @@ def loadDataFrame(csvFile, startDate, endDate, adjustPrice=True):
         return df
 
     except Exception as e:
-        print type(e)    # the exception instance
-        print e.args     # arguments stored in .args
-        print e          # __str__ allows args to be printed directly,
-                         # but may be overridden in exception subclasses
+        print type(e)  # the exception instance
+        print e.args  # arguments stored in .args
+        print e  # __str__ allows args to be printed directly, but may be overridden in exception subclasses
         print 'Error parsing ' + csvFile
 
         return None
@@ -199,7 +198,7 @@ def validateSymbolData(csvFile):
                         break
         else: # csv was not able to find a dialect, consider not valid CSV
             valid = False
-    except:
+    except Exception as e:
         valid = False
     f.close()
     return valid
