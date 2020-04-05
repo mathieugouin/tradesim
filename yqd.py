@@ -3,6 +3,14 @@
 yqd.py - Yahoo Quote Downloader
 Created on May 18 2017
 @author: c0redumb
+
+Starting on May 2017, Yahoo financial has terminated its service on
+the well used EOD data download without warning. This is confirmed
+by Yahoo employee in forum posts.
+
+Yahoo financial EOD data, however, still works on Yahoo financial pages.
+These download links uses a "crumb" for authentication with a cookie "B".
+This code is provided to obtain such matching cookie and crumb.
 """
 
 # To make print working for Python2/3
@@ -15,16 +23,6 @@ from six.moves import urllib
 #import urllib.request, urllib.parse, urllib.error
 
 import time
-
-'''
-Starting on May 2017, Yahoo financial has terminated its service on
-the well used EOD data download without warning. This is confirmed
-by Yahoo employee in forum posts.
-
-Yahoo financial EOD data, however, still works on Yahoo financial pages.
-These download links uses a "crumb" for authentication with a cookie "B".
-This code is provided to obtain such matching cookie and crumb.
-'''
 
 # Build the cookie handler
 cookier = urllib.request.HTTPCookieProcessor()
@@ -123,7 +121,7 @@ def load_yahoo_quote(ticker, begindate, enddate, info='quote'):
             f = urllib.request.urlopen(req, timeout=5)
             alines = f.read().decode('utf-8')
             tryAgain = False
-        except:
+        except Exception as e:
             tryCount = tryCount - 1
             #print("Error, will try again:", ticker)
             alines = ""
