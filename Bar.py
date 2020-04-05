@@ -14,7 +14,7 @@ class CBar:                  # P = Price
         self.close = closeP
         self.volume = volume
 
-    def toString(self):
+    def __str__(self):
         return "D:{}, O:{}, H:{}, L:{}, C:{}, V:{}".format(
             self.date,
             self.open,
@@ -35,7 +35,7 @@ def _main():
                 123456 # volume (in nb of shares)
             )
     print bar.close
-    print bar.toString()
+    print bar
 
 
 if __name__ == '__main__':
