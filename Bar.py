@@ -1,10 +1,4 @@
-#-------------------------------------------------------------------------------
-# Name:        Bar
-# Purpose:
-#-------------------------------------------------------------------------------
-
-###############################################################################
-class CBar:                  # P = Price
+class CBar(object):                  # P = Price
     """Represents a single financial stock data bar for one day."""
     def __init__(self, date, openP, highP, lowP, closeP, volume):
         self.date = date
