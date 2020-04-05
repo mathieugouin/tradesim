@@ -17,16 +17,18 @@ import finance_utils as fu
 
 
 # Defaults:
-_defStartDate = datetime.date(1900, 1, 1)
-_defEndDate = datetime.date.today()
+_default_start_date = datetime.date(1900, 1, 1)
+_default_end_date = datetime.date.today()
 
 
 class CStockDBMgr:
+    """Handles reading a list of stock CSV files from a storage directory."""
     def __init__(self, basedir, startDate=None, endDate=None, adjustPrice=True):
+        """Instantiate the class."""
         if startDate is None:
-            startDate = _defStartDate
+            startDate = _default_start_date
         if endDate is None:
-            endDate = _defEndDate
+            endDate = _default_end_date
         self._basedir   = basedir
         self._startDate = startDate
         self._endDate   = endDate
@@ -39,7 +41,10 @@ class CStockDBMgr:
 
     def downloadData(self, symbol):
         """Download the data for the given symbol."""
-        fu.downloadData(symbol, self._basedir, self._startDate, self._endDate)
+        fu.downloadData(symbol, self._basedir, _default_start_date, _default_end_date)
+        # Make sure the data is re-fetched from disk
+        if symbol in self._dataDic:
+            del self._dataDic[symbol]
 
     def validateSymbolData(self, symbol):
         """Perform basic data validation on symbol, return True/False based on the result."""
@@ -47,7 +52,9 @@ class CStockDBMgr:
 
     def updateAllSymbols(self):
         """Re-download all symbol data available on disk."""
-        fu.updateAllSymbols(self._basedir, self._startDate, self._endDate)
+        fu.updateAllSymbols(self._basedir, _default_start_date, _default_end_date)
+        # Make sure the data is re-fetched from disk
+        self._dataDic = {}
 
     def getSymbolData(self, symbol):
         """Return a single symbol data as a DataFrame."""
@@ -75,7 +82,7 @@ class CStockDBMgr:
         """Combine one item of all available stock into a single DataFrame.
         Available item are 'Open', 'High', 'Low', 'Close'."""
         # Re-index to only have the relevant date range
-        date_range = pd.date_range(self._startDate, self._endDate)
+        date_range = pd.date_range(self._startDate, self._endDate, name='Date')
 
         dic = self.getAllSymbolDataDic()
 
@@ -99,22 +106,28 @@ class CStockDBMgr:
             if df.isna().any().any():
                 print "Error: too many NAN: {}".format(df.columns[df.isna().sum() > 0])
 
+        # Axis naming
+        df.rename_axis(item, axis='columns', inplace=True)
+
         return df
 
 
 def _main():
     db = CStockDBMgr('./stock_db/test', datetime.date(2017, 1, 1), datetime.date(2018, 1, 1))
-    #db.updateAllSymbols()
-    symbolList = db.getAllSymbolsAvailable()
-    print symbolList
+    symbol_list = db.getAllSymbolsAvailable()
+    print symbol_list
 
-    # Do with only first symbol
-    s = symbolList[0]
-    print s, 'Valid? : ', db.validateSymbolData(s)
+    # Work with first symbol only
+    s = symbol_list[0]
 
-    # To test caching
-    df = db.getSymbolData(s)
-    df = db.getSymbolData(s)
+    if False:
+        # To test caching
+        df = db.getSymbolData(s)
+        df = db.getSymbolData(s)
+        db.downloadData(s)
+        df = db.getSymbolData(s)
+        db.updateAllSymbols()
+        df = db.getSymbolData(s)
 
     if True:
         print "Validating symbols"
@@ -131,11 +144,13 @@ def _main():
 
         df = db.getAllSymbolDataSingleItem('Close')
         print df.head()
+        df = db.getAllSymbolDataSingleItem('Volume')
+        print df.head()
         pass
 
     if True:
         db = CStockDBMgr('./stock_db/test', datetime.date(2017, 1, 1), datetime.date(2018, 1, 1), adjustPrice=False)
-        df = db.getSymbolData(symbolList[0])
+        df = db.getSymbolData(symbol_list[0])
         print df.describe()
 
 

@@ -3,7 +3,6 @@
 import urllib
 import re
 import time
-import math
 
 
 """
@@ -15,15 +14,15 @@ _cached_lines = None
 
 
 def _str_to_float(s):
+    """Convert a string into float, returns NaN, when not a number"""
     try:
         return float(s.replace(",", "").replace(" ", ""))
     except Exception as e:
-        return 0.0
+        return float('nan')
 
 
 def _yahoo_to_tmx_stock_name(symbol):
     """Convert yahoo style stock quote to TMX style."""
-    tmx_name = ""
     m = re.match("(\S+?)\.TO", symbol, re.IGNORECASE)
     if (m):
         tmx_name = m.group(1)
@@ -175,46 +174,23 @@ def get_currency(symbol):
 
 
 def get_market_cap(symbol):
+    """Return the market capitalization of the given stock."""
     return _request_tmx(symbol, "Market Cap<sup>1</sup>:")
 
 
 def get_dividend_yield(symbol):
+    """Return the divident yield of the stock."""
     return _request_tmx(symbol, "Yield:")
 
 
 def get_price_earnings_ratio(symbol):
+    """Return the P/E ratio."""
     return _request_tmx(symbol, "P/E Ratio:")
 
 
 def get_price_book_ratio(symbol):
+    """Return the P/B ratio."""
     return _request_tmx(symbol, "P/B Ratio:")
-
-
-# Test Indicator ##############################
-# def relative_position(symbol):
-#     price = get_price(symbol)
-#     pmin = get_52_week_low(symbol)
-#     pmax = get_52_week_high(symbol)
-#
-#     return (price - pmin) / (pmax - pmin)
-#
-#
-# def relative_range(symbol):
-#     pmin = get_52_week_low(symbol)
-#     pmax = get_52_week_high(symbol)
-#
-#     return (pmax - pmin) / pmax
-#
-#
-# def test_indicator(symbol):
-#     # [-1, 1]
-#     rps = relative_position(symbol) * 2.0 - 1.0
-#
-#     # [0, 1]
-#     rr = relative_range(symbol)
-#
-#     # reduce the rr influence
-#     return rps * math.pow(rr, 0.1)
 
 
 def _main():
@@ -229,10 +205,10 @@ def _main():
     print _yahoo_to_tmx_stock_name("MMM")
     print ""
 
-    print _get_url("https://www.google.ca")[0:200]
+    print _get_url("https://www.google.ca")[0:100]
     print ""
 
-    print _download_tmx_page('XBB.TO')[0:200]
+    print _download_tmx_page('XBB.TO')[0:100]
     print ""
 
     for s in ["NA.TO", "XBB.TO", "BRK-A", "AAPL"]:
@@ -252,14 +228,6 @@ def _main():
         print "get_52_week_low", get_52_week_low(s)
         print "get_52_week_high", get_52_week_high(s)
         print "get_currency", get_currency(s)
-
-        #print "rp", relative_position(s)
-        #print "rr", relative_range(s)
-        #print "TI", test_indicator(s)
-
-        #print get_currency("CP.TO")
-        #d = get_all("CP.TO")
-        #print d
 
 
 if __name__ == '__main__':

@@ -19,8 +19,6 @@ import finance_utils as fu
 from Bar import *
 from Position import *
 import technical_indicators as ti
-import gstockquote as gsq
-import ystockquote as ysq
 import tmxstockquote as tmx
 import stock_db_mgr as sdm
 import VirtualAccount as va
