@@ -1,28 +1,29 @@
 #-------------------------------------------------------------------------------
 # Name:        Bar
-# Purpose:     Represents a single financial stock data bar for one day.
+# Purpose:
 #-------------------------------------------------------------------------------
 
 ###############################################################################
 class CBar:                  # P = Price
+    """Represents a single financial stock data bar for one day."""
     def __init__(self, date, openP, highP, lowP, closeP, volume):
-        self.date   = date
-        self.open   = openP
-        self.high   = highP
-        self.low    = lowP
-        self.close  = closeP
+        self.date = date
+        self.open = openP
+        self.high = highP
+        self.low = lowP
+        self.close = closeP
         self.volume = volume
 
     def toString(self):
-        return "D:%s, O:%f, H:%f, L:%f, C:%f, V:%d" % (
-            self.date    ,
-            self.open    ,
-            self.high    ,
-            self.low     ,
-            self.close   ,
-            self.volume  )
+        return "D:{}, O:{}, H:{}, L:{}, C:{}, V:{}".format(
+            self.date,
+            self.open,
+            self.high,
+            self.low,
+            self.close,
+            self.volume)
 
-#-------------------------------------------------------------------------------
+
 def _main():
     import datetime
     bar = CBar(
@@ -35,6 +36,7 @@ def _main():
             )
     print bar.close
     print bar.toString()
+
 
 if __name__ == '__main__':
     _main()
