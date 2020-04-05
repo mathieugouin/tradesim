@@ -1,7 +1,6 @@
-###############################################################################
-class CPosition:
-    # Buy
+class CPosition(object):
     def __init__(self, bar, symbol, nbShare, price, name = "buy", commission = 9.95):
+        """Equivalent to buy."""
         self._entryBar          = bar
         self._entryPrice        = price
         self._entryName         = name
