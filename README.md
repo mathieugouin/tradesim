@@ -17,8 +17,8 @@ My ramblings on various stock analysis and data mining.
 ## Notes
 
 Install PIP
--  https://bootstrap.pypa.io/get-pip.py
--  python get-pip.py
+-   <https://bootstrap.pypa.io/get-pip.py>
+-   python get-pip.py
 
 Installing whl files
-- pip install package.whl
+-   pip install package.whl
