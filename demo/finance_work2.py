@@ -16,7 +16,7 @@ db = sdm.CStockDBMgr('../stock_db/test', startdate, today)
 
 def moving_average(x, n, moving_average_type='simple'):
     """
-    compute an n period moving average.
+    Compute an n period moving average.
 
     type is 'simple' | 'exponential'
 
@@ -70,7 +70,7 @@ def relative_strength(prices, n=14):
 
 def moving_average_convergence(x, nslow=26, nfast=12):
     """
-    compute the MACD (Moving Average Convergence/Divergence) using a fast and slow exponential moving avg'
+    Compute the MACD (Moving Average Convergence/Divergence) using a fast and slow exponential moving avg'
     return value is emaslow, emafast, macd which are len(x) arrays
     """
     emaslow = moving_average(x, nslow, moving_average_type='exponential')
@@ -185,6 +185,7 @@ for ax in ax1, ax2, ax2t, ax3:
 
 class MyLocator(mticker.MaxNLocator):
     def __init__(self, *args, **kwargs):
+        """Class constructor."""
         mticker.MaxNLocator.__init__(self, *args, **kwargs)
 
     def __call__(self, *args, **kwargs):
