@@ -1,13 +1,11 @@
 #!/usr/bin/env python
+"""
+This module provides a Python API for retrieving stock data from TMX
+"""
 
 import urllib
 import re
 import time
-
-
-"""
-This module provides a Python API for retrieving stock data from TMX
-"""
 
 _cached_symbol = None
 _cached_lines = None
@@ -23,8 +21,8 @@ def _str_to_float(s):
 
 def _yahoo_to_tmx_stock_name(symbol):
     """Convert yahoo style stock quote to TMX style."""
-    m = re.match("(\S+?)\.TO", symbol, re.IGNORECASE)
-    if (m):
+    m = re.match(r"(\S+?)\.TO", symbol, re.IGNORECASE)
+    if m:
         tmx_name = m.group(1)
     else:
         tmx_name = symbol + ":US"
