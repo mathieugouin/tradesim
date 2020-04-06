@@ -1,12 +1,12 @@
 import numpy as np
 import scipy as sp
-import scipy.fftpack as spf
+# import scipy.fftpack as spf
 import scipy.signal as sps
 import matplotlib.pyplot as plt
-import pandas as pd
+# import pandas as pd
 
-import technical_indicators as ti
-import stock_db_mgr as sdm
+# import technical_indicators as ti
+# import stock_db_mgr as sdm
 
 
 #   %load_ext autoreload
@@ -32,7 +32,6 @@ plt.plot(abs(np.fft.rfft(xn)))
 
 
 b, a = sps.butter(3, 0.01)
-# TBD simple filter
 
 y = sps.filtfilt(b, a, xn)
 plt.plot(t,xn,t,y)
