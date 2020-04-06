@@ -1,6 +1,5 @@
 import datetime
 import numpy as np
-import matplotlib.colors as colors
 import matplotlib.finance as finance
 import matplotlib.dates as mdates
 import matplotlib.ticker as mticker
@@ -22,7 +21,7 @@ fh.close()
 r.sort()
 
 
-def moving_average(x, n, type='simple'):
+def moving_average(x, n, moving_average_type='simple'):
     """
     compute an n period moving average.
 
@@ -30,17 +29,17 @@ def moving_average(x, n, type='simple'):
 
     """
     x = np.asarray(x)
-    if type=='simple':
+    if moving_average_type == 'simple':
         weights = np.ones(n)
     else:
         weights = np.exp(np.linspace(-1., 0., n))
 
     weights /= weights.sum()
 
-
     a =  np.convolve(x, weights, mode='full')[:len(x)]
     a[:n] = a[n]
     return a
+
 
 def relative_strength(prices, n=14):
     """
@@ -75,13 +74,14 @@ def relative_strength(prices, n=14):
 
     return rsi
 
+
 def moving_average_convergence(x, nslow=26, nfast=12):
     """
     compute the MACD (Moving Average Convergence/Divergence) using a fast and slow exponential moving avg'
     return value is emaslow, emafast, macd which are len(x) arrays
     """
-    emaslow = moving_average(x, nslow, type='exponential')
-    emafast = moving_average(x, nfast, type='exponential')
+    emaslow = moving_average(x, nslow, moving_average_type='exponential')
+    emafast = moving_average(x, nfast, moving_average_type='exponential')
     return emaslow, emafast, emafast - emaslow
 
 
@@ -129,11 +129,11 @@ high = r.high + dx
 
 deltas = np.zeros_like(prices)
 deltas[1:] = np.diff(prices)
-up = deltas>0
+up = deltas > 0
 ax2.vlines(r.date[up], low[up], high[up], color='black', label='_nolegend_')
 ax2.vlines(r.date[~up], low[~up], high[~up], color='black', label='_nolegend_')
-ma20 = moving_average(prices, 20, type='simple')
-ma200 = moving_average(prices, 200, type='simple')
+ma20 = moving_average(prices, 20, moving_average_type='simple')
+ma200 = moving_average(prices, 200, moving_average_type='simple')
 
 linema20, = ax2.plot(r.date, ma20, color='blue', lw=2, label='MA (20)')
 linema200, = ax2.plot(r.date, ma200, color='red', lw=2, label='MA (200)')
@@ -166,7 +166,7 @@ nslow = 26
 nfast = 12
 nema = 9
 emaslow, emafast, macd = moving_average_convergence(prices, nslow=nslow, nfast=nfast)
-ema9 = moving_average(macd, nema, type='exponential')
+ema9 = moving_average(macd, nema, moving_average_type='exponential')
 ax3.plot(r.date, macd, color='black', lw=2)
 ax3.plot(r.date, ema9, color='blue', lw=1)
 ax3.fill_between(r.date, macd-ema9, 0, alpha=0.5, facecolor=fillcolor, edgecolor=fillcolor)
@@ -197,6 +197,7 @@ class MyLocator(mticker.MaxNLocator):
     def __call__(self, *args, **kwargs):
         return mticker.MaxNLocator.__call__(self, *args, **kwargs)
 
+
 # at most 5 ticks, pruning the upper and lower so they don't overlap
 # with other ticks
 #ax2.yaxis.set_major_locator(mticker.MaxNLocator(5, prune='both'))
@@ -206,5 +207,4 @@ ax2.yaxis.set_major_locator(MyLocator(5, prune='both'))
 ax3.yaxis.set_major_locator(MyLocator(5, prune='both'))
 
 plt.show()
-
 
