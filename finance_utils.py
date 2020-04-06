@@ -41,7 +41,7 @@ def getSymbolsFromFile(tickerFile):
             ticker = tickerRow.split()[0] # split on whitespace
             tickerList.append(ticker)
         f.close()
-    except:
+    except Exception:
         print "Error: ticker file %s not found" % tickerFile
     return tickerList
 
@@ -54,7 +54,7 @@ def downloadUrl(url):
         try:
             s = urllib.urlopen(url).read()
             tryAgain = False
-        except:
+        except Exception:
             print "Error, will try again"
             count += 1
     return s
@@ -198,7 +198,7 @@ def validateSymbolData(csvFile):
                         break
         else: # csv was not able to find a dialect, consider not valid CSV
             valid = False
-    except Exception as e:
+    except Exception:
         valid = False
     f.close()
     return valid

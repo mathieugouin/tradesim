@@ -17,7 +17,7 @@ def _str_to_float(s):
     """Convert a string into float, returns NaN, when not a number"""
     try:
         return float(s.replace(",", "").replace(" ", ""))
-    except Exception as e:
+    except Exception:
         return float('nan')
 
 
@@ -41,7 +41,7 @@ def _get_url(url):
         try:
             s = urllib.urlopen(url).read().strip()
             try_again = False
-        except:
+        except Exception:
             print "Error, will try again"
             time.sleep(0.5)  # 500 ms sleep
             count += 1

@@ -121,7 +121,7 @@ def load_yahoo_quote(ticker, begindate, enddate, info='quote'):
             f = urllib.request.urlopen(req, timeout=5)
             alines = f.read().decode('utf-8')
             tryAgain = False
-        except Exception as e:
+        except Exception:
             tryCount = tryCount - 1
             #print("Error, will try again:", ticker)
             alines = ""
