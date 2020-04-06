@@ -83,7 +83,7 @@ def simulate():
             # +:Buy  -:Sell
             df['DeltaShare'] = np.floor((df['TgtValue']) / df['Price']) - df['NbShare']
 
-            c = [calcCommissionETF(n) for n in df['DeltaShare'].values]
+            #c = [calcCommissionETF(n) for n in df['DeltaShare'].values]
 
             # TBD not sure about the commission formula for both buy & sell...
 
@@ -130,14 +130,14 @@ def simulate2():
         crtBars = dataDic[crtSymbol]
 
         # The various series (starting with s):
-        sOpen   = fu.getOpen(crtBars)
-        sHigh   = fu.getHigh(crtBars)
-        sLow    = fu.getLow(crtBars)
+        # sOpen   = fu.getOpen(crtBars)
+        # sHigh   = fu.getHigh(crtBars)
+        # sLow    = fu.getLow(crtBars)
         sClose  = fu.getClose(crtBars)
         sVolume = fu.getVolume(crtBars)
 
         # Technical indicators
-        sVolumeSma = ti.sma(sVolume, 21)
+        # sVolumeSma = ti.sma(sVolume, 21)
         sCloseSma = ti.sma(sClose, 200)
         sCloseEma = ti.ema(sClose, 200)
 
@@ -146,8 +146,7 @@ def simulate2():
         # end at -1 to include "tomorrow" (corresponds to last valid bar)
         # TBD to fix this with real signals
         for bar in range(200, len(crtBars) - 1):
-            barObj = crtBars.iloc[bar]
-            #date = barObj.date
+            # barObj = crtBars.iloc[bar]
 
             # Positions loop
             openPositions = a.getOpenPositions(crtSymbol)
@@ -212,7 +211,7 @@ def _main():
     parser = OptionParser()
     parser.add_option("-d", "--dir", dest="dataDir", action="store", default=dataDir,
                       help="Get stock data (csv) from this directory, it uses " + dataDir + " as default")
-    (options, args) = parser.parse_args()
+    (options, _args) = parser.parse_args()
     dataDir = options.dataDir
 
     loadData()

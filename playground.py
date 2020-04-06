@@ -49,7 +49,6 @@ def correlation_test():
     # Find inverse correlation
     print dfc.min()
     print dfc.idxmin()
-    pass
 
 
 def _main():
