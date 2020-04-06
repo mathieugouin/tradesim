@@ -1,24 +1,17 @@
 import datetime
 import numpy as np
-import matplotlib.finance as finance
 import matplotlib.dates as mdates
 import matplotlib.ticker as mticker
-import matplotlib.mlab as mlab
 import matplotlib.pyplot as plt
 import matplotlib.font_manager as font_manager
 
+import stock_db_mgr as sdm
 
-startdate = datetime.date(2006,1,1)
+startdate = datetime.date(2019, 1, 1)
 today = enddate = datetime.date.today()
-ticker = 'CP.TO' #'SPY'
+ticker = 'SPY'
 
-
-fh = finance.fetch_historical_yahoo(ticker, startdate, enddate)
-# a numpy record array with fields: date, open, high, low, close, volume, adj_close)
-
-r = mlab.csv2rec(fh)
-fh.close()
-r.sort()
+db = sdm.CStockDBMgr('../stock_db/test', startdate, today)
 
 
 def moving_average(x, n, moving_average_type='simple'):
@@ -96,25 +89,26 @@ rect3 = [left, 0.1, width, 0.2]
 
 
 fig = plt.figure(facecolor='white')
-axescolor  = '#f6f6f6'  # the axes background color
+axescolor = '#f6f6f6'  # the axes background color
 
-ax1 = fig.add_axes(rect1, axisbg=axescolor)  #left, bottom, width, height
-ax2 = fig.add_axes(rect2, axisbg=axescolor, sharex=ax1)
+ax1 = fig.add_axes(rect1, facecolor=axescolor)  #left, bottom, width, height
+ax2 = fig.add_axes(rect2, facecolor=axescolor, sharex=ax1)
 ax2t = ax2.twinx()
-ax3  = fig.add_axes(rect3, axisbg=axescolor, sharex=ax1)
+ax3 = fig.add_axes(rect3, facecolor=axescolor, sharex=ax1)
 
 
+df = db.getSymbolData(ticker)
 
 ### plot the relative strength indicator
-prices = r.adj_close
+prices = df['Close']
 rsi = relative_strength(prices)
 fillcolor = 'darkgoldenrod'
 
-ax1.plot(r.date, rsi, color=fillcolor)
+ax1.plot(df.index, rsi, color=fillcolor)
 ax1.axhline(70, color=fillcolor)
 ax1.axhline(30, color=fillcolor)
-ax1.fill_between(r.date, rsi, 70, where=(rsi>=70), facecolor=fillcolor, edgecolor=fillcolor)
-ax1.fill_between(r.date, rsi, 30, where=(rsi<=30), facecolor=fillcolor, edgecolor=fillcolor)
+ax1.fill_between(df.index, rsi, 70, where=(rsi>=70), facecolor=fillcolor, edgecolor=fillcolor)
+ax1.fill_between(df.index, rsi, 30, where=(rsi<=30), facecolor=fillcolor, edgecolor=fillcolor)
 ax1.text(0.6, 0.9, '>70 = overbought', va='top', transform=ax1.transAxes, fontsize=textsize)
 ax1.text(0.6, 0.1, '<30 = oversold', transform=ax1.transAxes, fontsize=textsize)
 ax1.set_ylim(0, 100)
@@ -123,29 +117,28 @@ ax1.text(0.025, 0.95, 'RSI (14)', va='top', transform=ax1.transAxes, fontsize=te
 ax1.set_title('%s daily'%ticker)
 
 ### plot the price and volume data
-dx = r.adj_close - r.close
-low = r.low + dx
-high = r.high + dx
+low = df['Low']
+high = df['High']
 
 deltas = np.zeros_like(prices)
 deltas[1:] = np.diff(prices)
 up = deltas > 0
-ax2.vlines(r.date[up], low[up], high[up], color='black', label='_nolegend_')
-ax2.vlines(r.date[~up], low[~up], high[~up], color='black', label='_nolegend_')
+ax2.vlines(df.index[up], low[up], high[up], color='green', label='_nolegend_')
+ax2.vlines(df.index[~up], low[~up], high[~up], color='red', label='_nolegend_')
 ma20 = moving_average(prices, 20, moving_average_type='simple')
 ma200 = moving_average(prices, 200, moving_average_type='simple')
 
-linema20, = ax2.plot(r.date, ma20, color='blue', lw=2, label='MA (20)')
-linema200, = ax2.plot(r.date, ma200, color='red', lw=2, label='MA (200)')
+linema20, = ax2.plot(df.index, ma20, color='blue', lw=2, label='MA (20)')
+linema200, = ax2.plot(df.index, ma200, color='cyan', lw=2, label='MA (200)')
 
 
-last = r[-1]
+last = df.iloc[-1]
 s = '%s O:%1.2f H:%1.2f L:%1.2f C:%1.2f, V:%1.1fM Chg:%+1.2f' % (
     today.strftime('%d-%b-%Y'),
-    last.open, last.high,
-    last.low, last.close,
-    last.volume*1e-6,
-    last.close-last.open )
+    last['Open'], last['High'],
+    last['Low'], last['Close'],
+    last['Volume'] * 1e-6,
+    last['Close']-last['Open'])
 t4 = ax2.text(0.3, 0.9, s, transform=ax2.transAxes, fontsize=textsize)
 
 props = font_manager.FontProperties(size=10)
@@ -153,10 +146,10 @@ leg = ax2.legend(loc='center left', shadow=True, fancybox=True, prop=props)
 leg.get_frame().set_alpha(0.5)
 
 
-volume = (r.close*r.volume)/1e6  # dollar volume in millions
+volume = (df['Close'] * df['Volume']) / 1e6  # dollar volume in millions
 vmax = volume.max()
-poly = ax2t.fill_between(r.date, volume, 0, label='Volume', facecolor=fillcolor, edgecolor=fillcolor)
-ax2t.set_ylim(0, 5*vmax)
+poly = ax2t.fill_between(df.index, volume, 0, label='Volume', facecolor=fillcolor, edgecolor=fillcolor)
+ax2t.set_ylim(0, 5 * vmax)
 ax2t.set_yticks([])
 
 
@@ -167,9 +160,9 @@ nfast = 12
 nema = 9
 emaslow, emafast, macd = moving_average_convergence(prices, nslow=nslow, nfast=nfast)
 ema9 = moving_average(macd, nema, moving_average_type='exponential')
-ax3.plot(r.date, macd, color='black', lw=2)
-ax3.plot(r.date, ema9, color='blue', lw=1)
-ax3.fill_between(r.date, macd-ema9, 0, alpha=0.5, facecolor=fillcolor, edgecolor=fillcolor)
+ax3.plot(df.index, macd, color='black', lw=2)
+ax3.plot(df.index, ema9, color='blue', lw=1)
+ax3.fill_between(df.index, macd-ema9, 0, alpha=0.5, facecolor=fillcolor, edgecolor=fillcolor)
 
 
 ax3.text(0.025, 0.95, 'MACD (%d, %d, %d)'%(nfast, nslow, nema), va='top',
@@ -207,4 +200,3 @@ ax2.yaxis.set_major_locator(MyLocator(5, prune='both'))
 ax3.yaxis.set_major_locator(MyLocator(5, prune='both'))
 
 plt.show()
-
