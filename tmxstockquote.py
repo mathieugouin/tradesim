@@ -128,7 +128,7 @@ def get_volume(symbol):
 
 def get_price(symbol):
     """Current day's trading last price."""
-    return _str_to_float(_request_tmx_re(symbol, '\\$\\s+<span>([0-9\., ]+)</span>'))
+    return _str_to_float(_request_tmx_re(symbol, r'\$\s+<span>([0-9\., ]+)</span>'))
 
 
 def get_change(symbol):
@@ -144,7 +144,7 @@ def get_stock_exchange(symbol):
     """Return the name of the stock exchange the stock is traded."""
     re_arr = [
         re.escape('<p class="blurb text-darkgrey"><strong class="text-darkgrey">'),
-        '\\s*(.+?) <\/strong> \|'
+        r'\s*(.+?) <\/strong> \|'
     ]
     return _request_tmx_multi_re(symbol, re_arr)
 
@@ -214,7 +214,7 @@ def _main():
         print "s", s
 
         print "get_name", get_name(s)
-        print "price", get_price(s)
+        print "get_price", get_price(s)
         print "get_change", get_change(s)
         print "get_volume", get_volume(s)
         print "get_stock_exchange", get_stock_exchange(s)
