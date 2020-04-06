@@ -4,22 +4,14 @@
 
 import math
 import datetime
-import re
-import glob
-import os
 from optparse import OptionParser
 
 import numpy as np
-import scipy as sp
-import matplotlib as mpl
 import matplotlib.pyplot as plt
 import pandas as pd
 
 import finance_utils as fu
-from Bar import *
-from Position import *
 import technical_indicators as ti
-import tmxstockquote as tmx
 import stock_db_mgr as sdm
 import VirtualAccount as va
 
@@ -34,13 +26,14 @@ dataDir = './stock_db/qt'
 dataDic = {}
 db = None
 
+
 # +:Buy
 # -:Sell
 def calcCommissionETF(nbShare):
     #       (V2 < 0)     * min(9.95, max(4.95, -V2 * 0.01))     + abs(V2) * 0.0035
     return (nbShare < 0) * min(9.95, max(4.95, -nbShare * 0.01)) + math.fabs(nbShare) * 0.0035
 
-###############################################################################
+
 def simulate():
     print "simulate()"
 
@@ -122,7 +115,6 @@ def simulate():
     #print "Entering debugger..."; import pdb; pdb.set_trace()
 
 
-###############################################################################
 def simulate2():
     print "simulate()"
 
@@ -179,7 +171,6 @@ def simulate2():
     #print "Entering debugger..."; import pdb; pdb.set_trace()
 
 
-###############################################################################
 def plotTest():
     print "plotTest()"
 
@@ -201,7 +192,6 @@ def plotTest():
         plt.show()
 
 
-###############################################################################
 def loadData():
     print "loadData()"
 
@@ -213,7 +203,6 @@ def loadData():
     dataDic = db.getAllSymbolDataDic()
 
 
-###############################################################################
 def _main():
     print "main()"
 
@@ -232,6 +221,7 @@ def _main():
 
     simulate()
     #simulate2()
+
 
 if __name__ == '__main__':
     _main()
