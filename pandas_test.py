@@ -6,7 +6,6 @@
 import string
 import pandas as pd
 import numpy as np
-import stock_db_mgr as sdm
 
 
 def panelTest():
@@ -30,7 +29,7 @@ def data_frame_test2():
     print df
 
 
-def dataFrameTest():
+def data_frame_test():
     # This stock has a split
     f = 'stock_db/tsx/NA.TO.csv'
     df = pd.read_csv(f, index_col='Date', parse_dates=True, na_values='nan')
@@ -56,7 +55,9 @@ def dataFrameTest():
     # Both
     print df.loc['2018-01-04', 'High']
     # From date & up, Open & Close only
-    print df.loc['2017-2-2':, ['Open', 'Close']]
+    print df.loc['2020-01-01':, ['Open', 'Close']]
+    # Date range, Open & Close only
+    print df.loc['2020-01-01':'2020-01-31', ['Open', 'Close']]
 
     # NA test
     print df.isna().any(1).sum()
@@ -72,10 +73,12 @@ def dataFrameTest():
     print df.head()
     print df.describe()
 
-def main():
+
+def _main():
     data_frame_test2()
-    dataFrameTest()
+    data_frame_test()
     panelTest()
 
+
 if __name__ == '__main__':
-    main()
+    _main()

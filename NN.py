@@ -6,28 +6,30 @@
 
 import math
 import random
-import string
 import numpy as np
 
-#random.seed(0)
 
 # calculate a random number where:  a <= rand < b
 def rand(a, b):
     return (b-a)*random.random() + a
 
+
 # Make a matrix
 def makeMatrix(I, J, fill=0.0):
     return np.matrix(np.ones((I, J))) * fill
+
 
 # our sigmoid function, tanh is a little nicer than the standard 1/(1+e^-x)
 def sigmoid(x):
     return math.tanh(x)
 
+
 # derivative of our sigmoid function, in terms of the output (i.e. y)
 def dsigmoid(y):
     return 1.0 - y**2
 
-class NN:
+
+class NN(object):
     def __init__(self, ni, nh, no):
         # number of input, hidden, and output nodes
         self.ni = ni + 1 # +1 for bias node
@@ -56,7 +58,7 @@ class NN:
 
     def update(self, inputs):
         if len(inputs) != self.ni-1:
-            raise ValueError, 'wrong number of inputs'
+            raise ValueError('wrong number of inputs')
 
         # input activations
         for i in range(self.ni-1):
@@ -82,7 +84,7 @@ class NN:
 
     def backPropagate(self, targets, N, M):
         if len(targets) != self.no:
-            raise ValueError, 'wrong number of target values'
+            raise ValueError('wrong number of target values')
 
         # calculate error terms for output
         output_deltas = [0.0] * self.no
@@ -147,7 +149,7 @@ class NN:
                 pass #print 'error %-14f' % error
 
 
-def demo():
+def _demo():
     # Teach network XOR function
     pat = [
         [[0,0], [0]],
@@ -163,8 +165,10 @@ def demo():
     # test it
     n.test(pat)
 
-def main():
-    demo()
+
+def _main():
+    _demo()
+
 
 if __name__ == '__main__':
-    main()
+    _main()

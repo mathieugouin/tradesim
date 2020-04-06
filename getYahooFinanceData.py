@@ -24,13 +24,17 @@ import sys
 import threading
 import Queue
 import datetime
-import traceback
-import urllib
 from optparse import OptionParser
 import os
 
 # User
 import yqd
+
+
+def _my_assert(expression, msg='No message provided'):
+    if not expression:
+        raise AssertionError(msg)
+
 
 # this thread ask the queue for job and does it!
 class WorkerThread(threading.Thread):
@@ -71,6 +75,7 @@ class WorkerThread(threading.Thread):
                 sys.stdout.write(".")
                 sys.stdout.flush()
 
+
 if __name__ == '__main__':
     # today is
     today = datetime.datetime.now().strftime("%Y%m%d")
@@ -83,7 +88,7 @@ if __name__ == '__main__':
                       help="read ticker list from file, it uses ./tickers.txt as default")
     parser.add_option("-c", "--concurrent", type="int", dest="connections", default = 10, action="store",
                       help="# of concurrent connections")
-    parser.add_option("-d", "--dir", dest="downloadTo", action="store", default = "./rawdata/",
+    parser.add_option("-d", "--dir", dest="downloadTo", action="store", default = "./rawdata",
                       help="save data to this directory, it uses ./rawdata/ as default")
 
     parser.add_option("-s", "--startdate", dest="startdate", default = startdate, action="store",
@@ -102,8 +107,8 @@ if __name__ == '__main__':
         f = open(options.tickerfile, 'r')
         tickers = f.readlines()
         f.close()
-    except:
-        parser.error("ticker file %s not found" % (options.tickerfile))
+    except Exception:
+        parser.error("ticker file %s not found" % options.tickerfile)
         raise SystemExit
 
     # build a queue with (ticker, fromdate, todate) tuples
@@ -123,16 +128,16 @@ if __name__ == '__main__':
         queue.put((tickerSplit[0], options.startdate, options.todate))
 
     # Check args
-    assert queue.queue, "no Tickers given"
+    _my_assert(queue.queue, "no Tickers given")
     numTickers = len(queue.queue)
     connections = min(options.connections, numTickers)
-    assert 1 <= connections <= 255, "too much concurrent connections asked"
+    _my_assert(1 <= connections <= 255, "too much concurrent connections asked")
 
     if options.verbose:
         print "----- Getting", numTickers, "Tickers using", connections, "simultaneous connections -----"
 
     # At this point, get a dummy small quote from Y! to get the crumb & cookie before the threads start
-    assert len(yqd.load_yahoo_quote('^GSPC', '20180212', '20180212')) > 5, "Error: initial download did not work"
+    _my_assert(len(yqd.load_yahoo_quote('^GSPC', '20180212', '20180212')) > 5, "Error: initial download did not work")
 
     # start a bunch of threads, passing them the queue of jobs to do
     threads = []

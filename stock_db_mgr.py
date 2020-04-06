@@ -21,7 +21,7 @@ _default_start_date = datetime.date(1900, 1, 1)
 _default_end_date = datetime.date.today()
 
 
-class CStockDBMgr:
+class CStockDBMgr(object):
     """Handles reading a list of stock CSV files from a storage directory."""
     def __init__(self, basedir, startDate=None, endDate=None, adjustPrice=True):
         """Instantiate the class."""
@@ -63,19 +63,16 @@ class CStockDBMgr:
             if not os.path.exists(f):
                 self.downloadData(symbol)
             df = fu.loadDataFrame(f, self._startDate, self._endDate, adjustPrice=self._adjustPrice)
+            if df is None:
+                print "ERROR: data for {} contains error".format(symbol)
             self._dataDic[symbol] = df  # Store it for next time
         # if data is already there, assume it is up to date (to save repetitive download)
         return self._dataDic[symbol]
 
     def getAllSymbolDataDic(self):
+        # Update data dictionary cache
         for s in self.getAllSymbolsAvailable():
-            if s not in self._dataDic:
-                print "Loading {} ...".format(s)
-                df = self.getSymbolData(s)
-                if df is not None:
-                    self._dataDic[s] = df
-                else:
-                    print "ERROR: data for {} contains error, skipping".format(s)
+            self.getSymbolData(s)  # return is ignored on purpose
         return self._dataDic
 
     def getAllSymbolDataSingleItem(self, item):
@@ -147,7 +144,6 @@ def _main():
         print df.head()
         df = db.getAllSymbolDataSingleItem('Volume')
         print df.head()
-        pass
 
     if True:
         db = CStockDBMgr('./stock_db/test', datetime.date(2017, 1, 1), datetime.date(2018, 1, 1), adjustPrice=False)

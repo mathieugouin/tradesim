@@ -17,14 +17,14 @@
 # NN with pybrain
 from pybrain.tools.shortcuts import buildNetwork
 from pybrain.structure import TanhLayer
-from pybrain.structure import LinearLayer
+#from pybrain.structure import LinearLayer
 #from pybrain.structure import SoftmaxLayer
 from pybrain.datasets import SupervisedDataSet
 from pybrain.supervised.trainers import BackpropTrainer
 
 #net = buildNetwork(2, 3, 1, hiddenclass=TanhLayer, outclass=SoftmaxLayer, bias=True)
 net = buildNetwork(2, 12, 1, bias=True, hiddenclass=TanhLayer)
-net.modules
+#net.modules
 
 ds = SupervisedDataSet(2, 1)
 
@@ -52,8 +52,10 @@ trainer.trainUntilConvergence(validationProportion=.25) # TBD what?
 
 print net.activate(ds.getSample(0)[0])
 
+
 def main():
     pass
+
 
 if __name__ == '__main__':
     main()

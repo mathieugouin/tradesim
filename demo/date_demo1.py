@@ -1,6 +1,5 @@
 #!/usr/bin/env python
-"""
-Show how to make date plots in matplotlib using date tick locators and
+""" Show how to make date plots in matplotlib using date tick locators and
 formatters.  See major_minor_demo1.py for more information on
 controlling major and minor ticks
 
@@ -15,23 +14,30 @@ yahoo finance to get the data for plotting
 """
 
 from pylab import figure, show
-from matplotlib.finance import quotes_historical_yahoo
 from matplotlib.dates import YearLocator, MonthLocator, DateFormatter
 import datetime
-date1 = datetime.date( 1995, 1, 1 )
-date2 = datetime.date( 2004, 4, 12 )
 
-years    = YearLocator()   # every year
-months   = MonthLocator()  # every month
+import stock_db_mgr as sdm
+
+
+# format the coords message box
+def price(x):
+    return '$%1.2f'%x
+
+
+date1 = datetime.date(1995, 1, 1)
+date2 = datetime.date(2004, 4, 12)
+
+db = sdm.CStockDBMgr('../stock_db/test', date1, date2)
+
+years = YearLocator()   # every year
+months = MonthLocator()  # every month
 yearsFmt = DateFormatter('%Y')
 
-quotes = quotes_historical_yahoo(
-    'INTC', date1, date2)
-if len(quotes) == 0:
-    raise SystemExit
+df = db.getSymbolData('SPY')
 
-dates = [q[0] for q in quotes]
-opens = [q[1] for q in quotes]
+dates = [d for d in df.index]
+opens = [o for o in df.loc[:, 'Open'].values]
 
 fig = figure()
 ax = fig.add_subplot(111)
@@ -43,8 +49,6 @@ ax.xaxis.set_major_formatter(yearsFmt)
 ax.xaxis.set_minor_locator(months)
 ax.autoscale_view()
 
-# format the coords message box
-def price(x): return '$%1.2f'%x
 ax.fmt_xdata = DateFormatter('%Y-%m-%d')
 ax.fmt_ydata = price
 ax.grid(True)

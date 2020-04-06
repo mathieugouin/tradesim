@@ -1,13 +1,11 @@
 #!/usr/bin/env python
+"""
+This module provides a Python API for retrieving stock data from TMX
+"""
 
 import urllib
 import re
 import time
-
-
-"""
-This module provides a Python API for retrieving stock data from TMX
-"""
 
 _cached_symbol = None
 _cached_lines = None
@@ -17,14 +15,14 @@ def _str_to_float(s):
     """Convert a string into float, returns NaN, when not a number"""
     try:
         return float(s.replace(",", "").replace(" ", ""))
-    except Exception as e:
+    except Exception:
         return float('nan')
 
 
 def _yahoo_to_tmx_stock_name(symbol):
     """Convert yahoo style stock quote to TMX style."""
-    m = re.match("(\S+?)\.TO", symbol, re.IGNORECASE)
-    if (m):
+    m = re.match(r"(\S+?)\.TO", symbol, re.IGNORECASE)
+    if m:
         tmx_name = m.group(1)
     else:
         tmx_name = symbol + ":US"
@@ -41,7 +39,7 @@ def _get_url(url):
         try:
             s = urllib.urlopen(url).read().strip()
             try_again = False
-        except:
+        except Exception:
             print "Error, will try again"
             time.sleep(0.5)  # 500 ms sleep
             count += 1
@@ -130,7 +128,7 @@ def get_volume(symbol):
 
 def get_price(symbol):
     """Current day's trading last price."""
-    return _str_to_float(_request_tmx_re(symbol, '\\$\\s+<span>([0-9\., ]+)</span>'))
+    return _str_to_float(_request_tmx_re(symbol, r'\$\s+<span>([0-9\., ]+)</span>'))
 
 
 def get_change(symbol):
@@ -146,7 +144,7 @@ def get_stock_exchange(symbol):
     """Return the name of the stock exchange the stock is traded."""
     re_arr = [
         re.escape('<p class="blurb text-darkgrey"><strong class="text-darkgrey">'),
-        '\\s*(.+?) <\/strong> \|'
+        r'\s*(.+?) <\/strong> \|'
     ]
     return _request_tmx_multi_re(symbol, re_arr)
 
@@ -216,7 +214,7 @@ def _main():
         print "s", s
 
         print "get_name", get_name(s)
-        print "price", get_price(s)
+        print "get_price", get_price(s)
         print "get_change", get_change(s)
         print "get_volume", get_volume(s)
         print "get_stock_exchange", get_stock_exchange(s)
