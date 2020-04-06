@@ -15,8 +15,7 @@ db = sdm.CStockDBMgr('../stock_db/test', startdate, today)
 
 
 def moving_average(x, n, moving_average_type='simple'):
-    """
-    Compute an n period moving average.
+    """ Compute an n period moving average.
 
     type is 'simple' | 'exponential'
 
@@ -35,8 +34,7 @@ def moving_average(x, n, moving_average_type='simple'):
 
 
 def relative_strength(prices, n=14):
-    """
-    compute the n period relative strength indicator
+    """ Compute the n period relative strength indicator
     http://stockcharts.com/school/doku.php?id=chart_school:glossary_r#relativestrengthindex
     http://www.investopedia.com/terms/r/rsi.asp
     """
@@ -69,8 +67,7 @@ def relative_strength(prices, n=14):
 
 
 def moving_average_convergence(x, nslow=26, nfast=12):
-    """
-    Compute the MACD (Moving Average Convergence/Divergence) using a fast and slow exponential moving avg'
+    """ Compute the MACD (Moving Average Convergence/Divergence) using a fast and slow exponential moving avg'
     return value is emaslow, emafast, macd which are len(x) arrays
     """
     emaslow = moving_average(x, nslow, moving_average_type='exponential')
