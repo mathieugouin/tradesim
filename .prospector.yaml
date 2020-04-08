@@ -1,6 +1,7 @@
 bandit:
   run: true
   disable:
+    - B310
     - B311
 
 pylint:
