@@ -134,12 +134,12 @@ def simulate2():
         # sHigh   = fu.getHigh(crtBars)
         # sLow    = fu.getLow(crtBars)
         sClose  = fu.getClose(crtBars)
-        sVolume = fu.getVolume(crtBars)
+        # sVolume = fu.getVolume(crtBars)
 
         # Technical indicators
         # sVolumeSma = ti.sma(sVolume, 21)
         sCloseSma = ti.sma(sClose, 200)
-        sCloseEma = ti.ema(sClose, 200)
+        # sCloseEma = ti.ema(sClose, 200)
 
         # Bar loops (1 bar per day)
         # start index to include various moving average lag
