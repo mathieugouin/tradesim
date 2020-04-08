@@ -1,4 +1,35 @@
+bandit:
+  run: false
+
+pylint:
+  run: true
+
+dodgy:
+  run: true
+
+frosted:
+  run: true
+
+mccabe:
+  run: true
+
+pep8:
+  run: true
+
 pep257:
-  disable:
-    - D403
+  run: true
+  # disable:
+  #   - D403  # Docstring capitalization buggy
+
+pydocstyle:
+  run: true
+
+pyflakes:
+  run: true
+
+pyroma:
+  run: false
+
+vulture:
+  run: true
 
