@@ -8,10 +8,10 @@ import matplotlib.font_manager as font_manager
 import stock_db_mgr as sdm
 
 startdate = datetime.date(2019, 1, 1)
-today = enddate = datetime.date.today()
+enddate = datetime.date.today()
 ticker = 'SPY'
 
-db = sdm.CStockDBMgr('../stock_db/test', startdate, today)
+db = sdm.CStockDBMgr('../stock_db/test', startdate, enddate)
 
 
 def moving_average(x, n, moving_average_type='simple'):
@@ -125,18 +125,18 @@ ax2.vlines(df.index[~up], low[~up], high[~up], color='red', label='_nolegend_')
 ma20 = moving_average(prices, 20, moving_average_type='simple')
 ma200 = moving_average(prices, 200, moving_average_type='simple')
 
-linema20, = ax2.plot(df.index, ma20, color='blue', lw=2, label='MA (20)')
-linema200, = ax2.plot(df.index, ma200, color='cyan', lw=2, label='MA (200)')
+ax2.plot(df.index, ma20, color='blue', lw=2, label='MA (20)')
+ax2.plot(df.index, ma200, color='cyan', lw=2, label='MA (200)')
 
 
 last = df.iloc[-1]
 s = '%s O:%1.2f H:%1.2f L:%1.2f C:%1.2f, V:%1.1fM Chg:%+1.2f' % (
-    today.strftime('%d-%b-%Y'),
+    enddate.strftime('%d-%b-%Y'),
     last['Open'], last['High'],
     last['Low'], last['Close'],
     last['Volume'] * 1e-6,
     last['Close']-last['Open'])
-t4 = ax2.text(0.3, 0.9, s, transform=ax2.transAxes, fontsize=textsize)
+ax2.text(0.3, 0.9, s, transform=ax2.transAxes, fontsize=textsize)
 
 props = font_manager.FontProperties(size=10)
 leg = ax2.legend(loc='center left', shadow=True, fancybox=True, prop=props)
@@ -145,7 +145,7 @@ leg.get_frame().set_alpha(0.5)
 
 volume = (df['Close'] * df['Volume']) / 1e6  # dollar volume in millions
 vmax = volume.max()
-poly = ax2t.fill_between(df.index, volume, 0, label='Volume', facecolor=fillcolor, edgecolor=fillcolor)
+ax2t.fill_between(df.index, volume, 0, label='Volume', facecolor=fillcolor, edgecolor=fillcolor)
 ax2t.set_ylim(0, 5 * vmax)
 ax2t.set_yticks([])
 
@@ -168,7 +168,7 @@ ax3.text(0.025, 0.95, 'MACD (%d, %d, %d)'%(nfast, nslow, nema), va='top',
 #ax3.set_yticks([])
 # turn off upper axis tick labels, rotate the lower ones, etc
 for ax in ax1, ax2, ax2t, ax3:
-    if ax!=ax3:
+    if ax != ax3:
         for label in ax.get_xticklabels():
             label.set_visible(False)
     else:
