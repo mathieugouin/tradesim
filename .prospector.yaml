@@ -13,7 +13,7 @@ frosted:
 mccabe:
   run: true
 
-pep8:
+mypy:
   run: true
 
 pep257:
@@ -21,11 +21,15 @@ pep257:
   # disable:
   #   - D403  # Docstring capitalization buggy
 
+pep8:
+  run: true
+
 pydocstyle:
   run: true
 
 pyflakes:
-  run: true
+  # Disable because no 2.7 support (print "hello" not working)
+  run: false
 
 pyroma:
   run: false
