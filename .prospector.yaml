@@ -1,5 +1,7 @@
 bandit:
-  run: false
+  run: true
+  disable:
+    - B311
 
 pylint:
   run: false
@@ -18,8 +20,6 @@ mypy:
 
 pep257:
   run: true
-  # disable:
-  #   - D403  # Docstring capitalization buggy
 
 pep8:
   run: true
