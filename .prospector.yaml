@@ -2,7 +2,7 @@ bandit:
   run: false
 
 pylint:
-  run: true
+  run: false
 
 dodgy:
   run: true
