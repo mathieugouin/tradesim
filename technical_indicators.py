@@ -1,3 +1,6 @@
+# To make print working for Python2/3
+from __future__ import print_function
+
 import math
 import numpy as np
 #import scipy as sp
@@ -176,7 +179,7 @@ def test_indicator(symbol):
 def _main():
     import matplotlib.pyplot as plt
 
-    print test_indicator('XBB.TO')
+    print(test_indicator('XBB.TO'))
 
     N = 100
     T = np.arange(N) # [0 .. N-1]
@@ -204,7 +207,7 @@ def _main():
     #Y = iir(X, 3, 20)
     #Y = rateOfChange(X, 2)
     #Y = linFit(X, 5)
-    #print Y
+    #print(Y)
 
     fig = plt.figure()
     ax = fig.add_subplot(211)

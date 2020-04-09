@@ -1,3 +1,6 @@
+# To make print working for Python2/3
+from __future__ import print_function
+
 import Position
 import math
 
@@ -16,7 +19,7 @@ class CVirtualAccount(object):
 
 
     def buyAtMarket(self, bar, symbol, nbShare, name = "buyAtMarket"):
-        print "buyAtMarket()"
+        print("buyAtMarket()")
         nbShare = math.floor(nbShare)
         if nbShare > 0:
             #buyPrice = dataDic[symbol].iloc[bar]['Close']
@@ -27,12 +30,12 @@ class CVirtualAccount(object):
                 self._positions.append(Position.CPosition(bar, symbol, nbShare, buyPrice, name, comission))
                 self._cash -= cost
             else:
-                print "Error: not enough money"
+                print("Error: not enough money")
         else:
-            print "Error: can't buy 0 share"
+            print("Error: can't buy 0 share")
 
     def sellAtMarket(self, position, bar, name = "sellAtMarket"):
-        print "sellAtMarket()"
+        print("sellAtMarket()")
         # sellPrice = dataDic[position.getSymbol()].iloc[bar]['Close']
         sellPrice = self._dataDic[position.getSymbol()].iloc[bar]['Low'] # Worst case
         cost = calcCommission(position.getNbShare())
@@ -40,7 +43,7 @@ class CVirtualAccount(object):
             self._cash -= cost
             self._cash += position.close(bar, sellPrice, name)
         else:
-            print "Error: not enough money"
+            print("Error: not enough money")
 
     def getAllPositions(self, symbol = ""):
         if symbol in self._dataDic.keys():
@@ -67,7 +70,7 @@ class CVirtualAccount(object):
     def deltaCash(self, delta):
         self._cash += delta
         if self._cash < 0:
-            #print "Error: not enough money", wouldBeCash
+            #print("Error: not enough money: {}".format(wouldBeCash))
             pass
 
 
@@ -75,15 +78,16 @@ def _main():
     import stock_db_mgr as sdm
     db = sdm.CStockDBMgr('./stock_db/qt')
     va = CVirtualAccount(100000, db.getAllSymbolDataDic())
-    print "comm =", calcCommission(300)
-    print "$ =", va.getCash()
-    print "pos =", va.getAllPositions()
+    # TBD re-arrange print
+    print("comm =", calcCommission(300))
+    print("$ =", va.getCash())
+    print("pos =", va.getAllPositions())
     va.buyAtMarket(3, 'XBB.TO', 100)
-    print "pos =", [p.toString() for p in va.getAllPositions()]
+    print("pos =", [p.toString() for p in va.getAllPositions()])
     va.buyAtMarket(6, 'XEC.TO', 200)
-    print "pos =", [p.toString() for p in va.getAllPositions()]
+    print("pos =", [p.toString() for p in va.getAllPositions()])
     va.sellAtMarket(va.getAllPositions()[0], 12)
-    print "pos =", [p.toString() for p in va.getAllPositions()]
+    print("pos =", [p.toString() for p in va.getAllPositions()])
 
 
 if __name__ == '__main__':

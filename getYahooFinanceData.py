@@ -19,6 +19,9 @@ __credits__ = "queue and MT code was shamelessly stolen from pycurl example retr
 # ^GSPC 19500103 # S&P 500
 # ^N225 19840104 # Nikkei 225
 
+# To make print working for Python2/3
+from __future__ import print_function
+
 # System
 import sys
 import threading
@@ -55,9 +58,9 @@ class WorkerThread(threading.Thread):
                 filenameTicker = ticker
 
             if options.verbose:
-                print "ticker:", ticker
-                print "last date asked:", todate, todate[0:4], todate[4:6], todate[6:8]
-                print "first date asked:", fromdate, fromdate[0:4], fromdate[4:6], fromdate[6:8]
+                print("ticker:", ticker)
+                print("last date asked:", todate, todate[0:4], todate[4:6], todate[6:8])
+                print("first date asked:", fromdate, fromdate[0:4], fromdate[4:6], fromdate[6:8])
 
             if not options.offline:
                 # download ticker data using yqd
@@ -70,7 +73,7 @@ class WorkerThread(threading.Thread):
                     fp.close()
 
             if options.verbose:
-                print "fetched: ", ticker
+                print("fetched: ", ticker)
             else:
                 sys.stdout.write(".")
                 sys.stdout.flush()
@@ -114,15 +117,14 @@ if __name__ == '__main__':
     # build a queue with (ticker, fromdate, todate) tuples
     queue = Queue.Queue()
     for tickerRow in tickers:
-        #print tickerRow
+        #print(tickerRow)
         tickerRow = tickerRow.strip() # remove leading and trailing whitespace
         if not tickerRow or tickerRow[0] == "#":  # skip comment line starting with #
             continue
         tickerSplit = tickerRow.split() # split on whitespace to ignore optional description after the ticker
 
         if options.verbose:
-            print "Adding (ticker, startdate, todate):",\
-                tickerSplit[0], options.startdate, options.todate
+            print("Adding (ticker, startdate, todate):", tickerSplit[0], options.startdate, options.todate)
 
         # ticker, fromdate, todate
         queue.put((tickerSplit[0], options.startdate, options.todate))
@@ -134,7 +136,7 @@ if __name__ == '__main__':
     _my_assert(1 <= connections <= 255, "too much concurrent connections asked")
 
     if options.verbose:
-        print "----- Getting", numTickers, "Tickers using", connections, "simultaneous connections -----"
+        print("----- Getting", numTickers, "Tickers using", connections, "simultaneous connections -----")
 
     # At this point, get a dummy small quote from Y! to get the crumb & cookie before the threads start
     _my_assert(len(yqd.load_yahoo_quote('^GSPC', '20180212', '20180212')) > 5, "Error: initial download did not work")
@@ -154,4 +156,4 @@ if __name__ == '__main__':
 
     # tell something to the user before exiting
     if options.verbose:
-        print "all threads are finished - goodbye."
+        print("all threads are finished - goodbye.")
