@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 """
-This module provides a Python API for retrieving stock data from TMX
+TMX Stock Quote module provides a Python API for retrieving stock data from TMX.
 """
 
 import urllib
@@ -12,7 +12,7 @@ _cached_lines = None
 
 
 def _str_to_float(s):
-    """Convert a string into float, returns NaN, when not a number"""
+    """Convert a string into float, returns NaN, when not a number."""
     try:
         return float(s.replace(",", "").replace(" ", ""))
     except Exception:
@@ -96,7 +96,7 @@ def _request_tmx_multi_re(symbol, re_arr):
 
 
 def _request_tmx_str(symbol, stat):
-    """Default TMX card display grabber (string return)"""
+    """Default TMX card display grabber (string return)."""
     re_arr = [
         re.escape('<div class="dq-card">'),
         re.escape(stat),
@@ -107,7 +107,7 @@ def _request_tmx_str(symbol, stat):
 
 
 def _request_tmx(symbol, stat):
-    """Default TMX card display grabber (float return)"""
+    """Default TMX card display grabber (float return)."""
     return _str_to_float(_request_tmx_str(symbol, stat))
 
 
@@ -132,7 +132,7 @@ def get_price(symbol):
 
 
 def get_change(symbol):
-    """Change in $ for the day"""
+    """Change in $ for the day."""
     re_arr = [
         '\\b' + re.escape('CHANGE<br />'),
         '\\<strong.*?(-?[0-9 ,.]{3,})'

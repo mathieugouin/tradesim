@@ -1,6 +1,5 @@
-# -*- coding: utf-8 -*-
 """
-yqd.py - Yahoo Quote Downloader
+yqd.py - Yahoo Quote Downloader.
 Created on May 18 2017
 @author: c0redumb
 
@@ -77,12 +76,12 @@ def _get_cookie_crumb():
 # begindate & enddate are inclusive
 # begindate, enddate format: YYYYMMDD
 def load_yahoo_quote(ticker, begindate, enddate, info='quote'):
-    '''
-    This function load the corresponding history/divident/split from Yahoo.
+    """
+    Loads the corresponding history/divident/split from Yahoo.
     The "begindate" and "enddate" are in the format of YYYYMMDD.
     The "info" can be "quote" for price, "divident" for divident events,
     or "split" for split events.
-    '''
+    """
     # Check to make sure that the cookie and crumb has been loaded
     global _cookie, _crumb
     if _cookie is None or _crumb is None:
