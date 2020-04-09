@@ -34,9 +34,9 @@ plt.plot(abs(np.fft.rfft(xn)))
 b, a = sps.butter(3, 0.01)
 
 y = sps.filtfilt(b, a, xn)
-plt.plot(t,xn,t,y)
+plt.plot(t, xn, t, y)
 
-p2 = np.polyfit(t[-150:],xn[-150:],2)
+p2 = np.polyfit(t[-150:], xn[-150:], 2)
 plt.plot(t[-150:], np.polyval(p2, t)[-150:])
 sp.std(xn[-150:] - np.polyval(p2, t[-150:]))
 
