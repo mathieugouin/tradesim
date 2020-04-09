@@ -11,7 +11,7 @@ startdate = datetime.date(2019, 1, 1)
 enddate = datetime.date.today()
 ticker = 'SPY'
 
-db = sdm.CStockDBMgr('../stock_db/test', startdate, enddate)
+db = sdm.StockDBMgr('../stock_db/test', startdate, enddate)
 
 
 def moving_average(x, n, moving_average_type='simple'):

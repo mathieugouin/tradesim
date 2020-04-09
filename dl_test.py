@@ -14,10 +14,10 @@ today = datetime.date.today()
 enddate = today
 
 # Create data base:
-db = sdm.CStockDBMgr('./stock_db/qt', startdate, enddate)
-#db = sdm.CStockDBMgr('./stock_db/tsx')
-#db = sdm.CStockDBMgr('./stock_db/sp500')
-#db = sdm.CStockDBMgr('./stock_db/test')
+db = sdm.StockDBMgr('./stock_db/qt', startdate, enddate)
+#db = sdm.StockDBMgr('./stock_db/tsx')
+#db = sdm.StockDBMgr('./stock_db/sp500')
+#db = sdm.StockDBMgr('./stock_db/test')
 
 #db.updateAllSymbols()
 

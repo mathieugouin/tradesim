@@ -1,7 +1,7 @@
 # To make print working for Python2/3
 from __future__ import print_function
 
-import Position
+import position
 import math
 
 
@@ -30,7 +30,7 @@ class CVirtualAccount(object):
             commission = calcCommission(nbShare)
             cost = buyPrice * nbShare + commission
             if cost < self._cash:
-                self._positions.append(Position.CPosition(bar, symbol, nbShare, buyPrice, name, commission))
+                self._positions.append(position.Position(bar, symbol, nbShare, buyPrice, name, commission))
                 self._cash -= cost
             else:
                 print("Error: not enough money")
@@ -84,7 +84,7 @@ def __print_position(va):
 
 def __main():
     import stock_db_mgr as sdm
-    db = sdm.CStockDBMgr('./stock_db/qt')
+    db = sdm.StockDBMgr('./stock_db/qt')
     va = CVirtualAccount(100000, db.getAllSymbolDataDic())
     print("comm = {}".format(calcCommission(300)))
     print("$ = {}".format(va.getCash()))

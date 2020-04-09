@@ -32,7 +32,7 @@ def dsigmoid(y):
     return 1.0 - y**2
 
 
-class NN(object):
+class NeuralNetwork(object):
     def __init__(self, ni, nh, no):
         """Creates a Neural Network object."""
         # number of input, hidden, and output nodes
@@ -162,7 +162,7 @@ def _demo():
     ]
 
     # create a network with two input, two hidden, and one output nodes
-    n = NN(2, 5, 1)
+    n = NeuralNetwork(2, 5, 1)
     print("Training:")
     n.train(pat)
     print("Test:")

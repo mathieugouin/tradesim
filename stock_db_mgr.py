@@ -17,7 +17,7 @@ _default_start_date = datetime.date(1900, 1, 1)
 _default_end_date = datetime.date.today()
 
 
-class CStockDBMgr(object):
+class StockDBMgr(object):
 
     """Stock Data Base Manager: handles reading a list of stock CSV files from a storage directory."""
 
@@ -112,7 +112,7 @@ class CStockDBMgr(object):
 
 
 def _main():
-    db = CStockDBMgr('./stock_db/test', datetime.date(2017, 1, 1), datetime.date(2018, 1, 1))
+    db = StockDBMgr('./stock_db/test', datetime.date(2017, 1, 1), datetime.date(2018, 1, 1))
     symbol_list = db.getAllSymbolsAvailable()
     print(symbol_list)
 
@@ -147,7 +147,7 @@ def _main():
         print(df.head())
 
     if True:
-        db = CStockDBMgr('./stock_db/test', datetime.date(2017, 1, 1), datetime.date(2018, 1, 1), adjustPrice=False)
+        db = StockDBMgr('./stock_db/test', datetime.date(2017, 1, 1), datetime.date(2018, 1, 1), adjustPrice=False)
         df = db.getSymbolData(symbol_list[0])
         print(df.describe())
 

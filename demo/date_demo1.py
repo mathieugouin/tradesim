@@ -28,7 +28,7 @@ def price(x):
 date1 = datetime.date(1995, 1, 1)
 date2 = datetime.date(2004, 4, 12)
 
-db = sdm.CStockDBMgr('../stock_db/test', date1, date2)
+db = sdm.StockDBMgr('../stock_db/test', date1, date2)
 
 years = YearLocator()   # every year
 months = MonthLocator()  # every month
