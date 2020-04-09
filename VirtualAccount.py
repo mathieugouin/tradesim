@@ -11,12 +11,13 @@ def calcCommission(nbShare):
 
 
 class CVirtualAccount(object):
+    """Handles an account linked to a stock DB."""
+
     def __init__(self, initialCapital, dataDic):
         self._initialCapital = initialCapital
         self._cash = self._initialCapital
         self._dataDic = dataDic
         self._positions = []
-
 
     def buyAtMarket(self, bar, symbol, nbShare, name="buyAtMarket"):
         print("buyAtMarket()")
@@ -66,7 +67,6 @@ class CVirtualAccount(object):
     def getCash(self):
         return self._cash
 
-
     def deltaCash(self, delta):
         self._cash += delta
         if self._cash < 0:
@@ -85,6 +85,10 @@ def __main():
     db = sdm.CStockDBMgr('./stock_db/qt')
     va = CVirtualAccount(100000, db.getAllSymbolDataDic())
     print("comm = {}".format(calcCommission(300)))
+    print("$ = {}".format(va.getCash()))
+    va.deltaCash(100)
+    print("$ = {}".format(va.getCash()))
+    va.deltaCash(-200)
     print("$ = {}".format(va.getCash()))
     __print_position(va)
     va.buyAtMarket(3, 'XBB.TO', 100)

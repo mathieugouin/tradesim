@@ -77,7 +77,13 @@ class CPosition(object):
 def _main():
     p1 = CPosition(3, 'XBB.TO', 10, 23.45)
     print(p1)
+    print(p1.getSymbol())
+    print(p1.getNbShare())
+    print(p1.isOpen())
+    print(p1.getEntryPrice())
+
     p1.close(4, 23.46)
+    print(p1.getExitPrice())
     p2 = CPosition(6, 'XBB.TO', 10, 23.45, name='Test Pos', commission=0.1)
     p2.close(30, 25.68)
     print(p1)

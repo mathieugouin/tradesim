@@ -136,7 +136,7 @@ if __name__ == '__main__':
 
     # start a bunch of threads, passing them the queue of jobs to do
     threads = []
-    for dummy in range(connections):
+    for _dummy in range(connections):
         t = WorkerThread(queue)
         t.start()
         threads.append(t)

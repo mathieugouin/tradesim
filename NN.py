@@ -124,7 +124,6 @@ class NN(object):
             error = error + 0.5*(targets[k]-self.ao[k])**2
         return error
 
-
     def test(self, patterns):
         for p in patterns:
             print(p[0], '->', self.update(p[0]))
@@ -133,7 +132,7 @@ class NN(object):
         print('Input weights:')
         for i in range(self.ni):
             print(self.wi[i])
-        print
+        print("")
         print('Output weights:')
         for j in range(self.nh):
             print(self.wo[j])
@@ -163,10 +162,12 @@ def _demo():
 
     # create a network with two input, two hidden, and one output nodes
     n = NN(2, 5, 1)
-    # train it with some patterns
+    print("Training:")
     n.train(pat)
-    # test it
+    print("Test:")
     n.test(pat)
+    print("Info:")
+    n.weights()
 
 
 def _main():

@@ -217,6 +217,7 @@ def _main():
     f = symbolToFilename(s, d)
     print("symbol {} with directory {} gives filename {}".format(s, d, f))
     print("filename {} gives symbol {}".format(f, filenameToSymbol(f)))
+    print("validateSymbolData {} = {}".format(f, validateSymbolData(f)))
 
     print("directory {} contains the following stocks: {}".format(d, getAllSymbolsAvailable(d)))
 
