@@ -19,6 +19,25 @@ class CPosition(object):
         self._nbShare    = nbShare
         self._open       = True
 
+    def __str__(self):
+        """Converts the Position to a string representation."""
+        s = "Position " + self._symbol + " "
+        s += "Open: bar={}, price={}, commission={}, name={}".format(
+            self._entryBar,
+            self._entryPrice,
+            self._entryCommission,
+            self._entryName
+        )
+        if not self._open:
+            s += " Close: bar={}, price={}, commission={}, name={}, gain={}".format(
+                self._exitBar,
+                self._exitPrice,
+                self._exitCommission,
+                self._exitName,
+                self.getPctGain()
+            )
+        return s
+
     def close(self, bar, price, name = "sell"):
         if not self._open:
             print("Error: position already closed.")
@@ -52,25 +71,6 @@ class CPosition(object):
         else:
             print("ERROR: position still open")
         return pc
-
-    def __str__(self):
-        """Converts the Position to a string representation."""
-        s = "Position " + self._symbol + " "
-        s += "Open: bar={}, price={}, commission={}, name={}".format(
-            self._entryBar,
-            self._entryPrice,
-            self._entryCommission,
-            self._entryName
-        )
-        if not self._open:
-            s += " Close: bar={}, price={}, commission={}, name={}, gain={}".format(
-                self._exitBar,
-                self._exitPrice,
-                self._exitCommission,
-                self._exitName,
-                self.getPctGain()
-            )
-        return s
 
 
 def _main():
