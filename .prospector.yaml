@@ -29,8 +29,7 @@ pydocstyle:
   run: true
 
 pyflakes:
-  # Disable because no 2.7 support (print "hello" not working)
-  run: false
+  run: true
 
 pyroma:
   run: false

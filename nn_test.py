@@ -13,6 +13,8 @@
 # http://pybrain.org/docs/api/datasets/superviseddataset.html
 # http://pybrain.org/docs/tutorial/datasets.html
 
+# To make print working for Python2/3
+from __future__ import print_function
 
 # NN with pybrain
 from pybrain.tools.shortcuts import buildNetwork
@@ -29,28 +31,28 @@ net = buildNetwork(2, 12, 1, bias=True, hiddenclass=TanhLayer)
 ds = SupervisedDataSet(2, 1)
 
 # XOR data
-for i in xrange(5):
+for i in range(5):
     ds.addSample([0, 0], [0])
     ds.addSample([0, 1], [1])
     ds.addSample([1, 0], [1])
     ds.addSample([1, 1], [0])
 
-print ds['input']
-print ds['target']
+print(ds['input'])
+print(ds['target'])
 
-print len(ds)
+print(len(ds))
 
 for inpt, target in ds:
-    print "input:", inpt, " target:", target
+    print("input:", inpt, " target:", target)
 
-print ds.getSample(0)
-print ds.getSample(0)[0]
-print ds.getSample(0)[1]
+print(ds.getSample(0))
+print(ds.getSample(0)[0])
+print(ds.getSample(0)[1])
 
 trainer = BackpropTrainer(net, ds)
 trainer.trainUntilConvergence(validationProportion=.25) # TBD what?
 
-print net.activate(ds.getSample(0)[0])
+print(net.activate(ds.getSample(0)[0]))
 
 
 def main():

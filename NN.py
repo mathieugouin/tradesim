@@ -4,6 +4,9 @@
 # Placed in the public domain.
 # Neil Schemenauer <nas@arctrix.com>
 
+# To make print working for Python2/3
+from __future__ import print_function
+
 import math
 import random
 import numpy as np
@@ -106,7 +109,7 @@ class NN(object):
                 change = output_deltas[k]*self.ah[j]
                 self.wo[j,k] = self.wo[j,k] + N*change + M*self.co[j,k]
                 self.co[j,k] = change
-                #print N*change, M*self.co[j][k]
+                #print(N*change, M*self.co[j][k])
 
         # update input weights
         for i in range(self.ni):
@@ -124,21 +127,21 @@ class NN(object):
 
     def test(self, patterns):
         for p in patterns:
-            print p[0], '->', self.update(p[0])
+            print(p[0], '->', self.update(p[0]))
 
     def weights(self):
-        print 'Input weights:'
+        print('Input weights:')
         for i in range(self.ni):
-            print self.wi[i]
+            print(self.wi[i])
         print
-        print 'Output weights:'
+        print('Output weights:')
         for j in range(self.nh):
-            print self.wo[j]
+            print(self.wo[j])
 
     def train(self, patterns, iterations=1000, N=0.5, M=0.1):
         # N: learning rate
         # M: momentum factor
-        for i in xrange(iterations):
+        for i in range(iterations):
             error = 0.0
             for p in patterns:
                 inputs = p[0]
@@ -146,7 +149,7 @@ class NN(object):
                 self.update(inputs)
                 error = error + self.backPropagate(targets, N, M)
             if i % 100 == 0:
-                pass #print 'error %-14f' % error
+                print('error %-14f' % error)
 
 
 def _demo():

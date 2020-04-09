@@ -1,5 +1,10 @@
+# To make print working for Python2/3
+from __future__ import print_function
+
 class CPosition(object):
-    def __init__(self, bar, symbol, nbShare, price, name = "buy", commission = 9.95):
+    """Represents a position held in a portfolio."""
+
+    def __init__(self, bar, symbol, nbShare, price, name = "buy", commission=9.95):
         """Equivalent to buy."""
         self._entryBar          = bar
         self._entryPrice        = price
@@ -15,9 +20,28 @@ class CPosition(object):
         self._nbShare    = nbShare
         self._open       = True
 
-    def close(self, bar, price, name = "sell"):
+    def __str__(self):
+        """Converts the Position to a string representation."""
+        s = "Position " + self._symbol + " "
+        s += "Open: bar={}, price={}, commission={}, name={}".format(
+            self._entryBar,
+            self._entryPrice,
+            self._entryCommission,
+            self._entryName
+        )
         if not self._open:
-            print "Error: position already closed."
+            s += " Close: bar={}, price={}, commission={}, name={}, gain={}".format(
+                self._exitBar,
+                self._exitPrice,
+                self._exitCommission,
+                self._exitName,
+                self.getPctGain()
+            )
+        return s
+
+    def close(self, bar, price, name="sell"):
+        if not self._open:
+            print("Error: position already closed.")
         self._open      = False
         self._exitPrice = price
         self._exitBar   = bar
@@ -46,36 +70,18 @@ class CPosition(object):
             exitValue = self._nbShare * self._exitPrice - self._exitCommission
             pc = (exitValue - entryCost) / entryCost * 100
         else:
-            print "ERROR: position still open"
+            print("ERROR: position still open")
         return pc
-
-    def toString(self):
-        s = "Position " + self._symbol + " "
-        s += "Open: bar={}, price={}, commission={}, name={}".format(
-            self._entryBar,
-            self._entryPrice,
-            self._entryCommission,
-            self._entryName
-        )
-        if not self._open:
-            s += " Close: bar={}, price={}, commission={}, name={}, gain={}".format(
-                self._exitBar,
-                self._exitPrice,
-                self._exitCommission,
-                self._exitName,
-                self.getPctGain()
-            )
-        return s
 
 
 def _main():
     p1 = CPosition(3, 'XBB.TO', 10, 23.45)
-    print p1.toString()
+    print(p1)
     p1.close(4, 23.46)
     p2 = CPosition(6, 'XBB.TO', 10, 23.45, name='Test Pos', commission=0.1)
     p2.close(30, 25.68)
-    print p1.toString()
-    print p2.toString()
+    print(p1)
+    print(p2)
 
 
 if __name__ == '__main__':

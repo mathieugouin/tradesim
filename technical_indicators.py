@@ -1,3 +1,6 @@
+# To make print working for Python2/3
+from __future__ import print_function
+
 import math
 import numpy as np
 #import scipy as sp
@@ -138,14 +141,14 @@ def crossUnder(X, Y, i):
 def movingMin(X, n):
     if n < 1:
         raise "n must be >= 1"
-    return np.array([min(X[max(0, i-n+1):i+1]) for i in xrange(len(X))])
+    return np.array([min(X[max(0, i-n+1):i+1]) for i in range(len(X))])
 
 
 # Moving maximum over the last n element
 def movingMax(X, n):
     if n < 1:
         raise "n must be >= 1"
-    return np.array([max(X[max(0, i-n+1):i+1]) for i in xrange(len(X))])
+    return np.array([max(X[max(0, i-n+1):i+1]) for i in range(len(X))])
 
 
 def relative_position(symbol):
@@ -176,7 +179,7 @@ def test_indicator(symbol):
 def _main():
     import matplotlib.pyplot as plt
 
-    print test_indicator('XBB.TO')
+    print(test_indicator('XBB.TO'))
 
     N = 100
     T = np.arange(N) # [0 .. N-1]
@@ -204,7 +207,7 @@ def _main():
     #Y = iir(X, 3, 20)
     #Y = rateOfChange(X, 2)
     #Y = linFit(X, 5)
-    #print Y
+    #print(Y)
 
     fig = plt.figure()
     ax = fig.add_subplot(211)

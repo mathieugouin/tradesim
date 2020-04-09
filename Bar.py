@@ -1,3 +1,6 @@
+# To make print working for Python2/3
+from __future__ import print_function
+
 class CBar(object):                  # P = Price
     """Represents a single financial stock data bar for one day."""
     def __init__(self, date, openP, highP, lowP, closeP, volume):
@@ -28,8 +31,8 @@ def _main():
                 12.0, # close
                 123456 # volume (in nb of shares)
             )
-    print bar.close
-    print bar
+    print(bar.close)
+    print(bar)
 
 
 if __name__ == '__main__':

@@ -2,6 +2,9 @@
 # http://stats.stackexchange.com/questions/1595/python-as-a-statistics-workbench
 # http://en.wikipedia.org/wiki/Algorithmic_trading
 
+# To make print working for Python2/3
+from __future__ import print_function
+
 import math
 import datetime
 from optparse import OptionParser
@@ -35,12 +38,12 @@ def calcCommissionETF(nbShare):
 
 
 def simulate():
-    print "simulate()"
+    print("simulate()")
 
     initialCash = 100000.0
     a = va.CVirtualAccount(initialCash, dataDic)
 
-    print "Initial cash", a.getCash()
+    print("Initial cash", a.getCash())
 
     # Target allocation:
     ratio = {
@@ -65,7 +68,7 @@ def simulate():
     dfPrices = db.getAllSymbolDataSingleItem('Close')
     for i in range(len(dfPrices)):
         if i % 100 == 0: # Adjust rebalance frequency
-            print "Rebalance", i
+            print("Rebalance", i)
 
             # Roughly Matching StockPortfolio_RRSP column ordering
 
@@ -90,43 +93,42 @@ def simulate():
             for s in symbolList:
                 n = df.loc[s, 'DeltaShare']
                 if n > 0:
-                    print "  Buy {} of {}".format(n, s)
+                    print("  Buy {} of {}".format(n, s))
                     a.deltaCash(-n * df.loc[s, 'Price'])
                     df.loc[s, 'NbShare'] += n
                     #a.buyAtMarket(i, s, n)
                 elif n < 0:
-                    print "  Sell {} of {}".format(-n, s)
+                    print("  Sell {} of {}".format(-n, s))
                     a.deltaCash(-n * df.loc[s, 'Price'])
                     df.loc[s, 'NbShare'] += n
                     #a.sellAtMarket()
 
             # Do not tolerate after all transactions are done.
             if a.getCash() < 0:
-                print "Error: not enough money", a.getCash()
+                print("Error: not enough money", a.getCash())
 
         else:
-            #print "skip", i
+            #print("skip", i)
             pass
 
-    print "Initial Cash =", initialCash
+    print("Initial Cash =", initialCash)
     # Update last price
     df['Price'] = [dataDic[s].iloc[-1]['Close'] for s in symbolList]
-    print "Final Cash = ", sum(df['Price'] * df['NbShare']) + a.getCash()
-    #print "Entering debugger..."; import pdb; pdb.set_trace()
+    print("Final Cash = ", sum(df['Price'] * df['NbShare']) + a.getCash())
 
 
 def simulate2():
-    print "simulate()"
+    print("simulate()")
 
     a = va.CVirtualAccount(50000.00, dataDic)
 
-    print "Initial cash", a.getCash()
+    print("Initial cash", a.getCash())
 
     # Symbol loop
     symbolList = dataDic.keys()
     symbolList.sort()
     for crtSymbol in symbolList:
-        print "Simulating with", crtSymbol
+        print("Simulating with", crtSymbol)
         crtBars = dataDic[crtSymbol]
 
         # The various series (starting with s):
@@ -160,23 +162,22 @@ def simulate2():
                 # TBD buy logic
                 buySignal = ti.crossOver(sClose, sCloseSma, bar)
                 if buySignal:
-                    nbShare = int(2500 / sClose[bar]) # 2500$ => about 0.8% comission buy + sell
+                    nbShare = int(2500 / sClose[bar]) # 2500$ => about 0.8% commission buy + sell
                     a.buyAtMarket(bar + 1, crtSymbol, nbShare) # bar + 1 = tomorrow
 
     for p in a.getAllPositions():
-        print p.toString()
+        print(p)
 
-    print "Final cash", a.getCash()
-    #print "Entering debugger..."; import pdb; pdb.set_trace()
+    print("Final cash", a.getCash())
 
 
 def plotTest():
-    print "plotTest()"
+    print("plotTest()")
 
     symbolList = dataDic.keys()
     symbolList.sort()
     for crtSymbol in symbolList:
-        print "Plotting with " + crtSymbol
+        print("Plotting with " + crtSymbol)
         df = dataDic[crtSymbol]
 
         X = fu.getClose(df)
@@ -192,7 +193,7 @@ def plotTest():
 
 
 def loadData():
-    print "loadData()"
+    print("loadData()")
 
     global dataDic
     global db
@@ -203,7 +204,7 @@ def loadData():
 
 
 def _main():
-    print "main()"
+    print("main()")
 
     global dataDir
 
