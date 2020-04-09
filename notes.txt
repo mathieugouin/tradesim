@@ -1,6 +1,3 @@
-G-Docs:
-http://finance.yahoo.com/d/quotes.csv?s=CP.TO&f=l1
-
 Histogram plot of data:
 http://stackoverflow.com/questions/5328556/histogram-matplotlib/5328669
 
