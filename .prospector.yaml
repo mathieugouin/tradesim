@@ -6,6 +6,8 @@ bandit:
 
 pylint:
   run: false
+  disable:
+  - E1127  # not working with pandas label slice indexing :(
 
 dodgy:
   run: true
