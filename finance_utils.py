@@ -64,7 +64,7 @@ def downloadUrl(url):
 
 
 def downloadData(symbol, basedir, startDate, endDate):
-    """This is a wrapper to yqd library."""
+    """Wrapper function to yqd library."""
     print("Downloading:{} ...".format(symbol))
     symbol = symbol.upper()
     # Date 1
@@ -166,7 +166,7 @@ def loadDataFrame(csvFile, startDate, endDate, adjustPrice=True):
 
 
 def validateSymbolData(csvFile):
-    """Check for basic errors in historical market data"""
+    """Check for basic errors in historical market data."""
     #print("Validating:%s" % csvFile)
     valid = True # Default
     # The CSV files are downloaded from yahoo historical data

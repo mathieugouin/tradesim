@@ -18,7 +18,9 @@ _default_end_date = datetime.date.today()
 
 
 class CStockDBMgr(object):
+
     """Handles reading a list of stock CSV files from a storage directory."""
+
     def __init__(self, basedir, startDate=None, endDate=None, adjustPrice=True):
         """Instantiate the class."""
         if startDate is None:
@@ -73,6 +75,7 @@ class CStockDBMgr(object):
 
     def getAllSymbolDataSingleItem(self, item):
         """Combine one item of all available stock into a single DataFrame.
+
         Available item are 'Open', 'High', 'Low', 'Close'."""
         # Re-index to only have the relevant date range
         date_range = pd.date_range(self._startDate, self._endDate, name='Date')
