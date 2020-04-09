@@ -18,23 +18,23 @@ class CVirtualAccount(object):
         self._positions = []
 
 
-    def buyAtMarket(self, bar, symbol, nbShare, name = "buyAtMarket"):
+    def buyAtMarket(self, bar, symbol, nbShare, name="buyAtMarket"):
         print("buyAtMarket()")
         nbShare = math.floor(nbShare)
         if nbShare > 0:
             #buyPrice = dataDic[symbol].iloc[bar]['Close']
             buyPrice = self._dataDic[symbol].iloc[bar]['High'] # Worst case simulation
-            comission = calcCommission(nbShare)
-            cost = buyPrice * nbShare + comission
+            commission = calcCommission(nbShare)
+            cost = buyPrice * nbShare + commission
             if cost < self._cash:
-                self._positions.append(Position.CPosition(bar, symbol, nbShare, buyPrice, name, comission))
+                self._positions.append(Position.CPosition(bar, symbol, nbShare, buyPrice, name, commission))
                 self._cash -= cost
             else:
                 print("Error: not enough money")
         else:
             print("Error: can't buy 0 share")
 
-    def sellAtMarket(self, position, bar, name = "sellAtMarket"):
+    def sellAtMarket(self, position, bar, name="sellAtMarket"):
         print("sellAtMarket()")
         # sellPrice = dataDic[position.getSymbol()].iloc[bar]['Close']
         sellPrice = self._dataDic[position.getSymbol()].iloc[bar]['Low'] # Worst case
@@ -45,19 +45,19 @@ class CVirtualAccount(object):
         else:
             print("Error: not enough money")
 
-    def getAllPositions(self, symbol = ""):
+    def getAllPositions(self, symbol=""):
         if symbol in self._dataDic.keys():
             return [p for p in self._positions if p.getSymbol() == symbol] # positions only for symbol
         else:
             return self._positions # all positions
 
-    def getOpenPositions(self, symbol = ""):
+    def getOpenPositions(self, symbol=""):
         if symbol in self._dataDic.keys():
             return [p for p in self._positions if p.getSymbol() == symbol and p.isOpen()] # open positions only for symbol
         else:
             return [p for p in self._positions if p.isOpen()] # all open positions
 
-    def getClosePositions(self, symbol = ""):
+    def getClosePositions(self, symbol=""):
         if symbol in self._dataDic.keys():
             return [p for p in self._positions if p.getSymbol() == symbol and not p.isOpen()] # close positions only for symbol
         else:
@@ -78,16 +78,15 @@ def _main():
     import stock_db_mgr as sdm
     db = sdm.CStockDBMgr('./stock_db/qt')
     va = CVirtualAccount(100000, db.getAllSymbolDataDic())
-    # TBD re-arrange print
-    print("comm =", calcCommission(300))
-    print("$ =", va.getCash())
-    print("pos =", va.getAllPositions())
+    print("comm = {}".format(calcCommission(300)))
+    print("$ = {}".format(va.getCash()))
+    print("pos = {}".format([str(p) for p in va.getAllPositions()]))
     va.buyAtMarket(3, 'XBB.TO', 100)
-    print("pos =", [p.toString() for p in va.getAllPositions()])
+    print("pos = {}".format([str(p) for p in va.getAllPositions()]))
     va.buyAtMarket(6, 'XEC.TO', 200)
-    print("pos =", [p.toString() for p in va.getAllPositions()])
+    print("pos = {}".format([str(p) for p in va.getAllPositions()]))
     va.sellAtMarket(va.getAllPositions()[0], 12)
-    print("pos =", [p.toString() for p in va.getAllPositions()])
+    print("pos = {}".format([str(p) for p in va.getAllPositions()]))
 
 
 if __name__ == '__main__':

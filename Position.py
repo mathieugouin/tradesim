@@ -53,7 +53,8 @@ class CPosition(object):
             print("ERROR: position still open")
         return pc
 
-    def toString(self):
+    def __str__(self):
+        """Converts the Position to a string representation."""
         s = "Position " + self._symbol + " "
         s += "Open: bar={}, price={}, commission={}, name={}".format(
             self._entryBar,
@@ -74,12 +75,12 @@ class CPosition(object):
 
 def _main():
     p1 = CPosition(3, 'XBB.TO', 10, 23.45)
-    print(p1.toString())
+    print(p1)
     p1.close(4, 23.46)
     p2 = CPosition(6, 'XBB.TO', 10, 23.45, name='Test Pos', commission=0.1)
     p2.close(30, 25.68)
-    print(p1.toString())
-    print(p2.toString())
+    print(p1)
+    print(p2)
 
 
 if __name__ == '__main__':

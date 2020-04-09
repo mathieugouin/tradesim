@@ -162,11 +162,11 @@ def simulate2():
                 # TBD buy logic
                 buySignal = ti.crossOver(sClose, sCloseSma, bar)
                 if buySignal:
-                    nbShare = int(2500 / sClose[bar]) # 2500$ => about 0.8% comission buy + sell
+                    nbShare = int(2500 / sClose[bar]) # 2500$ => about 0.8% commission buy + sell
                     a.buyAtMarket(bar + 1, crtSymbol, nbShare) # bar + 1 = tomorrow
 
     for p in a.getAllPositions():
-        print(p.toString())
+        print(p)
 
     print("Final cash", a.getCash())
 

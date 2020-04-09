@@ -210,23 +210,22 @@ def _main():
     print("")
 
     for s in ["NA.TO", "XBB.TO", "BRK-A", "AAPL"]:
-        # TBD re-arrange print
         print("=============================================")
-        print("s", s)
+        print("s: {}".format(s))
 
-        print("get_name", get_name(s))
-        print("get_price", get_price(s))
-        print("get_change", get_change(s))
-        print("get_volume", get_volume(s))
-        print("get_stock_exchange", get_stock_exchange(s))
-        print("get_market_cap", get_market_cap(s))
-        print("get_dividend_yield", get_dividend_yield(s))
-        print("get_price_earnings_ratio", get_price_earnings_ratio(s))
-        print("get_price_book_ratio", get_price_book_ratio(s))
+        print("get_name: {}".format(get_name(s)))
+        print("get_price: {}".format(get_price(s)))
+        print("get_change: {}".format(get_change(s)))
+        print("get_volume: {}".format(get_volume(s)))
+        print("get_stock_exchange: {}".format(get_stock_exchange(s)))
+        print("get_market_cap: {}".format(get_market_cap(s)))
+        print("get_dividend_yield: {}".format(get_dividend_yield(s)))
+        print("get_price_earnings_ratio: {}".format(get_price_earnings_ratio(s)))
+        print("get_price_book_ratio: {}".format(get_price_book_ratio(s)))
 
-        print("get_52_week_low", get_52_week_low(s))
-        print("get_52_week_high", get_52_week_high(s))
-        print("get_currency", get_currency(s))
+        print("get_52_week_low: {}".format(get_52_week_low(s)))
+        print("get_52_week_high: {}".format(get_52_week_high(s)))
+        print("get_currency: {}".format(get_currency(s)))
 
 
 if __name__ == '__main__':
