@@ -198,7 +198,7 @@ def loadData():
     global dataDic
     global db
 
-    db = sdm.CStockDBMgr(dataDir, startDate, endDate)
+    db = sdm.StockDBMgr(dataDir, startDate, endDate)
 
     dataDic = db.getAllSymbolDataDic()
 
