@@ -34,6 +34,7 @@ def dsigmoid(y):
 
 class NN(object):
     def __init__(self, ni, nh, no):
+        """Creates a Neural Network object."""
         # number of input, hidden, and output nodes
         self.ni = ni + 1 # +1 for bias node
         self.nh = nh

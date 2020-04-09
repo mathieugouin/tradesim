@@ -1,7 +1,7 @@
 #!/usr/bin/env python
-""" Show how to make date plots in matplotlib using date tick locators and
-formatters.  See major_minor_demo1.py for more information on
-controlling major and minor ticks
+"""Date plots demo in matplotlib using date tick locators and formatters.
+
+See major_minor_demo1.py for more information on controlling major and minor ticks.
 
 All matplotlib date plotting is done by converting date instances into
 days since the 0001-01-01 UTC.  The conversion, tick locating and

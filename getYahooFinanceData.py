@@ -35,6 +35,7 @@ def _my_assert(expression, msg='No message provided'):
 # this thread ask the queue for job and does it!
 class WorkerThread(threading.Thread):
     def __init__(self, queue):
+        """Creates a new thread."""
         threading.Thread.__init__(self)
         self.queue = queue
 

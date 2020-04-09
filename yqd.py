@@ -39,9 +39,7 @@ _headers = {
 
 
 def _get_cookie_crumb():
-    '''
-    This function perform a query and extract the matching cookie and crumb.
-    '''
+    """Performs a query and extract the matching cookie and crumb."""
     global cookier, _cookie, _crumb
 
     # Perform a Yahoo financial lookup on SP500
@@ -73,12 +71,11 @@ def _get_cookie_crumb():
     #print('Crumb:', _crumb)
 
 
-# begindate & enddate are inclusive
-# begindate, enddate format: YYYYMMDD
 def load_yahoo_quote(ticker, begindate, enddate, info='quote'):
     """
     Loads the corresponding history/divident/split from Yahoo.
-    The "begindate" and "enddate" are in the format of YYYYMMDD.
+
+    The "begindate" and "enddate" are in the format of YYYYMMDD are are inclusive.
     The "info" can be "quote" for price, "divident" for divident events,
     or "split" for split events.
     """

@@ -6,7 +6,7 @@ import math
 
 
 def calcCommission(nbShare):
-    """Valid for Questrade stock trading only"""
+    """Commission cost based on nb of shares.  Valid for Questrade stock trading only."""
     return nbShare * 0.0035 + min(9.95, max(0.01 * nbShare, 4.95))
 
 
@@ -15,6 +15,7 @@ class CVirtualAccount(object):
     """Handles an account linked to a stock DB."""
 
     def __init__(self, initialCapital, dataDic):
+        """Instantiate a new virtual account object."""
         self._initialCapital = initialCapital
         self._cash = self._initialCapital
         self._dataDic = dataDic
