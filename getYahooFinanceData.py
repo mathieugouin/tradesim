@@ -1,14 +1,7 @@
 #! /usr/bin/env python
-# -*- coding: utf-8 -*-
 
 # Reference:
 # http://code.google.com/p/yahoo-finance-managed/wiki/csvHistQuotesDownload
-
-__author__ = 'gian paolo ciceri <gp.ciceri@gmail.com>'
-__version__ = '0.1'
-__date__ = '20070401'
-__credits__ = "queue and MT code was shamelessly stolen from pycurl example retriever-multi.py"
-
 #
 # Usage: python getYahooFinanceData.py -h
 #

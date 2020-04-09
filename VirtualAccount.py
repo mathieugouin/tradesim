@@ -80,13 +80,28 @@ def _main():
     va = CVirtualAccount(100000, db.getAllSymbolDataDic())
     print("comm = {}".format(calcCommission(300)))
     print("$ = {}".format(va.getCash()))
-    print("pos = {}".format([str(p) for p in va.getAllPositions()]))
+
+    print("all pos = {}".format([str(p) for p in va.getAllPositions()]))
+    print("open pos = {}".format([str(p) for p in va.getOpenPositions()]))
+    print("closed pos = {}".format([str(p) for p in va.getClosePositions()]))
+
     va.buyAtMarket(3, 'XBB.TO', 100)
-    print("pos = {}".format([str(p) for p in va.getAllPositions()]))
+
+    print("all pos = {}".format([str(p) for p in va.getAllPositions()]))
+    print("open pos = {}".format([str(p) for p in va.getOpenPositions()]))
+    print("closed pos = {}".format([str(p) for p in va.getClosePositions()]))
+
     va.buyAtMarket(6, 'XEC.TO', 200)
-    print("pos = {}".format([str(p) for p in va.getAllPositions()]))
+
+    print("all pos = {}".format([str(p) for p in va.getAllPositions()]))
+    print("open pos = {}".format([str(p) for p in va.getOpenPositions()]))
+    print("closed pos = {}".format([str(p) for p in va.getClosePositions()]))
+
     va.sellAtMarket(va.getAllPositions()[0], 12)
-    print("pos = {}".format([str(p) for p in va.getAllPositions()]))
+
+    print("all pos = {}".format([str(p) for p in va.getAllPositions()]))
+    print("open pos = {}".format([str(p) for p in va.getOpenPositions()]))
+    print("closed pos = {}".format([str(p) for p in va.getClosePositions()]))
 
 
 if __name__ == '__main__':
