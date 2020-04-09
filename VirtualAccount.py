@@ -74,35 +74,26 @@ class CVirtualAccount(object):
             pass
 
 
-def _main():
+def __print_position(va):
+    print("all pos = {}".format([str(p) for p in va.getAllPositions()]))
+    print("open pos = {}".format([str(p) for p in va.getOpenPositions()]))
+    print("closed pos = {}".format([str(p) for p in va.getClosePositions()]))
+
+
+def __main():
     import stock_db_mgr as sdm
     db = sdm.CStockDBMgr('./stock_db/qt')
     va = CVirtualAccount(100000, db.getAllSymbolDataDic())
     print("comm = {}".format(calcCommission(300)))
     print("$ = {}".format(va.getCash()))
-
-    print("all pos = {}".format([str(p) for p in va.getAllPositions()]))
-    print("open pos = {}".format([str(p) for p in va.getOpenPositions()]))
-    print("closed pos = {}".format([str(p) for p in va.getClosePositions()]))
-
+    __print_position(va)
     va.buyAtMarket(3, 'XBB.TO', 100)
-
-    print("all pos = {}".format([str(p) for p in va.getAllPositions()]))
-    print("open pos = {}".format([str(p) for p in va.getOpenPositions()]))
-    print("closed pos = {}".format([str(p) for p in va.getClosePositions()]))
-
+    __print_position(va)
     va.buyAtMarket(6, 'XEC.TO', 200)
-
-    print("all pos = {}".format([str(p) for p in va.getAllPositions()]))
-    print("open pos = {}".format([str(p) for p in va.getOpenPositions()]))
-    print("closed pos = {}".format([str(p) for p in va.getClosePositions()]))
-
+    __print_position(va)
     va.sellAtMarket(va.getAllPositions()[0], 12)
-
-    print("all pos = {}".format([str(p) for p in va.getAllPositions()]))
-    print("open pos = {}".format([str(p) for p in va.getOpenPositions()]))
-    print("closed pos = {}".format([str(p) for p in va.getClosePositions()]))
+    __print_position(va)
 
 
 if __name__ == '__main__':
-    _main()
+    __main()
