@@ -5,6 +5,4 @@ engines:
 
  prospector:
    enabled: true
-   # apparently not working...
-   python_version: 2
 
