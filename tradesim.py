@@ -16,7 +16,7 @@ import pandas as pd
 import finance_utils as fu
 import technical_indicators as ti
 import stock_db_mgr as sdm
-import VirtualAccount as va
+import virtual_account as va
 
 startDate = datetime.date(1900, 1, 1)
 startDate = datetime.date(2014, 1, 6) # Start of Questrade portfolio
@@ -41,7 +41,7 @@ def simulate():
     print("simulate()")
 
     initialCash = 100000.0
-    a = va.CVirtualAccount(initialCash, dataDic)
+    a = va.VirtualAccount(initialCash, dataDic)
 
     print("Initial cash", a.getCash())
 
@@ -120,7 +120,7 @@ def simulate():
 def simulate2():
     print("simulate()")
 
-    a = va.CVirtualAccount(50000.00, dataDic)
+    a = va.VirtualAccount(50000.00, dataDic)
 
     print("Initial cash", a.getCash())
 
