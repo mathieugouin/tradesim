@@ -31,7 +31,7 @@ net = buildNetwork(2, 12, 1, bias=True, hiddenclass=TanhLayer)
 ds = SupervisedDataSet(2, 1)
 
 # XOR data
-for i in xrange(5):
+for i in range(5):
     ds.addSample([0, 0], [0])
     ds.addSample([0, 1], [1])
     ds.addSample([1, 0], [1])

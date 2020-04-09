@@ -141,14 +141,14 @@ def crossUnder(X, Y, i):
 def movingMin(X, n):
     if n < 1:
         raise "n must be >= 1"
-    return np.array([min(X[max(0, i-n+1):i+1]) for i in xrange(len(X))])
+    return np.array([min(X[max(0, i-n+1):i+1]) for i in range(len(X))])
 
 
 # Moving maximum over the last n element
 def movingMax(X, n):
     if n < 1:
         raise "n must be >= 1"
-    return np.array([max(X[max(0, i-n+1):i+1]) for i in xrange(len(X))])
+    return np.array([max(X[max(0, i-n+1):i+1]) for i in range(len(X))])
 
 
 def relative_position(symbol):
