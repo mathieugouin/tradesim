@@ -1,7 +1,7 @@
 # To make print working for Python2/3
 from __future__ import print_function
 
-import Position
+import position
 import math
 
 
@@ -30,7 +30,7 @@ class CVirtualAccount(object):
             commission = calcCommission(nbShare)
             cost = buyPrice * nbShare + commission
             if cost < self._cash:
-                self._positions.append(Position.CPosition(bar, symbol, nbShare, buyPrice, name, commission))
+                self._positions.append(position.Position(bar, symbol, nbShare, buyPrice, name, commission))
                 self._cash -= cost
             else:
                 print("Error: not enough money")
