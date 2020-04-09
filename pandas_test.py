@@ -36,7 +36,7 @@ def data_frame_test():
     # This stock has a split
     f = 'stock_db/tsx/NA.TO.csv'
     df = pd.read_csv(f, index_col='Date', parse_dates=True, na_values='nan')
-    #print(df.describe())
+    print(df.describe())
     print(df.head())
 
     df.sort_index(inplace=True)
@@ -50,10 +50,13 @@ def data_frame_test():
     print(df['Close'].max())
     print(df['Close'].mean())
     print(df['Close'].std())
+    print(df[['Open', 'Close']].mean())  # multi column
 
     # Row indexing
     print(df.iloc[0])  # Integer based
-    print(df.loc['2017-02-02'])  # Label based
+    print(df.iloc[0:3])  # Integer based, multi row
+    print(df.loc['2017-02-06'])  # Label based
+    print(df.loc['2017-02-06':'2017-02-10'])  # Label based, multi row
 
     # Both
     print(df.loc['2018-01-04', 'High'])
