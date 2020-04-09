@@ -4,7 +4,7 @@ from __future__ import print_function
 class CPosition(object):
     """Represents a position held in a portfolio."""
 
-    def __init__(self, bar, symbol, nbShare, price, name = "buy", commission = 9.95):
+    def __init__(self, bar, symbol, nbShare, price, name = "buy", commission=9.95):
         """Equivalent to buy."""
         self._entryBar          = bar
         self._entryPrice        = price
@@ -39,7 +39,7 @@ class CPosition(object):
             )
         return s
 
-    def close(self, bar, price, name = "sell"):
+    def close(self, bar, price, name="sell"):
         if not self._open:
             print("Error: position already closed.")
         self._open      = False
