@@ -3,7 +3,7 @@
 # Reference:
 # http://code.google.com/p/yahoo-finance-managed/wiki/csvHistQuotesDownload
 #
-# Usage: python getYahooFinanceData.py -h
+# Usage: python get_yahoo_finance_data.py -h
 #
 #
 # for selecting tickers and starting date it uses an input file of this format
