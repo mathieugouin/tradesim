@@ -3,9 +3,8 @@
 TMX Stock Quote module provides a Python API for retrieving stock data from TMX.
 """
 
-import urllib
+import finance_utils as fu
 import re
-import time
 
 _cached_symbol = None
 _cached_lines = None
@@ -30,22 +29,6 @@ def _yahoo_to_tmx_stock_name(symbol):
     return tmx_name.replace("-", ".")
 
 
-def _get_url(url):
-    """Download a URL and provide the result as a big string."""
-    try_again = True
-    count = 0
-    s = ""
-    while try_again and count < 5:
-        try:
-            s = urllib.urlopen(url).read().strip()
-            try_again = False
-        except Exception:
-            print("Error, will try again")
-            time.sleep(0.5)  # 500 ms sleep
-            count += 1
-    return s
-
-
 def _download_tmx_page(symbol):
     """Download the TMX data page for a given symbol.  A caching is implemented to prevent multiple re-download."""
     global _cached_symbol
@@ -57,7 +40,7 @@ def _download_tmx_page(symbol):
     if _cached_symbol and _cached_symbol == symbol:
         lines = _cached_lines
     else:
-        lines = _get_url(url).splitlines()
+        lines = fu.downloadUrl(url).splitlines()
         _cached_symbol = symbol
         _cached_lines = lines
 
@@ -203,10 +186,7 @@ def _main():
     print(_yahoo_to_tmx_stock_name("MMM"))
     print("")
 
-    print(_get_url("https://www.google.ca")[0:100])
-    print("")
-
-    print(_download_tmx_page('XBB.TO')[0:100])
+    print(_download_tmx_page('XBB.TO')[0:2])
     print("")
 
     for s in ["NA.TO", "XBB.TO", "BRK-A", "AAPL"]:

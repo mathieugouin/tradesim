@@ -13,6 +13,7 @@ import glob
 import urllib
 import datetime
 import csv
+import time
 
 # Custom
 import pandas as pd
@@ -50,15 +51,17 @@ def getSymbolsFromFile(tickerFile):
 
 
 def downloadUrl(url):
-    tryAgain = True
+    """Download a URL and provide the result as a big string."""
+    try_again = True
     count = 0
     s = ""
-    while tryAgain and count < 5:
+    while try_again and count < 5:
         try:
-            s = urllib.urlopen(url).read()
-            tryAgain = False
+            s = urllib.urlopen(url).read().strip()
+            try_again = False
         except Exception:
             print("Error, will try again")
+            time.sleep(0.5)  # 500 ms sleep
             count += 1
     return s
 
@@ -238,10 +241,7 @@ def _main():
     print(getClose(df)[0:3])
     print(getVolume(df)[0:3])
 
-    df = loadDataFrame(f, start_date, end_date)
-    print(df.describe())
-
-    # Not for single stock, but just to test...
+    # Not applicable for a single stock, but just to test...
     print(normalizeDataFrame(df).head())
 
 
