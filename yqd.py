@@ -72,8 +72,7 @@ def _get_cookie_crumb():
 
 
 def load_yahoo_quote(ticker, begindate, enddate, info='quote'):
-    """
-    Loads the corresponding history/divident/split from Yahoo.
+    """Loads the corresponding history/divident/split from Yahoo.
 
     The "begindate" and "enddate" are in the format of YYYYMMDD are are inclusive.
     The "info" can be "quote" for price, "divident" for divident events,

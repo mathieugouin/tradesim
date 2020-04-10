@@ -244,6 +244,8 @@ def _main():
     # Not applicable for a single stock, but just to test...
     print(normalizeDataFrame(df).head())
 
+    print(downloadUrl("https://www.google.ca")[0:100])
+
 
 if __name__ == '__main__':
     _main()

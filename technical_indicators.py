@@ -119,22 +119,14 @@ def sma(x, n):
     return y
 
 
-def crossOver(x, y, i):
-    """If x just crossed over y at index i."""
-    c = False
-    if i >= 1:
-        if x[i - 1] <= y[i - 1] and x[i] > y[i]:
-            c = True
-    return c
+def cross_over(x1, x2):
+    """If x1 just crossed over x2."""
+    return np.concatenate((np.zeros(1), ((np.diff(((x1 - x2) > 0.0) * 1.0)) > 0.0) * 1.0))
 
 
-def crossUnder(x, y, i):
-    """If x just crossed under y at index i."""
-    c = False
-    if i >= 1:
-        if x[i - 1] >= y[i - 1] and x[i] < y[i]:
-            c = True
-    return c
+def cross_under(x1, x2):
+    """If x1 just crossed under x2."""
+    return np.concatenate((np.zeros(1), ((np.diff(((x1 - x2) < 0.0) * 1.0)) > 0.0) * 1.0))
 
 
 def movingMin(x, n):
@@ -184,18 +176,38 @@ def _main():
 
     print("test_indicator = {}".format(test_indicator('XBB.TO')))
 
-    t = np.arange(-10, 11, 1)
-    plt.stem(t, step(t))
+    t = np.arange(-5, 5, 1)
+    s = step(t)
+    r = ramp(t)
+
+    plt.plot(t, s, marker='x', linestyle='None', label='step')
+    plt.plot(t, r, marker='o', markerfacecolor='None', linestyle='None', label='ramp')
+    plt.legend()
     plt.show()
 
-    plt.stem(t, ramp(t))
+    t = np.linspace(0, 4 * np.pi, 50)
+    s = np.sin(t)
+    c = np.cos(t)
+    o = cross_over(s, c)
+    u = cross_under(s, c)
+
+    fig = plt.figure()
+    ax = fig.add_subplot(211)
+    ax.plot(t, s, marker='.', label='sin')
+    ax.plot(t, c, marker='x', label='cos')
+    ax.legend()
+
+    ax2 = fig.add_subplot(212)
+    ax2.plot(t, o, marker='^', markerfacecolor='None', linestyle='None', label='cross over')
+    ax2.plot(t, u, marker='v', markerfacecolor='None', linestyle='None', label='cross under')
+    ax2.legend()
     plt.show()
 
     n = 100
-    t = np.arange(n) # [0 .. n-1]
+    t = np.arange(n)  # [0 .. n-1]
 
     # triangle
-    #x = np.concatenate((np.arange(0,n/2,1), np.arange(n/2,0,-1)))
+    # x = np.concatenate((np.arange(0,n/2,1), np.arange(n/2,0,-1)))
 
     # step
     x = step(t - n/2) * 10
@@ -204,11 +216,11 @@ def _main():
     #x = ramp(t - n/2)
 
     # normalized random
-    #x = np.cumsum(np.random.randn(n))
+    # x = np.cumsum(np.random.randn(n))
 
-    #x = np.sin(8 * np.pi/n * t) + (.1 * t)
+    # x = np.sin(8 * np.pi/n * t) + (.1 * t)
 
-    #x = 20 * np.sin(2 * 2*np.pi/n * t)
+    # x = 20 * np.sin(2 * 2*np.pi/n * t)
 
     # Add noise:
     x = x + 1.2 * np.random.randn(len(x))

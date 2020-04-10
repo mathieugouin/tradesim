@@ -11,7 +11,6 @@ def calcCommission(nbShare):
 
 
 class VirtualAccount(object):
-
     """Handles an account linked to a stock DB."""
 
     def __init__(self, initialCapital, dataDic):

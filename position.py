@@ -2,7 +2,6 @@
 from __future__ import print_function
 
 class Position(object):
-
     """Represents a position held in a portfolio."""
 
     def __init__(self, bar, symbol, nbShare, price, name="buy", commission=9.95):

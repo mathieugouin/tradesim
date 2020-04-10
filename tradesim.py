@@ -160,7 +160,7 @@ def simulate2():
                     a.sellAtMarket(pos, bar + 1) # bar + 1 = tomorrow
             if not openPositions:
                 # TBD buy logic
-                buySignal = ti.crossOver(sClose, sCloseSma, bar)
+                buySignal = ti.cross_over(sClose, sCloseSma)[bar]
                 if buySignal:
                     nbShare = int(2500 / sClose[bar]) # 2500$ => about 0.8% commission buy + sell
                     a.buyAtMarket(bar + 1, crtSymbol, nbShare) # bar + 1 = tomorrow

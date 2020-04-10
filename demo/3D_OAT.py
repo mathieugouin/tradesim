@@ -32,7 +32,7 @@ def _main():
     m = np.concatenate((
         np.linspace(0, mmax, N),
         np.linspace(mmax, 2.36525, N),
-        np.linspace(2.36525,0,N)))
+        np.linspace(2.36525, 0, N)))
     o = oat(t, m)
 
     ax.scatter(t, m, o, c='r')
