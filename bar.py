@@ -3,6 +3,7 @@ from __future__ import print_function
 
 class Bar(object):
     """Represents a single financial stock data bar for one day."""
+
     def __init__(self, date, openP, highP, lowP, closeP, volume):
         # P = Price
         self.date = date
