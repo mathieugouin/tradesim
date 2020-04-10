@@ -1,10 +1,13 @@
 # To make print working for Python2/3
 from __future__ import print_function
 
+# FIXME: could delete file?
+
 class Bar(object):
     """Represents a single financial stock data bar for one day."""
 
     def __init__(self, date, openP, highP, lowP, closeP, volume):
+        """Instantiate a Bar object."""
         # P = Price
         self.date = date
         self.open = openP
@@ -14,6 +17,7 @@ class Bar(object):
         self.volume = volume
 
     def __str__(self):
+        """Returns a string representation of a Bar object."""
         return "D:{}, O:{}, H:{}, L:{}, C:{}, V:{}".format(
             self.date,
             self.open,
