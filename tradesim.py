@@ -18,10 +18,10 @@ import technical_indicators as ti
 import stock_db_mgr as sdm
 import virtual_account as va
 
-startDate = datetime.date(1900, 1, 1)
-startDate = datetime.date(2014, 1, 6) # Start of Questrade portfolio
-startdate = datetime.date(2013, 8, 12) # Start of Questrade portfolio component highest start date (VUN.TO)
-endDate = datetime.date.today()
+# start_date = datetime.date(1900, 1, 1)
+start_date = datetime.date(2014, 1, 6) # Start of Questrade portfolio
+# start_date = datetime.date(2013, 8, 12) # Start of Questrade portfolio component highest start date (VUN.TO)
+end_date = datetime.date.today()
 
 # default
 dataDir = './stock_db/qt'
@@ -198,7 +198,7 @@ def loadData():
     global dataDic
     global db
 
-    db = sdm.StockDBMgr(dataDir, startDate, endDate)
+    db = sdm.StockDBMgr(dataDir, start_date, end_date)
 
     dataDic = db.getAllSymbolDataDic()
 
