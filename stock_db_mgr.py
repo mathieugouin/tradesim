@@ -26,7 +26,7 @@ class StockDBMgr(object):
             startDate = _default_start_date
         if endDate is None:
             endDate = _default_end_date
-        self._basedir  = basedir
+        self._basedir = basedir
         self._startDate = startDate
         self._endDate = endDate
         self._dataDic = {}
