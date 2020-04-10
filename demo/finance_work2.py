@@ -28,21 +28,22 @@ def moving_average(x, n, moving_average_type='simple'):
 
     weights /= weights.sum()
 
-    a =  np.convolve(x, weights, mode='full')[:len(x)]
+    a = np.convolve(x, weights, mode='full')[:len(x)]
     a[:n] = a[n]
     return a
 
 
 def relative_strength(prices, n=14):
-    """ Compute the n period relative strength indicator
+    """Compute the n period relative strength indicator.
+
     http://stockcharts.com/school/doku.php?id=chart_school:glossary_r#relativestrengthindex
     http://www.investopedia.com/terms/r/rsi.asp
     """
 
     deltas = np.diff(prices)
     seed = deltas[:n+1]
-    up = seed[seed>=0].sum()/n
-    down = -seed[seed<0].sum()/n
+    up = seed[seed >= 0].sum()/n
+    down = -seed[seed < 0].sum()/n
     rs = up/down
     rsi = np.zeros_like(prices)
     rsi[:n] = 100. - 100./(1.+rs)
@@ -50,7 +51,7 @@ def relative_strength(prices, n=14):
     for i in range(n, len(prices)):
         delta = deltas[i-1] # cause the diff is 1 shorter
 
-        if delta>0:
+        if delta > 0:
             upval = delta
             downval = 0.
         else:
@@ -104,12 +105,12 @@ fillcolor = 'darkgoldenrod'
 ax1.plot(df.index, rsi, color=fillcolor)
 ax1.axhline(70, color=fillcolor)
 ax1.axhline(30, color=fillcolor)
-ax1.fill_between(df.index, rsi, 70, where=(rsi>=70), facecolor=fillcolor, edgecolor=fillcolor)
-ax1.fill_between(df.index, rsi, 30, where=(rsi<=30), facecolor=fillcolor, edgecolor=fillcolor)
+ax1.fill_between(df.index, rsi, 70, where=(rsi >= 70), facecolor=fillcolor, edgecolor=fillcolor)
+ax1.fill_between(df.index, rsi, 30, where=(rsi <= 30), facecolor=fillcolor, edgecolor=fillcolor)
 ax1.text(0.6, 0.9, '>70 = overbought', va='top', transform=ax1.transAxes, fontsize=textsize)
 ax1.text(0.6, 0.1, '<30 = oversold', transform=ax1.transAxes, fontsize=textsize)
 ax1.set_ylim(0, 100)
-ax1.set_yticks([30,70])
+ax1.set_yticks([30, 70])
 ax1.text(0.025, 0.95, 'RSI (14)', va='top', transform=ax1.transAxes, fontsize=textsize)
 ax1.set_title('%s daily'%ticker)
 

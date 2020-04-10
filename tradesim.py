@@ -59,9 +59,9 @@ def simulate():
     symbolList.sort()
 
     df = pd.DataFrame(
-        index = symbolList,
-        data = [ratio[s] for s in symbolList],
-        columns = ['TgtAlloc'])
+        index=symbolList,
+        data=[ratio[s] for s in symbolList],
+        columns=['TgtAlloc'])
 
     df['NbShare'] = np.zeros(len(symbolList))
 
@@ -132,10 +132,10 @@ def simulate2():
         crtBars = dataDic[crtSymbol]
 
         # The various series (starting with s):
-        # sOpen   = fu.getOpen(crtBars)
-        # sHigh   = fu.getHigh(crtBars)
-        # sLow    = fu.getLow(crtBars)
-        sClose  = fu.getClose(crtBars)
+        # sOpen = fu.getOpen(crtBars)
+        # sHigh = fu.getHigh(crtBars)
+        # sLow = fu.getLow(crtBars)
+        sClose = fu.getClose(crtBars)
         # sVolume = fu.getVolume(crtBars)
 
         # Technical indicators
@@ -217,7 +217,7 @@ def _main():
 
     loadData()
 
-    #plotTest()
+    plotTest()
 
     simulate()
     #simulate2()

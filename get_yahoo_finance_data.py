@@ -81,23 +81,23 @@ if __name__ == '__main__':
 
     # parse arguments
     parser = OptionParser()
-    parser.add_option("-f", "--file", dest="tickerfile", action="store", default = "./tickers.txt",
+    parser.add_option("-f", "--file", dest="tickerfile", action="store", default="./tickers.txt",
                       help="read ticker list from file, it uses ./tickers.txt as default")
-    parser.add_option("-c", "--concurrent", type="int", dest="connections", default = 10, action="store",
+    parser.add_option("-c", "--concurrent", type="int", dest="connections", default=10, action="store",
                       help="# of concurrent connections")
-    parser.add_option("-d", "--dir", dest="downloadTo", action="store", default = "./rawdata",
+    parser.add_option("-d", "--dir", dest="downloadTo", action="store", default="./rawdata",
                       help="save data to this directory, it uses ./rawdata/ as default")
 
-    parser.add_option("-s", "--startdate", dest="startdate", default = startdate, action="store",
+    parser.add_option("-s", "--startdate", dest="startdate", default=startdate, action="store",
                       help="start date, format is YYYYMMDD, ex: 19991231")
-    parser.add_option("-t", "--todate", dest="todate", default = today, action="store",
+    parser.add_option("-t", "--todate", dest="todate", default=today, action="store",
                       help="most recent date needed, format is YYYYMMDD, ex: 20121231")
-    parser.add_option("-v", "--verbose", default = False,
+    parser.add_option("-v", "--verbose", default=False,
                           action="store_true", dest="verbose")
-    parser.add_option("-o", "--offline", default = False,
+    parser.add_option("-o", "--offline", default=False,
                           action="store_true", dest="offline")
 
-    (options, args) = parser.parse_args()
+    (options, _args) = parser.parse_args()
 
     # get input list
     try:
