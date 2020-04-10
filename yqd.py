@@ -1,4 +1,5 @@
 """yqd.py - Yahoo Quote Downloader.
+
 Created on May 18 2017
 @author: c0redumb
 
