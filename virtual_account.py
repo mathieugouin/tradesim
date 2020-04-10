@@ -10,7 +10,7 @@ def calcCommission(nbShare):
     return nbShare * 0.0035 + min(9.95, max(0.01 * nbShare, 4.95))
 
 
-class CVirtualAccount(object):
+class VirtualAccount(object):
 
     """Handles an account linked to a stock DB."""
 
@@ -85,7 +85,7 @@ def __print_position(va):
 def __main():
     import stock_db_mgr as sdm
     db = sdm.StockDBMgr('./stock_db/qt')
-    va = CVirtualAccount(100000, db.getAllSymbolDataDic())
+    va = VirtualAccount(100000, db.getAllSymbolDataDic())
     print("comm = {}".format(calcCommission(300)))
     print("$ = {}".format(va.getCash()))
     va.deltaCash(100)
