@@ -19,6 +19,10 @@ mypy:
 
 pep257:
   run: true
+  disable:
+    # D212 & D213 are mutually exclusive
+    # Ref: http://www.pydocstyle.org/en/5.0.2/error_codes.html
+    - D213
 
 pep8:
   run: true

@@ -15,7 +15,7 @@ db = sdm.StockDBMgr('../stock_db/test', startdate, enddate)
 
 
 def moving_average(x, n, moving_average_type='simple'):
-    """ Compute an n period moving average.
+    """Compute an n period moving average.
 
     type is 'simple' | 'exponential'
 

@@ -1,7 +1,5 @@
 #!/usr/bin/env python
-"""
-TMX Stock Quote module provides a Python API for retrieving stock data from TMX.
-"""
+"""TMX Stock Quote module provides a Python API for retrieving stock data from TMX."""
 
 import finance_utils as fu
 import re
