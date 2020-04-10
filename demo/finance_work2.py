@@ -68,7 +68,8 @@ def relative_strength(prices, n=14):
 
 
 def moving_average_convergence(x, nslow=26, nfast=12):
-    """ Compute the MACD (Moving Average Convergence/Divergence) using a fast and slow exponential moving avg'
+    """Compute the MACD (Moving Average Convergence/Divergence) using a fast and slow exponential moving avg.
+
     return value is emaslow, emafast, macd which are len(x) arrays
     """
     emaslow = moving_average(x, nslow, moving_average_type='exponential')
