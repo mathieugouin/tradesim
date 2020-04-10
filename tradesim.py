@@ -31,7 +31,7 @@ db = None
 
 
 def calcCommissionETF(nbShare):
-    """Return the trade commission cost for ETF using the following convention: positive:Buy, negative:Sell."""
+    """Return the ETF trade commission: positive=Buy, negative=Sell."""
     return (nbShare < 0) * min(9.95, max(4.95, -nbShare * 0.01)) + math.fabs(nbShare) * 0.0035
 
 
