@@ -30,10 +30,8 @@ dataDic = {}
 db = None
 
 
-# +:Buy
-# -:Sell
 def calcCommissionETF(nbShare):
-    #       (V2 < 0)     * min(9.95, max(4.95, -V2 * 0.01))     + abs(V2) * 0.0035
+    """Return the trade commission cost for ETF using the following convention: positive:Buy, negative:Sell."""
     return (nbShare < 0) * min(9.95, max(4.95, -nbShare * 0.01)) + math.fabs(nbShare) * 0.0035
 
 
@@ -86,7 +84,7 @@ def simulate():
             # +:Buy  -:Sell
             df['DeltaShare'] = np.floor((df['TgtValue']) / df['Price']) - df['NbShare']
 
-            #c = [calcCommissionETF(n) for n in df['DeltaShare'].values]
+            c = [calcCommissionETF(n) for n in df['DeltaShare'].values]
 
             # TBD not sure about the commission formula for both buy & sell...
 
@@ -225,3 +223,4 @@ def _main():
 
 if __name__ == '__main__':
     _main()
+
