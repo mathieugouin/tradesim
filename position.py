@@ -5,21 +5,21 @@ class Position(object):
 
     """Represents a position held in a portfolio."""
 
-    def __init__(self, bar, symbol, nbShare, price, name = "buy", commission=9.95):
+    def __init__(self, bar, symbol, nbShare, price, name="buy", commission=9.95):
         """Equivalent to buy."""
-        self._entryBar          = bar
-        self._entryPrice        = price
-        self._entryName         = name
-        self._entryCommission   = commission
+        self._entryBar = bar
+        self._entryPrice = price
+        self._entryName = name
+        self._entryCommission = commission
 
-        self._exitBar           = -1
-        self._exitPrice         = -1.0
-        self._exitName          = ""
-        self._exitCommission    = commission
+        self._exitBar = -1
+        self._exitPrice = -1.0
+        self._exitName = ""
+        self._exitCommission = commission
 
-        self._symbol     = symbol
-        self._nbShare    = nbShare
-        self._open       = True
+        self._symbol = symbol
+        self._nbShare = nbShare
+        self._open = True
 
     def __str__(self):
         """Converts the Position to a string representation."""
@@ -43,10 +43,10 @@ class Position(object):
     def close(self, bar, price, name="sell"):
         if not self._open:
             print("Error: position already closed.")
-        self._open      = False
+        self._open = False
         self._exitPrice = price
-        self._exitBar   = bar
-        self._exitName  = name
+        self._exitBar = bar
+        self._exitName = name
         return self._nbShare * self._exitPrice
 
     def getSymbol(self):
