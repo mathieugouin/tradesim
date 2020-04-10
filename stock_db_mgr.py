@@ -18,7 +18,6 @@ _default_end_date = datetime.date.today()
 
 
 class StockDBMgr(object):
-
     """Stock Data Base Manager: handles reading a list of stock CSV files from a storage directory."""
 
     def __init__(self, basedir, startDate=None, endDate=None, adjustPrice=True):
@@ -27,10 +26,10 @@ class StockDBMgr(object):
             startDate = _default_start_date
         if endDate is None:
             endDate = _default_end_date
-        self._basedir   = basedir
+        self._basedir  = basedir
         self._startDate = startDate
-        self._endDate   = endDate
-        self._dataDic   = {}
+        self._endDate = endDate
+        self._dataDic = {}
         self._adjustPrice = adjustPrice
 
     def getAllSymbolsAvailable(self):
@@ -74,8 +73,7 @@ class StockDBMgr(object):
         return self._dataDic
 
     def getAllSymbolDataSingleItem(self, item):
-        """
-        Combine one item of all available stock into a single DataFrame.
+        """Combine one item of all available stock into a single DataFrame.
 
         Available item are 'Open', 'High', 'Low', 'Close'.
         """
