@@ -33,7 +33,9 @@ def linFit(x, n):
         raise AssertionError("n must be >= 2")
     t = np.arange(len(x))
     Y = np.array(
-        [np.polyval(np.polyfit(t[i-n+1:i+1], x[i - n + 1:i + 1], 1), i) for i in np.arange(n - 1, len(t), 1)])
+        [np.polyval(
+            np.polyfit(
+                t[i-n+1:i+1], x[i - n + 1:i + 1], 1), i) for i in np.arange(n - 1, len(t), 1)])
     # NaN at beginning (invalid value)
     Y = np.concatenate((np.array([np.nan] * (n-1)), Y))
     return Y
