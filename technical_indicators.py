@@ -30,9 +30,10 @@ def ramp(t):
 def linFit(x, n):
     """Linear regression of 'n' points used to give the smoothed point."""
     if n < 2:
-        raise "n must be >= 2"
+        raise AssertionError("n must be >= 2")
     t = np.arange(len(x))
-    Y = np.array([np.polyval(np.polyfit(t[i-n+1:i+1], x[i - n + 1:i + 1], 1), i) for i in np.arange(n - 1, len(t), 1)])
+    Y = np.array(
+        [np.polyval(np.polyfit(t[i-n+1:i+1], x[i - n + 1:i + 1], 1), i) for i in np.arange(n - 1, len(t), 1)])
     # NaN at beginning (invalid value)
     Y = np.concatenate((np.array([np.nan] * (n-1)), Y))
     return Y
@@ -81,9 +82,9 @@ def iir_lowpass(x, order, period):
 def ema(x, n):
     """Exponential Moving Average."""
     if n < 1:
-        raise "n must be >= 1"
+        raise AssertionError("n must be >= 1")
     if n >= x.size:
-        raise "n too big compared to size of array"
+        raise AssertionError("n too big compared to size of array")
 
     k = 2.0 / (n + 1)
 
@@ -99,9 +100,9 @@ def ema(x, n):
 def aema(x, n):
     """Adaptive EMA (my invention...)."""
     if n < 1:
-        raise "n must be >= 1"
+        raise AssertionError("n must be >= 1")
     if n >= x.size:
-        raise "n too big compared to size of array"
+        raise AssertionError("n too big compared to size of array")
     e = ema(x, n)
     # TBD: tune factor here...
     y = e + 0.5 * ema(x - e, int(n))
@@ -111,7 +112,7 @@ def aema(x, n):
 def sma(x, n):
     """Simple Moving Average.  From y[:n-2] is invalid."""
     if n < 2:
-        raise "n must be > 1"
+        raise AssertionError("n must be > 1")
     c = np.ones(n) / n
     y = np.convolve(x, c)[:-(n - 1)]
     # invalidate the range
@@ -132,14 +133,14 @@ def cross_under(x1, x2):
 def movingMin(x, n):
     """Moving minimum over the last n elements."""
     if n < 1:
-        raise "n must be >= 1"
+        raise AssertionError("n must be >= 1")
     return np.array([min(x[max(0, i - n + 1):i + 1]) for i in range(len(x))])
 
 
 def movingMax(x, n):
     """Moving maximum over the last n elements."""
     if n < 1:
-        raise "n must be >= 1"
+        raise AssertionError("n must be >= 1")
     return np.array([max(x[max(0, i - n + 1):i + 1]) for i in range(len(x))])
 
 

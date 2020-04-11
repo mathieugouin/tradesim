@@ -1,16 +1,18 @@
 #! /usr/bin/env python
 
-# Reference:
-# http://code.google.com/p/yahoo-finance-managed/wiki/csvHistQuotesDownload
-#
-# Usage: python get_yahoo_finance_data.py -h
-#
-#
-# for selecting tickers and starting date it uses an input file of this format
-# <ticker> <fromdate as YYYYMMDD>
-# like
-# ^GSPC 19500103 # S&P 500
-# ^N225 19840104 # Nikkei 225
+"""Yahoo historical quotes downloader.
+
+Reference:
+http://code.google.com/p/yahoo-finance-managed/wiki/csvHistQuotesDownload
+
+Usage: python get_yahoo_finance_data.py -h
+
+For selecting tickers and starting date it uses an input file of this format
+<ticker> <fromdate as YYYYMMDD>
+like
+^GSPC 19500103 # S&P 500
+^N225 19840104 # Nikkei 225
+"""
 
 # To make print working for Python2/3
 from __future__ import print_function
@@ -32,8 +34,9 @@ def _my_assert(expression, msg='No message provided'):
         raise AssertionError(msg)
 
 
-# this thread ask the queue for job and does it!
 class WorkerThread(threading.Thread):
+    """Thread class to ask the queue for job and does it."""
+
     def __init__(self, queue):
         """Creates a new thread."""
         threading.Thread.__init__(self)
@@ -83,8 +86,8 @@ if __name__ == '__main__':
     parser = OptionParser()
     parser.add_option("-f", "--file", dest="tickerfile", action="store", default="./tickers.txt",
                       help="read ticker list from file, it uses ./tickers.txt as default")
-    parser.add_option("-c", "--concurrent", type="int", dest="connections", default=10, action="store",
-                      help="# of concurrent connections")
+    parser.add_option("-c", "--concurrent", type="int", dest="connections", default=10,
+                      action="store", help="# of concurrent connections")
     parser.add_option("-d", "--dir", dest="downloadTo", action="store", default="./rawdata",
                       help="save data to this directory, it uses ./rawdata/ as default")
 
@@ -115,10 +118,12 @@ if __name__ == '__main__':
         tickerRow = tickerRow.strip() # remove leading and trailing whitespace
         if not tickerRow or tickerRow[0] == "#":  # skip comment line starting with #
             continue
-        tickerSplit = tickerRow.split() # split on whitespace to ignore optional description after the ticker
+        # split on whitespace to ignore optional description after the ticker
+        tickerSplit = tickerRow.split()
 
         if options.verbose:
-            print("Adding (ticker, startdate, todate):", tickerSplit[0], options.startdate, options.todate)
+            print("Adding {} from {} to {}".format(
+                        tickerSplit[0], options.startdate, options.todate))
 
         # ticker, fromdate, todate
         queue.put((tickerSplit[0], options.startdate, options.todate))
@@ -130,10 +135,12 @@ if __name__ == '__main__':
     _my_assert(1 <= connections <= 255, "too much concurrent connections asked")
 
     if options.verbose:
-        print("----- Getting", numTickers, "Tickers using", connections, "simultaneous connections -----")
+        print("----- Getting {} tickers using {} simultaneous connections -----".format(
+            numTickers, connections))
 
-    # At this point, get a dummy small quote from Y! to get the crumb & cookie before the threads start
-    _my_assert(len(yqd.load_yahoo_quote('^GSPC', '20180212', '20180212')) > 5, "Error: initial download did not work")
+    # Get a dummy small quote from Y! to get the crumb & cookie before the threads start.
+    _my_assert(len(yqd.load_yahoo_quote('^GSPC', '20180212', '20180212')) > 5,
+        "Error: initial download did not work")
 
     # start a bunch of threads, passing them the queue of jobs to do
     threads = []
