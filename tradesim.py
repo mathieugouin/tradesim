@@ -19,14 +19,19 @@ import stock_db_mgr as sdm
 import virtual_account as va
 
 # start_date = datetime.date(1900, 1, 1)
-start_date = datetime.date(2014, 1, 6) # Start of Questrade portfolio
-# start_date = datetime.date(2013, 8, 12) # Start of Questrade portfolio component highest start date (VUN.TO)
+
+# Start of Questrade portfolio
+start_date = datetime.date(2014, 1, 6)
+
+# Start of Questrade portfolio component highest start date (VUN.TO)
+# start_date = datetime.date(2013, 8, 12)
+
 end_date = datetime.date.today()
 
 # default
-dataDir = './stock_db/qt'
+data_dir = './stock_db/qt'
 # Global data dictionary
-dataDic = {}
+data_dic = {}
 db = None
 
 
@@ -39,7 +44,7 @@ def simulate():
     print("simulate()")
 
     initialCash = 100000.0
-    a = va.VirtualAccount(initialCash, dataDic)
+    a = va.VirtualAccount(initialCash, data_dic)
 
     print("Initial cash", a.getCash())
 
@@ -53,7 +58,7 @@ def simulate():
     }
 
     # Symbol loop
-    symbolList = dataDic.keys()
+    symbolList = data_dic.keys()
     symbolList.sort()
 
     df = pd.DataFrame(
@@ -111,23 +116,23 @@ def simulate():
 
     print("Initial Cash =", initialCash)
     # Update last price
-    df['Price'] = [dataDic[s].iloc[-1]['Close'] for s in symbolList]
+    df['Price'] = [data_dic[s].iloc[-1]['Close'] for s in symbolList]
     print("Final Cash = ", sum(df['Price'] * df['NbShare']) + a.getCash())
 
 
 def simulate2():
     print("simulate()")
 
-    a = va.VirtualAccount(50000.00, dataDic)
+    a = va.VirtualAccount(50000.00, data_dic)
 
     print("Initial cash", a.getCash())
 
     # Symbol loop
-    symbolList = dataDic.keys()
+    symbolList = data_dic.keys()
     symbolList.sort()
     for crtSymbol in symbolList:
         print("Simulating with", crtSymbol)
-        crtBars = dataDic[crtSymbol]
+        crtBars = data_dic[crtSymbol]
 
         # The various series (starting with s):
         # sOpen = fu.getOpen(crtBars)
@@ -172,11 +177,11 @@ def simulate2():
 def plotTest():
     print("plotTest()")
 
-    symbolList = dataDic.keys()
+    symbolList = data_dic.keys()
     symbolList.sort()
     for crtSymbol in symbolList:
         print("Plotting with " + crtSymbol)
-        df = dataDic[crtSymbol]
+        df = data_dic[crtSymbol]
 
         X = fu.getClose(df)
         t = np.arange(len(X))
@@ -193,32 +198,32 @@ def plotTest():
 def loadData():
     print("loadData()")
 
-    global dataDic
+    global data_dic
     global db
 
-    db = sdm.StockDBMgr(dataDir, start_date, end_date)
+    db = sdm.StockDBMgr(data_dir, start_date, end_date)
 
-    dataDic = db.getAllSymbolDataDic()
+    data_dic = db.getAllSymbolDataDic()
 
 
 def _main():
     print("main()")
 
-    global dataDir
+    global data_dir
 
     # parse arguments
     parser = OptionParser()
-    parser.add_option("-d", "--dir", dest="dataDir", action="store", default=dataDir,
-                      help="Get stock data (csv) from this directory, it uses " + dataDir + " as default")
+    parser.add_option("-d", "--dir", dest="dataDir", action="store", default=data_dir,
+        help="Get stock data (CSV) from this directory, it uses " + data_dir + " as default")
     (options, _args) = parser.parse_args()
-    dataDir = options.dataDir
+    data_dir = options.dataDir
 
     loadData()
 
     plotTest()
 
     simulate()
-    #simulate2()
+    # simulate2()
 
 
 if __name__ == '__main__':
