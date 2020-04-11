@@ -44,23 +44,32 @@ def linFit(x, n):
 def rateOfChange(x, n):
     """Return the Rate Of Change (1st derivative) based on 'n' points linear regression."""
     t = np.arange(len(x))
-    Y = np.array([np.polyfit(t[i-n+1:i+1], x[i - n + 1:i + 1], 1)[0] for i in np.arange(n - 1, len(t), 1)])
+    y = np.array(
+        [np.polyfit(
+            t[i - n + 1:i + 1],
+            x[i - n + 1:i + 1],
+            1)[0] for i in np.arange(n - 1, len(t), 1)]
+    )
     # NaN at beginning (invalid value)
-    #Y = np.concatenate((np.array([np.nan] * (n-1)), Y))
+    # y = np.concatenate((np.array([np.nan] * (n-1)), y))
     # Zero at beginning (invalid value)
-    Y = np.concatenate((np.zeros(n-1), Y))
-    return Y
+    y = np.concatenate((np.zeros(n - 1), y))
+    return y
 
 
 def acceleration(X, n):
     """Return the "Acceleration" (2nd derivative) based on 'n' points 2nd order regression."""
     t = np.arange(len(X))
-    Y = np.array([np.polyfit(t[i-n+1:i+1], X[i-n+1:i+1], 2)[0]*2 for i in np.arange(n-1, len(t), 1)])
+    y = np.array(
+        [np.polyfit(
+            t[i - n + 1:i + 1],
+            X[i - n + 1:i + 1],
+            2)[0] * 2 for i in np.arange(n - 1, len(t), 1)])
     # NaN at beginning (invalid value)
-    #Y = np.concatenate((np.array([np.nan] * (n-1)), Y))
+    # y = np.concatenate((np.array([np.nan] * (n-1)), y))
     # Zero at beginning (invalid value)
-    Y = np.concatenate((np.zeros(n-1), Y))
-    return Y
+    y = np.concatenate((np.zeros(n - 1), y))
+    return y
 
 
 def iir_lowpass(x, order, period):

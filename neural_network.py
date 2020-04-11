@@ -17,26 +17,27 @@ def rand(a, b):
     return (b-a)*random.random() + a
 
 
-# Make a matrix
-def makeMatrix(I, J, fill=0.0):
-    return np.matrix(np.ones((I, J))) * fill
+def make_matrix(i, j, fill=0.0):
+    """Make a matrix i x j, with init value fill."""
+    return np.matrix(np.ones((i, j))) * fill
 
 
-# our sigmoid function, tanh is a little nicer than the standard 1/(1+e^-x)
 def sigmoid(x):
+    """Our sigmoid function, tanh is a little nicer than the standard 1/(1+e^-x)."""
     return math.tanh(x)
 
 
-# derivative of our sigmoid function, in terms of the output (i.e. y)
 def dsigmoid(y):
+    """Derivative of our sigmoid function, in terms of the output (i.e. y)."""
     return 1.0 - y**2
 
 
 class NeuralNetwork(object):
+    """Neural Network class to """
+
     def __init__(self, ni, nh, no):
-        """Creates a Neural Network object."""
-        # number of input, hidden, and output nodes
-        self.ni = ni + 1 # +1 for bias node
+        """Creates a Neural Network object with the number of input, hidden, and output nodes."""
+        self.ni = ni + 1  # +1 for bias node
         self.nh = nh
         self.no = no
 
@@ -46,8 +47,8 @@ class NeuralNetwork(object):
         self.ao = np.ones(self.no)
 
         # create weights
-        self.wi = makeMatrix(self.ni, self.nh)
-        self.wo = makeMatrix(self.nh, self.no)
+        self.wi = make_matrix(self.ni, self.nh)
+        self.wo = make_matrix(self.nh, self.no)
         # set them to random values
         for i in range(self.ni):
             for j in range(self.nh):
@@ -57,8 +58,8 @@ class NeuralNetwork(object):
                 self.wo[j, k] = rand(-2.0, 2.0)
 
         # last change in weights for momentum
-        self.ci = makeMatrix(self.ni, self.nh)
-        self.co = makeMatrix(self.nh, self.no)
+        self.ci = make_matrix(self.ni, self.nh)
+        self.co = make_matrix(self.nh, self.no)
 
     def update(self, inputs):
         if len(inputs) != self.ni-1:

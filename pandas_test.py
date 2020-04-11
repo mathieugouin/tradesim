@@ -27,7 +27,10 @@ def data_frame_test2():
     nrow = 8
     ncol = 5
     dates = pd.date_range('2000-01-01', periods=nrow)
-    df = pd.DataFrame(data=np.random.randn(nrow, ncol), index=dates, columns=list(string.ascii_uppercase[0:ncol]))
+    df = pd.DataFrame(
+        data=np.random.randn(nrow, ncol),
+        index=dates,
+        columns=list(string.ascii_uppercase[0:ncol]))
     df.rename_axis('Date', inplace=True)
     print(df)
 
