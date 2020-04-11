@@ -61,9 +61,10 @@ class VirtualAccount(object):
 
     def getClosePositions(self, symbol=""):
         if symbol in self._dataDic.keys():
-            return [p for p in self._positions if p.getSymbol() == symbol and not p.isOpen()] # close positions only for symbol
-        else:
-            return [p for p in self._positions if not p.isOpen()] # all close positions
+            # close positions only for symbol
+            return [p for p in self._positions if p.getSymbol() == symbol and not p.isOpen()]
+        # all close positions
+        return [p for p in self._positions if not p.isOpen()]
 
     def getCash(self):
         return self._cash

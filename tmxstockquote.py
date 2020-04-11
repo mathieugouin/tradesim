@@ -71,8 +71,8 @@ def _request_tmx_multi_re(symbol, re_arr):
                 if j == len(re_arr) - 1:
                     value = m.group(1)
                     break
-                else:
-                    j = j + 1  # continue at next re
+                # continue at next re
+                j = j + 1
     return value
 
 
@@ -148,8 +148,7 @@ def get_currency(symbol):
     """Currency the stock trades in.  Quick implementation based on the ticker."""
     if _yahoo_to_tmx_stock_name(symbol).endswith(':US'):
         return 'USD'
-    else:
-        return 'CAD'
+    return 'CAD'
 
 
 def get_market_cap(symbol):

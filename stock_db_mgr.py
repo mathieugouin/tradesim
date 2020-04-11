@@ -73,10 +73,14 @@ class StockDBMgr(object):
         return self._dataDic
 
     def getAllSymbolDataSingleItem(self, item):
-        """
-        Combine one item of all available stock into a single DataFrame.
+        """Combine one item of all available stock into a single DataFrame.
 
-        Available item are 'Open', 'High', 'Low', 'Close'.
+        Available items are:
+        - 'Open'
+        - 'High'
+        - 'Low'
+        - 'Close'
+        - 'Adj Close' (only when the DB is not adjusted)
         """
 
         # Re-index to only have the relevant date range
