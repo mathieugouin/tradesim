@@ -45,7 +45,7 @@ class StockDBMgr(object):
 
     def validateSymbolData(self, symbol):
         """Perform basic data validation on symbol, return True/False based on the result."""
-        return fu.validateSymbolData(fu.symbol_to_filename(symbol, self._basedir))
+        return fu.validate_symbol_data(fu.symbol_to_filename(symbol, self._basedir))
 
     def updateAllSymbols(self):
         """Re-download all symbol data available on disk."""

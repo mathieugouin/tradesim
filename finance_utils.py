@@ -4,6 +4,7 @@
 from __future__ import print_function
 
 # System
+import re
 import os
 import glob
 import urllib
@@ -19,10 +20,13 @@ import yqd
 
 
 def filename_to_symbol(filename):
-    return os.path.basename(filename).replace('.csv', '')
+    """Return the basename of the filename without the .csv at the end."""
+    pat = re.compile(re.escape('.csv'), re.IGNORECASE)
+    return pat.sub('', os.path.basename(filename))
 
 
 def symbol_to_filename(symbol, basedir):
+    """Return the complete filename path based on the symbol and basedir."""
     return os.path.join(basedir, symbol.upper()) + '.csv'
 
 
@@ -164,41 +168,16 @@ def load_data_frame(csv_file, start_date, end_date, adjust_price=True):
         return None
 
 
-def validateSymbolData(csvFile):
+def validate_symbol_data(csv_file):
     """Check for basic errors in historical market data."""
-    #print("Validating:%s" % csvFile)
     valid = True # Default
-    # The CSV files are downloaded from yahoo historical data
-    f = open(csvFile, 'r')
-    #lineSplit  0,   1,   2,   3,  4,    5,     6
-    #priceData       0,   1,   2,  3,    4,     5
-    #           Date,Open,High,Low,Close,Volume,Adj Close
-    #           2012-03-21,204.32,205.77,204.30,204.69,3329900,204.69
+    f = open(csv_file, 'r')
     f.seek(0)
     try:
         dialect = csv.Sniffer().sniff(f.read(1024))
         if dialect:
-            if False: # temp for now, csv only...
-                f.seek(0)
-                f.readline() # skip header row
-                for l in f.readlines():
-                    # Date,Open,High,Low,Close,Volume,Adj Close
-                    lineSplit = l.strip().split(',')
-                    if len(lineSplit) != 7:
-                        print("Error: Invalid line, missing data")
-                        valid = False
-                        break
-                    dateSplit = map(int, lineSplit[0].split('-'))
-                    if len(dateSplit) != 3:
-                        print("Error: Invalid date format")
-                        valid = False
-                        break
-                    priceData = map(float, lineSplit[1:])
-                    if priceData[3] == 0 or priceData[5] == 0:
-                        print("Error: Invalid price data")
-                        valid = False
-                        break
-        else: # csv was not able to find a dialect, consider not valid CSV
+            pass  # validation stops here
+        else:  # csv was not able to find a dialect, consider not valid CSV
             valid = False
     except Exception:
         valid = False
@@ -216,7 +195,8 @@ def _main():
     f = symbol_to_filename(s, d)
     print("symbol {} with directory {} gives filename {}".format(s, d, f))
     print("filename {} gives symbol {}".format(f, filename_to_symbol(f)))
-    print("validateSymbolData {} = {}".format(f, validateSymbolData(f)))
+    print("filename {} gives symbol {}".format(f.upper(), filename_to_symbol(f.upper())))
+    print("validate_symbol_data {} = {}".format(f, validate_symbol_data(f)))
 
     print("directory {} contains the following stocks: {}".format(d, get_all_symbols_available(d)))
 
