@@ -135,11 +135,11 @@ def simulate2():
         crtBars = data_dic[crtSymbol]
 
         # The various series (starting with s):
-        # sOpen = fu.getOpen(crtBars)
-        # sHigh = fu.getHigh(crtBars)
-        # sLow = fu.getLow(crtBars)
-        sClose = fu.getClose(crtBars)
-        # sVolume = fu.getVolume(crtBars)
+        # sOpen = fu.get_open(crtBars)
+        # sHigh = fu.get_high(crtBars)
+        # sLow = fu.get_low(crtBars)
+        sClose = fu.get_close(crtBars)
+        # sVolume = fu.get_volume(crtBars)
 
         # Technical indicators
         # sVolumeSma = ti.sma(sVolume, 21)
@@ -183,7 +183,7 @@ def plotTest():
         print("Plotting with " + crtSymbol)
         df = data_dic[crtSymbol]
 
-        X = fu.getClose(df)
+        X = fu.get_close(df)
         t = np.arange(len(X))
         plt.plot(t, X,)
         #plt.plot(t, ti.sma(X, 200))

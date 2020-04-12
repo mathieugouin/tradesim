@@ -19,7 +19,7 @@ db = sdm.StockDBMgr('./stock_db/qt', startdate, enddate)
 #db = sdm.StockDBMgr('./stock_db/sp500')
 #db = sdm.StockDBMgr('./stock_db/test')
 
-#db.updateAllSymbols()
+#db.update_all_symbols()
 
 inv = []
 

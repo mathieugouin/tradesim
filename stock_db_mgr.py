@@ -34,32 +34,32 @@ class StockDBMgr(object):
 
     def getAllSymbolsAvailable(self):
         """Return a list of ticker symbols corresponding to the data available locally on disk."""
-        return fu.getAllSymbolsAvailable(self._basedir)
+        return fu.get_all_symbols_available(self._basedir)
 
     def downloadData(self, symbol):
         """Download the data for the given symbol."""
-        fu.downloadData(symbol, self._basedir, _default_start_date, _default_end_date)
+        fu.download_data(symbol, self._basedir, _default_start_date, _default_end_date)
         # Make sure the data is re-fetched from disk
         if symbol in self._dataDic:
             del self._dataDic[symbol]
 
     def validateSymbolData(self, symbol):
         """Perform basic data validation on symbol, return True/False based on the result."""
-        return fu.validateSymbolData(fu.symbolToFilename(symbol, self._basedir))
+        return fu.validateSymbolData(fu.symbol_to_filename(symbol, self._basedir))
 
     def updateAllSymbols(self):
         """Re-download all symbol data available on disk."""
-        fu.updateAllSymbols(self._basedir, _default_start_date, _default_end_date)
+        fu.update_all_symbols(self._basedir, _default_start_date, _default_end_date)
         # Make sure the data is re-fetched from disk
         self._dataDic = {}
 
     def getSymbolData(self, symbol):
         """Return a single symbol data as a DataFrame."""
         if symbol not in self._dataDic:
-            f = fu.symbolToFilename(symbol, self._basedir)
+            f = fu.symbol_to_filename(symbol, self._basedir)
             if not os.path.exists(f):
                 self.downloadData(symbol)
-            df = fu.loadDataFrame(f, self._startDate, self._endDate, adjustPrice=self._adjustPrice)
+            df = fu.load_data_frame(f, self._startDate, self._endDate, adjust_price=self._adjustPrice)
             if df is None:
                 print("ERROR: data for {} contains error".format(symbol))
             self._dataDic[symbol] = df  # Store it for next time
