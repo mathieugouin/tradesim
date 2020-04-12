@@ -46,7 +46,7 @@ def simulate():
     initialCash = 100000.0
     a = va.VirtualAccount(initialCash, data_dic)
 
-    print("Initial cash", a.getCash())
+    print("Initial cash", a.get_cash())
 
     # Target allocation:
     ratio = {
@@ -79,7 +79,7 @@ def simulate():
 
             df['MktValue'] = df['Price'] * df['NbShare']
 
-            totalValue = sum(df['Price'] * df['NbShare']) + a.getCash()
+            totalValue = sum(df['Price'] * df['NbShare']) + a.get_cash()
 
             df['CurrAlloc'] = df['MktValue'] / totalValue
             df['DeltaAlloc'] = df['CurrAlloc'] - df['TgtAlloc']
@@ -97,18 +97,18 @@ def simulate():
                 n = df.loc[s, 'DeltaShare']
                 if n > 0:
                     print("  Buy {} of {}".format(n, s))
-                    a.deltaCash(-n * df.loc[s, 'Price'])
+                    a.delta_cash(-n * df.loc[s, 'Price'])
                     df.loc[s, 'NbShare'] += n
-                    #a.buyAtMarket(i, s, n)
+                    #a.buy_at_market(i, s, n)
                 elif n < 0:
                     print("  Sell {} of {}".format(-n, s))
-                    a.deltaCash(-n * df.loc[s, 'Price'])
+                    a.delta_cash(-n * df.loc[s, 'Price'])
                     df.loc[s, 'NbShare'] += n
-                    #a.sellAtMarket()
+                    #a.sell_at_market()
 
             # Do not tolerate after all transactions are done.
-            if a.getCash() < 0:
-                print("Error: not enough money", a.getCash())
+            if a.get_cash() < 0:
+                print("Error: not enough money", a.get_cash())
 
         else:
             #print("skip", i)
@@ -117,7 +117,7 @@ def simulate():
     print("Initial Cash =", initialCash)
     # Update last price
     df['Price'] = [data_dic[s].iloc[-1]['Close'] for s in symbolList]
-    print("Final Cash = ", sum(df['Price'] * df['NbShare']) + a.getCash())
+    print("Final Cash = ", sum(df['Price'] * df['NbShare']) + a.get_cash())
 
 
 def simulate2():
@@ -125,7 +125,7 @@ def simulate2():
 
     a = va.VirtualAccount(50000.00, data_dic)
 
-    print("Initial cash", a.getCash())
+    print("Initial cash", a.get_cash())
 
     # Symbol loop
     symbolList = data_dic.keys()
@@ -154,24 +154,24 @@ def simulate2():
             # barObj = crtBars.iloc[bar]
 
             # Positions loop
-            openPositions = a.getOpenPositions(crtSymbol)
+            openPositions = a.get_open_positions(crtSymbol)
             for pos in openPositions:
                 # TBD sell logic
                 sellSignal = sClose[bar] > 1.15 * pos.getEntryPrice() or \
                              sClose[bar] < 0.95 * pos.getEntryPrice()
                 if sellSignal:
-                    a.sellAtMarket(pos, bar + 1) # bar + 1 = tomorrow
+                    a.sell_at_market(pos, bar + 1) # bar + 1 = tomorrow
             if not openPositions:
                 # TBD buy logic
                 buySignal = ti.cross_over(sClose, sCloseSma)[bar]
                 if buySignal:
                     nbShare = int(2500 / sClose[bar]) # 2500$ => about 0.8% commission buy + sell
-                    a.buyAtMarket(bar + 1, crtSymbol, nbShare) # bar + 1 = tomorrow
+                    a.buy_at_market(bar + 1, crtSymbol, nbShare) # bar + 1 = tomorrow
 
-    for p in a.getAllPositions():
+    for p in a.get_all_positions():
         print(p)
 
-    print("Final cash", a.getCash())
+    print("Final cash", a.get_cash())
 
 
 def plotTest():
