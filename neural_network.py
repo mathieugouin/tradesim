@@ -33,7 +33,7 @@ def dsigmoid(y):
 
 
 class NeuralNetwork(object):
-    """Neural Network class to """
+    """Neural Network class."""
 
     def __init__(self, ni, nh, no):
         """Creates a Neural Network object with the number of input, hidden, and output nodes."""
