@@ -36,8 +36,8 @@ class VirtualAccount(object):
 
     def sell_at_market(self, position, bar, name="sell_at_market"):
         print("sell_at_market()")
-        sell_price = self._data_dic[position.getSymbol()].iloc[bar]['Low'] # Worst case
-        cost = calc_commission(position.getNbShare())
+        sell_price = self._data_dic[position.get_symbol()].iloc[bar]['Low'] # Worst case
+        cost = calc_commission(position.get_nb_share())
         if cost < self._cash:
             self._cash -= cost
             self._cash += position.close(bar, sell_price, name)
@@ -47,7 +47,7 @@ class VirtualAccount(object):
     def get_all_positions(self, symbol=""):
         if symbol in self._data_dic:
             # positions only for symbol
-            return [p for p in self._positions if p.getSymbol() == symbol]
+            return [p for p in self._positions if p.get_symbol() == symbol]
         else:
             # all positions
             return self._positions
@@ -55,17 +55,17 @@ class VirtualAccount(object):
     def get_open_positions(self, symbol=""):
         if symbol in self._data_dic:
             # open positions only for symbol
-            return [p for p in self._positions if p.getSymbol() == symbol and p.isOpen()]
+            return [p for p in self._positions if p.get_symbol() == symbol and p.is_open()]
         else:
             # all open positions
-            return [p for p in self._positions if p.isOpen()]
+            return [p for p in self._positions if p.is_open()]
 
     def get_close_positions(self, symbol=""):
         if symbol in self._data_dic:
             # close positions only for symbol
-            return [p for p in self._positions if p.getSymbol() == symbol and not p.isOpen()]
+            return [p for p in self._positions if p.get_symbol() == symbol and not p.is_open()]
         # all close positions
-        return [p for p in self._positions if not p.isOpen()]
+        return [p for p in self._positions if not p.is_open()]
 
     def get_cash(self):
         return self._cash

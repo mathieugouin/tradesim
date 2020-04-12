@@ -157,8 +157,8 @@ def simulate2():
             openPositions = a.get_open_positions(crtSymbol)
             for pos in openPositions:
                 # TBD sell logic
-                sellSignal = sClose[bar] > 1.15 * pos.getEntryPrice() or \
-                             sClose[bar] < 0.95 * pos.getEntryPrice()
+                sellSignal = sClose[bar] > 1.15 * pos.get_entry_price() or \
+                             sClose[bar] < 0.95 * pos.get_entry_price()
                 if sellSignal:
                     a.sell_at_market(pos, bar + 1) # bar + 1 = tomorrow
             if not openPositions:
