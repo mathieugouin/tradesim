@@ -51,7 +51,7 @@ class WorkerThread(threading.Thread):
             try:
                 # fetch a job from the queue
                 ticker, fromdate, todate = self.queue.get_nowait()
-            except Queue.Empty:
+            except queue.Empty:
                 raise SystemExit
             if ticker[0] == "^": # make sure filename compatible
                 filename_ticker = ticker[1:]
