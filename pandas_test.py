@@ -11,18 +11,6 @@ import pandas as pd
 import numpy as np
 
 
-def panelTest():
-    # Panel (simulated with random values)
-    wp = pd.Panel(np.random.randn(3, 10, 5), items=['IBM', 'SPY', 'GLD'],
-                  major_axis=pd.date_range('2017-01-01', periods=10),
-                  minor_axis=['O', 'H', 'L', 'C', 'V'])
-    print(wp)
-    # All stocks, all dates, Open only:
-    print(wp.loc[:, :, 'O'])
-    # IBM only, all dates, High Low only:
-    print(wp.loc['IBM', :, ['H', 'L']])
-
-
 def data_frame_test2():
     nrow = 8
     ncol = 5
@@ -86,7 +74,6 @@ def data_frame_test():
 def _main():
     data_frame_test2()
     data_frame_test()
-    panelTest()
 
 
 if __name__ == '__main__':
