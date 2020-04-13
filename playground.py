@@ -21,7 +21,7 @@ enddate = datetime.date(2018, 1, 1)
 def indicator_test():
     db = sdm.StockDBMgr('./stock_db/tsx', startdate, enddate)
     print("Loading all symbols...")
-    df = db.getAllSymbolDataSingleItem('Close')
+    df = db.get_all_symbol_single_data_item('Close')
     print("Loading done.")
 
     rp = (df.iloc[-1] - df.min()) / (df.max() - df.min())
@@ -36,7 +36,7 @@ def indicator_test():
 
 def correlation_test():
     db = sdm.StockDBMgr('./stock_db/qt', startdate, enddate)
-    df = db.getAllSymbolDataSingleItem('Close')
+    df = db.get_all_symbol_single_data_item('Close')
     df.dropna(axis=1, how='any', inplace=True)
     symbols = list(df.columns)
     n = len(symbols)
