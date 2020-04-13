@@ -1,6 +1,6 @@
 # Trading Simulator
 
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/13f16ccbc3de4bc093ac75047fc41a2f)](https://app.codacy.com/manual/mathieugouin/tradesim?utm_source=github.com&utm_medium=referral&utm_content=mathieugouin/tradesim&utm_campaign=Badge_Grade_Dashboard)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/06660652f79e4132a30c701271200041)](https://www.codacy.com/manual/mathieugouin/tradesim?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=mathieugouin/tradesim&amp;utm_campaign=Badge_Grade)
 
 ## Overview
 
