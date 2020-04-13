@@ -25,8 +25,8 @@ Installing whl files
 
 ## Project notes
 
-- Histogram plot of data: <http://stackoverflow.com/questions/5328556/histogram-matplotlib/5328669>
+-   Histogram plot of data: <http://stackoverflow.com/questions/5328556/histogram-matplotlib/5328669>
 
 ## Project TODO
-- Analyze invalid stock
-- Cleanup ticker files
+-   Analyze invalid stock
+-   Cleanup ticker files
