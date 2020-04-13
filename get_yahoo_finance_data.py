@@ -20,10 +20,14 @@ from __future__ import print_function
 # System
 import sys
 import threading
-import Queue
 import datetime
 import argparse
 import os
+
+if sys.version_info.major < 3:
+    import Queue as queue
+else:
+    import queue
 
 # User
 import yqd
@@ -109,7 +113,7 @@ if __name__ == '__main__':
         ticker_lines = f.readlines()
 
     # build a queue with (ticker, fromdate, todate) tuples
-    queue = Queue.Queue()
+    queue = queue.Queue()
     for line in ticker_lines:
         line = line.strip() # remove leading and trailing whitespace
         # skip empty lines or line starting with # (comment)
