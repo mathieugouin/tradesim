@@ -14,7 +14,7 @@ My ramblings on various stock analysis and data mining.
 -   Pandas (<http://pandas.pydata.org/>)
 -   mpl_finance (<https://github.com/matplotlib/mpl_finance>)
 
-## Notes
+## Setup notes
 
 Install PIP
 -   <https://bootstrap.pypa.io/get-pip.py>
@@ -22,3 +22,11 @@ Install PIP
 
 Installing whl files
 -   pip install package.whl
+
+## Project notes
+
+- Histogram plot of data: <http://stackoverflow.com/questions/5328556/histogram-matplotlib/5328669>
+
+## Project TODO
+- Analyze invalid stock
+- Cleanup ticker files
