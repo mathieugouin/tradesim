@@ -30,8 +30,7 @@ def symbol_to_filename(symbol, basedir):
     return os.path.join(basedir, symbol.upper()) + '.csv'
 
 
-# TBD available in the name to remove?
-def get_all_symbols_available(basedir):
+def get_all_symbols(basedir):
     return sorted(map(filename_to_symbol, glob.glob(os.path.join(basedir, '*.csv'))))
 
 
@@ -90,7 +89,7 @@ def download_data(symbol, basedir, start_date, end_date):
 
 
 def update_all_symbols(basedir, start_date, end_date):
-    for s in get_all_symbols_available(basedir):
+    for s in get_all_symbols(basedir):
         download_data(s, basedir, start_date, end_date)
 
 
@@ -198,7 +197,7 @@ def _main():
     print("filename {} gives symbol {}".format(f.upper(), filename_to_symbol(f.upper())))
     print("validate_symbol_data {} = {}".format(f, validate_symbol_data(f)))
 
-    print("directory {} contains the following stocks: {}".format(d, get_all_symbols_available(d)))
+    print("directory {} contains the following stocks: {}".format(d, get_all_symbols(d)))
 
     start_date = datetime.date(1900, 1, 1)
     end_date = datetime.date.today()

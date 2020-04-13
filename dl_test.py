@@ -23,20 +23,20 @@ db = sdm.StockDBMgr('./stock_db/qt', startdate, enddate)
 
 inv = []
 
-symbolList = db.getAllSymbolsAvailable()
+symbolList = db.get_all_symbols()
 print(len(symbolList))
 print(symbolList)
 
 for s in symbolList:
     print("symbol:{}, yield:{}, name:{}".format(s, tsq.get_dividend_yield(s), tsq.get_name(s)))
 
-    if not db.validateSymbolData(s):
+    if not db.validate_symbol_data(s):
         inv.append(s)
         continue
 
     # Only applies if recent download...
     if True:
-        df = db.getSymbolData(s)
+        df = db.get_symbol_data(s)
 
         t = startdate
         if df is not None and len(df) > 0:

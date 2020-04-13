@@ -95,7 +95,7 @@ ax2t = ax2.twinx()
 ax3 = fig.add_axes(rect3, facecolor=axescolor, sharex=ax1)
 
 
-df = db.getSymbolData(ticker)
+df = db.get_symbol_data(ticker)
 
 ### plot the relative strength indicator
 prices = df['Close']

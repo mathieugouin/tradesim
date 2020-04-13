@@ -203,7 +203,7 @@ def loadData():
 
     db = sdm.StockDBMgr(data_dir, start_date, end_date)
 
-    data_dic = db.getAllSymbolDataDic()
+    data_dic = db.get_all_symbol_data()
 
 
 def _main():

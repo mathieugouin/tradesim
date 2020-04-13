@@ -11,7 +11,7 @@ import pandas as pd
 import numpy as np
 
 
-def panelTest():
+def panel_test():
     # Panel (simulated with random values)
     wp = pd.Panel(np.random.randn(3, 10, 5), items=['IBM', 'SPY', 'GLD'],
                   major_axis=pd.date_range('2017-01-01', periods=10),
@@ -86,7 +86,7 @@ def data_frame_test():
 def _main():
     data_frame_test2()
     data_frame_test()
-    panelTest()
+    panel_test()
 
 
 if __name__ == '__main__':

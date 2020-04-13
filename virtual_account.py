@@ -90,7 +90,7 @@ def __print_position(va):
 def __main():
     import stock_db_mgr as sdm
     db = sdm.StockDBMgr('./stock_db/qt')
-    va = VirtualAccount(100000, db.getAllSymbolDataDic())
+    va = VirtualAccount(100000, db.get_all_symbol_data())
     print("comm = {}".format(calc_commission(300)))
     print("$ = {}".format(va.get_cash()))
     va.delta_cash(100)

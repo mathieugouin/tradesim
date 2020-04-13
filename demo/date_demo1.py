@@ -34,7 +34,7 @@ years = YearLocator()   # every year
 months = MonthLocator()  # every month
 yearsFmt = DateFormatter('%Y')
 
-df = db.getSymbolData('SPY')
+df = db.get_symbol_data('SPY')
 
 dates = [d for d in df.index]
 opens = [o for o in df.loc[:, 'Open'].values]
