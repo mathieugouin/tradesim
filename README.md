@@ -1,6 +1,6 @@
-# Trade Simulator
+# Trading Simulator
 
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/13f16ccbc3de4bc093ac75047fc41a2f)](https://app.codacy.com/manual/mathieugouin/tradesim?utm_source=github.com&utm_medium=referral&utm_content=mathieugouin/tradesim&utm_campaign=Badge_Grade_Dashboard)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/06660652f79e4132a30c701271200041)](https://www.codacy.com/manual/mathieugouin/tradesim?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=mathieugouin/tradesim&amp;utm_campaign=Badge_Grade)
 
 ## Overview
 
@@ -14,7 +14,7 @@ My ramblings on various stock analysis and data mining.
 -   Pandas (<http://pandas.pydata.org/>)
 -   mpl_finance (<https://github.com/matplotlib/mpl_finance>)
 
-## Notes
+## Setup notes
 
 Install PIP
 -   <https://bootstrap.pypa.io/get-pip.py>
@@ -22,3 +22,11 @@ Install PIP
 
 Installing whl files
 -   pip install package.whl
+
+## Project notes
+
+-   Histogram plot of data: <http://stackoverflow.com/questions/5328556/histogram-matplotlib/5328669>
+
+## Project TODO
+-   Analyze invalid stock
+-   Cleanup ticker files

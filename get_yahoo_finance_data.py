@@ -1,23 +1,21 @@
 #! /usr/bin/env python
-# -*- coding: utf-8 -*-
 
-# Reference:
-# http://code.google.com/p/yahoo-finance-managed/wiki/csvHistQuotesDownload
+"""Yahoo historical quotes downloader.
 
-__author__ = 'gian paolo ciceri <gp.ciceri@gmail.com>'
-__version__ = '0.1'
-__date__ = '20070401'
-__credits__ = "queue and MT code was shamelessly stolen from pycurl example retriever-multi.py"
+Reference:
+http://code.google.com/p/yahoo-finance-managed/wiki/csvHistQuotesDownload
 
-#
-# Usage: python getYahooFinanceData.py -h
-#
-#
-# for selecting tickers and starting date it uses an input file of this format
-# <ticker> <fromdate as YYYYMMDD>
-# like
-# ^GSPC 19500103 # S&P 500
-# ^N225 19840104 # Nikkei 225
+Usage: python get_yahoo_finance_data.py -h
+
+For selecting tickers and starting date it uses an input file of this format
+<ticker> <fromdate as YYYYMMDD>
+like
+^GSPC 19500103 # S&P 500
+^N225 19840104 # Nikkei 225
+"""
+
+# To make print working for Python2/3
+from __future__ import print_function
 
 # System
 import sys
@@ -36,9 +34,11 @@ def _my_assert(expression, msg='No message provided'):
         raise AssertionError(msg)
 
 
-# this thread ask the queue for job and does it!
 class WorkerThread(threading.Thread):
+    """Thread class to ask the queue for job and does it."""
+
     def __init__(self, queue):
+        """Creates a new thread."""
         threading.Thread.__init__(self)
         self.queue = queue
 
@@ -55,9 +55,9 @@ class WorkerThread(threading.Thread):
                 filenameTicker = ticker
 
             if options.verbose:
-                print "ticker:", ticker
-                print "last date asked:", todate, todate[0:4], todate[4:6], todate[6:8]
-                print "first date asked:", fromdate, fromdate[0:4], fromdate[4:6], fromdate[6:8]
+                print("ticker:", ticker)
+                print("last date asked:", todate, todate[0:4], todate[4:6], todate[6:8])
+                print("first date asked:", fromdate, fromdate[0:4], fromdate[4:6], fromdate[6:8])
 
             if not options.offline:
                 # download ticker data using yqd
@@ -70,7 +70,7 @@ class WorkerThread(threading.Thread):
                     fp.close()
 
             if options.verbose:
-                print "fetched: ", ticker
+                print("fetched: ", ticker)
             else:
                 sys.stdout.write(".")
                 sys.stdout.flush()
@@ -84,23 +84,23 @@ if __name__ == '__main__':
 
     # parse arguments
     parser = OptionParser()
-    parser.add_option("-f", "--file", dest="tickerfile", action="store", default = "./tickers.txt",
+    parser.add_option("-f", "--file", dest="tickerfile", action="store", default="./tickers.txt",
                       help="read ticker list from file, it uses ./tickers.txt as default")
-    parser.add_option("-c", "--concurrent", type="int", dest="connections", default = 10, action="store",
-                      help="# of concurrent connections")
-    parser.add_option("-d", "--dir", dest="downloadTo", action="store", default = "./rawdata",
+    parser.add_option("-c", "--concurrent", type="int", dest="connections", default=10,
+                      action="store", help="# of concurrent connections")
+    parser.add_option("-d", "--dir", dest="downloadTo", action="store", default="./rawdata",
                       help="save data to this directory, it uses ./rawdata/ as default")
 
-    parser.add_option("-s", "--startdate", dest="startdate", default = startdate, action="store",
+    parser.add_option("-s", "--startdate", dest="startdate", default=startdate, action="store",
                       help="start date, format is YYYYMMDD, ex: 19991231")
-    parser.add_option("-t", "--todate", dest="todate", default = today, action="store",
+    parser.add_option("-t", "--todate", dest="todate", default=today, action="store",
                       help="most recent date needed, format is YYYYMMDD, ex: 20121231")
-    parser.add_option("-v", "--verbose", default = False,
+    parser.add_option("-v", "--verbose", default=False,
                           action="store_true", dest="verbose")
-    parser.add_option("-o", "--offline", default = False,
+    parser.add_option("-o", "--offline", default=False,
                           action="store_true", dest="offline")
 
-    (options, args) = parser.parse_args()
+    (options, _args) = parser.parse_args()
 
     # get input list
     try:
@@ -114,15 +114,16 @@ if __name__ == '__main__':
     # build a queue with (ticker, fromdate, todate) tuples
     queue = Queue.Queue()
     for tickerRow in tickers:
-        #print tickerRow
+        #print(tickerRow)
         tickerRow = tickerRow.strip() # remove leading and trailing whitespace
         if not tickerRow or tickerRow[0] == "#":  # skip comment line starting with #
             continue
-        tickerSplit = tickerRow.split() # split on whitespace to ignore optional description after the ticker
+        # split on whitespace to ignore optional description after the ticker
+        tickerSplit = tickerRow.split()
 
         if options.verbose:
-            print "Adding (ticker, startdate, todate):",\
-                tickerSplit[0], options.startdate, options.todate
+            print("Adding {} from {} to {}".format(
+                        tickerSplit[0], options.startdate, options.todate))
 
         # ticker, fromdate, todate
         queue.put((tickerSplit[0], options.startdate, options.todate))
@@ -134,14 +135,16 @@ if __name__ == '__main__':
     _my_assert(1 <= connections <= 255, "too much concurrent connections asked")
 
     if options.verbose:
-        print "----- Getting", numTickers, "Tickers using", connections, "simultaneous connections -----"
+        print("----- Getting {} tickers using {} simultaneous connections -----".format(
+            numTickers, connections))
 
-    # At this point, get a dummy small quote from Y! to get the crumb & cookie before the threads start
-    _my_assert(len(yqd.load_yahoo_quote('^GSPC', '20180212', '20180212')) > 5, "Error: initial download did not work")
+    # Get a dummy small quote from Y! to get the crumb & cookie before the threads start.
+    _my_assert(len(yqd.load_yahoo_quote('^GSPC', '20180212', '20180212')) > 5,
+        "Error: initial download did not work")
 
     # start a bunch of threads, passing them the queue of jobs to do
     threads = []
-    for dummy in range(connections):
+    for _dummy in range(connections):
         t = WorkerThread(queue)
         t.start()
         threads.append(t)
@@ -154,4 +157,4 @@ if __name__ == '__main__':
 
     # tell something to the user before exiting
     if options.verbose:
-        print "all threads are finished - goodbye."
+        print("all threads are finished - goodbye.")

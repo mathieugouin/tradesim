@@ -1,3 +1,6 @@
+# To make print working for Python2/3
+from __future__ import print_function
+
 import datetime
 import stock_db_mgr as sdm
 
@@ -11,21 +14,21 @@ today = datetime.date.today()
 enddate = today
 
 # Create data base:
-db = sdm.CStockDBMgr('./stock_db/qt', startdate, enddate)
-#db = sdm.CStockDBMgr('./stock_db/tsx')
-#db = sdm.CStockDBMgr('./stock_db/sp500')
-#db = sdm.CStockDBMgr('./stock_db/test')
+db = sdm.StockDBMgr('./stock_db/qt', startdate, enddate)
+#db = sdm.StockDBMgr('./stock_db/tsx')
+#db = sdm.StockDBMgr('./stock_db/sp500')
+#db = sdm.StockDBMgr('./stock_db/test')
 
 #db.updateAllSymbols()
 
 inv = []
 
 symbolList = db.getAllSymbolsAvailable()
-print len(symbolList)
-print symbolList
+print(len(symbolList))
+print(symbolList)
 
 for s in symbolList:
-    print "symbol:{}, yield:{}, name:{}".format(s, tsq.get_dividend_yield(s), tsq.get_name(s))
+    print("symbol:{}, yield:{}, name:{}".format(s, tsq.get_dividend_yield(s), tsq.get_name(s)))
 
     if not db.validateSymbolData(s):
         inv.append(s)
@@ -45,8 +48,8 @@ for s in symbolList:
 
         if (today - t) > datetime.timedelta(4):
             inv.append(s)
-            print "%s: len = %d" %(s, len(df))
+            print("%s: len = %d" %(s, len(df)))
 
-print "Invalid list:"
+print("Invalid list:")
 for s in inv:
-    print s
+    print(s)

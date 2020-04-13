@@ -1,9 +1,5 @@
-#-------------------------------------------------------------------------------
-# Name:        Stock Data Base Manager
-# Purpose:
-#
-# Author:      Mathieu Gouin
-#-------------------------------------------------------------------------------
+# To make print working for Python2/3
+from __future__ import print_function
 
 # system
 import datetime
@@ -21,18 +17,19 @@ _default_start_date = datetime.date(1900, 1, 1)
 _default_end_date = datetime.date.today()
 
 
-class CStockDBMgr(object):
-    """Handles reading a list of stock CSV files from a storage directory."""
+class StockDBMgr(object):
+    """Stock Data Base Manager: handles stock data stored in CSV files."""
+
     def __init__(self, basedir, startDate=None, endDate=None, adjustPrice=True):
         """Instantiate the class."""
         if startDate is None:
             startDate = _default_start_date
         if endDate is None:
             endDate = _default_end_date
-        self._basedir   = basedir
+        self._basedir = basedir
         self._startDate = startDate
-        self._endDate   = endDate
-        self._dataDic   = {}
+        self._endDate = endDate
+        self._dataDic = {}
         self._adjustPrice = adjustPrice
 
     def getAllSymbolsAvailable(self):
@@ -64,7 +61,7 @@ class CStockDBMgr(object):
                 self.downloadData(symbol)
             df = fu.loadDataFrame(f, self._startDate, self._endDate, adjustPrice=self._adjustPrice)
             if df is None:
-                print "ERROR: data for {} contains error".format(symbol)
+                print("ERROR: data for {} contains error".format(symbol))
             self._dataDic[symbol] = df  # Store it for next time
         # if data is already there, assume it is up to date (to save repetitive download)
         return self._dataDic[symbol]
@@ -77,7 +74,15 @@ class CStockDBMgr(object):
 
     def getAllSymbolDataSingleItem(self, item):
         """Combine one item of all available stock into a single DataFrame.
-        Available item are 'Open', 'High', 'Low', 'Close'."""
+
+        Available items are:
+        - 'Open'
+        - 'High'
+        - 'Low'
+        - 'Close'
+        - 'Adj Close' (only when the DB is not adjusted)
+        """
+
         # Re-index to only have the relevant date range
         date_range = pd.date_range(self._startDate, self._endDate, name='Date')
 
@@ -88,7 +93,7 @@ class CStockDBMgr(object):
 
         df = pd.DataFrame(index=date_range)
         for k in keys:
-            #print len(dic[k][item])
+            #print(len(dic[k][item]))
             df[k] = dic[k][item]
 
         # Discarding NaN values that are all NaN for a given row
@@ -97,12 +102,12 @@ class CStockDBMgr(object):
         # TBD not sure ok to ffill here...
         # Need to replace na if any
         if df.isna().any().any():
-            #print df.loc[df.isna().any(axis=1)]
+            #print(df.loc[df.isna().any(axis=1)])
             # Forward fill nan with last known good value.
             # This will ensure all days have values
             df.fillna(method='ffill', inplace=True, limit=5)
             if df.isna().any().any():
-                print "Error: too many NAN: {}".format(df.columns[df.isna().sum() > 0])
+                print("Error: too many NAN: {}".format(df.columns[df.isna().sum() > 0]))
 
         # Axis naming
         df.rename_axis(item, axis='columns', inplace=True)
@@ -111,9 +116,9 @@ class CStockDBMgr(object):
 
 
 def _main():
-    db = CStockDBMgr('./stock_db/test', datetime.date(2017, 1, 1), datetime.date(2018, 1, 1))
+    db = StockDBMgr('./stock_db/test', datetime.date(2017, 1, 1), datetime.date(2018, 1, 1))
     symbol_list = db.getAllSymbolsAvailable()
-    print symbol_list
+    print(symbol_list)
 
     # Work with first symbol only
     s = symbol_list[0]
@@ -128,27 +133,28 @@ def _main():
         df = db.getSymbolData(s)
 
     if True:
-        print "Validating symbols"
+        print("Validating symbols")
         for s in db.getAllSymbolsAvailable():
             if not db.validateSymbolData(s):
-                print s, " failed validation"
+                print("{} failed validation".format(s))
 
     if True:
-        print "Loading all symbols to a dict"
+        print("Loading all symbols to a dict")
         # To test caching
         dd = db.getAllSymbolDataDic()
         dd = db.getAllSymbolDataDic()
-        print dd.keys()
+        print(dd.keys())
 
         df = db.getAllSymbolDataSingleItem('Close')
-        print df.head()
+        print(df.head())
         df = db.getAllSymbolDataSingleItem('Volume')
-        print df.head()
+        print(df.head())
 
     if True:
-        db = CStockDBMgr('./stock_db/test', datetime.date(2017, 1, 1), datetime.date(2018, 1, 1), adjustPrice=False)
+        db = StockDBMgr('./stock_db/test',
+                        datetime.date(2017, 1, 1), datetime.date(2018, 1, 1), False)
         df = db.getSymbolData(symbol_list[0])
-        print df.describe()
+        print(df.describe())
 
 
 if __name__ == '__main__':

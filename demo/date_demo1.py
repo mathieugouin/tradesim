@@ -1,7 +1,7 @@
 #!/usr/bin/env python
-""" Show how to make date plots in matplotlib using date tick locators and
-formatters.  See major_minor_demo1.py for more information on
-controlling major and minor ticks
+"""Date plots demo in matplotlib using date tick locators and formatters.
+
+See major_minor_demo1.py for more information on controlling major and minor ticks.
 
 All matplotlib date plotting is done by converting date instances into
 days since the 0001-01-01 UTC.  The conversion, tick locating and
@@ -28,7 +28,7 @@ def price(x):
 date1 = datetime.date(1995, 1, 1)
 date2 = datetime.date(2004, 4, 12)
 
-db = sdm.CStockDBMgr('../stock_db/test', date1, date2)
+db = sdm.StockDBMgr('../stock_db/test', date1, date2)
 
 years = YearLocator()   # every year
 months = MonthLocator()  # every month

@@ -1,3 +1,6 @@
+# To make print working for Python2/3
+from __future__ import print_function
+
 import math
 import numpy as np
 #import scipy as sp
@@ -5,150 +8,155 @@ import scipy.signal as signal
 import tmxstockquote as tmx
 
 
-#-------------------------------------
+# -------------------------------------
 # Utility math functions
-#-------------------------------------
+# -------------------------------------
 
-def step(T):
-    Y = np.zeros(len(T))
-    Y[T >= 0] = 1
-    return Y
+def step(t):
+    """Returns 1 where t >= 0, else 0."""
+    y = np.zeros(len(t))
+    y[t >= 0] = 1
+    return y
 
 
-def ramp(T):
-    return T * step(T)
+def ramp(t):
+    """Returns 0 for negative inputs, output equals input for non-negative inputs."""
+    return t * step(t)
 
-#-------------------------------------
+# -------------------------------------
 # Various technical indicators
-#-------------------------------------
+# -------------------------------------
 
-
-# Linear regression of 'n' points used to give the smoothed point
-def linFit(X, n):
+def linFit(x, n):
+    """Linear regression of 'n' points used to give the smoothed point."""
     if n < 2:
-        raise "n must be >= 2"
-    t = np.arange(len(X))
-    Y = np.array([np.polyval(np.polyfit(t[i-n+1:i+1], X[i-n+1:i+1], 1), i) for i in np.arange(n-1, len(t), 1)])
+        raise AssertionError("n must be >= 2")
+    t = np.arange(len(x))
+    Y = np.array(
+        [np.polyval(
+            np.polyfit(
+                t[i-n+1:i+1], x[i - n + 1:i + 1], 1), i) for i in np.arange(n - 1, len(t), 1)])
     # NaN at beginning (invalid value)
     Y = np.concatenate((np.array([np.nan] * (n-1)), Y))
     return Y
 
 
-# Return the Rate Of Change (1st derivative) based on 'n' points linear regression
-def rateOfChange(X, n):
-    t = np.arange(len(X))
-    Y = np.array([np.polyfit(t[i-n+1:i+1], X[i-n+1:i+1], 1)[0] for i in np.arange(n-1, len(t), 1)])
+def rateOfChange(x, n):
+    """Return the Rate Of Change (1st derivative) based on 'n' points linear regression."""
+    t = np.arange(len(x))
+    y = np.array(
+        [np.polyfit(
+            t[i - n + 1:i + 1],
+            x[i - n + 1:i + 1],
+            1)[0] for i in np.arange(n - 1, len(t), 1)]
+    )
     # NaN at beginning (invalid value)
-    #Y = np.concatenate((np.array([np.nan] * (n-1)), Y))
+    # y = np.concatenate((np.array([np.nan] * (n-1)), y))
     # Zero at beginning (invalid value)
-    Y = np.concatenate((np.zeros(n-1), Y))
-    return Y
+    y = np.concatenate((np.zeros(n - 1), y))
+    return y
 
 
-# Return the "Acceleration" (2nd derivative) based on 'n' points 2nd order regression
 def acceleration(X, n):
+    """Return the "Acceleration" (2nd derivative) based on 'n' points 2nd order regression."""
     t = np.arange(len(X))
-    Y = np.array([np.polyfit(t[i-n+1:i+1], X[i-n+1:i+1], 2)[0]*2 for i in np.arange(n-1, len(t), 1)])
+    y = np.array(
+        [np.polyfit(
+            t[i - n + 1:i + 1],
+            X[i - n + 1:i + 1],
+            2)[0] * 2 for i in np.arange(n - 1, len(t), 1)])
     # NaN at beginning (invalid value)
-    #Y = np.concatenate((np.array([np.nan] * (n-1)), Y))
+    # y = np.concatenate((np.array([np.nan] * (n-1)), y))
     # Zero at beginning (invalid value)
-    Y = np.concatenate((np.zeros(n-1), Y))
-    return Y
+    y = np.concatenate((np.zeros(n - 1), y))
+    return y
 
 
-# Filter Design
-def iir(x, order, period):
+def iir_lowpass(x, order, period):
+    """Lowpass IIR filter."""
     wn = 2.0/period
     b, a = signal.iirfilter(
         order,
         wn,
-        rp = None,
-        rs = None,
-        btype = 'lowpass',
-        analog = False,
-        ftype = 'butter',
-        output = 'ba'
+        rp=None,
+        rs=None,
+        btype='lowpass',
+        analog=False,
+        ftype='butter',
+        output='ba'
     )
     zi = signal.lfilter_zi(b, a)
     y, _zf = signal.lfilter(b, a, x, zi=zi * x[0])
     return y
 
 
-# Exponential Moving Average
-def ema(X, n):
+def ema(x, n):
+    """Exponential Moving Average."""
     if n < 1:
-        raise "n must be >= 1"
-    if n >= X.size:
-        raise "n too big compared to size of array"
+        raise AssertionError("n must be >= 1")
+    if n >= x.size:
+        raise AssertionError("n too big compared to size of array")
 
     k = 2.0 / (n + 1)
 
-    Y = np.zeros(X.size)
-    Y[0] = X[0] # init
+    y = np.zeros(x.size)
+    y[0] = x[0] # init
 
-    for i in range(1, X.size):
-        Y[i] = k * X[i] + (1 - k) * Y[i - 1]
+    for i in range(1, x.size):
+        y[i] = k * x[i] + (1 - k) * y[i - 1]
 
-    return Y
+    return y
 
 
-# Adaptive EMA (my invention...)
-def aema(X, n):
+def aema(x, n):
+    """Adaptive EMA (my invention...)."""
     if n < 1:
-        raise "n must be >= 1"
-    if n >= X.size:
-        raise "n too big compared to size of array"
-    E = ema(X, n)
+        raise AssertionError("n must be >= 1")
+    if n >= x.size:
+        raise AssertionError("n too big compared to size of array")
+    e = ema(x, n)
     # TBD: tune factor here...
-    Y = E + 0.5 * ema(X - E, int(n))
-    return Y
+    y = e + 0.5 * ema(x - e, int(n))
+    return y
 
 
-# Simple Moving Average
-# from Y[:n-2] is invalid
-def sma(X, n):
+def sma(x, n):
+    """Simple Moving Average.  From y[:n-2] is invalid."""
     if n < 2:
-        raise "n must be > 1"
-    C = np.ones(n) / n
-    Y = np.convolve(X, C)[:-(n-1)]
+        raise AssertionError("n must be > 1")
+    c = np.ones(n) / n
+    y = np.convolve(x, c)[:-(n - 1)]
     # invalidate the range
-    Y[:n-2] = np.nan
-    return Y
+    y[:n-2] = np.nan
+    return y
 
 
-# If X just crossed over Y at bar index i
-def crossOver(X, Y, i):
-    c = False
-    if i >= 1:
-        if X[i - 1] <= Y[i - 1] and X[i] > Y[i]:
-            c = True
-    return c
+def cross_over(x1, x2):
+    """If x1 just crossed over x2."""
+    return np.concatenate((np.zeros(1), ((np.diff(((x1 - x2) > 0.0) * 1.0)) > 0.0) * 1.0))
 
 
-# If X just crossed under Y at bar index i
-def crossUnder(X, Y, i):
-    c = False
-    if i >= 1:
-        if X[i - 1] >= Y[i - 1] and X[i] < Y[i]:
-            c = True
-    return c
+def cross_under(x1, x2):
+    """If x1 just crossed under x2."""
+    return np.concatenate((np.zeros(1), ((np.diff(((x1 - x2) < 0.0) * 1.0)) > 0.0) * 1.0))
 
 
-# Moving minimum over the last n element
-def movingMin(X, n):
+def movingMin(x, n):
+    """Moving minimum over the last n elements."""
     if n < 1:
-        raise "n must be >= 1"
-    return np.array([min(X[max(0, i-n+1):i+1]) for i in xrange(len(X))])
+        raise AssertionError("n must be >= 1")
+    return np.array([min(x[max(0, i - n + 1):i + 1]) for i in range(len(x))])
 
 
-# Moving maximum over the last n element
-def movingMax(X, n):
+def movingMax(x, n):
+    """Moving maximum over the last n elements."""
     if n < 1:
-        raise "n must be >= 1"
-    return np.array([max(X[max(0, i-n+1):i+1]) for i in xrange(len(X))])
+        raise AssertionError("n must be >= 1")
+    return np.array([max(x[max(0, i - n + 1):i + 1]) for i in range(len(x))])
 
 
 def relative_position(symbol):
+    """Based on the 52 week range: min = 0.0, max = 1.0."""
     price = tmx.get_price(symbol)
     pmin = tmx.get_52_week_low(symbol)
     pmax = tmx.get_52_week_high(symbol)
@@ -156,12 +164,14 @@ def relative_position(symbol):
 
 
 def relative_range(symbol):
+    """TBD."""
     pmin = tmx.get_52_week_low(symbol)
     pmax = tmx.get_52_week_high(symbol)
     return (pmax - pmin) / pmax
 
 
 def test_indicator(symbol):
+    """TBD."""
     # [-1, 1]
     rps = relative_position(symbol) * 2.0 - 1.0
 
@@ -176,60 +186,75 @@ def test_indicator(symbol):
 def _main():
     import matplotlib.pyplot as plt
 
-    print test_indicator('XBB.TO')
+    print("test_indicator = {}".format(test_indicator('XBB.TO')))
 
-    N = 100
-    T = np.arange(N) # [0 .. N-1]
+    t = np.arange(-5, 5, 1)
+    s = step(t)
+    r = ramp(t)
 
-    # triangle
-    #X = np.concatenate((np.arange(0,N/2,1), np.arange(N/2,0,-1)))
+    plt.plot(t, s, marker='x', linestyle='None', label='step')
+    plt.plot(t, r, marker='o', markerfacecolor='None', linestyle='None', label='ramp')
+    plt.legend()
+    plt.show()
 
-    # step
-    X = step(T - N/2) * 10
-
-    # ramp
-    #X = ramp(T - N/2)
-
-    # normalized random
-    #X = np.cumsum(np.random.randn(N))
-
-    #X = np.sin(8 * np.pi/N * t) + (.1 * t)
-
-    #X = 20 * np.sin(2 * 2*np.pi/N * T)
-
-    # Add noise:
-    #X = X + 0.2 * np.random.randn(len(X))
-
-    #Y = ema(X, 3)
-    #Y = iir(X, 3, 20)
-    #Y = rateOfChange(X, 2)
-    #Y = linFit(X, 5)
-    #print Y
+    t = np.linspace(0, 4 * np.pi, 50)
+    s = np.sin(t)
+    c = np.cos(t)
+    o = cross_over(s, c)
+    u = cross_under(s, c)
 
     fig = plt.figure()
     ax = fig.add_subplot(211)
-    #ax.stem(t, X, 'g')
-    #fig.hold()
-    ax.plot(
-        T, X, 'o',
-        T, sma(X, 10),
-        T, ema(X, 10),
-        #T, linFit(X, 10),
-        #T, rateOfChange(X, 10),
-        #T, acceleration(X, 10),
-        #T, iir(X, 1, 10),
-        #T, movingMin(X, 10),
-        #T, movingMax(X, 10)
-        #T, aema(X, 10)
-        )
-    ax.grid(True)
+    ax.plot(t, s, marker='.', label='sin')
+    ax.plot(t, c, marker='x', label='cos')
+    ax.legend()
 
     ax2 = fig.add_subplot(212)
-    ax2.plot(
-        T, rateOfChange(X, 20), 'x',
-        T, acceleration(X, 20), 'o--'
-        )
+    ax2.plot(t, o, marker='^', markerfacecolor='None', linestyle='None', label='cross over')
+    ax2.plot(t, u, marker='v', markerfacecolor='None', linestyle='None', label='cross under')
+    ax2.legend()
+    plt.show()
+
+    n = 100
+    t = np.arange(n)  # [0 .. n-1]
+
+    # triangle
+    # x = np.concatenate((np.arange(0,n/2,1), np.arange(n/2,0,-1)))
+
+    # step
+    x = step(t - n/2) * 10
+
+    # ramp
+    #x = ramp(t - n/2)
+
+    # normalized random
+    # x = np.cumsum(np.random.randn(n))
+
+    # x = np.sin(8 * np.pi/n * t) + (.1 * t)
+
+    # x = 20 * np.sin(2 * 2*np.pi/n * t)
+
+    # Add noise:
+    x = x + 1.2 * np.random.randn(len(x))
+
+    fig = plt.figure()
+    ax = fig.add_subplot(211)
+    ax.plot(t, x, 'o', label='raw')
+    ax.plot(t, sma(x, 10), label='sma')
+    ax.plot(t, ema(x, 10), label='ema')
+    ax.plot(t, linFit(x, 10), label='linFit')
+    ax.plot(t, iir_lowpass(x, 1, 10), label='iir_lowpass')
+    ax.plot(t, movingMin(x, 10), label='movingMin')
+    ax.plot(t, movingMax(x, 10), label='movingMax')
+    ax.plot(t, aema(x, 10), label='aema')
+    ax.grid(True)
+    ax.legend()
+
+    ax2 = fig.add_subplot(212)
+    ax2.plot(t, rateOfChange(x, 20), 'x', label='rateOfChange')
+    ax2.plot(t, acceleration(x, 20), 'o--', label='acceleration')
     ax2.grid(True)
+    ax2.legend()
     plt.show()
 
 

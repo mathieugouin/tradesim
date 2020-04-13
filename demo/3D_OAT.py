@@ -4,6 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d.axes3d import Axes3D
 
+
 def oat(tat, mach):
     return (tat+273.15)/(1+0.2*0.855*mach**2)-273.15
 
@@ -31,7 +32,7 @@ def _main():
     m = np.concatenate((
         np.linspace(0, mmax, N),
         np.linspace(mmax, 2.36525, N),
-        np.linspace(2.36525,0,N)))
+        np.linspace(2.36525, 0, N)))
     o = oat(t, m)
 
     ax.scatter(t, m, o, c='r')

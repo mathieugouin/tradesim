@@ -1,18 +1,15 @@
 #!/usr/bin/env python
-"""
-This module provides a Python API for retrieving stock data from TMX
-"""
+"""TMX Stock Quote module provides a Python API for retrieving stock data from TMX."""
 
-import urllib
+import finance_utils as fu
 import re
-import time
 
 _cached_symbol = None
 _cached_lines = None
 
 
 def _str_to_float(s):
-    """Convert a string into float, returns NaN, when not a number"""
+    """Convert a string into float, returns NaN, when not a number."""
     try:
         return float(s.replace(",", "").replace(" ", ""))
     except Exception:
@@ -30,22 +27,6 @@ def _yahoo_to_tmx_stock_name(symbol):
     return tmx_name.replace("-", ".")
 
 
-def _get_url(url):
-    """Download a URL and provide the result as a big string."""
-    try_again = True
-    count = 0
-    s = ""
-    while try_again and count < 5:
-        try:
-            s = urllib.urlopen(url).read().strip()
-            try_again = False
-        except Exception:
-            print "Error, will try again"
-            time.sleep(0.5)  # 500 ms sleep
-            count += 1
-    return s
-
-
 def _download_tmx_page(symbol):
     """Download the TMX data page for a given symbol.  A caching is implemented to prevent multiple re-download."""
     global _cached_symbol
@@ -57,7 +38,7 @@ def _download_tmx_page(symbol):
     if _cached_symbol and _cached_symbol == symbol:
         lines = _cached_lines
     else:
-        lines = _get_url(url).splitlines()
+        lines = fu.downloadUrl(url).splitlines()
         _cached_symbol = symbol
         _cached_lines = lines
 
@@ -90,13 +71,13 @@ def _request_tmx_multi_re(symbol, re_arr):
                 if j == len(re_arr) - 1:
                     value = m.group(1)
                     break
-                else:
-                    j = j + 1  # continue at next re
+                # continue at next re
+                j = j + 1
     return value
 
 
 def _request_tmx_str(symbol, stat):
-    """Default TMX card display grabber (string return)"""
+    """Default TMX card display grabber (string return)."""
     re_arr = [
         re.escape('<div class="dq-card">'),
         re.escape(stat),
@@ -107,7 +88,7 @@ def _request_tmx_str(symbol, stat):
 
 
 def _request_tmx(symbol, stat):
-    """Default TMX card display grabber (float return)"""
+    """Default TMX card display grabber (float return)."""
     return _str_to_float(_request_tmx_str(symbol, stat))
 
 
@@ -132,7 +113,7 @@ def get_price(symbol):
 
 
 def get_change(symbol):
-    """Change in $ for the day"""
+    """Change in $ for the day."""
     re_arr = [
         '\\b' + re.escape('CHANGE<br />'),
         '\\<strong.*?(-?[0-9 ,.]{3,})'
@@ -167,8 +148,7 @@ def get_currency(symbol):
     """Currency the stock trades in.  Quick implementation based on the ticker."""
     if _yahoo_to_tmx_stock_name(symbol).endswith(':US'):
         return 'USD'
-    else:
-        return 'CAD'
+    return 'CAD'
 
 
 def get_market_cap(symbol):
@@ -192,40 +172,37 @@ def get_price_book_ratio(symbol):
 
 
 def _main():
-    print _str_to_float("34.50")
-    print _str_to_float("1,300,400.52")
-    print _str_to_float("")
-    print _str_to_float("N/A")
-    print ""
+    print(_str_to_float("34.50"))
+    print(_str_to_float("1,300,400.52"))
+    print(_str_to_float(""))
+    print(_str_to_float("N/A"))
+    print("")
 
-    print _yahoo_to_tmx_stock_name("CP.TO")
-    print _yahoo_to_tmx_stock_name("AP-UN.TO")
-    print _yahoo_to_tmx_stock_name("MMM")
-    print ""
+    print(_yahoo_to_tmx_stock_name("CP.TO"))
+    print(_yahoo_to_tmx_stock_name("AP-UN.TO"))
+    print(_yahoo_to_tmx_stock_name("MMM"))
+    print("")
 
-    print _get_url("https://www.google.ca")[0:100]
-    print ""
-
-    print _download_tmx_page('XBB.TO')[0:100]
-    print ""
+    print(_download_tmx_page('XBB.TO')[0:2])
+    print("")
 
     for s in ["NA.TO", "XBB.TO", "BRK-A", "AAPL"]:
-        print "============================================="
-        print "s", s
+        print("=============================================")
+        print("s: {}".format(s))
 
-        print "get_name", get_name(s)
-        print "get_price", get_price(s)
-        print "get_change", get_change(s)
-        print "get_volume", get_volume(s)
-        print "get_stock_exchange", get_stock_exchange(s)
-        print "get_market_cap", get_market_cap(s)
-        print "get_dividend_yield", get_dividend_yield(s)
-        print "get_price_earnings_ratio", get_price_earnings_ratio(s)
-        print "get_price_book_ratio", get_price_book_ratio(s)
+        print("get_name: {}".format(get_name(s)))
+        print("get_price: {}".format(get_price(s)))
+        print("get_change: {}".format(get_change(s)))
+        print("get_volume: {}".format(get_volume(s)))
+        print("get_stock_exchange: {}".format(get_stock_exchange(s)))
+        print("get_market_cap: {}".format(get_market_cap(s)))
+        print("get_dividend_yield: {}".format(get_dividend_yield(s)))
+        print("get_price_earnings_ratio: {}".format(get_price_earnings_ratio(s)))
+        print("get_price_book_ratio: {}".format(get_price_book_ratio(s)))
 
-        print "get_52_week_low", get_52_week_low(s)
-        print "get_52_week_high", get_52_week_high(s)
-        print "get_currency", get_currency(s)
+        print("get_52_week_low: {}".format(get_52_week_low(s)))
+        print("get_52_week_high: {}".format(get_52_week_high(s)))
+        print("get_currency: {}".format(get_currency(s)))
 
 
 if __name__ == '__main__':

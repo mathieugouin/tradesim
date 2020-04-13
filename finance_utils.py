@@ -1,8 +1,11 @@
-#-------------------------------------------------------------------------------
+# -------------------------------------------------------------------------------
 # Name:        finance_utils
 # Purpose:     Finance utilities library.
 # Author:      mgouin
-#-------------------------------------------------------------------------------
+# -------------------------------------------------------------------------------
+
+# To make print working for Python2/3
+from __future__ import print_function
 
 # System
 import os
@@ -10,6 +13,7 @@ import glob
 import urllib
 import datetime
 import csv
+import time
 
 # Custom
 import pandas as pd
@@ -42,27 +46,29 @@ def getSymbolsFromFile(tickerFile):
             tickerList.append(ticker)
         f.close()
     except Exception:
-        print "Error: ticker file %s not found" % tickerFile
+        print("Error: ticker file %s not found" % tickerFile)
     return tickerList
 
 
 def downloadUrl(url):
-    tryAgain = True
+    """Download a URL and provide the result as a big string."""
+    try_again = True
     count = 0
     s = ""
-    while tryAgain and count < 5:
+    while try_again and count < 5:
         try:
-            s = urllib.urlopen(url).read()
-            tryAgain = False
+            s = urllib.urlopen(url).read().strip()
+            try_again = False
         except Exception:
-            print "Error, will try again"
+            print("Error, will try again")
+            time.sleep(0.5)  # 500 ms sleep
             count += 1
     return s
 
 
 def downloadData(symbol, basedir, startDate, endDate):
-    """This is a wrapper to yqd library."""
-    print "Downloading:{} ...".format(symbol)
+    """Wrapper function to yqd library."""
+    print("Downloading:{} ...".format(symbol))
     symbol = symbol.upper()
     # Date 1
     d1 = "{0:0>4}".format(startDate.year) + \
@@ -119,7 +125,7 @@ def getVolume(df):
 
 def loadDataFrame(csvFile, startDate, endDate, adjustPrice=True):
     try:
-        print "Loading {} ...".format(filenameToSymbol(csvFile))
+        print("Loading {} ...".format(filenameToSymbol(csvFile)))
 
         df = pd.read_csv(csvFile, index_col='Date', parse_dates=True)
 
@@ -138,7 +144,7 @@ def loadDataFrame(csvFile, startDate, endDate, adjustPrice=True):
         # Make sure none isolated remains:
         if df.isna().any().any():
             # To show the NaN
-            print df.loc[df.isna().all(axis=1)]
+            print(df.loc[df.isna().all(axis=1)])
             raise Exception("ERROR {} contains isolated NaN".format(csvFile))
 
         if adjustPrice:
@@ -154,17 +160,17 @@ def loadDataFrame(csvFile, startDate, endDate, adjustPrice=True):
         return df
 
     except Exception as e:
-        print type(e)  # the exception instance
-        print e.args  # arguments stored in .args
-        print e  # __str__ allows args to be printed directly, but may be overridden in exception subclasses
-        print 'Error parsing ' + csvFile
+        print(type(e))  # the exception instance
+        print(e.args)  # arguments stored in .args
+        print(e)  # __str__ allows args to be printed directly
+        print('Error parsing ' + csvFile)
 
         return None
 
 
 def validateSymbolData(csvFile):
-    """Check for basic errors in historical market data"""
-    #print "Validating:%s" % csvFile
+    """Check for basic errors in historical market data."""
+    #print("Validating:%s" % csvFile)
     valid = True # Default
     # The CSV files are downloaded from yahoo historical data
     f = open(csvFile, 'r')
@@ -183,17 +189,17 @@ def validateSymbolData(csvFile):
                     # Date,Open,High,Low,Close,Volume,Adj Close
                     lineSplit = l.strip().split(',')
                     if len(lineSplit) != 7:
-                        print "Error: Invalid line, missing data"
+                        print("Error: Invalid line, missing data")
                         valid = False
                         break
                     dateSplit = map(int, lineSplit[0].split('-'))
                     if len(dateSplit) != 3:
-                        print "Error: Invalid date format"
+                        print("Error: Invalid date format")
                         valid = False
                         break
                     priceData = map(float, lineSplit[1:])
                     if priceData[3] == 0 or priceData[5] == 0:
-                        print "Error: Invalid price data"
+                        print("Error: Invalid price data")
                         valid = False
                         break
         else: # csv was not able to find a dialect, consider not valid CSV
@@ -206,16 +212,17 @@ def validateSymbolData(csvFile):
 
 def _main():
     sf = 'stock_db/dj.txt'
-    print "symbol file {} contains the following stocks: {}".format(sf, getSymbolsFromFile(sf))
+    print("symbol file {} contains the following stocks: {}".format(sf, getSymbolsFromFile(sf)))
 
     d = './stock_db/test'
 
     s = 'SPY'
     f = symbolToFilename(s, d)
-    print "symbol {} with directory {} gives filename {}".format(s, d, f)
-    print "filename {} gives symbol {}".format(f, filenameToSymbol(f))
+    print("symbol {} with directory {} gives filename {}".format(s, d, f))
+    print("filename {} gives symbol {}".format(f, filenameToSymbol(f)))
+    print("validateSymbolData {} = {}".format(f, validateSymbolData(f)))
 
-    print "directory {} contains the following stocks: {}".format(d, getAllSymbolsAvailable(d))
+    print("directory {} contains the following stocks: {}".format(d, getAllSymbolsAvailable(d)))
 
     start_date = datetime.date(1900, 1, 1)
     end_date = datetime.date.today()
@@ -224,21 +231,20 @@ def _main():
         downloadData(s, d, start_date, end_date)
         updateAllSymbols(d, start_date, end_date)
     df = loadDataFrame(f, datetime.date(2018, 1, 1), datetime.date(2018, 4, 1))
-    print df.describe()
-    print df.head()
+    print(df.describe())
+    print(df.head())
 
-    print getDate(df)[0:3]
-    print getOpen(df)[0:3]
-    print getHigh(df)[0:3]
-    print getLow(df)[0:3]
-    print getClose(df)[0:3]
-    print getVolume(df)[0:3]
+    print(getDate(df)[0:3])
+    print(getOpen(df)[0:3])
+    print(getHigh(df)[0:3])
+    print(getLow(df)[0:3])
+    print(getClose(df)[0:3])
+    print(getVolume(df)[0:3])
 
-    df = loadDataFrame(f, start_date, end_date)
-    print df.describe()
+    # Not applicable for a single stock, but just to test...
+    print(normalizeDataFrame(df).head())
 
-    # Not for single stock, but just to test...
-    print normalizeDataFrame(df).head()
+    print(downloadUrl("https://www.google.ca")[0:100])
 
 
 if __name__ == '__main__':
