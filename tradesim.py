@@ -30,12 +30,12 @@ end_date = datetime.date.today()
 
 # default
 data_dir = './stock_db/qt'
-# Global data dictionary
-data_dic = {}
+# Global stock dictionary
+dic = {}
 db = None
 
 
-def calcCommissionETF(nbShare):
+def calc_commission_etf(nbShare):
     """Return the ETF trade commission: positive=Buy, negative=Sell."""
     return (nbShare < 0) * min(9.95, max(4.95, -nbShare * 0.01)) + math.fabs(nbShare) * 0.0035
 
@@ -43,8 +43,8 @@ def calcCommissionETF(nbShare):
 def simulate():
     print("simulate()")
 
-    initialCash = 100000.0
-    a = va.VirtualAccount(initialCash, data_dic)
+    initial_cash = 100000.0
+    a = va.VirtualAccount(initial_cash, dic)
 
     print("Initial cash", a.get_cash())
 
@@ -58,42 +58,42 @@ def simulate():
     }
 
     # Symbol loop
-    symbolList = data_dic.keys()
-    symbolList.sort()
+    symbol_list = dic.keys()
+    symbol_list.sort()
 
     df = pd.DataFrame(
-        index=symbolList,
-        data=[ratio[s] for s in symbolList],
+        index=symbol_list,
+        data=[ratio[s] for s in symbol_list],
         columns=['TgtAlloc'])
 
-    df['NbShare'] = np.zeros(len(symbolList))
+    df['NbShare'] = np.zeros(len(symbol_list))
 
-    dfPrices = db.getAllSymbolDataSingleItem('Close')
-    for i in range(len(dfPrices)):
-        if i % 100 == 0: # Adjust rebalance frequency
+    df_prices = db.get_all_symbol_single_data_item('Close')
+    for i in range(len(df_prices)):
+        if i % 100 == 0:  # Adjust rebalance frequency here
             print("Rebalance", i)
 
             # Roughly Matching StockPortfolio_RRSP column ordering
 
-            df['Price'] = dfPrices.iloc[i]
+            df['Price'] = df_prices.iloc[i]
 
             df['MktValue'] = df['Price'] * df['NbShare']
 
-            totalValue = sum(df['Price'] * df['NbShare']) + a.get_cash()
+            total_value = sum(df['Price'] * df['NbShare']) + a.get_cash()
 
-            df['CurrAlloc'] = df['MktValue'] / totalValue
+            df['CurrAlloc'] = df['MktValue'] / total_value
             df['DeltaAlloc'] = df['CurrAlloc'] - df['TgtAlloc']
 
-            df['TgtValue'] = df['TgtAlloc'] * totalValue
+            df['TgtValue'] = df['TgtAlloc'] * total_value
 
             # +:Buy  -:Sell
             df['DeltaShare'] = np.floor((df['TgtValue']) / df['Price']) - df['NbShare']
 
-            c = [calcCommissionETF(n) for n in df['DeltaShare'].values]
+            c = [calc_commission_etf(n) for n in df['DeltaShare'].values]
 
             # TBD not sure about the commission formula for both buy & sell...
 
-            for s in symbolList:
+            for s in symbol_list:
                 n = df.loc[s, 'DeltaShare']
                 if n > 0:
                     print("  Buy {} of {}".format(n, s))
@@ -114,59 +114,51 @@ def simulate():
             #print("skip", i)
             pass
 
-    print("Initial Cash =", initialCash)
+    print("Initial Cash =", initial_cash)
     # Update last price
-    df['Price'] = [data_dic[s].iloc[-1]['Close'] for s in symbolList]
+    df['Price'] = [dic[s].iloc[-1]['Close'] for s in symbol_list]
     print("Final Cash = ", sum(df['Price'] * df['NbShare']) + a.get_cash())
 
 
 def simulate2():
-    print("simulate()")
+    print("simulate2()")
 
-    a = va.VirtualAccount(50000.00, data_dic)
+    a = va.VirtualAccount(50000.00, dic)
 
     print("Initial cash", a.get_cash())
 
     # Symbol loop
-    symbolList = data_dic.keys()
-    symbolList.sort()
-    for crtSymbol in symbolList:
-        print("Simulating with", crtSymbol)
-        crtBars = data_dic[crtSymbol]
+    symbol_list = dic.keys()
+    symbol_list.sort()
+    for symbol in symbol_list:
+        print("Simulating with", symbol)
+        df = dic[symbol]
 
         # The various series (starting with s):
-        # sOpen = fu.get_open(crtBars)
-        # sHigh = fu.get_high(crtBars)
-        # sLow = fu.get_low(crtBars)
-        sClose = fu.get_close(crtBars)
-        # sVolume = fu.get_volume(crtBars)
+        s_close = fu.get_close(df)
 
         # Technical indicators
-        # sVolumeSma = ti.sma(sVolume, 21)
-        sCloseSma = ti.sma(sClose, 200)
-        # sCloseEma = ti.ema(sClose, 200)
+        s_close_sma = ti.sma(s_close, 200)
 
         # Bar loops (1 bar per day)
         # start index to include various moving average lag
         # end at -1 to include "tomorrow" (corresponds to last valid bar)
         # TBD to fix this with real signals
-        for bar in range(200, len(crtBars) - 1):
-            # barObj = crtBars.iloc[bar]
-
+        for bar in range(200, len(df) - 1):
             # Positions loop
-            openPositions = a.get_open_positions(crtSymbol)
-            for pos in openPositions:
+            open_positions = a.get_open_positions(symbol)
+            for pos in open_positions:
                 # TBD sell logic
-                sellSignal = sClose[bar] > 1.15 * pos.get_entry_price() or \
-                             sClose[bar] < 0.95 * pos.get_entry_price()
-                if sellSignal:
-                    a.sell_at_market(pos, bar + 1) # bar + 1 = tomorrow
-            if not openPositions:
+                sell_signal = s_close[bar] > 1.15 * pos.get_entry_price() or \
+                              s_close[bar] < 0.95 * pos.get_entry_price()
+                if sell_signal:
+                    a.sell_at_market(pos, bar + 1)  # bar + 1 = tomorrow
+            if not open_positions:
                 # TBD buy logic
-                buySignal = ti.cross_over(sClose, sCloseSma)[bar]
-                if buySignal:
-                    nbShare = int(2500 / sClose[bar]) # 2500$ => about 0.8% commission buy + sell
-                    a.buy_at_market(bar + 1, crtSymbol, nbShare) # bar + 1 = tomorrow
+                buy_signal = ti.cross_over(s_close, s_close_sma)[bar]
+                if buy_signal:
+                    nb_share = int(2500 / s_close[bar])  # 2500$ => about 0.8% commission buy + sell
+                    a.buy_at_market(bar + 1, symbol, nb_share) # bar + 1 = tomorrow
 
     for p in a.get_all_positions():
         print(p)
@@ -174,56 +166,48 @@ def simulate2():
     print("Final cash", a.get_cash())
 
 
-def plotTest():
-    print("plotTest()")
+def plot_test():
+    print("plot_test()")
 
-    symbolList = data_dic.keys()
-    symbolList.sort()
-    for crtSymbol in symbolList:
-        print("Plotting with " + crtSymbol)
-        df = data_dic[crtSymbol]
+    symbol_list = dic.keys()
+    symbol_list.sort()
+    for symbol in symbol_list:
+        print("Plotting with " + symbol)
+        df = dic[symbol]
 
-        X = fu.get_close(df)
-        t = np.arange(len(X))
-        plt.plot(t, X,)
-        #plt.plot(t, ti.sma(X, 200))
-        #plt.plot(t, ti.ema(X, 200))
-        #plt.plot(t, ti.linFit(X, 200))
-        plt.plot(t, ti.iir_lowpass(X, 3, 200))
-        #plt.plot(t, ti.aema(X, 200))
+        x = fu.get_close(df)
+        t = np.arange(len(x))
+        plt.plot(t, x,)
+        # plt.plot(t, ti.sma(x, 200))
+        # plt.plot(t, ti.ema(x, 200))
+        # plt.plot(t, ti.linFit(x, 200))
+        plt.plot(t, ti.iir_lowpass(x, 3, 200))
+        # plt.plot(t, ti.aema(x, 200))
         plt.grid(True)
+        plt.title(symbol)
         plt.show()
 
 
-def loadData():
-    print("loadData()")
+def load_data():
+    print("load_data()")
 
-    global data_dic
+    global dic
     global db
 
     db = sdm.StockDBMgr(data_dir, start_date, end_date)
 
-    data_dic = db.get_all_symbol_data()
+    dic = db.get_all_symbol_data()
 
 
 def _main():
     print("main()")
 
-    global data_dir
+    load_data()
 
-    # parse arguments
-    parser = OptionParser()
-    parser.add_option("-d", "--dir", dest="dataDir", action="store", default=data_dir,
-        help="Get stock data (CSV) from this directory, it uses " + data_dir + " as default")
-    (options, _args) = parser.parse_args()
-    data_dir = options.dataDir
-
-    loadData()
-
-    plotTest()
+    plot_test()
 
     simulate()
-    # simulate2()
+    simulate2()
 
 
 if __name__ == '__main__':
