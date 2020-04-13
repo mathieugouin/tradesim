@@ -1,6 +1,0 @@
-Histogram plot of data:
-http://stackoverflow.com/questions/5328556/histogram-matplotlib/5328669
-
-TODO:
-Analyze invalid stock
-Cleanup ticker files
