@@ -56,9 +56,8 @@ class VirtualAccount(object):
         if symbol in self._data_dic:
             # open positions only for symbol
             return [p for p in self._positions if p.get_symbol() == symbol and p.is_open()]
-        else:
-            # all open positions
-            return [p for p in self._positions if p.is_open()]
+        # all open positions
+        return [p for p in self._positions if p.is_open()]
 
     def get_close_positions(self, symbol=""):
         if symbol in self._data_dic:

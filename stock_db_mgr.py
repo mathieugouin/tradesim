@@ -83,7 +83,6 @@ class StockDBMgr(object):
         - 'Close'
         - 'Adj Close' (only when the DB is not adjusted)
         """
-
         # Re-index to only have the relevant date range
         date_range = pd.date_range(self._start_date, self._end_date, name='Date')
 
