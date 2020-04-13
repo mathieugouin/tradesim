@@ -8,11 +8,11 @@ import stock_db_mgr as sdm
 import finance_utils as fu
 
 start_date = datetime.date(2010, 1, 1)
-#end_date  = datetime.date(2014, 1, 1)
+# end_date  = datetime.date(2014, 1, 1)
 end_date = datetime.date.today()
 
 # Create data base:
-db = sdm.CStockDBMgr('./stock_db/test', start_date, end_date)
+db = sdm.StockDBMgr('./stock_db/test', start_date, end_date)
 
 
 def test_pandas():
@@ -196,9 +196,9 @@ def test_daily_returns():
 def test_cumulative_returns():
     # 5.12
     dates = pd.date_range('2012-01-01', '2012-12-31')  # one year
-    #symbols = ['SPY', 'XOM']
-    df = get_data(db.getAllSymbolsAvailable(), dates)
-    #plot_data(df)
+    symbols = ['SPY', 'XOM']
+    df = get_data(symbols, dates)
+    # plot_data(df)
 
     # Compute cumulative return
     cr = (df / df.iloc[0] - 1.0) * 100.0  # make it in % directly
