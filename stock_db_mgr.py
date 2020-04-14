@@ -73,7 +73,7 @@ class StockDBMgr(object):
             self.get_symbol_data(s)  # return is ignored on purpose
         return self._dic
 
-    def get_all_symbol_single_data_item(self, data_item):
+    def get_all_symbol_single_data_item(self, data_item, fill_data=False):
         """Combine one data data_item of all available stock into a single DataFrame.
 
         Available data items are:
@@ -98,15 +98,14 @@ class StockDBMgr(object):
         # Discarding NaN values that are all NaN for a given row
         df.dropna(how='all', inplace=True)
 
-        # TBD not sure ok to ffill here...
-        # Need to replace na if any
-        # TBD not sure this is requried...
-        if df.isna().any().any():
+        if fill_data and df.isna().any().any():
             # print(df.loc[df.isna().any(axis=1)])
 
-            # Forward fill nan with last known good value.
-            # This will ensure all days have values
-            df.fillna(method='ffill', inplace=True, limit=5)
+            # Data filling is done in 2 steps
+            # 1. Fill forward nan with last known good value.
+            df.fillna(method='ffill', inplace=True)
+            # 2. Fill baward nan with first known good value.
+            df.fillna(method='backfill', inplace=True)
             if df.isna().any().any():
                 print("Error: too many NAN: {}".format(df.columns[df.isna().sum() > 0]))
 

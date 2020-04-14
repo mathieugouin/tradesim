@@ -215,15 +215,24 @@ def fudge_data():
 
 
 def test_missing_data():
-    # TBD continue @ 6.3
-    df = db.get_all_symbol_single_data_item('Close')
-    df.loc[:, ['SPY', 'JAVA', 'FAKE1', 'FAKE2']].plot()
+    df_gap = db.get_all_symbol_single_data_item('Close', False).loc[:, ['SPY', 'JAVA', 'FAKE1', 'FAKE2']]
+    df_gap.plot()
     plt.show()
+
+    df = db.get_all_symbol_single_data_item('Close', True).loc[:, ['SPY', 'JAVA', 'FAKE1', 'FAKE2']]
+    df.plot()
+    plt.show()
+
+
+def test_histogram():
+    # TBD continue @ 7.1
+    pass
 
 
 def _main():
     # Reverse order as seen in course
 
+    test_histogram()
     test_missing_data()
     test_cumulative_returns()
     test_daily_returns()
