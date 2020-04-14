@@ -95,7 +95,7 @@ ax2t = ax2.twinx()
 ax3 = fig.add_axes(rect3, facecolor=axescolor, sharex=ax1)
 
 
-df = db.getSymbolData(ticker)
+df = db.get_symbol_data(ticker)
 
 ### plot the relative strength indicator
 prices = df['Close']
@@ -166,7 +166,7 @@ ax3.fill_between(df.index, macd-ema9, 0, alpha=0.5, facecolor=fillcolor, edgecol
 ax3.text(0.025, 0.95, 'MACD (%d, %d, %d)'%(nfast, nslow, nema), va='top',
          transform=ax3.transAxes, fontsize=textsize)
 
-#ax3.set_yticks([])
+# ax3.set_yticks([])
 # turn off upper axis tick labels, rotate the lower ones, etc
 for ax in ax1, ax2, ax2t, ax3:
     if ax != ax3:
@@ -182,6 +182,8 @@ for ax in ax1, ax2, ax2t, ax3:
 
 
 class MyLocator(mticker.MaxNLocator):
+    """Custom locator class."""
+
     def __init__(self, *args, **kwargs):
         """Class constructor."""
         mticker.MaxNLocator.__init__(self, *args, **kwargs)
@@ -192,8 +194,8 @@ class MyLocator(mticker.MaxNLocator):
 
 # at most 5 ticks, pruning the upper and lower so they don't overlap
 # with other ticks
-#ax2.yaxis.set_major_locator(mticker.MaxNLocator(5, prune='both'))
-#ax3.yaxis.set_major_locator(mticker.MaxNLocator(5, prune='both'))
+# ax2.yaxis.set_major_locator(mticker.MaxNLocator(5, prune='both'))
+# ax3.yaxis.set_major_locator(mticker.MaxNLocator(5, prune='both'))
 
 ax2.yaxis.set_major_locator(MyLocator(5, prune='both'))
 ax3.yaxis.set_major_locator(MyLocator(5, prune='both'))

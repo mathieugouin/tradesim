@@ -38,7 +38,7 @@ def _download_tmx_page(symbol):
     if _cached_symbol and _cached_symbol == symbol:
         lines = _cached_lines
     else:
-        lines = fu.downloadUrl(url).splitlines()
+        lines = fu.download_url(url).splitlines()
         _cached_symbol = symbol
         _cached_lines = lines
 

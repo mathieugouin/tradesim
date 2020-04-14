@@ -75,8 +75,10 @@ def load_yahoo_quote(ticker, begindate, enddate, info='quote'):
     """Loads the corresponding history/divident/split from Yahoo.
 
     The "begindate" and "enddate" are in the format of YYYYMMDD are are inclusive.
-    The "info" can be "quote" for price, "divident" for divident events,
+    The "info" can be "quote" for price, "dividend" for dividend events,
     or "split" for split events.
+
+    The whole data is returned as a single string with newlines.
     """
     # Check to make sure that the cookie and crumb has been loaded
     global _cookie, _crumb
