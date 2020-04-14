@@ -16,33 +16,32 @@ db = sdm.StockDBMgr('./stock_db/test', start_date, end_date)
 
 
 def test_pandas():
-    df = db.getSymbolData('AAPL')
+    df = db.get_symbol_data('AAPL')
     print df.head()
     print df.describe()
     print df[10:21]
 
 
 def test_plot_data():
-    df = db.getSymbolData('IBM')
+    df = db.get_symbol_data('IBM')
     df['High'].plot()
     plt.show()
 
     df[['Low', 'High']].plot()
     plt.show()
-    pass
 
 
 def test_multi_symbol():
-    df = db.getAllSymbolDataSingleItem('Close')
+    df = db.get_all_symbol_single_data_item('Close')
     print df[['AAPL', 'IBM']].max()
 
-    df = db.getAllSymbolDataSingleItem('Volume')
+    df = db.get_all_symbol_single_data_item('Volume')
     print df[['AAPL', 'IBM']].mean()
     pass
 
 
 def test_slice():
-    df = db.getAllSymbolDataSingleItem('Close')
+    df = db.get_all_symbol_single_data_item('Close')
 
     df_row = df.loc['2010-01-01':'2010-01-10']
     print df_row
@@ -56,14 +55,14 @@ def test_slice():
 
 
 def test_normalize():
-    df = db.getAllSymbolDataSingleItem('Close')
-    df2 = fu.normalizeDataFrame(df)
+    df = db.get_all_symbol_single_data_item('Close')
+    df2 = fu.normalize_data_frame(df)
     plot_data(df2)
     pass
 
 
 def get_data(symbols, dates):
-    df = db.getAllSymbolDataSingleItem('Close')
+    df = db.get_all_symbol_single_data_item('Close')
     df = df.loc[:, symbols]  # keep only required symbols
     df = df.reindex(dates)  # keep only required dates
     df.dropna(inplace=True)  # flush nan
@@ -86,8 +85,8 @@ def plot_selected(df, stocks, sd, ed):
 
 
 def test_plot():
-    df = db.getAllSymbolDataSingleItem('Close')
-    df2 = fu.normalizeDataFrame(df)
+    df = db.get_all_symbol_single_data_item('Close')
+    df2 = fu.normalize_data_frame(df)
     plot_selected(df2, ['SPY', 'IBM'], '2010-03-01', '2010-04-01')
     pass
 
@@ -139,7 +138,7 @@ def test_time_series():
 
 def test_rolling_stats():
     # Ref: https://pandas.pydata.org/pandas-docs/stable/user_guide/computation.html
-    c = db.getSymbolData('SPY').loc[:, 'Close']
+    c = db.get_symbol_data('SPY').loc[:, 'Close']
     r = c.rolling(window=60)
 
     d = {
@@ -176,7 +175,6 @@ def test_rolling_stats2():
     lower_band.plot(style='--', label='Lower band', ax=ax, legend=True)
 
     plt.show()
-    pass
 
 
 def test_daily_returns():
@@ -218,9 +216,9 @@ def fudge_data():
 
 def test_missing_data():
     # TBD continue @ 6.3
-    df = db.getAllSymbolDataSingleItem('Close')
+    df = db.get_all_symbol_single_data_item('Close')
     df.loc[:, ['SPY', 'JAVA', 'FAKE1', 'FAKE2']].plot()
-    pass
+    plt.show()
 
 
 def _main():
