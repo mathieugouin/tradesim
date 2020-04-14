@@ -23,14 +23,13 @@ import threading
 import datetime
 import argparse
 import os
-
-if sys.version_info.major < 3:
-    import Queue as queue
-else:
-    import queue
-
 # User
 import yqd
+
+if sys.version_info.major < 3:
+    import Queue as queue_lib
+else:
+    import queue as queue_lib
 
 
 def _my_assert(expression, msg='No message provided'):
@@ -51,7 +50,7 @@ class WorkerThread(threading.Thread):
             try:
                 # fetch a job from the queue
                 ticker, fromdate, todate = self.queue.get_nowait()
-            except queue.Empty:
+            except queue_lib.Empty:
                 raise SystemExit
             if ticker[0] == "^": # make sure filename compatible
                 filename_ticker = ticker[1:]
@@ -60,21 +59,21 @@ class WorkerThread(threading.Thread):
 
             if options.verbose:
                 print("ticker:", ticker)
-                print("last date asked:", todate, todate[0:4], todate[4:6], todate[6:8])
-                print("first date asked:", fromdate, fromdate[0:4], fromdate[4:6], fromdate[6:8])
+                print("last date asked: " + todate)
+                print("first date asked: " + fromdate)
 
             if not options.offline:
                 # download ticker data using yqd
                 all_lines = yqd.load_yahoo_quote(ticker, fromdate, todate)
 
-                if len(all_lines) > 5: # safety check
+                if len(all_lines) > 5:  # safety check
                     filename = os.path.join(options.dir, filename_ticker + '.csv')
-                    fp = open(filename, "wb")
-                    fp.write(all_lines)
-                    fp.close()
+
+                    with open(filename, 'w') as fp:
+                        fp.write(all_lines)
 
             if options.verbose:
-                print("fetched: ", ticker)
+                print("fetched: " + ticker)
             else:
                 sys.stdout.write(".")
                 sys.stdout.flush()
@@ -113,7 +112,7 @@ if __name__ == '__main__':
         ticker_lines = f.readlines()
 
     # build a queue with (ticker, fromdate, todate) tuples
-    queue = queue.Queue()
+    queue = queue_lib.Queue()
     for line in ticker_lines:
         line = line.strip() # remove leading and trailing whitespace
         # skip empty lines or line starting with # (comment)
@@ -139,9 +138,14 @@ if __name__ == '__main__':
         print("----- Getting {} tickers using {} simultaneous connections -----".format(
             nb_tickers, connections))
 
-    # Get a dummy small quote from Y! to get the crumb & cookie before the threads start.
-    _my_assert(len(yqd.load_yahoo_quote('^GSPC', '20180212', '20180212')) > 5,
-               "Error: initial download did not work")
+    if not options.offline:
+        if options.verbose:
+            print("Downloading dummy quote...")
+        # Get a dummy small quote from Y! to get the crumb & cookie before the threads start.
+        _my_assert(len(yqd.load_yahoo_quote('^GSPC', '20180212', '20180212')) > 5,
+                   "Error: initial download did not work")
+        if options.verbose:
+            print("...completed.")
 
     # start a bunch of threads, passing them the queue of jobs to do
     threads = []
