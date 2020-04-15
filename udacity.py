@@ -215,11 +215,12 @@ def fudge_data():
 
 
 def test_missing_data():
-    df_gap = db.get_all_symbol_single_data_item('Close', False).loc[:, ['SPY', 'JAVA', 'FAKE1', 'FAKE2']]
+    df_gap = db.get_all_symbol_single_data_item('Close').loc[:, ['SPY', 'JAVA', 'FAKE1', 'FAKE2']]
     df_gap.plot()
     plt.show()
 
-    df = db.get_all_symbol_single_data_item('Close', True).loc[:, ['SPY', 'JAVA', 'FAKE1', 'FAKE2']]
+    df = db.get_all_symbol_single_data_item('Close').loc[:, ['SPY', 'JAVA', 'FAKE1', 'FAKE2']]
+    fu.fill_nan_data(df)
     df.plot()
     plt.show()
 
