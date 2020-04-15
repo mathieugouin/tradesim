@@ -7,7 +7,6 @@ from __future__ import print_function
 
 import math
 import datetime
-from optparse import OptionParser
 
 import numpy as np
 import matplotlib.pyplot as plt
