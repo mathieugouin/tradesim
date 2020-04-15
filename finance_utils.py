@@ -14,6 +14,7 @@ import time
 
 # Custom
 import pandas as pd
+import numpy as np
 
 # User
 import yqd
@@ -35,6 +36,12 @@ def get_all_symbols(basedir):
 
 
 def get_symbols_from_file(ticker_file):
+    """Return the list of ticker symbol listed in the provided text file.
+
+    The parsing is done to ignore blank lines or lines starting with # (comment).
+    On a non-comment row, only the first word is taken as a symbol.  This allow crafting the file with
+    optional description following the symbol.
+    """
     ticker_list = []
 
     with open(ticker_file, 'r') as f:
@@ -89,12 +96,24 @@ def download_data(symbol, basedir, start_date, end_date):
 
 
 def update_all_symbols(basedir, start_date, end_date):
+    """Re-download all symbols found in the basedir."""
     for s in get_all_symbols(basedir):
         download_data(s, basedir, start_date, end_date)
 
 
 def normalize_data_frame(df):
     return df / df.iloc[0]
+
+
+def fill_nan_data(df):
+    """Fill the data in the given dataframe in place so no NaN gaps remain."""
+
+    # print(df.loc[df.isna().any(axis=1)])
+    # Data filling is done in 2 steps
+    # 1. Fill forward nan with last known good value.
+    df.fillna(method='ffill', inplace=True)
+    # 2. Fill baward nan with first known good value.
+    df.fillna(method='backfill', inplace=True)
 
 
 # TBD Are these get still useful?
@@ -218,6 +237,14 @@ def _main():
 
     # Not applicable for a single stock, but just to test...
     print(normalize_data_frame(df).head())
+
+    # Test by adding some NaN
+    df.iloc[0:10, 0] = np.nan  # beginning
+    df.iloc[11:20, 1] = np.nan  # middle
+    df.iloc[-10:, 2] = np.nan  # end
+    print(df.isna().any())
+    fill_nan_data(df)
+    print(df.isna().any())
 
     print(download_url("https://www.google.ca")[0:100])
 

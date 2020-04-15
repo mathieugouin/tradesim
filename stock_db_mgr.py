@@ -98,17 +98,6 @@ class StockDBMgr(object):
         # Discarding NaN values that are all NaN for a given row
         df.dropna(how='all', inplace=True)
 
-        # Need to replace na if any
-        # TBD not sure this is requried...
-        if df.isna().any().any():
-            # print(df.loc[df.isna().any(axis=1)])
-
-            # Forward fill nan with last known good value.
-            # This will ensure all days have values
-            df.fillna(method='ffill', inplace=True, limit=5)
-            if df.isna().any().any():
-                print("Error: too many NAN: {}".format(df.columns[df.isna().sum() > 0]))
-
         # Axis naming
         df.rename_axis(data_item, axis='columns', inplace=True)
 
