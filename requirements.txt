@@ -1,5 +1,5 @@
 # pip dependency requirement for CI
 
+numpy
 pandas
 matplotlib
-numpy
