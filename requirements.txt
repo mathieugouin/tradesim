@@ -1,0 +1,5 @@
+# pip dependency requirement for CI
+
+pandas
+matplotlib
+numpy
