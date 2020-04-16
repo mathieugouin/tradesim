@@ -1,4 +1,7 @@
 # Travis CI config file
+
+os: linux
+dist: bionic
 language: python
 
 # Version
