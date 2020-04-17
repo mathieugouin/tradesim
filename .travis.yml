@@ -21,10 +21,8 @@ install:
 
 # Initial setup script
 before_script: |
-  pwd &&
-  ls -la
-#  - 'bash mkdir -p stock_db/test'
-#  - 'bash python get_yahoo_finance_data.py -c 1 -f stock_db/test.txt -d ./stock_db/test'
+  mkdir -p stock_db/test &&
+  python get_yahoo_finance_data.py --concurrent 1 --files stock_db/test.txt --dir ./stock_db/test --startdate 20000101 --verbose
 
 # Command to run test
 script:
