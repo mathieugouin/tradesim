@@ -26,4 +26,10 @@ before_script: |
 
 # Command to run the tests
 script:
-  - pytest
+  #- pytest  # no coverage
+  - coverage run -m pytest  # with coverage
+
+after_success:
+  #- codecov  # submit coverage
+  - bash <(curl -s https://codecov.io/bash)
+
