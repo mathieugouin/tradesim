@@ -96,7 +96,7 @@ if __name__ == '__main__':
     parser.add_argument('-s', '--startdate', default=start_date, action='store',
                         help='start date, format is YYYYMMDD, default is ' + start_date)
     parser.add_argument('-t', '--todate', default=today, action='store',
-                        help='most recent date, format is YYYYMMDD, default is ' + today)
+                        help='most recent date, format is YYYYMMDD, default is today: ' + today)
     parser.add_argument('-v', '--verbose', action='store_true',
                         help='explain what is being done')
     parser.add_argument('-o', '--offline', action='store_true',
