@@ -26,4 +26,4 @@ before_script: |
 
 # Command to run test
 script:
-  - pytest
+  - pytest -s
