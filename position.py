@@ -5,7 +5,7 @@ from __future__ import print_function
 class Position(object):
     """Represents a position held in a portfolio."""
 
-    def __init__(self, bar, symbol, nbShare, price, name="buy", commission=9.95):
+    def __init__(self, bar, symbol, nb_share, price, name="buy", commission=9.95):
         """Creating a Position is equivalent to buy."""
         self._entry_bar = bar
         self._entry_price = price
@@ -18,7 +18,7 @@ class Position(object):
         self._exit_commission = commission
 
         self._symbol = symbol
-        self._nb_share = nbShare
+        self._nb_share = nb_share
         self._open = True
 
     def __str__(self):
