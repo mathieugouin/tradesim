@@ -29,4 +29,6 @@ script:
   - pytest
 
 after_success:
-  - codecov  # submit coverage
+  #- codecov  # submit coverage
+  - bash <(curl -s https://codecov.io/bash)
+
