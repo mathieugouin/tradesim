@@ -12,7 +12,7 @@ def test_position_1():
     p.close(4, 25.0)
     assert len(str(p)) > 0  # TBD
     assert p.get_exit_price() == 25.0
-    assert 0.0 < p.get_pct_gain() < 1.0
+    assert 0.0 < p.get_pct_gain() < 100.0
 
 
 def test_position_2():
