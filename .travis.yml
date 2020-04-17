@@ -20,11 +20,11 @@ install:
   - pip install -r requirements.txt
 
 # Initial setup script
-before_script:
-  - 'bash pwd'
-  - 'bash ls -la'
-  - 'bash mkdir -p stock_db/test'
-  - 'bash python get_yahoo_finance_data.py -c 1 -f stock_db/test.txt -d ./stock_db/test'
+before_script: |
+  pwd &&
+  ls -la
+#  - 'bash mkdir -p stock_db/test'
+#  - 'bash python get_yahoo_finance_data.py -c 1 -f stock_db/test.txt -d ./stock_db/test'
 
 # Command to run test
 script:
