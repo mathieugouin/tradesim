@@ -27,3 +27,6 @@ before_script: |
 # Command to run the tests
 script:
   - pytest
+
+after_success:
+  - codecov  # submit coverage
