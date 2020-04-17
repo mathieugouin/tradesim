@@ -22,7 +22,7 @@ install:
 # Initial setup script
 before_script: |
   mkdir -p stock_db/test &&
-  python get_yahoo_finance_data.py --concurrent 1 --files stock_db/test.txt --dir ./stock_db/test --startdate 20000101 --verbose
+  python get_yahoo_finance_data.py --concurrent 1 --file stock_db/test.txt --dir ./stock_db/test --startdate 20000101 --verbose
 
 # Command to run test
 script:
