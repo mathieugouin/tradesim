@@ -147,7 +147,7 @@ def load_data_frame(csv_file, start_date, end_date, adjust_price=True):
 
         df = pd.read_csv(csv_file, index_col='Date', parse_dates=True)
 
-        if len(df.index.get_duplicates()) > 0:
+        if len(df.index[df.index.duplicated()].unique()) > 0:
             raise Exception('Duplicated index in file {}'.format(csv_file))
 
         df.sort_index(inplace=True)

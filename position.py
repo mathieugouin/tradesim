@@ -5,7 +5,7 @@ from __future__ import print_function
 class Position(object):
     """Represents a position held in a portfolio."""
 
-    def __init__(self, bar, symbol, nbShare, price, name="buy", commission=9.95):
+    def __init__(self, bar, symbol, nb_share, price, name="buy", commission=9.95):
         """Creating a Position is equivalent to buy."""
         self._entry_bar = bar
         self._entry_price = price
@@ -18,7 +18,7 @@ class Position(object):
         self._exit_commission = commission
 
         self._symbol = symbol
-        self._nb_share = nbShare
+        self._nb_share = nb_share
         self._open = True
 
     def __str__(self):
@@ -41,12 +41,13 @@ class Position(object):
         return s
 
     def close(self, bar, price, name="sell"):
-        if not self._open:
+        if self._open:
+            self._open = False
+            self._exit_price = price
+            self._exit_bar = bar
+            self._exit_name = name
+        else:
             print("Error: position already closed.")
-        self._open = False
-        self._exit_price = price
-        self._exit_bar = bar
-        self._exit_name = name
         return self._nb_share * self._exit_price
 
     def get_symbol(self):
