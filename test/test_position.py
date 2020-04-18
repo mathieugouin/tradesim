@@ -9,7 +9,10 @@ def test_position_1():
     assert p.is_open()
     assert p.get_entry_price() == 20.0
 
-    p.close(4, 25.0)
+    c = p.close(4, 25.0)
+    assert not p.is_open()
+    assert p.close(5, 30.0) == c
+    assert not p.is_open()
     assert len(str(p)) > 0  # TBD
     assert p.get_exit_price() == 25.0
     assert 0.0 < p.get_pct_gain() < 100.0
