@@ -113,4 +113,3 @@ def test_calc_commission():
     assert va.calc_commission(n) == 4.95 + 0.0035 * n
     n = 5000
     assert va.calc_commission(n) == 9.95 + 0.0035 * n
-
