@@ -23,7 +23,7 @@ def test_virtual_account():
     assert len(a.get_open_positions('SPY')) == 0
     assert len(a.get_close_positions('SPY')) == 0
 
-    a.buy_at_market(3, 'SPY', 100)
+    a.buy_at_market(0, 'SPY', 100)
 
     assert len(a.get_all_positions()) == 1
     assert len(a.get_open_positions()) == 1
@@ -35,7 +35,7 @@ def test_virtual_account():
     assert len(a.get_open_positions('IBM')) == 0
     assert len(a.get_close_positions('IBM')) == 0
 
-    a.buy_at_market(6, 'IBM', 200)
+    a.buy_at_market(1, 'IBM', 200)
 
     assert len(a.get_all_positions()) == 2
     assert len(a.get_open_positions()) == 2
@@ -74,20 +74,25 @@ def test_virtual_account():
 
 def test_to_expensive_buy():
     assert db
-    a = va.VirtualAccount(1000.0, db.get_all_symbol_data())
+    c = 1000.0
+    a = va.VirtualAccount(c, db.get_all_symbol_data())
     assert a
-    a.buy_at_market(1000, 'SPY', 1)
+    a.buy_at_market(0, 'SPY', 2000)
     assert len(a.get_all_positions()) == 0
-    assert a.get_cash() == 1000.0
+    assert a.get_cash() == c
 
 
-def test_negative():
+def test_invalid_buy_qty():
     assert db
-    a = va.VirtualAccount(1000.0, db.get_all_symbol_data())
+    c = 1000.0
+    a = va.VirtualAccount(c, db.get_all_symbol_data())
     assert a
-    a.buy_at_market(-1, 'SPY', 0)
+    a.buy_at_market(0, 'SPY', 0)
     assert len(a.get_all_positions()) == 0
-    assert a.get_cash() == 1000.0
+    assert a.get_cash() == c
+    a.buy_at_market(0, 'SPY', -10)
+    assert len(a.get_all_positions()) == 0
+    assert a.get_cash() == c
 
 
 def test_to_expensive_sell():
@@ -95,7 +100,7 @@ def test_to_expensive_sell():
     c = 10000.0
     a = va.VirtualAccount(c, db.get_all_symbol_data())
     assert a
-    a.buy_at_market(1, 'SPY', 0)
+    a.buy_at_market(0, 'SPY', 1)
     assert len(a.get_open_positions()) == 1
     assert a.get_cash() < c
     a.delta_cash(-a.get_cash() + 0.1)

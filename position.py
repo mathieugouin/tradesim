@@ -41,12 +41,13 @@ class Position(object):
         return s
 
     def close(self, bar, price, name="sell"):
-        if not self._open:
+        if self._open:
+            self._open = False
+            self._exit_price = price
+            self._exit_bar = bar
+            self._exit_name = name
+        else:
             print("Error: position already closed.")
-        self._open = False
-        self._exit_price = price
-        self._exit_bar = bar
-        self._exit_name = name
         return self._nb_share * self._exit_price
 
     def get_symbol(self):
