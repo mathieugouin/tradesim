@@ -1,5 +1,7 @@
 # pip dependency requirement for CI
 
+coverage
 numpy
 pandas
 matplotlib
+scipy

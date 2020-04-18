@@ -1,0 +1,7 @@
+# .coveragerc to control python coverage generation: coverage.py
+[run]
+
+# capture branch coverage
+branch = True
+
+source = .
