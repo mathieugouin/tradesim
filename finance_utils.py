@@ -8,7 +8,6 @@ import re
 import os
 import glob
 import urllib
-import datetime
 import csv
 import time
 
