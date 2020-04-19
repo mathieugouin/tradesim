@@ -1,7 +1,15 @@
 # pip dependency requirement for CI
 
-coverage
+# Main packages used
 numpy
 pandas
 matplotlib
 scipy
+
+# To investigate
+# investpy
+
+# Required for CI
+pytest
+coverage
+pytest
