@@ -104,9 +104,10 @@ def test_invalid_sell():
     a.buy_at_market(0, 'SPY', 1)
     assert len(a.get_open_positions()) == 1
     p = a.get_open_positions()[0]
-    a.sell_at_market(p, 1)
-    c = a.get_cash()
+    a.sell_at_market(p, 1)  # 1st sell, ok
     assert len(a.get_open_positions()) == 0
+    assert len(a.get_close_positions()) == 1
+    c = a.get_cash()
     a.sell_at_market(p, 2)  # 2nd invalid sell same position
     assert a.get_cash() == c
 
