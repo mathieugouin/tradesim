@@ -72,7 +72,7 @@ def test_virtual_account():
     assert len(a.get_close_positions('IBM')) == 1
 
 
-def test_to_expensive_buy():
+def test_too_expensive_buy():
     assert db
     c = 1000.0
     a = va.VirtualAccount(c, db.get_all_symbol_data())
@@ -95,7 +95,23 @@ def test_invalid_buy_qty():
     assert a.get_cash() == c
 
 
-def test_to_expensive_sell():
+def test_invalid_sell():
+    assert db
+    c = 1000.0
+    a = va.VirtualAccount(c, db.get_all_symbol_data())
+    assert len(a.get_open_positions()) == 0
+    assert a
+    a.buy_at_market(0, 'SPY', 1)
+    assert len(a.get_open_positions()) == 1
+    p = a.get_open_positions()[0]
+    a.sell_at_market(p, 1)
+    c = a.get_cash()
+    assert len(a.get_open_positions()) == 0
+    a.sell_at_market(p, 2)  # 2nd invalid sell same position
+    assert a.get_cash() == c
+
+
+def test_too_expensive_sell():
     assert db
     c = 10000.0
     a = va.VirtualAccount(c, db.get_all_symbol_data())
