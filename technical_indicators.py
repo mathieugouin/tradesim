@@ -27,7 +27,7 @@ def ramp(t):
 # Various technical indicators
 # -------------------------------------
 
-def linFit(x, n):
+def linear_fit(x, n):
     """Linear regression of 'n' points used to give the smoothed point."""
     if n < 2:
         raise AssertionError("n must be >= 2")
@@ -41,7 +41,7 @@ def linFit(x, n):
     return Y
 
 
-def rateOfChange(x, n):
+def rate_of_change(x, n):
     """Return the Rate Of Change (1st derivative) based on 'n' points linear regression."""
     t = np.arange(len(x))
     y = np.array(
@@ -141,14 +141,14 @@ def cross_under(x1, x2):
     return np.concatenate((np.zeros(1), ((np.diff(((x1 - x2) < 0.0) * 1.0)) > 0.0) * 1.0))
 
 
-def movingMin(x, n):
+def moving_min(x, n):
     """Moving minimum over the last n elements."""
     if n < 1:
         raise AssertionError("n must be >= 1")
     return np.array([min(x[max(0, i - n + 1):i + 1]) for i in range(len(x))])
 
 
-def movingMax(x, n):
+def moving_max(x, n):
     """Moving maximum over the last n elements."""
     if n < 1:
         raise AssertionError("n must be >= 1")
@@ -242,16 +242,16 @@ def _main():
     ax.plot(t, x, 'o', label='raw')
     ax.plot(t, sma(x, 10), label='sma')
     ax.plot(t, ema(x, 10), label='ema')
-    ax.plot(t, linFit(x, 10), label='linFit')
+    ax.plot(t, linear_fit(x, 10), label='linear_fit')
     ax.plot(t, iir_lowpass(x, 1, 10), label='iir_lowpass')
-    ax.plot(t, movingMin(x, 10), label='movingMin')
-    ax.plot(t, movingMax(x, 10), label='movingMax')
+    ax.plot(t, moving_min(x, 10), label='moving_min')
+    ax.plot(t, moving_max(x, 10), label='moving_max')
     ax.plot(t, aema(x, 10), label='aema')
     ax.grid(True)
     ax.legend()
 
     ax2 = fig.add_subplot(212)
-    ax2.plot(t, rateOfChange(x, 20), 'x', label='rateOfChange')
+    ax2.plot(t, rate_of_change(x, 20), 'x', label='rate_of_change')
     ax2.plot(t, acceleration(x, 20), 'o--', label='acceleration')
     ax2.grid(True)
     ax2.legend()
