@@ -23,7 +23,7 @@ class VirtualAccount(object):
         print("buy_at_market()")
         nb_share = math.floor(nb_share)
         if nb_share > 0:
-            buy_price = self._data_dic[symbol].iloc[bar]['High'] # Worst case simulation
+            buy_price = self._data_dic[symbol].iloc[bar]['High']  # Worst case simulation
             commission = calc_commission(nb_share)
             cost = buy_price * nb_share + commission
             if cost < self._cash:
@@ -73,36 +73,3 @@ class VirtualAccount(object):
         if self._cash < 0:
             #print("Error: not enough money: {}".format(wouldBeCash))
             pass
-
-
-def __print_position(va):
-    print("all pos = {}".format([str(p) for p in va.get_all_positions()]))
-    print("open pos = {}".format([str(p) for p in va.get_open_positions()]))
-    print("closed pos = {}".format([str(p) for p in va.get_close_positions()]))
-
-    print("all pos (XBB.TO) = {}".format([str(p) for p in va.get_all_positions('XBB.TO')]))
-    print("open pos (XBB.TO) = {}".format([str(p) for p in va.get_open_positions('XBB.TO')]))
-    print("closed pos (XBB.TO) = {}".format([str(p) for p in va.get_close_positions('XBB.TO')]))
-
-
-def __main():
-    import stock_db_mgr as sdm
-    db = sdm.StockDBMgr('./stock_db/qt')
-    va = VirtualAccount(100000, db.get_all_symbol_data())
-    print("comm = {}".format(calc_commission(300)))
-    print("$ = {}".format(va.get_cash()))
-    va.delta_cash(100)
-    print("$ = {}".format(va.get_cash()))
-    va.delta_cash(-200)
-    print("$ = {}".format(va.get_cash()))
-    __print_position(va)
-    va.buy_at_market(3, 'XBB.TO', 100)
-    __print_position(va)
-    va.buy_at_market(6, 'XEC.TO', 200)
-    __print_position(va)
-    va.sell_at_market(va.get_all_positions()[0], 12)
-    __print_position(va)
-
-
-if __name__ == '__main__':
-    __main()
