@@ -36,13 +36,16 @@ class VirtualAccount(object):
 
     def sell_at_market(self, position, bar, name="sell_at_market"):
         print("sell_at_market()")
-        sell_price = self._data_dic[position.get_symbol()].iloc[bar]['Low'] # Worst case
-        cost = calc_commission(position.get_nb_share())
-        if cost < self._cash:
-            self._cash -= cost
-            self._cash += position.close(bar, sell_price, name)
+        if position.is_open():
+            sell_price = self._data_dic[position.get_symbol()].iloc[bar]['Low'] # Worst case
+            cost = calc_commission(position.get_nb_share())
+            if cost < self._cash:
+                self._cash -= cost
+                self._cash += position.close(bar, sell_price, name)
+            else:
+                print("Error: not enough money")
         else:
-            print("Error: not enough money")
+            print("Error: position already closed")
 
     def get_all_positions(self, symbol=""):
         if symbol in self._data_dic:
