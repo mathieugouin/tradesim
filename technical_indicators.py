@@ -132,12 +132,12 @@ def sma(x, n):
 
 
 def cross_over(x1, x2):
-    """If x1 just crossed over x2."""
+    """If x1 just crossed over x2, in numeric form (0, 1)."""
     return np.concatenate((np.zeros(1), ((np.diff(((x1 - x2) > 0.0) * 1.0)) > 0.0) * 1.0))
 
 
 def cross_under(x1, x2):
-    """If x1 just crossed under x2."""
+    """If x1 just crossed under x2, in numeric form (0, 1)."""
     return np.concatenate((np.zeros(1), ((np.diff(((x1 - x2) < 0.0) * 1.0)) > 0.0) * 1.0))
 
 
