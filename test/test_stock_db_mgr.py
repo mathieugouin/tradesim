@@ -23,4 +23,25 @@ def test_creation_default_date_range():
 def test_get_all_symbols():
     db = sdm.StockDBMgr('./stock_db/test', datetime.date(2017, 1, 1), datetime.date(2018, 1, 1))
     symbol_list = db.get_all_symbols()
-    assert len(symbol_list) > 0
+    assert len(symbol_list) > 3
+
+
+def test_download_data():
+    db = sdm.StockDBMgr('./stock_db/test')
+    db.get_symbol_data('SPY')
+    assert 'SPY' in db._dic
+    db.download_data('SPY')
+    assert 'SPY' not in db._dic
+
+
+def test_validate():
+    db = sdm.StockDBMgr('./stock_db/test')
+    for s in db.get_all_symbols():
+        assert db.validate_symbol_data(s)
+
+
+def test_get_all_symbol_single_data_item():
+    db = sdm.StockDBMgr('./stock_db/test')
+    df = db.get_all_symbol_single_data_item('Close')
+    for s in db.get_all_symbols():
+        assert s in df
