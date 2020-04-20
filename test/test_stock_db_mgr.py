@@ -55,7 +55,9 @@ def test_get_symbol_data():
     db = sdm.StockDBMgr('./stock_db/test')
     df1 = db.get_symbol_data('SPY')
     df2 = db.get_symbol_data('SPY')
-    assert df1 == df2
+    assert (df1 == df2).all().all()
+    assert len(df1) == len(df2)
+    assert df1 is df2
 
 
 def test_get_all_symbol_data():

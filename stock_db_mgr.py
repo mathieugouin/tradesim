@@ -82,6 +82,8 @@ class StockDBMgr(object):
         - 'Low'
         - 'Close'
         - 'Adj Close' (only when the DB is not adjusted)
+
+        Return None for invalid data_item.
         """
         # Re-index to only have the relevant date range
         date_range = pd.date_range(self._start_date, self._end_date, name='Date')
@@ -93,7 +95,8 @@ class StockDBMgr(object):
 
         df = pd.DataFrame(index=date_range)
         for k in keys:
-            df[k] = dic[k][data_item]
+            if data_item in dic[k]:
+                df[k] = dic[k][data_item]
 
         # Discarding NaN values that are all NaN for a given row
         df.dropna(how='all', inplace=True)
@@ -101,4 +104,6 @@ class StockDBMgr(object):
         # Axis naming
         df.rename_axis(data_item, axis='columns', inplace=True)
 
+        if df.empty:
+            return None
         return df

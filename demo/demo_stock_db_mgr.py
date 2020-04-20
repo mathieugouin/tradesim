@@ -4,6 +4,7 @@ from __future__ import print_function
 import datetime
 import stock_db_mgr as sdm
 
+
 def _main():
     db = sdm.StockDBMgr('../stock_db/test', datetime.date(2017, 1, 1), datetime.date(2018, 1, 1))
     symbol_list = db.get_all_symbols()
