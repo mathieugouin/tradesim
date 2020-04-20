@@ -88,7 +88,7 @@ class StockDBMgr(object):
 
         dic = self.get_all_symbol_data()
 
-        keys = dic.keys()
+        keys = list(dic.keys())
         keys.sort()
 
         df = pd.DataFrame(index=date_range)

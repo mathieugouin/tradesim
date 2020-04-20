@@ -57,7 +57,7 @@ def simulate():
     }
 
     # Symbol loop
-    symbol_list = dic.keys()
+    symbol_list = list(dic.keys())
     symbol_list.sort()
 
     df = pd.DataFrame(
@@ -127,7 +127,7 @@ def simulate2():
     print("Initial cash", a.get_cash())
 
     # Symbol loop
-    symbol_list = dic.keys()
+    symbol_list = list(dic.keys())
     symbol_list.sort()
     for symbol in symbol_list:
         print("Simulating with", symbol)
@@ -168,7 +168,7 @@ def simulate2():
 def plot_test():
     print("plot_test()")
 
-    symbol_list = dic.keys()
+    symbol_list = list(dic.keys())
     symbol_list.sort()
     for symbol in symbol_list:
         print("Plotting with " + symbol)
