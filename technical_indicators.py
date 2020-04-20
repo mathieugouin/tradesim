@@ -27,7 +27,7 @@ def ramp(t):
 # Various technical indicators
 # -------------------------------------
 
-def linFit(x, n):
+def linear_fit(x, n):
     """Linear regression of 'n' points used to give the smoothed point."""
     if n < 2:
         raise AssertionError("n must be >= 2")
@@ -41,7 +41,7 @@ def linFit(x, n):
     return Y
 
 
-def rateOfChange(x, n):
+def rate_of_change(x, n):
     """Return the Rate Of Change (1st derivative) based on 'n' points linear regression."""
     t = np.arange(len(x))
     y = np.array(
@@ -141,14 +141,14 @@ def cross_under(x1, x2):
     return np.concatenate((np.zeros(1), ((np.diff(((x1 - x2) < 0.0) * 1.0)) > 0.0) * 1.0))
 
 
-def movingMin(x, n):
+def moving_min(x, n):
     """Moving minimum over the last n elements."""
     if n < 1:
         raise AssertionError("n must be >= 1")
     return np.array([min(x[max(0, i - n + 1):i + 1]) for i in range(len(x))])
 
 
-def movingMax(x, n):
+def moving_max(x, n):
     """Moving maximum over the last n elements."""
     if n < 1:
         raise AssertionError("n must be >= 1")
