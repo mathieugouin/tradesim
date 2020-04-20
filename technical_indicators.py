@@ -156,7 +156,7 @@ def moving_max(x, n):
 
 
 def relative_position(symbol):
-    """Based on the 52 week range: min = 0.0, max = 1.0."""
+    """Based on the last 52 weeks: relative price based on min vs max, range is [0.0, 1.0]."""
     price = tmx.get_price(symbol)
     pmin = tmx.get_52_week_low(symbol)
     pmax = tmx.get_52_week_high(symbol)
@@ -164,7 +164,7 @@ def relative_position(symbol):
 
 
 def relative_range(symbol):
-    """TBD."""
+    """Based on the last 52 weeks: high-low delta relative to the high, range is [0.0, 1.0]."""
     pmin = tmx.get_52_week_low(symbol)
     pmax = tmx.get_52_week_high(symbol)
     return (pmax - pmin) / pmax
