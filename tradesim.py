@@ -179,7 +179,7 @@ def plot_test():
         plt.plot(t, x,)
         # plt.plot(t, ti.sma(x, 200))
         # plt.plot(t, ti.ema(x, 200))
-        # plt.plot(t, ti.linFit(x, 200))
+        # plt.plot(t, ti.linear_fit(x, 200))
         plt.plot(t, ti.iir_lowpass(x, 3, 200))
         # plt.plot(t, ti.aema(x, 200))
         plt.grid(True)
