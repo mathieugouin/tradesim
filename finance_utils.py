@@ -7,9 +7,10 @@ from __future__ import print_function
 import re
 import os
 import glob
-import urllib
 import csv
 import time
+# Use six to import urllib so it is working for Python2/3
+from six.moves import urllib
 
 # Custom
 import pandas as pd
@@ -60,8 +61,10 @@ def download_url(url):
     s = ""
     while try_again and count < 5:
         try:
-            # TBD *********** this does not work in python 3 :(
-            s = urllib.urlopen(url).read().strip()
+            req = urllib.request.Request(url)
+            f = urllib.request.urlopen(req, timeout=1)
+            r = f.read()
+            s = r.strip()
             try_again = False
         except Exception:
             print("Error, will try again")
