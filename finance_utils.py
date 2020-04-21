@@ -60,6 +60,7 @@ def download_url(url):
     s = ""
     while try_again and count < 5:
         try:
+            # TBD *********** this does not work in python 3 :(
             s = urllib.urlopen(url).read().strip()
             try_again = False
         except Exception:
