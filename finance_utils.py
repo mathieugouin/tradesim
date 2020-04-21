@@ -64,9 +64,10 @@ def download_url(url):
             req = urllib.request.Request(url)
             f = urllib.request.urlopen(req, timeout=1)
             r = f.read()
-            s = r.strip()
+            d = r.decode('utf-8')  # TBD find the proper encoding dynamically
+            s = d.strip()
             try_again = False
-        except Exception:
+        except Exception:  # TBD add more real http exceptions
             print("Error, will try again")
             time.sleep(0.5)  # 500 ms sleep
             count += 1
