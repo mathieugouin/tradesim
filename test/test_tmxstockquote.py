@@ -1,13 +1,14 @@
+import math
 import tmxstockquote as tsx
 
 
-def test_tmx():
+def test_tmx_internal():
     assert tsx._str_to_float('34.50') == 34.5
     assert tsx._str_to_float('1,300,400.52') == 1300400.52
-    assert tsx._str_to_float('') == float('nan')
-    assert tsx._str_to_float('bad number') == float('nan')
-    assert tsx._str_to_float('N/A') == float('nan')
-    assert tsx._str_to_float('null') == float('nan')
+    assert math.isnan(tsx._str_to_float(''))
+    assert math.isnan(tsx._str_to_float('bad number'))
+    assert math.isnan(tsx._str_to_float('N/A'))
+    assert math.isnan(tsx._str_to_float('null'))
 
     assert tsx._yahoo_to_tmx_stock_name('CP.TO') == 'CP'
     assert tsx._yahoo_to_tmx_stock_name('AP-UN.TO') == 'AP.UN'
@@ -15,6 +16,8 @@ def test_tmx():
 
     assert len(tsx._download_tmx_page('XBB.TO')) > 100
 
+
+def test_tmx_api():
     for s in ['NA.TO', 'XBB.TO', 'AP-UN.TO', 'BRK-A', 'AAPL']:
         assert len(tsx.get_name(s)) > 0
         assert tsx.get_price(s) > 0
