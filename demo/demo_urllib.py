@@ -22,7 +22,7 @@ def download_url(url):
     except urllib.error.URLError as e:
         print("URLError: {}".format(e))
         if hasattr(e, 'reason'):
-            print('We failed to reach a server.')
+            print('Failed to reach the server.')
             print('Reason: ', e.reason)
         elif hasattr(e, 'code'):
             print('The server couldn\'t fulfill the request.')
@@ -33,13 +33,16 @@ def download_url(url):
 
 
 def _main():
-    url = 'https://www.google.ca'
-    url = 'https://www.bad234123421342134.com'
-    url = 'https://www.tmall.com'
-    url = 'https://tmxmoney.com/en/index.html'
-    print('DL ' + url)
     print(sys.version_info)
-    print(download_url(url)[:20])
+    url_array = [
+        'https://www.google.ca',
+        'https://www.bad234123421342134.com',
+        'https://www.tmall.com',
+        'https://tmxmoney.com/en/index.html',
+    ]
+    for url in url_array:
+        print(download_url(url)[:50])
+        print('DL ' + url)
 
 
 if __name__ == '__main__':
