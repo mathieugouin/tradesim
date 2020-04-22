@@ -49,7 +49,14 @@ def _main():
     fu.fill_nan_data(df)
     print(df.isna().any())
 
-    print(fu.download_url("https://www.google.ca")[0:100])
+    url_array = [
+        'https://www.google.ca',
+        'https://www.bad234123421342134.com',
+        'https://www.tmall.com',
+        'https://tmxmoney.com/en/index.html',
+    ]
+    for u in url_array:
+        print(fu.download_url(u)[:50])
 
 
 if __name__ == '__main__':
