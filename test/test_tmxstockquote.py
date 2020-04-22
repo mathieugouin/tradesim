@@ -2,7 +2,7 @@ import math
 import tmxstockquote as tsx
 
 
-def test_tmx_internal():
+def test_tmx_internal_str():
     assert tsx._str_to_float('34.50') == 34.5
     assert tsx._str_to_float('1,300,400.52') == 1300400.52
     assert math.isnan(tsx._str_to_float(''))
@@ -10,11 +10,19 @@ def test_tmx_internal():
     assert math.isnan(tsx._str_to_float('N/A'))
     assert math.isnan(tsx._str_to_float('null'))
 
+
+def test_tmx_internal_conv():
     assert tsx._yahoo_to_tmx_stock_name('CP.TO') == 'CP'
     assert tsx._yahoo_to_tmx_stock_name('AP-UN.TO') == 'AP.UN'
     assert tsx._yahoo_to_tmx_stock_name('MMM') == 'MMM:US'
 
+
+def test_tmx_internal_dl():
     assert len(tsx._download_tmx_page('XBB.TO')) > 100
+
+
+def test_tmx_internal_re():
+    assert len(tsx._request_tmx_multi_re('XBB.TO', [])) == 0
 
 
 def test_tmx_api_common():

@@ -8,6 +8,7 @@ def test_position_1():
     assert p.get_nb_share() == 100
     assert p.is_open()
     assert p.get_entry_price() == 20.0
+    assert p.get_pct_gain() == 0.0
 
     c = p.close(4, 25.0)
     assert not p.is_open()
