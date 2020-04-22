@@ -22,7 +22,11 @@ install:
 # Initial setup script to download a minimal stock database that will be used for testing
 before_script: |
   mkdir -p stock_db/test &&
-  python get_yahoo_finance_data.py --concurrent 1 --file stock_db/test.txt --dir ./stock_db/test --startdate 20000101 --verbose
+  mkdir -p stock_db/empty &&
+  mkdir -p stock_db/empty2 &&
+  mkdir -p stock_db/empty3 &&
+  mkdir -p stock_db/empty4 &&
+  python get_yahoo_finance_data.py --concurrent 1 --file stock_db/test.txt --dir ./stock_db/test --startdate 20100101 --verbose
 
 # Command to run the tests
 script:

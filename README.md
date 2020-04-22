@@ -24,9 +24,6 @@ Install PIP
 -   <https://bootstrap.pypa.io/get-pip.py>
 -   python get-pip.py
 
-Installing whl files
--   pip install package.whl
-
 ## Project notes
 
 -   Histogram plot of data: <http://stackoverflow.com/questions/5328556/histogram-matplotlib/5328669>
