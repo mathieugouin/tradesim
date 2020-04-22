@@ -74,7 +74,7 @@ def download_url(url):
     except urllib.error.URLError as e:
         print("URLError: {}".format(e))
         if hasattr(e, 'reason'):
-            print('We failed to reach a server.')
+            print('Failed to reach the server.')
             print('Reason: ', e.reason)
         elif hasattr(e, 'code'):
             print('The server couldn\'t fulfill the request.')
