@@ -32,13 +32,13 @@ def linear_fit(x, n):
     if n < 2:
         raise AssertionError("n must be >= 2")
     t = np.arange(len(x))
-    Y = np.array(
+    y = np.array(
         [np.polyval(
             np.polyfit(
                 t[i-n+1:i+1], x[i - n + 1:i + 1], 1), i) for i in np.arange(n - 1, len(t), 1)])
     # NaN at beginning (invalid value)
-    Y = np.concatenate((np.array([np.nan] * (n-1)), Y))
-    return Y
+    y = np.concatenate((np.array([np.nan] * (n-1)), y))
+    return y
 
 
 def rate_of_change(x, n):
