@@ -17,18 +17,26 @@ def test_tmx_internal():
     assert len(tsx._download_tmx_page('XBB.TO')) > 100
 
 
-def test_tmx_api():
-    for s in ['NA.TO', 'XBB.TO', 'AP-UN.TO', 'BRK-A', 'AAPL']:
+def test_tmx_api_common():
+    for s in ['NA.TO', 'XBB.TO', 'AP-UN.TO', 'BITF.TO', 'AAPL', 'XOM']:
         assert len(tsx.get_name(s)) > 0
         assert tsx.get_price(s) > 0
-        # print('get_change: {}'.format(tsx.get_change(s)))
+        assert -1000 < tsx.get_change(s) < 1000
         assert tsx.get_volume(s) > 0
         assert len(tsx.get_stock_exchange(s)) > 5
         assert tsx.get_market_cap(s) > 0
-        # print('get_dividend_yield: {}'.format(tsx.get_dividend_yield(s)))
-        # print('get_price_earnings_ratio: {}'.format(tsx.get_price_earnings_ratio(s)))
-        # print('get_price_book_ratio: {}'.format(tsx.get_price_book_ratio(s)))
-
         assert tsx.get_52_week_low(s) > 0
         assert tsx.get_52_week_high(s) > 0
-        # print('get_currency: {}'.format(tsx.get_currency(s)))
+        c = tsx.get_currency(s)
+        assert c == 'USD' or c == 'CAD'
+
+
+def test_tmx_api_dividend():
+    s = 'XBB.TO'
+    assert 0 <= tsx.get_dividend_yield(s) < 100
+
+
+def test_tmx_api_company():
+    for s in ['NA.TO', 'AAPL']:
+        assert 0 <= tsx.get_price_earnings_ratio(s) < 100
+        assert 0 <= tsx.get_price_book_ratio(s) < 100
