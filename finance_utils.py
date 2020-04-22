@@ -9,6 +9,7 @@ import os
 import glob
 import csv
 import time
+import sys
 # Use six to import urllib so it is working for Python2/3
 from six.moves import urllib
 
@@ -56,21 +57,30 @@ def get_symbols_from_file(ticker_file):
 
 def download_url(url):
     """Download a URL and provide the result as a big string."""
-    try_again = True
-    count = 0
     s = ""
-    while try_again and count < 5:
-        try:
-            req = urllib.request.Request(url)
-            f = urllib.request.urlopen(req, timeout=1)
-            r = f.read()
-            d = r.decode('utf-8')  # TBD find the proper encoding dynamically
-            s = d.strip()
-            try_again = False
-        except Exception:  # TBD add more real http exceptions
-            print("Error, will try again")
-            time.sleep(0.5)  # 500 ms sleep
-            count += 1
+    try:
+        f = urllib.request.urlopen(url, timeout=2)
+        if sys.version_info.major > 2:
+            charset = f.info().get_content_charset()
+        else:
+            charset = f.headers.getparam('charset')
+
+        if charset is None:  # Default according to HTTP
+            charset = 'iso-8859-1'
+
+        r = f.read()
+        s = r.decode(charset)
+
+    except urllib.error.URLError as e:
+        print("URLError: {}".format(e))
+        if hasattr(e, 'reason'):
+            print('We failed to reach a server.')
+            print('Reason: ', e.reason)
+        elif hasattr(e, 'code'):
+            print('The server couldn\'t fulfill the request.')
+            print('Error code: ', e.code)
+    except Exception as e:
+        print("Unknown Exception: {}".format(e))
     return s
 
 
