@@ -8,7 +8,6 @@ import re
 import os
 import glob
 import csv
-import time
 import sys
 # Use six to import urllib so it is working for Python2/3
 from six.moves import urllib
