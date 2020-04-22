@@ -19,7 +19,7 @@ def _main():
     print(tsx._download_tmx_page('XBB.TO')[0:2])
     print("")
 
-    for s in ["NA.TO", "XBB.TO", "BRK-A", "AAPL"]:
+    for s in ["NA.TO", "XBB.TO", "AP-UN.TO", "BRK-A", "AAPL"]:
         print("=============================================")
         print("s: {}".format(s))
 

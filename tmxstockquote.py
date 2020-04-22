@@ -156,7 +156,7 @@ def get_market_cap(symbol):
 
 
 def get_dividend_yield(symbol):
-    """Return the divident yield of the stock."""
+    """Return the dividend yield (in %) of the stock."""
     return _request_tmx(symbol, "Yield:")
 
 
