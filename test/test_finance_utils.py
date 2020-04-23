@@ -80,7 +80,7 @@ def test_10():
     assert not df.isna().any().any()
 
 
-def test_11():
+def test_good_url():
     url_array = [
         'https://www.google.ca',
         'https://www.tmall.com',
@@ -90,5 +90,12 @@ def test_11():
         assert len(fu.download_url(u)) > 100
 
 
-def test_12():
-    assert len(fu.download_url('https://www.bad234123421342134.com')) == 0
+def test_bad_url():
+    url_array = [
+        'https://cloud.iexapis.com',
+        'https://cloud.iexapis.com/stable/stock/aapl/batch',
+        'https://cloud.iexapis.com/stable/stock/aapl/batch?types=quote,news,chart&range=1m&last=10',
+        'https://www.bad234123421342134.com',
+    ]
+    for u in url_array:
+        assert len(fu.download_url(u)) == 0
