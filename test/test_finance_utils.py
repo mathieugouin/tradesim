@@ -61,14 +61,14 @@ def test_8():
     assert len(fu.get_volume(df)) > 0
 
 
-def test_8():
+def test_9():
     f = 'stock_db/test/SPY.csv'
     df = fu.load_data_frame(f, datetime.date(2018, 1, 1), datetime.date(2018, 4, 1))
     # Not applicable for a single stock, but just to test...
     assert fu.normalize_data_frame(df).iloc[0].mean() == 1.0
 
 
-def test_9():
+def test_10():
     f = 'stock_db/test/SPY.csv'
     df = fu.load_data_frame(f, datetime.date(2018, 1, 1), datetime.date(2018, 4, 1))
     # Test by adding some NaN
@@ -80,7 +80,7 @@ def test_9():
     assert not df.isna().any().any()
 
 
-def test_10():
+def test_11():
     url_array = [
         'https://www.google.ca',
         'https://www.tmall.com',
@@ -90,5 +90,5 @@ def test_10():
         assert len(fu.download_url(u)) > 100
 
 
-def test_11():
+def test_12():
     assert len(fu.download_url('https://www.bad234123421342134.com')) == 0
