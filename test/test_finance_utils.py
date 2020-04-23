@@ -32,7 +32,7 @@ def test_5():
     s = 'SPY'
     d = 'stock_db/empty2'
     start_date = datetime.date(2010, 1, 1)
-    end_date = datetime.date(2012, 1, 1) 
+    end_date = datetime.date(2012, 1, 1)
     fu.download_data(s, d, start_date, end_date)
     assert len(fu.get_all_symbols(d)) == 1
 
