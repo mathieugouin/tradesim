@@ -72,12 +72,12 @@ def download_url(url):
 
     except urllib.error.URLError as e:
         print("URLError: {}".format(e))
-        if hasattr(e, 'reason'):
-            print('Failed to reach the server.')
-            print('Reason: ', e.reason)
-        elif hasattr(e, 'code'):
+        if hasattr(e, 'code'):
             print('The server couldn\'t fulfill the request.')
             print('Error code: ', e.code)
+        elif hasattr(e, 'reason'):
+            print('Failed to reach the server.')
+            print('Reason: ', e.reason)
     except Exception as e:
         print("Unknown Exception: {}".format(e))
     return s
