@@ -56,9 +56,17 @@ def get_symbols_from_file(ticker_file):
 
 def download_url(url):
     """Download a URL and provide the result as a big string."""
+
+    # Headers to fake a user agent
+    headers = {
+        'User-Agent':   'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 ' \
+                        '(KHTML, like Gecko) Chrome/41.0.2272.101 Safari/537.36'
+    }
+
     s = ""
     try:
-        f = urllib.request.urlopen(url, timeout=2)
+        req = urllib.request.Request(url, headers=headers)
+        f = urllib.request.urlopen(req, timeout=2)
         if sys.version_info.major > 2:
             charset = f.info().get_content_charset()
         else:
@@ -72,14 +80,6 @@ def download_url(url):
 
     except urllib.error.URLError as e:
         print("URLError: {}".format(e))
-        if hasattr(e, 'code'):
-            print('The server couldn\'t fulfill the request.')
-            print('Error code: ', e.code)
-        elif hasattr(e, 'reason'):
-            print('Failed to reach the server.')
-            print('Reason: ', e.reason)
-    except Exception as e:
-        print("Unknown Exception: {}".format(e))
     return s
 
 
