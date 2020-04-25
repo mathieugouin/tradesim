@@ -82,18 +82,21 @@ class StockDBMgr(object):
         - 'Low'
         - 'Close'
         - 'Adj Close' (only when the DB is not adjusted)
+
+        Return None for invalid data_item.
         """
         # Re-index to only have the relevant date range
         date_range = pd.date_range(self._start_date, self._end_date, name='Date')
 
         dic = self.get_all_symbol_data()
 
-        keys = dic.keys()
+        keys = list(dic.keys())
         keys.sort()
 
         df = pd.DataFrame(index=date_range)
         for k in keys:
-            df[k] = dic[k][data_item]
+            if data_item in dic[k]:
+                df[k] = dic[k][data_item]
 
         # Discarding NaN values that are all NaN for a given row
         df.dropna(how='all', inplace=True)
@@ -101,50 +104,6 @@ class StockDBMgr(object):
         # Axis naming
         df.rename_axis(data_item, axis='columns', inplace=True)
 
+        if df.empty:
+            return None
         return df
-
-
-def _main():
-    db = StockDBMgr('./stock_db/test', datetime.date(2017, 1, 1), datetime.date(2018, 1, 1))
-    symbol_list = db.get_all_symbols()
-    print(symbol_list)
-
-    # Work with first symbol only
-    s = symbol_list[0]
-
-    if False:
-        # To test caching
-        df = db.get_symbol_data(s)
-        df = db.get_symbol_data(s)
-        db.download_data(s)
-        df = db.get_symbol_data(s)
-        db.update_all_symbols()
-        df = db.get_symbol_data(s)
-
-    if True:
-        print("Validating symbols")
-        for s in db.get_all_symbols():
-            if not db.validate_symbol_data(s):
-                print("{} failed validation".format(s))
-
-    if True:
-        print("Loading all symbols to a dict")
-        # To test caching
-        dd = db.get_all_symbol_data()
-        dd = db.get_all_symbol_data()
-        print(dd.keys())
-
-        df = db.get_all_symbol_single_data_item('Close')
-        print(df.head())
-        df = db.get_all_symbol_single_data_item('Volume')
-        print(df.head())
-
-    if True:
-        db = StockDBMgr('./stock_db/test',
-                        datetime.date(2017, 1, 1), datetime.date(2018, 1, 1), False)
-        df = db.get_symbol_data(symbol_list[0])
-        print(df.describe())
-
-
-if __name__ == '__main__':
-    _main()

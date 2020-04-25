@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 """TMX Stock Quote module provides a Python API for retrieving stock data from TMX."""
 
 import finance_utils as fu
@@ -157,7 +156,7 @@ def get_market_cap(symbol):
 
 
 def get_dividend_yield(symbol):
-    """Return the divident yield of the stock."""
+    """Return the dividend yield (in %) of the stock."""
     return _request_tmx(symbol, "Yield:")
 
 
@@ -169,42 +168,3 @@ def get_price_earnings_ratio(symbol):
 def get_price_book_ratio(symbol):
     """Return the P/B ratio."""
     return _request_tmx(symbol, "P/B Ratio:")
-
-
-def _main():
-    print(_str_to_float("34.50"))
-    print(_str_to_float("1,300,400.52"))
-    print(_str_to_float(""))
-    print(_str_to_float("N/A"))
-    print("")
-
-    print(_yahoo_to_tmx_stock_name("CP.TO"))
-    print(_yahoo_to_tmx_stock_name("AP-UN.TO"))
-    print(_yahoo_to_tmx_stock_name("MMM"))
-    print("")
-
-    print(_download_tmx_page('XBB.TO')[0:2])
-    print("")
-
-    for s in ["NA.TO", "XBB.TO", "BRK-A", "AAPL"]:
-        print("=============================================")
-        print("s: {}".format(s))
-
-        print("get_name: {}".format(get_name(s)))
-        print("get_price: {}".format(get_price(s)))
-        print("get_change: {}".format(get_change(s)))
-        print("get_volume: {}".format(get_volume(s)))
-        print("get_stock_exchange: {}".format(get_stock_exchange(s)))
-        print("get_market_cap: {}".format(get_market_cap(s)))
-        print("get_dividend_yield: {}".format(get_dividend_yield(s)))
-        print("get_price_earnings_ratio: {}".format(get_price_earnings_ratio(s)))
-        print("get_price_book_ratio: {}".format(get_price_book_ratio(s)))
-
-        print("get_52_week_low: {}".format(get_52_week_low(s)))
-        print("get_52_week_high: {}".format(get_52_week_high(s)))
-        print("get_currency: {}".format(get_currency(s)))
-
-
-if __name__ == '__main__':
-    _main()
-

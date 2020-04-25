@@ -57,7 +57,7 @@ def simulate():
     }
 
     # Symbol loop
-    symbol_list = dic.keys()
+    symbol_list = list(dic.keys())
     symbol_list.sort()
 
     df = pd.DataFrame(
@@ -127,7 +127,7 @@ def simulate2():
     print("Initial cash", a.get_cash())
 
     # Symbol loop
-    symbol_list = dic.keys()
+    symbol_list = list(dic.keys())
     symbol_list.sort()
     for symbol in symbol_list:
         print("Simulating with", symbol)
@@ -168,7 +168,7 @@ def simulate2():
 def plot_test():
     print("plot_test()")
 
-    symbol_list = dic.keys()
+    symbol_list = list(dic.keys())
     symbol_list.sort()
     for symbol in symbol_list:
         print("Plotting with " + symbol)
@@ -179,7 +179,7 @@ def plot_test():
         plt.plot(t, x,)
         # plt.plot(t, ti.sma(x, 200))
         # plt.plot(t, ti.ema(x, 200))
-        # plt.plot(t, ti.linFit(x, 200))
+        # plt.plot(t, ti.linear_fit(x, 200))
         plt.plot(t, ti.iir_lowpass(x, 3, 200))
         # plt.plot(t, ti.aema(x, 200))
         plt.grid(True)
@@ -211,4 +211,3 @@ def _main():
 
 if __name__ == '__main__':
     _main()
-

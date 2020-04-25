@@ -17,9 +17,6 @@ from __future__ import print_function
 
 # Use six to import urllib so it is working for Python2/3
 from six.moves import urllib
-# If you don't want to use six, please comment out the line above
-# and use the line below instead (for Python3 only).
-#import urllib.request, urllib.parse, urllib.error
 
 import time
 
@@ -34,7 +31,8 @@ _crumb = None
 
 # Headers to fake a user agent
 _headers = {
-    'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.101 Safari/537.36'
+    'User-Agent':   'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) ' \
+                    'Chrome/41.0.2272.101 Safari/537.36'
 }
 
 
@@ -150,4 +148,3 @@ def _main():
 
 if __name__ == "__main__":
     _main()
-

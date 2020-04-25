@@ -7,14 +7,13 @@ from __future__ import print_function
 import re
 import os
 import glob
-import urllib
-import datetime
 import csv
-import time
+import sys
+# Use six to import urllib so it is working for Python2/3
+from six.moves import urllib
 
 # Custom
 import pandas as pd
-import numpy as np
 
 # User
 import yqd
@@ -57,17 +56,30 @@ def get_symbols_from_file(ticker_file):
 
 def download_url(url):
     """Download a URL and provide the result as a big string."""
-    try_again = True
-    count = 0
+
+    # Headers to fake a user agent
+    headers = {
+        'User-Agent':   'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 ' \
+                        '(KHTML, like Gecko) Chrome/41.0.2272.101 Safari/537.36'
+    }
+
     s = ""
-    while try_again and count < 5:
-        try:
-            s = urllib.urlopen(url).read().strip()
-            try_again = False
-        except Exception:
-            print("Error, will try again")
-            time.sleep(0.5)  # 500 ms sleep
-            count += 1
+    try:
+        req = urllib.request.Request(url, headers=headers)
+        f = urllib.request.urlopen(req, timeout=2)
+        if sys.version_info.major > 2:
+            charset = f.info().get_content_charset()
+        else:
+            charset = f.headers.getparam('charset')
+
+        if charset is None:  # Default according to HTTP
+            charset = 'iso-8859-1'
+
+        r = f.read()
+        s = r.decode(charset)
+
+    except urllib.error.URLError as e:
+        print("URLError: {}".format(e))
     return s
 
 
@@ -147,7 +159,7 @@ def load_data_frame(csv_file, start_date, end_date, adjust_price=True):
 
         df = pd.read_csv(csv_file, index_col='Date', parse_dates=True)
 
-        if len(df.index.get_duplicates()) > 0:
+        if len(df.index[df.index.duplicated()].unique()) > 0:
             raise Exception('Duplicated index in file {}'.format(csv_file))
 
         df.sort_index(inplace=True)
@@ -201,53 +213,3 @@ def validate_symbol_data(csv_file):
         valid = False
     f.close()
     return valid
-
-
-def _main():
-    sf = 'stock_db/dj.txt'
-    print("symbol file {} contains the following stocks: {}".format(sf, get_symbols_from_file(sf)))
-
-    d = './stock_db/test'
-
-    s = 'SPY'
-    f = symbol_to_filename(s, d)
-    print("symbol {} with directory {} gives filename {}".format(s, d, f))
-    print("filename {} gives symbol {}".format(f, filename_to_symbol(f)))
-    print("filename {} gives symbol {}".format(f.upper(), filename_to_symbol(f.upper())))
-    print("validate_symbol_data {} = {}".format(f, validate_symbol_data(f)))
-
-    print("directory {} contains the following stocks: {}".format(d, get_all_symbols(d)))
-
-    start_date = datetime.date(1900, 1, 1)
-    end_date = datetime.date.today()
-
-    if False:
-        download_data(s, d, start_date, end_date)
-        update_all_symbols(d, start_date, end_date)
-    df = load_data_frame(f, datetime.date(2018, 1, 1), datetime.date(2018, 4, 1))
-    print(df.describe())
-    print(df.head())
-
-    print(get_date(df)[0:3])
-    print(get_open(df)[0:3])
-    print(get_high(df)[0:3])
-    print(get_low(df)[0:3])
-    print(get_close(df)[0:3])
-    print(get_volume(df)[0:3])
-
-    # Not applicable for a single stock, but just to test...
-    print(normalize_data_frame(df).head())
-
-    # Test by adding some NaN
-    df.iloc[0:10, 0] = np.nan  # beginning
-    df.iloc[11:20, 1] = np.nan  # middle
-    df.iloc[-10:, 2] = np.nan  # end
-    print(df.isna().any())
-    fill_nan_data(df)
-    print(df.isna().any())
-
-    print(download_url("https://www.google.ca")[0:100])
-
-
-if __name__ == '__main__':
-    _main()
