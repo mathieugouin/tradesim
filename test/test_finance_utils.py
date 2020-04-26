@@ -19,8 +19,17 @@ def test_2():
     assert fu.filename_to_symbol(f.upper()) == 'SPY'
 
 
-def test_3():
+def test_3_1():
     assert fu.validate_symbol_data('stock_db/test/SPY.csv')
+
+
+def test_3_2():
+    filename = 'stock_db/empty3/bad_csv.txt'
+    with open(filename, 'w') as f:
+        f.write('thisisabadcsvheader\n')
+        f.write('1,2,3\n')
+        f.write('4,5,6\n')
+    assert not fu.validate_symbol_data(filename)
 
 
 def test_4():
