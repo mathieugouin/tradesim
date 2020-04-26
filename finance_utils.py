@@ -198,18 +198,11 @@ def load_data_frame(csv_file, start_date, end_date, adjust_price=True):
         return None
 
 
+# TBD does not work
 def validate_symbol_data(csv_file):
     """Check for basic errors in historical market data."""
-    valid = True # Default
-    f = open(csv_file, 'r')
-    f.seek(0)
-    try:
-        dialect = csv.Sniffer().sniff(f.read(1024))
-        if dialect:
-            pass  # validation stops here
-        else:  # csv was not able to find a dialect, consider not valid CSV
-            valid = False
-    except Exception:
-        valid = False
-    f.close()
+    valid = False  # Default
+    with open(csv_file, 'r') as f:
+        f.seek(0)
+        valid = csv.Sniffer().has_header(f.read(1024))
     return valid
