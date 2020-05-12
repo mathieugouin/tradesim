@@ -9,6 +9,7 @@ from __future__ import print_function
 import string
 import pandas as pd
 import numpy as np
+import matplotlib.pyplot as plt
 
 
 def data_frame_test2():
@@ -19,13 +20,16 @@ def data_frame_test2():
         data=np.random.randn(nrow, ncol),
         index=dates,
         columns=list(string.ascii_uppercase[0:ncol]))
-    df.rename_axis('Date', inplace=True)
+    df.rename_axis('Date', axis='rows', inplace=True)
+    df.rename_axis('DATA', axis='columns', inplace=True)
     print(df)
+    df.plot(linestyle='None', marker='x')
+    plt.show()
 
 
 def data_frame_test():
     # This stock has a split
-    f = 'stock_db/tsx/NA.TO.csv'
+    f = '../stock_db/tsx/NA.TO.csv'
     df = pd.read_csv(f, index_col='Date', parse_dates=True, na_values='nan')
     print(df.describe())
     print(df.head())
