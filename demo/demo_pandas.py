@@ -23,7 +23,12 @@ def data_frame_test2():
     df.rename_axis('Date', axis='rows', inplace=True)
     df.rename_axis('DATA', axis='columns', inplace=True)
     print(df)
-    df.plot(linestyle='None', marker='x')
+    df['A'].plot(label='Label A', linestyle='None', marker='x')
+    df['B'].plot(label='Label B', linestyle='None', marker='o')
+    plt.legend()
+    plt.show()
+
+    df.plot()
     plt.show()
 
 
