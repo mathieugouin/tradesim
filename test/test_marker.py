@@ -1,7 +1,7 @@
 import pytest
 
 
-def sum(a, b):
+def my_sum(a, b):
     return a + b
 
 
@@ -13,7 +13,7 @@ def sum(a, b):
     (2, 2, 4),
 ])
 def test_param_1(a, b, s):
-    assert sum(a, b) == s
+    assert my_sum(a, b) == s
 
 
 # Combinatorial
@@ -22,7 +22,7 @@ def test_param_1(a, b, s):
 @pytest.mark.parametrize("b", [11, 12, 13])
 @pytest.mark.parametrize("s", [101, 102, 103, 104])
 def test_param_2(a, b, s):
-    assert sum(a, b) < s
+    assert my_sum(a, b) < s
 
 
 @pytest.mark.dummytest
