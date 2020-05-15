@@ -4,9 +4,16 @@ import numpy as np
 import pytest
 
 
-def test_get_symbols_from_file():
-    sf = 'stock_db/dj.txt'
-    assert len(fu.get_symbols_from_file(sf)) > 0
+@pytest.mark.parametrize('f', [
+        'stock_db/dj.txt',
+        'stock_db/indices.txt',
+        'stock_db/qt.txt',
+        'stock_db/sp500.txt',
+        'stock_db/test.txt',
+        'stock_db/tsx.txt',
+        ])
+def test_get_symbols_from_file(f):
+    assert len(fu.get_symbols_from_file(f)) > 0
 
 
 def test_symbol_filename():
@@ -46,10 +53,6 @@ def test_update_all_symbols():
     end_date = datetime.date.today()
     fu.update_all_symbols(d, start_date, end_date)
     assert len(fu.get_all_symbols(d)) == 1
-
-
-def test_get_symbols_from_file():
-    assert len(fu.get_symbols_from_file('stock_db/test.txt')) > 3
 
 
 def test_load_data_frame():
