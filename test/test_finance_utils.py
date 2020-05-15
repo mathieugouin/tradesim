@@ -1,6 +1,7 @@
 import finance_utils as fu
 import datetime
 import numpy as np
+import pytest
 
 
 def test_1():
@@ -28,6 +29,7 @@ def test_4():
     assert len(fu.get_all_symbols(d)) > 3
 
 
+@pytest.mark.webtest
 def test_5():
     s = 'SPY'
     d = 'stock_db/empty2'
@@ -37,6 +39,7 @@ def test_5():
     assert len(fu.get_all_symbols(d)) == 1
 
 
+@pytest.mark.webtest
 def test_6():
     d = 'stock_db/empty2'
     start_date = datetime.date(2000, 1, 1)
@@ -80,6 +83,7 @@ def test_10():
     assert not df.isna().any().any()
 
 
+@pytest.mark.webtest
 def test_good_url():
     url_array = [
         'https://www.google.ca',
@@ -90,6 +94,7 @@ def test_good_url():
         assert len(fu.download_url(u)) > 100
 
 
+@pytest.mark.webtest
 def test_bad_url():
     url_array = [
         'https://cloud.iexapis.com',

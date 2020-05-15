@@ -1,5 +1,6 @@
 import datetime
 import stock_db_mgr as sdm
+import pytest
 
 
 def test_creation_default_date_range():
@@ -26,6 +27,7 @@ def test_get_all_symbols():
     assert len(symbol_list) > 3
 
 
+@pytest.mark.webtest
 def test_download_data():
     db = sdm.StockDBMgr('./stock_db/test')
     assert 'SPY' not in db._dic
@@ -41,6 +43,7 @@ def test_validate():
         assert db.validate_symbol_data(s)
 
 
+@pytest.mark.webtest
 def test_update_all_symbols():
     db = sdm.StockDBMgr('./stock_db/empty')
     assert 'SPY' not in db._dic
