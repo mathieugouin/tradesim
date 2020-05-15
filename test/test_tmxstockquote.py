@@ -50,7 +50,7 @@ def test_tmx_api_dividend():
 
 
 @pytest.mark.webtest
-def test_tmx_api_company():
-    for s in ['NA.TO', 'AAPL']:
-        assert 0 <= tsx.get_price_earnings_ratio(s) < 100
-        assert 0 <= tsx.get_price_book_ratio(s) < 100
+@pytest.mark.parametrize("s", ['NA.TO', 'AAPL'])
+def test_tmx_api_company(s):
+    assert 0 <= tsx.get_price_earnings_ratio(s) < 100
+    assert 0 <= tsx.get_price_book_ratio(s) < 100
