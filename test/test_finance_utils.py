@@ -4,12 +4,19 @@ import numpy as np
 import pytest
 
 
-def test_1():
-    sf = 'stock_db/dj.txt'
-    assert len(fu.get_symbols_from_file(sf)) > 0
+@pytest.mark.parametrize('f', [
+        'stock_db/dj.txt',
+        'stock_db/indices.txt',
+        'stock_db/qt.txt',
+        'stock_db/sp500.txt',
+        'stock_db/test.txt',
+        'stock_db/tsx.txt',
+        ])
+def test_get_symbols_from_file(f):
+    assert len(fu.get_symbols_from_file(f)) > 0
 
 
-def test_2():
+def test_symbol_filename():
     d = 'stock_db/test'
     s = 'SPY'
     f = fu.symbol_to_filename(s, d)
@@ -20,17 +27,17 @@ def test_2():
     assert fu.filename_to_symbol(f.upper()) == 'SPY'
 
 
-def test_3():
+def test_validate_symbol_data():
     assert fu.validate_symbol_data('stock_db/test/SPY.csv')
 
 
-def test_4():
+def test_get_all_symbols():
     d = 'stock_db/test'
     assert len(fu.get_all_symbols(d)) > 3
 
 
 @pytest.mark.webtest
-def test_5():
+def test_download_data():
     s = 'SPY'
     d = 'stock_db/empty2'
     start_date = datetime.date(2010, 1, 1)
@@ -40,7 +47,7 @@ def test_5():
 
 
 @pytest.mark.webtest
-def test_6():
+def test_update_all_symbols():
     d = 'stock_db/empty2'
     start_date = datetime.date(2000, 1, 1)
     end_date = datetime.date.today()
@@ -48,11 +55,7 @@ def test_6():
     assert len(fu.get_all_symbols(d)) == 1
 
 
-def test_7():
-    assert len(fu.get_symbols_from_file('stock_db/test.txt')) > 3
-
-
-def test_8():
+def test_load_data_frame():
     f = 'stock_db/test/SPY.csv'
     df = fu.load_data_frame(f, datetime.date(2018, 1, 1), datetime.date(2018, 4, 1))
 
@@ -64,14 +67,14 @@ def test_8():
     assert len(fu.get_volume(df)) > 0
 
 
-def test_9():
+def test_normalize_data_frame():
     f = 'stock_db/test/SPY.csv'
     df = fu.load_data_frame(f, datetime.date(2018, 1, 1), datetime.date(2018, 4, 1))
     # Not applicable for a single stock, but just to test...
     assert fu.normalize_data_frame(df).iloc[0].mean() == 1.0
 
 
-def test_10():
+def test_fill_nan_data():
     f = 'stock_db/test/SPY.csv'
     df = fu.load_data_frame(f, datetime.date(2018, 1, 1), datetime.date(2018, 4, 1))
     # Test by adding some NaN
@@ -84,23 +87,26 @@ def test_10():
 
 
 @pytest.mark.webtest
-def test_good_url():
+@pytest.mark.parametrize("u", [
+        'https://www.google.ca',
+        'https://www.tmall.com',
+        'https://tmxmoney.com/en/index.html',
+        ])
+def test_download_url_good(u):
     url_array = [
         'https://www.google.ca',
         'https://www.tmall.com',
         'https://tmxmoney.com/en/index.html',
     ]
-    for u in url_array:
-        assert len(fu.download_url(u)) > 100
+    assert len(fu.download_url(u)) > 100
 
 
 @pytest.mark.webtest
-def test_bad_url():
-    url_array = [
+@pytest.mark.parametrize("u", [
         'https://cloud.iexapis.com',
         'https://cloud.iexapis.com/stable/stock/aapl/batch',
         'https://cloud.iexapis.com/stable/stock/aapl/batch?types=quote,news,chart&range=1m&last=10',
         'https://www.bad234123421342134.com',
-    ]
-    for u in url_array:
-        assert len(fu.download_url(u)) == 0
+    ])
+def test_download_url_bad(u):
+    assert len(fu.download_url(u)) == 0

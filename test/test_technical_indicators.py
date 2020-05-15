@@ -1,18 +1,24 @@
 import numpy as np
 import technical_indicators as ti
+import pytest
 
 
 # TBD super dummy tests
 
 
+@pytest.mark.webtest
 def test_test_indicator():
     assert -5.0 < ti.test_indicator('XBB.TO') < 5.0
 
 
-def test_1():
+def test_step():
     t = np.arange(-5, 5, 1)
     s = ti.step(t)
     assert len(s) == len(t)
+
+
+def test_ramp():
+    t = np.arange(-5, 5, 1)
     r = ti.ramp(t)
     assert len(r) == len(t)
 
