@@ -3,19 +3,36 @@ import tmxstockquote as tsx
 import pytest
 
 
-def test_tmx_internal_str():
-    assert tsx._str_to_float('34.50') == 34.5
-    assert tsx._str_to_float('1,300,400.52') == 1300400.52
-    assert math.isnan(tsx._str_to_float(''))
-    assert math.isnan(tsx._str_to_float('bad number'))
-    assert math.isnan(tsx._str_to_float('N/A'))
-    assert math.isnan(tsx._str_to_float('null'))
+@pytest.mark.parametrize('s,n', [
+    ('0', 0),
+    ('34.50', 34.5),
+    ('-34.50', -34.5),
+    ('1,300,400.52', 1300400.52),
+    ('-1,300,400.52', -1300400.52),
+])
+def test_tmx_internal_str_good(s, n):
+    assert tsx._str_to_float(s) == n
 
 
-def test_tmx_internal_conv():
-    assert tsx._yahoo_to_tmx_stock_name('CP.TO') == 'CP'
-    assert tsx._yahoo_to_tmx_stock_name('AP-UN.TO') == 'AP.UN'
-    assert tsx._yahoo_to_tmx_stock_name('MMM') == 'MMM:US'
+@pytest.mark.parametrize('s', [
+    '',
+    'bad number',
+    'n/a',
+    'N/A',
+    'null',
+    'NULL',
+])
+def test_tmx_internal_str_nan(s):
+    assert math.isnan(tsx._str_to_float(s))
+
+
+@pytest.mark.parametrize("y,t", [
+    ('CP.TO', 'CP'),
+    ('AP-UN.TO', 'AP.UN'),
+    ('MMM', 'MMM:US'),
+])
+def test_tmx_internal_conv(y, t):
+    assert tsx._yahoo_to_tmx_stock_name(y) == t
 
 
 @pytest.mark.webtest
@@ -44,8 +61,8 @@ def test_tmx_api_common(s):
 
 
 @pytest.mark.webtest
-def test_tmx_api_dividend():
-    s = 'XBB.TO'
+@pytest.mark.parametrize("s", ['XBB.TO', 'NA.TO', 'SPY', 'XOM'])
+def test_tmx_api_dividend(s):
     assert 0 <= tsx.get_dividend_yield(s) < 100
 
 
