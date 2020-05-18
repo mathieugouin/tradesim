@@ -87,22 +87,17 @@ def test_fill_nan_data():
 
 
 @pytest.mark.webtest
-@pytest.mark.parametrize("u", [
+@pytest.mark.parametrize('u', [
         'https://www.google.ca',
         'https://www.tmall.com',
         'https://tmxmoney.com/en/index.html',
         ])
 def test_download_url_good(u):
-    url_array = [
-        'https://www.google.ca',
-        'https://www.tmall.com',
-        'https://tmxmoney.com/en/index.html',
-    ]
     assert len(fu.download_url(u)) > 100
 
 
 @pytest.mark.webtest
-@pytest.mark.parametrize("u", [
+@pytest.mark.parametrize('u', [
         'https://cloud.iexapis.com',
         'https://cloud.iexapis.com/stable/stock/aapl/batch',
         'https://cloud.iexapis.com/stable/stock/aapl/batch?types=quote,news,chart&range=1m&last=10',
