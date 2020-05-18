@@ -18,11 +18,9 @@ My ramblings on various stock analysis and data mining.
 -   Pandas (<http://pandas.pydata.org/>)
 -   mpl_finance (<https://github.com/matplotlib/mpl_finance>)
 
-## Setup notes
-
-Install PIP
--   <https://bootstrap.pypa.io/get-pip.py>
--   python get-pip.py
+## Quick Start
+-   Run (and possibly edit) `download_historical_data.sh` to download the historical stock data locally.
+-   Run and play with `tradesim.py`
 
 ## Project notes
 
