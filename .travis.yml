@@ -36,6 +36,6 @@ script:
 after_success:
   # submit coverage to codecov.io
   - bash <(curl -s https://codecov.io/bash)
-  # submin coverage to coveralls.io
+  # submit coverage to coveralls.io
   - coveralls
 
