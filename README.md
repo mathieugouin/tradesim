@@ -4,6 +4,7 @@
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/06660652f79e4132a30c701271200041)](https://www.codacy.com/manual/mathieugouin/tradesim?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=mathieugouin/tradesim&amp;utm_campaign=Badge_Grade)
 [![CodeFactor](https://www.codefactor.io/repository/github/mathieugouin/tradesim/badge)](https://www.codefactor.io/repository/github/mathieugouin/tradesim)
 [![codecov](https://codecov.io/gh/mathieugouin/tradesim/branch/master/graph/badge.svg)](https://codecov.io/gh/mathieugouin/tradesim/branch/master)
+[![Coverage Status](https://coveralls.io/repos/github/mathieugouin/tradesim/badge.svg?branch=master)](https://coveralls.io/github/mathieugouin/tradesim?branch=master)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
 ## Overview

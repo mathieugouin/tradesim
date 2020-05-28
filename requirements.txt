@@ -12,3 +12,4 @@ scipy
 # Required for CI
 pytest
 coverage
+coveralls
