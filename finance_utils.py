@@ -66,7 +66,7 @@ def download_url(url):
     s = ""
     try:
         req = urllib.request.Request(url, headers=headers)
-        f = urllib.request.urlopen(req, timeout=2)
+        f = urllib.request.urlopen(req, timeout=5)
         if sys.version_info.major > 2:
             charset = f.info().get_content_charset()
         else:
