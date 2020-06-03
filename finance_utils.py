@@ -9,6 +9,7 @@ import os
 import glob
 import csv
 import sys
+import math
 # Use six to import urllib so it is working for Python2/3
 from six.moves import urllib
 
@@ -17,6 +18,11 @@ import pandas as pd
 
 # User
 import yqd
+
+
+def calc_commission_etf(nbShare):
+    """Return the ETF trade commission on Questrade: positive=Buy, negative=Sell."""
+    return (nbShare < 0) * min(9.95, max(4.95, -nbShare * 0.01)) + math.fabs(nbShare) * 0.0035
 
 
 def filename_to_symbol(filename):
@@ -123,9 +129,10 @@ def fill_nan_data(df):
     # print(df.loc[df.isna().any(axis=1)])
     # Data filling is done in 2 steps
     # 1. Fill forward nan with last known good value.
-    df.fillna(method='ffill', inplace=True)
+    df2 = df.fillna(method='ffill', inplace=False)
     # 2. Fill baward nan with first known good value.
-    df.fillna(method='backfill', inplace=True)
+    df2 = df2.fillna(method='backfill', inplace=False)
+    return df2
 
 
 # TBD Are these get still useful?

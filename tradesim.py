@@ -5,12 +5,10 @@
 # To make print working for Python2/3
 from __future__ import print_function
 
-import math
 import datetime
 
 import numpy as np
 import matplotlib.pyplot as plt
-import pandas as pd
 
 import finance_utils as fu
 import technical_indicators as ti
@@ -23,7 +21,6 @@ start_date = datetime.date(2014, 1, 1)
 # end_date = datetime.date(2018, 12, 31)
 end_date = datetime.date.today()
 
-# default
 data_dir = './stock_db/test'
 # Global stock dictionary
 dic = {}
@@ -86,16 +83,23 @@ def plot_test():
         df = dic[symbol]
 
         x = fu.get_close(df)
-        t = np.arange(len(x))
-        plt.plot(t, x,)
-        # plt.plot(t, ti.sma(x, 200))
-        # plt.plot(t, ti.ema(x, 200))
-        # plt.plot(t, ti.linear_fit(x, 200))
-        plt.plot(t, ti.iir_lowpass(x, 3, 200))
-        # plt.plot(t, ti.aema(x, 200))
-        plt.grid(True)
-        plt.title(symbol)
-        plt.show()
+        if len(x) > 5:
+            t = np.arange(len(x))
+            plt.plot(t, x,)
+            # plt.plot(t, ti.sma(x, 200))
+            # plt.plot(t, ti.ema(x, 200))
+            # plt.plot(t, ti.linear_fit(x, 200))
+            plt.plot(t, ti.iir_lowpass(x, 3, 200))
+            # plt.plot(t, ti.aema(x, 200))
+            plt.grid(True)
+            plt.title(symbol)
+            plt.show()
+
+    df = db.get_all_symbol_single_data_item('Close')
+    df = fu.fill_nan_data(df)
+    df = fu.normalize_data_frame(df)
+    df.plot()
+    plt.show()
 
 
 def load_data():

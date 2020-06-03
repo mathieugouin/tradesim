@@ -4,6 +4,21 @@ import numpy as np
 import pytest
 
 
+@pytest.mark.parametrize('nb,commission', [
+    (0, 0),
+    (1, .0035),
+    (495, .0035 * 495),
+    (1000, 3.5),
+    (-1, 4.95 + 0.0035),
+    (-100, 4.95 + 0.35),
+    (-700, (.01 + 0.0035) * 700),
+    (-995, (.01 + 0.0035) * 995),
+    (-10000, 9.95 + 0.0035 * 10000),
+])
+def test_calc_commission_etf(nb, commission):
+    assert fu.calc_commission_etf(nb) == commission
+
+
 @pytest.mark.parametrize('f', [
         'stock_db/dj.txt',
         'stock_db/indices.txt',
@@ -82,7 +97,7 @@ def test_fill_nan_data():
     df.iloc[11:20, 1] = np.nan  # middle
     df.iloc[-10:, 2] = np.nan  # end
     assert df.isna().any().any()
-    fu.fill_nan_data(df)
+    df = fu.fill_nan_data(df)
     assert not df.isna().any().any()
 
 

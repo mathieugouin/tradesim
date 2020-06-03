@@ -5,7 +5,6 @@ import math
 import datetime
 
 import numpy as np
-import matplotlib.pyplot as plt
 import pandas as pd
 
 import finance_utils as fu
@@ -17,22 +16,16 @@ start_date = datetime.date(2014, 1, 6)
 end_date = datetime.date.today()
 data_dir = './stock_db/qt'
 
-
-# TBD move out to finance utils
-def calc_commission_etf(nbShare):
-    """Return the ETF trade commission: positive=Buy, negative=Sell."""
-    return (nbShare < 0) * min(9.95, max(4.95, -nbShare * 0.01)) + math.fabs(nbShare) * 0.0035
+db = sdm.StockDBMgr(data_dir, start_date, end_date, False)
+# db.update_all_symbols()
+dic = db.get_all_symbol_data()
 
 
-def simulate():
-    db = sdm.StockDBMgr(data_dir, start_date, end_date, False)
-
-    dic = db.get_all_symbol_data()
-
+def simulate(rebalance_freq=1):
     initial_cash = 100000.0
     a = va.VirtualAccount(initial_cash, dic)
 
-    print("Initial cash", a.get_cash())
+    #print("Initial cash", a.get_cash())
 
     # Target allocation:
     ratio = {
@@ -57,8 +50,8 @@ def simulate():
 
     df_prices = db.get_all_symbol_single_data_item('Close')
     for i in range(len(df_prices)):
-        if i % 10 == 0:  # Adjust rebalance frequency here
-            print("Rebalance", i)
+        if i % rebalance_freq == 0:
+            #print("Rebalance", i)
 
             # Roughly Matching StockPortfolio_RRSP column ordering
 
@@ -77,23 +70,23 @@ def simulate():
             df['DeltaShare'] = np.floor(df['TgtValue'] / df['Price']) - df['NbShare']
 
             # c = [calc_commission_etf(n) for n in df['DeltaShare'].values]
-            df['Commission'] = df['DeltaShare'].apply(calc_commission_etf)
+            df['Commission'] = df['DeltaShare'].apply(fu.calc_commission_etf)
 
-            # TBD not sure about the commission formula for both buy & sell...
-            # TBD Probably need to sell first, then buy
+            for s in df.index:
+                n = df.loc[s, 'DeltaShare']
+                if n < 0:
+                    #print("  Sell {} of {}".format(-n, s))
+                    a.delta_cash(-n * df.loc[s, 'Price'] - df.loc[s, 'Commission'])
+                    df.loc[s, 'NbShare'] += n
+                    #a.sell_at_market()
 
             for s in df.index:
                 n = df.loc[s, 'DeltaShare']
                 if n > 0:
-                    print("  Buy {} of {}".format(n, s))
-                    a.delta_cash(-n * df.loc[s, 'Price'])
+                    #print("  Buy {} of {}".format(n, s))
+                    a.delta_cash(-(n * df.loc[s, 'Price'] + df.loc[s, 'Commission']))
                     df.loc[s, 'NbShare'] += n
                     #a.buy_at_market(i, s, n)
-                elif n < 0:
-                    print("  Sell {} of {}".format(-n, s))
-                    a.delta_cash(-n * df.loc[s, 'Price'])
-                    df.loc[s, 'NbShare'] += n
-                    #a.sell_at_market()
 
             # Do not tolerate after all transactions are done.
             if a.get_cash() < 0:
@@ -106,11 +99,17 @@ def simulate():
     print("Initial Cash =", initial_cash)
     # Update last price
     df['Price'] = [dic[s].iloc[-1]['Close'] for s in symbol_list]
-    print("Final Cash = ", sum(df['Price'] * df['NbShare']) + a.get_cash())
+    final_cash = sum(df['Price'] * df['NbShare']) + a.get_cash()
+    print("Final Cash = ", final_cash)
+
+    return (final_cash - initial_cash) / initial_cash
 
 
 def _main():
-    simulate()
+    #simulate()
+    for relalance_freq in [1,2,3,4,5,10,15,20,30,40,50,75,100,200]:
+        gain = simulate(relalance_freq)
+        print("{} => {}".format(relalance_freq, gain))
 
 if __name__ == '__main__':
     _main()

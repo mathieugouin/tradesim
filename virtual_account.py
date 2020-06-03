@@ -5,6 +5,7 @@ import position
 import math
 
 
+# TBD move to finance utils
 def calc_commission(nb_share):
     """Commission cost based on nb of shares.  Valid for Questrade stock trading only."""
     return nb_share * 0.0035 + min(9.95, max(0.01 * nb_share, 4.95))
@@ -74,5 +75,5 @@ class VirtualAccount(object):
     def delta_cash(self, delta):
         self._cash += delta
         if self._cash < 0:
-            #print("Error: not enough money: {}".format(wouldBeCash))
+            print("Error: not enough money: {}".format(self._cash))
             pass
