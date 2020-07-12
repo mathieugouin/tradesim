@@ -15,6 +15,21 @@ import pytest
     (-995, (.01 + 0.0035) * 995),
     (-10000, 9.95 + 0.0035 * 10000),
 ])
+def test_calc_commission(nb, commission):
+    assert fu.calc_commission(nb) == commission
+
+
+@pytest.mark.parametrize('nb,commission', [
+    (0, 0),
+    (1, .0035),
+    (495, .0035 * 495),
+    (1000, 3.5),
+    (-1, 4.95 + 0.0035),
+    (-100, 4.95 + 0.35),
+    (-700, (.01 + 0.0035) * 700),
+    (-995, (.01 + 0.0035) * 995),
+    (-10000, 9.95 + 0.0035 * 10000),
+])
 def test_calc_commission_etf(nb, commission):
     assert fu.calc_commission_etf(nb) == commission
 

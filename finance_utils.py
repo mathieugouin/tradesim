@@ -20,9 +20,14 @@ import pandas as pd
 import yqd
 
 
-def calc_commission_etf(nbShare):
+def calc_commission(nb_share):
+    """Return the regular stock commission on Questrade: positive=Buy, negative=Sell."""
+    return nb_share * 0.0035 + min(9.95, max(0.01 * nb_share, 4.95))
+
+
+def calc_commission_etf(nb_share):
     """Return the ETF trade commission on Questrade: positive=Buy, negative=Sell."""
-    return (nbShare < 0) * min(9.95, max(4.95, -nbShare * 0.01)) + math.fabs(nbShare) * 0.0035
+    return (nb_share < 0) * min(9.95, max(4.95, -nb_share * 0.01)) + math.fabs(nb_share) * 0.0035
 
 
 def filename_to_symbol(filename):

@@ -3,12 +3,7 @@ from __future__ import print_function
 
 import position
 import math
-
-
-# TBD move to finance utils
-def calc_commission(nb_share):
-    """Commission cost based on nb of shares.  Valid for Questrade stock trading only."""
-    return nb_share * 0.0035 + min(9.95, max(0.01 * nb_share, 4.95))
+import finance_utils as fu
 
 
 class VirtualAccount(object):
@@ -25,7 +20,7 @@ class VirtualAccount(object):
         nb_share = math.floor(nb_share)
         if nb_share > 0:
             buy_price = self._data_dic[symbol].iloc[bar]['High']  # Worst case simulation
-            commission = calc_commission(nb_share)
+            commission = fu.calc_commission(nb_share)
             cost = buy_price * nb_share + commission
             if cost < self._cash:
                 self._positions.append(position.Position(bar, symbol, nb_share, buy_price, name, commission))
@@ -39,7 +34,7 @@ class VirtualAccount(object):
         print("sell_at_market()")
         if position.is_open():
             sell_price = self._data_dic[position.get_symbol()].iloc[bar]['Low'] # Worst case
-            cost = calc_commission(position.get_nb_share())
+            cost = fu.calc_commission(position.get_nb_share())
             if cost < self._cash:
                 self._cash -= cost
                 self._cash += position.close(bar, sell_price, name)

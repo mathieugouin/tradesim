@@ -126,12 +126,3 @@ def test_too_expensive_sell():
     a.sell_at_market(a.get_open_positions()[0], 10)
     assert a.get_cash() == c
     assert len(a.get_open_positions()) == 1
-
-
-def test_calc_commission():
-    n = 1
-    assert va.calc_commission(n) == 4.95 + 0.0035 * n
-    n = 495
-    assert va.calc_commission(n) == 4.95 + 0.0035 * n
-    n = 5000
-    assert va.calc_commission(n) == 9.95 + 0.0035 * n
