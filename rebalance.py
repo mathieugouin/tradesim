@@ -1,11 +1,16 @@
 # To make print working for Python2/3
 from __future__ import print_function
 
+# Is it worth to rebalance regularly a portfolio to keep the desired target allocation?
+# Will the trading commissions eat up our profit?
+# What if the commission was zero?
+
 import math
 import datetime
 
 import numpy as np
 import pandas as pd
+import matplotlib.pyplot as plt
 
 import finance_utils as fu
 import technical_indicators as ti
@@ -21,8 +26,12 @@ db = sdm.StockDBMgr(data_dir, start_date, end_date, False)
 dic = db.get_all_symbol_data()
 
 
+def calc_commission_zero(nb_share):
+    return 0
+
+
 def simulate(rebalance_freq=1):
-    initial_cash = 100000.0
+    initial_cash = 300000.0
     a = va.VirtualAccount(initial_cash, dic)
 
     #print("Initial cash", a.get_cash())
@@ -61,17 +70,36 @@ def simulate(rebalance_freq=1):
 
             total_value = df['MktValue'].sum() + a.get_cash()
 
-            df['CurrAlloc'] = df['MktValue'] / total_value
-            df['DeltaAlloc'] = df['CurrAlloc'] - df['TgtAlloc']  # Not required
+            try_again = True
+            while try_again:
+                # Not required
+                # df['CurrAlloc'] = df['MktValue'] / total_value
+                # df['DeltaAlloc'] = df['CurrAlloc'] - df['TgtAlloc']
 
-            df['TgtValue'] = df['TgtAlloc'] * total_value
+                df['TgtValue'] = df['TgtAlloc'] * total_value
 
-            # +:Buy  -:Sell
-            df['DeltaShare'] = np.floor(df['TgtValue'] / df['Price']) - df['NbShare']
+                # +:Buy -:Sell
+                df['DeltaShare'] = np.floor(df['TgtValue'] / df['Price']) - df['NbShare']
 
-            # c = [calc_commission_etf(n) for n in df['DeltaShare'].values]
-            df['Commission'] = df['DeltaShare'].apply(fu.calc_commission_etf)
+                df['Commission'] = df['DeltaShare'].apply(fu.calc_commission_etf)
+                # df['Commission'] = df['DeltaShare'].apply(calc_commission_zero)
 
+                # Test run
+                cash = a.get_cash()
+                for s in df.index:
+                    n = df.loc[s, 'DeltaShare']
+                    if n < 0:
+                        cash += (-n * df.loc[s, 'Price'] - df.loc[s, 'Commission'])
+                    if n > 0:
+                        cash += (-(n * df.loc[s, 'Price'] + df.loc[s, 'Commission']))
+                if cash < 0:
+                    total_commission = df['Commission'].sum()
+                    # print("problem.................")
+                    total_value -= total_commission
+                else:
+                    try_again = False
+
+            # Sell first
             for s in df.index:
                 n = df.loc[s, 'DeltaShare']
                 if n < 0:
@@ -80,6 +108,7 @@ def simulate(rebalance_freq=1):
                     df.loc[s, 'NbShare'] += n
                     #a.sell_at_market()
 
+            # Buy second
             for s in df.index:
                 n = df.loc[s, 'DeltaShare']
                 if n > 0:
@@ -96,20 +125,26 @@ def simulate(rebalance_freq=1):
             #print("skip", i)
             pass
 
-    print("Initial Cash =", initial_cash)
+    # print("Initial Cash =", initial_cash)
     # Update last price
     df['Price'] = [dic[s].iloc[-1]['Close'] for s in symbol_list]
     final_cash = sum(df['Price'] * df['NbShare']) + a.get_cash()
-    print("Final Cash = ", final_cash)
+    # print("Final Cash = ", final_cash)
 
     return (final_cash - initial_cash) / initial_cash
 
 
 def _main():
     #simulate()
-    for relalance_freq in [1,2,3,4,5,10,15,20,30,40,50,75,100,200]:
+    freq_array = [1,2,3,4,5,10,15,20,30,40,50,75,100,200,400,800,1000,2000,3000,4000,5000]
+    gain_array = []
+    for relalance_freq in freq_array:
         gain = simulate(relalance_freq)
-        print("{} => {}".format(relalance_freq, gain))
+        gain_array += [gain]
+        print("{}\t{}".format(relalance_freq, gain))
+
+    plt.plot(freq_array, gain_array, 'o')
+    plt.show()
 
 if __name__ == '__main__':
     _main()

@@ -7,7 +7,9 @@ import finance_utils as fu
 
 
 class VirtualAccount(object):
-    """Handles an account linked to a stock DB."""
+    """Handles an account linked to a stock DB.
+
+    Does not support partial sell of position."""
 
     def __init__(self, initial_capital, data_dic):
         """Instantiate a new virtual account object."""
