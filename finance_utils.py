@@ -22,7 +22,8 @@ import yqd
 
 def calc_commission(nb_share):
     """Return the regular stock commission on Questrade: positive=Buy, negative=Sell."""
-    return nb_share * 0.0035 + min(9.95, max(0.01 * nb_share, 4.95))
+    nb_share = math.fabs(nb_share)
+    return (nb_share > 0) * (nb_share * 0.0035 + min(9.95, max(0.01 * nb_share, 4.95)))
 
 
 def calc_commission_etf(nb_share):
