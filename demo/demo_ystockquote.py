@@ -12,10 +12,10 @@ def _main():
     print(ysq._str_to_float("N/A"))
     print("")
 
-    print(ysq._download_page('XBB.TO')[0][0:80])
+    print(ysq._download_page('NA.TO')[0][0:80])
     print("")
 
-    for s in ["NA.TO", "XBB.TO", "AP-UN.TO", "BRK-A", "AAPL"]:
+    for s in ["NA.TO", "XBB.TO", "XSB.TO", "AP-UN.TO", "BRK-A", "AAPL"]:
         print("=============================================")
         print("s: {}".format(s))
 

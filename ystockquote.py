@@ -117,12 +117,15 @@ def get_price(symbol):
 def get_change(symbol):
     """Change in $ for the day."""
     # <span class="Trsdu(0.3s) Fw(500) Pstart(10px) Fz(24px) C($negativeColor)" data-reactid="33">-0.10 (-0.15%)</span>
+    # <span class="Trsdu(0.3s) Fw(500) Pstart(10px) Fz(24px) C($positiveColor)" data-reactid="33">+0.02 (+0.07%)</span>
+    # <span class="Trsdu(0.3s) Fw(500) Pstart(10px) Fz(24px)" data-reactid="33">0.00 (0.00%)</span>
+
     return _str_to_float(
         _request_re(
             symbol,
-            re.escape('<span class="Trsdu(0.3s) Fw(500) Pstart(10px) Fz(24px) C($') +
-            '\w+' +
-            re.escape(')" data-reactid="33">') +
+            re.escape('<span class="Trsdu(0.3s) Fw(500) Pstart(10px) Fz(24px)') +
+            '(?: C\(\$(?:negative|positive)Color\))?' +
+            re.escape('" data-reactid="33">') +
             '(.+?) \(.+?\)' +
             re.escape('</span>')))
 
@@ -159,7 +162,26 @@ def get_currency(symbol):
 
 def get_market_cap(symbol):
     """Return the market capitalization of the given stock."""
-    return _request_ysq(symbol, "Market Cap<sup>1</sup>:")
+    # data-test="MARKET_CAP-value" data-reactid="128"><span class="Trsdu(0.3s) " data-reactid="129">22.793B</span></td>
+    s = _request_re(
+            symbol,
+            re.escape('data-test="') +
+            '(?:MARKET_CAP|NET_ASSETS)' +
+            re.escape('-value" data-reactid="') +
+            '\d+' +
+            re.escape('"><span class="Trsdu(0.3s) " data-reactid="') +
+            '\d+' +
+            re.escape('">') +
+            '(.+?)' +
+            re.escape('</span></td></tr>'))
+    if s.endswith('T'):
+        return _str_to_float(s[:-1]) * 1000000000000
+    if s.endswith('B'):
+        return _str_to_float(s[:-1]) * 1000000000
+    elif s.endswith('M'):
+        return _str_to_float(s[:-1]) * 1000000
+    else:
+        return _str_to_float(s)
 
 
 def get_dividend_yield(symbol):
