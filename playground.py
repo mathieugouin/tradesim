@@ -8,6 +8,7 @@ import scipy.stats as sps
 
 # user
 import stock_db_mgr as sdm
+import ystockquote as ysq
 
 startdate = datetime.date(2014, 1, 6) # Start of Questrade portfolio
 #startdate = datetime.date(2013, 8, 12) # Start of Questrade portfolio component highest start date (VUN.TO)
@@ -54,7 +55,15 @@ def correlation_test():
     print(dfc.idxmin())
 
 
+def yahoo_play():
+    db = sdm.StockDBMgr('./stock_db/tsx', startdate, enddate)
+    #for s in db.get_all_symbols():
+    for s in ['SPY', 'NA.TO', 'XBB.TO', 'AP-UN.TO', 'AAPL', 'XOM']:
+        print(s, ysq.get_dividend_yield(s))
+
+
 def _main():
+    yahoo_play()
     indicator_test()
     correlation_test()
 
