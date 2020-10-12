@@ -59,14 +59,14 @@ def test_ysq_get_name(s):
     assert len(ysq.get_name(s)) > 0
 
 
-#@pytest.mark.webtest
-#@pytest.mark.parametrize("s", ['NA.TO', 'XBB.TO', 'AP-UN.TO', 'BITF.TO', 'AAPL', 'XOM'])
-#def test_ysq_get_stock_exchange(s):
-#    assert len(ysq.get_stock_exchange(s)) > 5
+@pytest.mark.webtest
+@pytest.mark.parametrize("s", ['NA.TO', 'XBB.TO', 'AAPL', 'XOM'])
+def test_ysq_get_stock_exchange(s):
+    assert len(ysq.get_stock_exchange(s)) > 2
 
 
 @pytest.mark.webtest
-@pytest.mark.parametrize("s", ['NA.TO', 'XBB.TO', 'AP-UN.TO', 'BITF.TO', 'AAPL', 'XOM'])
+@pytest.mark.parametrize("s", ['NA.TO', 'XBB.TO', 'AAPL', 'XOM'])
 def test_ysq_get_currency(s):
     c = ysq.get_currency(s)
     assert c == 'USD' or c == 'CAD'
@@ -78,8 +78,8 @@ def test_ysq_get_currency(s):
 #    assert 0 <= ysq.get_dividend_yield(s) < 100
 
 
-#@pytest.mark.webtest
-#@pytest.mark.parametrize("s", ['NA.TO', 'AAPL', 'XOM'])
-#def test_ysq_get_price_earnings_ratio(s):
-#    assert 0 <= ysq.get_price_earnings_ratio(s) < 100
+@pytest.mark.webtest
+@pytest.mark.parametrize("s", ['NA.TO', 'AAPL', 'XOM'])
+def test_ysq_get_price_earnings_ratio(s):
+    assert 0 <= ysq.get_price_earnings_ratio(s) < 100
 
