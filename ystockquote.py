@@ -63,22 +63,6 @@ def _request_multi_re(symbol, re_arr):
     return value
 
 
-def _request_str(symbol, stat):
-    """Default TMX card display grabber (string return)."""
-    re_arr = [
-        re.escape('<div class="dq-card">'),
-        re.escape(stat),
-        re.escape('<strong>') + '(.*?)' + re.escape('</strong>')
-    ]
-
-    return _request_multi_re(symbol, re_arr)
-
-
-def _request_ysq(symbol, stat):
-    """Default TMX card display grabber (float return)."""
-    return _str_to_float(_request_str(symbol, stat))
-
-
 def get_name(symbol):
     """Full company name from symbol."""
     re_str = re.escape('<h1 class="D(ib) Fz(18px)" data-reactid="7">') + '(.+?)' + re.escape('</h1>')
@@ -89,7 +73,6 @@ def get_name(symbol):
 
 def get_volume(symbol):
     """Current day's trading volume in number of shares."""
-
     # data-test="TD_VOLUME-value" data-reactid="69"><span class="Trsdu(0.3s) " data-reactid="70">35,953</span></td></tr>
     # data-test="TD_VOLUME-value" data-reactid="115"><span class="Trsdu(0.3s) " data-reactid="116">273,818</span></td>
     return _str_to_float(
@@ -119,7 +102,6 @@ def get_change(symbol):
     # <span class="Trsdu(0.3s) Fw(500) Pstart(10px) Fz(24px) C($negativeColor)" data-reactid="33">-0.10 (-0.15%)</span>
     # <span class="Trsdu(0.3s) Fw(500) Pstart(10px) Fz(24px) C($positiveColor)" data-reactid="33">+0.02 (+0.07%)</span>
     # <span class="Trsdu(0.3s) Fw(500) Pstart(10px) Fz(24px)" data-reactid="33">0.00 (0.00%)</span>
-
     return _str_to_float(
         _request_re(
             symbol,
@@ -132,6 +114,10 @@ def get_change(symbol):
 
 def get_stock_exchange(symbol):
     """Return the name of the stock exchange the stock is traded."""
+    # <div class="C($tertiaryColor) Fz(12px)" data-reactid="8"><span data-reactid="9">NasdaqGS - NasdaqGS Real Time Price. Currency in USD</span></div>
+    # <div class="C($tertiaryColor) Fz(12px)" data-reactid="8"><span data-reactid="9">NYSE - NYSE Delayed Price. Currency in USD</span></div>
+    # <div class="C($tertiaryColor) Fz(12px)" data-reactid="8"><span data-reactid="9">Toronto - Toronto Real Time Price. Currency in CAD</span></div>
+    # <div class="C($tertiaryColor) Fz(12px)" data-reactid="8"><span data-reactid="9">TSXV - TSXV Real Time Price. Currency in CAD</span></div>
     re_arr = [
         re.escape('<p class="blurb text-darkgrey"><strong class="text-darkgrey">'),
         r'\s*(.+?) <\/strong> \|'
@@ -141,16 +127,23 @@ def get_stock_exchange(symbol):
 
 def get_52_week_high(symbol):
     """Highest price value during the last 52 weeks."""
-    return _str_to_float(_request_re(symbol, '<strong>52 Week High:</strong></a>\\s*(.+?)</div>'))
-
+    # <td class="Ta(end) Fw(600) Lh(14px)" data-test="FIFTY_TWO_WK_RANGE-value" data-reactid="65">28.58 - 34.39</td>
+    s = _request_re(symbol, 'data-test="FIFTY_TWO_WK_RANGE-value" data-reactid="\d+"\>(.+?)\<\/td\>')
+    m = re.search('^(.+?) - (.+?)$', s)
+    if m:
+        return _str_to_float(m.group(2))
+    else:
+        return _str_to_float('nan')
 
 def get_52_week_low(symbol):
+    # <td class="Ta(end) Fw(600) Lh(14px)" data-test="FIFTY_TWO_WK_RANGE-value" data-reactid="65">28.58 - 34.39</td>
     """Lowest price value during the last 52 weeks."""
-    re_arr = [
-        '<strong>52 Week Low:</strong></a>',
-        '\\s*(.+?)</div>'
-    ]
-    return _str_to_float(_request_multi_re(symbol, re_arr))
+    s = _request_re(symbol, 'data-test="FIFTY_TWO_WK_RANGE-value" data-reactid="\d+"\>(.+?)\<\/td\>')
+    m = re.search('^(.+?) - (.+?)$', s)
+    if m:
+        return _str_to_float(m.group(1))
+    else:
+        return _str_to_float('nan')
 
 
 def get_currency(symbol):
@@ -186,14 +179,14 @@ def get_market_cap(symbol):
 
 def get_dividend_yield(symbol):
     """Return the dividend yield (in %) of the stock."""
+    # https://finance.yahoo.com/quote/CM.TO: 5.84 (5.75%)
+    # <td class="Ta(end) Fw(600) Lh(14px)" data-test="DIVIDEND_AND_YIELD-value" data-reactid="153">4.32 (4.44%)</td>
+    # https://finance.yahoo.com/quote/XBB.TO: 2.60%
+    # <td class="Ta(end) Fw(600) Lh(14px)" data-test="TD_YIELD-value" data-reactid="97"><span class="Trsdu(0.3s) " data-reactid="98">5.34%</span></td>
     return _request_ysq(symbol, "Yield:")
 
 
 def get_price_earnings_ratio(symbol):
     """Return the P/E ratio."""
+    # <td class="Ta(end) Fw(600) Lh(14px)" data-test="PE_RATIO-value" data-reactid="138"><span class="Trsdu(0.3s) " data-reactid="139">11.81</span></td>
     return _request_ysq(symbol, "P/E Ratio:")
-
-
-def get_price_book_ratio(symbol):
-    """Return the P/B ratio."""
-    return _request_ysq(symbol, "P/B Ratio:")
