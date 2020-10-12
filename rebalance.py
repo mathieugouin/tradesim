@@ -4,8 +4,9 @@ from __future__ import print_function
 # Is it worth to rebalance regularly a portfolio to keep the desired target allocation?
 # Will the trading commissions eat up our profit?
 # What if the commission was zero?
+# What is the optimal rebalance frequency vs buy & hold
 
-import math
+#import math
 import datetime
 
 import numpy as np
@@ -13,7 +14,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 import finance_utils as fu
-import technical_indicators as ti
+#import technical_indicators as ti
 import stock_db_mgr as sdm
 import virtual_account as va
 
@@ -62,8 +63,6 @@ def simulate(rebalance_freq=1):
         if i % rebalance_freq == 0:
             #print("Rebalance", i)
 
-            # Roughly Matching StockPortfolio_RRSP column ordering
-
             df['Price'] = df_prices.iloc[i]
 
             df['MktValue'] = df['Price'] * df['NbShare']
@@ -72,10 +71,6 @@ def simulate(rebalance_freq=1):
 
             try_again = True
             while try_again:
-                # Not required
-                # df['CurrAlloc'] = df['MktValue'] / total_value
-                # df['DeltaAlloc'] = df['CurrAlloc'] - df['TgtAlloc']
-
                 df['TgtValue'] = df['TgtAlloc'] * total_value
 
                 # +:Buy -:Sell
