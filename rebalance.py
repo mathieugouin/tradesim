@@ -5,7 +5,6 @@ from __future__ import print_function
 # Will the trading commissions eat up our profit?
 # What if the commission was zero?
 
-import math
 import datetime
 
 import numpy as np
@@ -13,7 +12,6 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 import finance_utils as fu
-import technical_indicators as ti
 import stock_db_mgr as sdm
 import virtual_account as va
 
@@ -72,10 +70,6 @@ def simulate(rebalance_freq=1):
 
             try_again = True
             while try_again:
-                # Not required
-                # df['CurrAlloc'] = df['MktValue'] / total_value
-                # df['DeltaAlloc'] = df['CurrAlloc'] - df['TgtAlloc']
-
                 df['TgtValue'] = df['TgtAlloc'] * total_value
 
                 # +:Buy -:Sell
