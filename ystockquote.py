@@ -118,11 +118,8 @@ def get_stock_exchange(symbol):
     # <div class="C($tertiaryColor) Fz(12px)" data-reactid="8"><span data-reactid="9">NYSE - NYSE Delayed Price. Currency in USD</span></div>
     # <div class="C($tertiaryColor) Fz(12px)" data-reactid="8"><span data-reactid="9">Toronto - Toronto Real Time Price. Currency in CAD</span></div>
     # <div class="C($tertiaryColor) Fz(12px)" data-reactid="8"><span data-reactid="9">TSXV - TSXV Real Time Price. Currency in CAD</span></div>
-    re_arr = [
-        re.escape('<p class="blurb text-darkgrey"><strong class="text-darkgrey">'),
-        r'\s*(.+?) <\/strong> \|'
-    ]
-    return _request_multi_re(symbol, re_arr)
+    return _request_re(symbol, '<span data-reactid="\d+">(.+?) - .*?Currency in (?:USD|CAD)<\/span>')
+
 
 
 def get_52_week_high(symbol):
@@ -148,14 +145,14 @@ def get_52_week_low(symbol):
 
 def get_currency(symbol):
     """Currency the stock trades in.  Quick implementation based on the ticker."""
-    if symbol.endswith('.TO'):
-        return 'CAD'
-    return 'USD'
+    # <span data-reactid="9">NasdaqGS - NasdaqGS Real Time Price. Currency in USD</span>
+    return _request_re(symbol, '<span data-reactid="\d+">.+?Currency in (USD|CAD)<\/span>')
 
 
 def get_market_cap(symbol):
     """Return the market capitalization of the given stock."""
     # data-test="MARKET_CAP-value" data-reactid="128"><span class="Trsdu(0.3s) " data-reactid="129">22.793B</span></td>
+    # data-test="NET_ASSETS-value" data-reactid="82"><span class="Trsdu(0.3s) " data-reactid="83">4.83B</span></td>
     s = _request_re(
             symbol,
             re.escape('data-test="') +
@@ -189,4 +186,14 @@ def get_dividend_yield(symbol):
 def get_price_earnings_ratio(symbol):
     """Return the P/E ratio."""
     # <td class="Ta(end) Fw(600) Lh(14px)" data-test="PE_RATIO-value" data-reactid="138"><span class="Trsdu(0.3s) " data-reactid="139">11.81</span></td>
-    return _request_ysq(symbol, "P/E Ratio:")
+    return _str_to_float(
+        _request_re(
+            symbol,
+            re.escape('data-test="PE_RATIO-value" data-reactid="') +
+            '\d+' +
+            re.escape('"><span class="Trsdu(0.3s) " data-reactid="') +
+            '\d+' +
+            re.escape('">') +
+            '(.+?)' +
+            re.escape('</span></td></tr>')))
+
