@@ -177,10 +177,14 @@ def get_market_cap(symbol):
 def get_dividend_yield(symbol):
     """Return the dividend yield (in %) of the stock."""
     # https://finance.yahoo.com/quote/CM.TO: 5.84 (5.75%)
-    # <td class="Ta(end) Fw(600) Lh(14px)" data-test="DIVIDEND_AND_YIELD-value" data-reactid="153">4.32 (4.44%)</td>
+    # data-test="DIVIDEND_AND_YIELD-value" data-reactid="153">4.32 (4.44%)</td>
     # https://finance.yahoo.com/quote/XBB.TO: 2.60%
-    # <td class="Ta(end) Fw(600) Lh(14px)" data-test="TD_YIELD-value" data-reactid="97"><span class="Trsdu(0.3s) " data-reactid="98">5.34%</span></td>
-    return _request_ysq(symbol, "Yield:")
+    # data-test="TD_YIELD-value" data-reactid="97"><span class="Trsdu(0.3s) " data-reactid="98">5.34%</span></td>
+    # data-test="TD_YIELD-value" data-reactid="99"><span class="Trsdu(0.3s) " data-reactid="100">1.69%</span></td>
+    return _str_to_float(
+        _request_re(
+            symbol,
+            'data-test="(?:DIVIDEND_AND_YIELD|TD_YIELD)-value" data-reactid="\d+">.+?(?:\d+\.\d+ )?(\d+\.\d+)%.*?<\/td>'))
 
 
 def get_price_earnings_ratio(symbol):
