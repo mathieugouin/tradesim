@@ -15,7 +15,7 @@ def _main():
     print(ysq._download_page('NA.TO')[0][0:80])
     print("")
 
-    for s in ["NA.TO", "XBB.TO", "XSB.TO", "AP-UN.TO", "BRK-A", "AAPL"]:
+    for s in ["NA.TO", "XBB.TO", "NOU.V", "AP-UN.TO", "BRK-A", "AAPL"]:
         print("=============================================")
         print("s: {}".format(s))
 
@@ -27,7 +27,6 @@ def _main():
         print("get_market_cap: {}".format(ysq.get_market_cap(s)))
         print("get_dividend_yield: {}".format(ysq.get_dividend_yield(s)))
         print("get_price_earnings_ratio: {}".format(ysq.get_price_earnings_ratio(s)))
-        print("get_price_book_ratio: {}".format(ysq.get_price_book_ratio(s)))
 
         print("get_52_week_low: {}".format(ysq.get_52_week_low(s)))
         print("get_52_week_high: {}".format(ysq.get_52_week_high(s)))

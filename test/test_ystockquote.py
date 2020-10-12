@@ -72,10 +72,10 @@ def test_ysq_get_currency(s):
     assert c == 'USD' or c == 'CAD'
 
 
-#@pytest.mark.webtest
-#@pytest.mark.parametrize("s", ['XBB.TO', 'NA.TO', 'SPY', 'XOM'])
-#def test_ysq_api_dividend(s):
-#    assert 0 <= ysq.get_dividend_yield(s) < 100
+@pytest.mark.webtest
+@pytest.mark.parametrize("s", ['XBB.TO', 'NA.TO', 'SPY', 'XOM'])
+def test_ysq_api_dividend(s):
+    assert 0 <= ysq.get_dividend_yield(s) < 100
 
 
 @pytest.mark.webtest
