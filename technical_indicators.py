@@ -5,7 +5,7 @@ import math
 import numpy as np
 #import scipy as sp
 import scipy.signal as signal
-import tmxstockquote as tmx
+import ystockquote as tmx
 
 
 # -------------------------------------
