@@ -12,6 +12,16 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
+def plot_test():
+    df1 = pd.read_csv('../portfolio.csv', index_col='Date', parse_dates=True)
+    df2 = pd.read_csv('../portfolio2.csv', index_col='Date', parse_dates=True)
+
+    df = df2.join(df1, how='outer')
+    df.interpolate(method='linear', inplace=True)
+    df.plot()
+    pass
+
+
 def data_frame_test2():
     nrow = 8
     ncol = 5
@@ -81,6 +91,7 @@ def data_frame_test():
 
 
 def _main():
+    plot_test()
     data_frame_test2()
     data_frame_test()
 
