@@ -20,11 +20,10 @@ def _download_page(symbol):
     global _cached_symbol
     global _cached_lines
 
-    url = "https://finance.yahoo.com/quote/" + symbol
-
     if _cached_symbol and _cached_symbol == symbol:
         lines = _cached_lines
     else:
+        url = "https://finance.yahoo.com/quote/" + symbol
         lines = fu.download_url(url).splitlines()
         _cached_symbol = symbol
         _cached_lines = lines
