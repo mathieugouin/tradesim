@@ -115,17 +115,15 @@ def simulate(rebalance_freq=1, plot_cash=False):
             if a.get_cash() < 0:
                 print("Error: not enough money", a.get_cash())
             else:
-                # TBD: Check if we can buy some more shares with left-over cash balance
                 if a.get_cash() > df['Price'].min():
                     # Update market value
                     df['MktValue'] = df['Price'] * df['NbShare']
                     pcent_diff = ((df['MktValue'] - df['TgtValue']) / df['TgtValue']).sort_values()
                     for s in pcent_diff.index:
                         n = 1
-                        if df.loc[s, 'Price'] < a.get_cash():
-                            #a.delta_cash(-(n * df.loc[s, 'Price'] + fu.calc_commission_etf(n)))
-                            #df.loc[s, 'NbShare'] += n
-                            pass
+                        if df.loc[s, 'Price'] + fu.calc_commission_etf(n) < a.get_cash():
+                            a.delta_cash(-(n * df.loc[s, 'Price'] + fu.calc_commission_etf(n)))
+                            df.loc[s, 'NbShare'] += n
 
             cash_array.append(a.get_cash())
 
