@@ -161,6 +161,7 @@ def _main():
     plt.plot(freq_array, gain_array, 'o')
     plt.show()
 
+
 if __name__ == '__main__':
     _main()
 
