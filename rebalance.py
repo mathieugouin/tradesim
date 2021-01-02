@@ -28,9 +28,10 @@ def calc_commission_zero(nb_share):
     return 0
 
 
-def simulate(rebalance_freq=1):
+def simulate(rebalance_freq=1, plot_cash=False):
     initial_cash = 300000.0
     a = va.VirtualAccount(initial_cash, dic)
+    cash_array = []
 
     #print("Initial cash", a.get_cash())
 
@@ -56,7 +57,7 @@ def simulate(rebalance_freq=1):
     df['NbShare'] = np.zeros(len(symbol_list))
 
     df_prices = db.get_all_symbol_single_data_item('Close')
-    for i in range(len(df_prices)):
+    for i in range(len(df_prices) - 1):  # last day, we simulate sell all to get gain
         if i % rebalance_freq == 0:
             #print("Rebalance", i)
 
@@ -101,7 +102,6 @@ def simulate(rebalance_freq=1):
                     #print("  Sell {} of {}".format(-n, s))
                     a.delta_cash(-n * df.loc[s, 'Price'] - df.loc[s, 'Commission'])
                     df.loc[s, 'NbShare'] += n
-                    #a.sell_at_market()
 
             # Buy second
             for s in df.index:
@@ -110,11 +110,24 @@ def simulate(rebalance_freq=1):
                     #print("  Buy {} of {}".format(n, s))
                     a.delta_cash(-(n * df.loc[s, 'Price'] + df.loc[s, 'Commission']))
                     df.loc[s, 'NbShare'] += n
-                    #a.buy_at_market(i, s, n)
 
             # Do not tolerate negative cash after all transactions are completed.
             if a.get_cash() < 0:
                 print("Error: not enough money", a.get_cash())
+            else:
+                # TBD: Check if we can buy some more shares with left-over cash balance
+                if a.get_cash() > df['Price'].min():
+                    # Update market value
+                    df['MktValue'] = df['Price'] * df['NbShare']
+                    pcent_diff = ((df['MktValue'] - df['TgtValue']) / df['TgtValue']).sort_values()
+                    for s in pcent_diff.index:
+                        n = 1
+                        if df.loc[s, 'Price'] < a.get_cash():
+                            #a.delta_cash(-(n * df.loc[s, 'Price'] + fu.calc_commission_etf(n)))
+                            #df.loc[s, 'NbShare'] += n
+                            pass
+
+            cash_array.append(a.get_cash())
 
         else:
             #print("skip", i)
@@ -126,6 +139,10 @@ def simulate(rebalance_freq=1):
     final_cash = sum(df['Price'] * df['NbShare']) + a.get_cash()
     # print("Final Cash = ", final_cash)
 
+    if plot_cash:
+        plt.plot(range(len(cash_array)), cash_array)
+        plt.show()
+
     return (final_cash - initial_cash) / initial_cash
 
 
@@ -133,6 +150,9 @@ def _main():
     nb_days = len(db.get_symbol_data('XBB.TO'))
     freq_array = range(1, nb_days // 2)
     gain_array = []
+
+    print("Running simulation to graph cash...")
+    simulate(plot_cash=True)
 
     print("Running simulation for {} days...".format(nb_days))
     for relalance_freq in freq_array:
