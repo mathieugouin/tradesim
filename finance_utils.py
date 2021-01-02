@@ -28,6 +28,8 @@ def calc_commission(nb_share):
 
 def calc_commission_etf(nb_share):
     """Return the ETF trade commission on Questrade: positive=Buy, negative=Sell."""
+    # 0.01 $ per share (min 4.95, max 9.95)
+    # 0.0035 $ per share ECN fees (sometimes waived, but simpler to always include them)
     return (nb_share < 0) * min(9.95, max(4.95, -nb_share * 0.01)) + math.fabs(nb_share) * 0.0035
 
 
