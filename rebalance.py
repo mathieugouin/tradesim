@@ -24,16 +24,10 @@ db = sdm.StockDBMgr(data_dir, start_date, end_date, False)
 dic = db.get_all_symbol_data()
 
 
-def calc_commission_zero(nb_share):
-    return 0
-
-
 def simulate(rebalance_freq=1, plot_cash=False):
     initial_cash = 300000.0
     a = va.VirtualAccount(initial_cash, dic)
     cash_array = []
-
-    #print("Initial cash", a.get_cash())
 
     # Target allocation:
     ratio = {
@@ -78,7 +72,7 @@ def simulate(rebalance_freq=1, plot_cash=False):
                 df['DeltaShare'] = np.floor(df['TgtValue'] / df['Price']) - df['NbShare']
 
                 df['Commission'] = df['DeltaShare'].apply(fu.calc_commission_etf)
-                # df['Commission'] = df['DeltaShare'].apply(calc_commission_zero)
+                # df['Commission'] = np.zeros(len(ratio))
 
                 # Test run
                 cash = a.get_cash()
@@ -90,7 +84,6 @@ def simulate(rebalance_freq=1, plot_cash=False):
                         cash += (-(n * df.loc[s, 'Price'] + df.loc[s, 'Commission']))
                 if cash < 0:
                     total_commission = df['Commission'].sum()
-                    # print("problem.................")
                     total_value -= total_commission
                 else:
                     try_again = False
@@ -99,7 +92,6 @@ def simulate(rebalance_freq=1, plot_cash=False):
             for s in df.index:
                 n = df.loc[s, 'DeltaShare']
                 if n < 0:
-                    #print("  Sell {} of {}".format(-n, s))
                     a.delta_cash(-n * df.loc[s, 'Price'] - df.loc[s, 'Commission'])
                     df.loc[s, 'NbShare'] += n
 
@@ -107,7 +99,6 @@ def simulate(rebalance_freq=1, plot_cash=False):
             for s in df.index:
                 n = df.loc[s, 'DeltaShare']
                 if n > 0:
-                    #print("  Buy {} of {}".format(n, s))
                     a.delta_cash(-(n * df.loc[s, 'Price'] + df.loc[s, 'Commission']))
                     df.loc[s, 'NbShare'] += n
 
@@ -127,15 +118,9 @@ def simulate(rebalance_freq=1, plot_cash=False):
 
             cash_array.append(a.get_cash())
 
-        else:
-            #print("skip", i)
-            pass
-
-    # print("Initial Cash =", initial_cash)
     # Update last price
     df['Price'] = [dic[s].iloc[-1]['Close'] for s in symbol_list]
     final_cash = sum(df['Price'] * df['NbShare']) + a.get_cash()
-    # print("Final Cash = ", final_cash)
 
     if plot_cash:
         plt.plot(range(len(cash_array)), cash_array)
@@ -164,4 +149,3 @@ def _main():
 
 if __name__ == '__main__':
     _main()
-
