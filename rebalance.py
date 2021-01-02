@@ -68,6 +68,7 @@ def simulate(rebalance_freq=1):
 
             total_value = df['MktValue'].sum() + a.get_cash()
 
+            # Check if enough to cover for commission costs
             try_again = True
             while try_again:
                 df['TgtValue'] = df['TgtAlloc'] * total_value
@@ -111,7 +112,7 @@ def simulate(rebalance_freq=1):
                     df.loc[s, 'NbShare'] += n
                     #a.buy_at_market(i, s, n)
 
-            # Do not tolerate after all transactions are done.
+            # Do not tolerate negative cash after all transactions are completed.
             if a.get_cash() < 0:
                 print("Error: not enough money", a.get_cash())
 
@@ -129,9 +130,11 @@ def simulate(rebalance_freq=1):
 
 
 def _main():
-    #simulate()
-    freq_array = [1,2,3,4,5,10,15,20,30,40,50,75,100,200,400,800,1000,2000,3000,4000,5000]
+    nb_days = len(db.get_symbol_data('XBB.TO'))
+    freq_array = range(1, nb_days // 2)
     gain_array = []
+
+    print("Running simulation for {} days...".format(nb_days))
     for relalance_freq in freq_array:
         gain = simulate(relalance_freq)
         gain_array += [gain]
@@ -142,3 +145,4 @@ def _main():
 
 if __name__ == '__main__':
     _main()
+
