@@ -146,7 +146,7 @@ def simulate(rebalance_freq=1, plot_cash=False):
 
 def _main():
     nb_days = len(db.get_symbol_data('XBB.TO'))
-    freq_array = range(1, nb_days // 2)
+    freq_array = range(1, int(nb_days / 2))
     gain_array = []
 
     print("Running simulation to graph cash...")
