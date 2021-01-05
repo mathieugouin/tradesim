@@ -19,7 +19,7 @@ def plot_test():
     df = df2.join(df1, how='outer')
     df.interpolate(method='linear', inplace=True)
     df.plot()
-    pass
+    plt.show()
 
 
 def data_frame_test2():
