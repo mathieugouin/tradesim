@@ -91,8 +91,8 @@ def get_price(symbol):
     return _str_to_float(
         _request_re(
             symbol,
-            re.escape('<span class="Trsdu(0.3s) Fw(b) Fz(36px) Mb(-4px) D(ib)" data-reactid="32">') +
-            '(.+?)' +
+            re.escape('<span class="Trsdu(0.3s) Fw(b) Fz(36px) Mb(-4px) D(ib)" data-reactid=') + 
+            '"\d+">(.+?)' +
             re.escape('</span>')))
 
 
@@ -101,12 +101,15 @@ def get_change(symbol):
     # <span class="Trsdu(0.3s) Fw(500) Pstart(10px) Fz(24px) C($negativeColor)" data-reactid="33">-0.10 (-0.15%)</span>
     # <span class="Trsdu(0.3s) Fw(500) Pstart(10px) Fz(24px) C($positiveColor)" data-reactid="33">+0.02 (+0.07%)</span>
     # <span class="Trsdu(0.3s) Fw(500) Pstart(10px) Fz(24px)" data-reactid="33">0.00 (0.00%)</span>
+    # <span class="Trsdu(0.3s) Fw(500) Pstart(10px) Fz(24px) C($negativeColor)" data-reactid="34">-0.41 (-0.57%)</span>
     return _str_to_float(
         _request_re(
             symbol,
             re.escape('<span class="Trsdu(0.3s) Fw(500) Pstart(10px) Fz(24px)') +
             '(?: C\(\$(?:negative|positive)Color\))?' +
-            re.escape('" data-reactid="33">') +
+            re.escape('" data-reactid="') + 
+            "\d+" +
+            re.escape('">') +
             '(.+?) \(.+?\)' +
             re.escape('</span>')))
 
