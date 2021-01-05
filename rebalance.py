@@ -53,7 +53,6 @@ def simulate(rebalance_freq=1, plot_cash=False):
     df_prices = db.get_all_symbol_single_data_item('Close')
     for i in range(len(df_prices) - 1):  # last day, we simulate sell all to get gain
         if i % rebalance_freq == 0:
-            #print("Rebalance", i)
 
             # Roughly Matching StockPortfolio_RRSP column ordering
 
