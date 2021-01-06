@@ -78,9 +78,9 @@ def get_volume(symbol):
         _request_re(
             symbol,
             re.escape('data-test="TD_VOLUME-value" data-reactid="') +
-            '\d+' +
+            r'\d+' +
             re.escape('"><span class="Trsdu(0.3s) " data-reactid="') +
-            '\d+' +
+            r'\d+' +
             re.escape('">') +
             '(.+?)' +
             re.escape('</span></td></tr>')))
@@ -92,7 +92,7 @@ def get_price(symbol):
         _request_re(
             symbol,
             re.escape('<span class="Trsdu(0.3s) Fw(b) Fz(36px) Mb(-4px) D(ib)" data-reactid=') +
-            '"\d+">(.+?)' +
+            r'"\d+">(.+?)' +
             re.escape('</span>')))
 
 
@@ -108,9 +108,9 @@ def get_change(symbol):
             re.escape('<span class="Trsdu(0.3s) Fw(500) Pstart(10px) Fz(24px)') +
             '(?: C\(\$(?:negative|positive)Color\))?' +
             re.escape('" data-reactid="') +
-            "\d+" +
+            r'\d+' +
             re.escape('">') +
-            '(.+?) \(.+?\)' +
+            r'(.+?) \(.+?\)' +
             re.escape('</span>')))
 
 
@@ -120,14 +120,18 @@ def get_stock_exchange(symbol):
     # <div class="C($tertiaryColor) Fz(12px)" data-reactid="8"><span data-reactid="9">NYSE - NYSE Delayed Price. Currency in USD</span></div>
     # <div class="C($tertiaryColor) Fz(12px)" data-reactid="8"><span data-reactid="9">Toronto - Toronto Real Time Price. Currency in CAD</span></div>
     # <div class="C($tertiaryColor) Fz(12px)" data-reactid="8"><span data-reactid="9">TSXV - TSXV Real Time Price. Currency in CAD</span></div>
-    return _request_re(symbol, '<span data-reactid="\d+">(.+?) - .*?Currency in (?:USD|CAD)<\/span>')
+    return _request_re(
+            symbol,
+            r'<span data-reactid="\d+">(.+?) - .*?Currency in (?:USD|CAD)</span>')
 
 
 
 def get_52_week_high(symbol):
     """Highest price value during the last 52 weeks."""
     # <td class="Ta(end) Fw(600) Lh(14px)" data-test="FIFTY_TWO_WK_RANGE-value" data-reactid="65">28.58 - 34.39</td>
-    s = _request_re(symbol, 'data-test="FIFTY_TWO_WK_RANGE-value" data-reactid="\d+"\>(.+?)\<\/td\>')
+    s = _request_re(
+            symbol,
+            r'data-test="FIFTY_TWO_WK_RANGE-value" data-reactid="\d+"\>(.+?)\</td\>')
     m = re.search('^(.+?) - (.+?)$', s)
     if m:
         return _str_to_float(m.group(2))
@@ -136,7 +140,9 @@ def get_52_week_high(symbol):
 def get_52_week_low(symbol):
     # <td class="Ta(end) Fw(600) Lh(14px)" data-test="FIFTY_TWO_WK_RANGE-value" data-reactid="65">28.58 - 34.39</td>
     """Lowest price value during the last 52 weeks."""
-    s = _request_re(symbol, 'data-test="FIFTY_TWO_WK_RANGE-value" data-reactid="\d+"\>(.+?)\<\/td\>')
+    s = _request_re(
+            symbol,
+            r'data-test="FIFTY_TWO_WK_RANGE-value" data-reactid="\d+"\>(.+?)\</td>')
     m = re.search('^(.+?) - (.+?)$', s)
     if m:
         return _str_to_float(m.group(1))
@@ -146,7 +152,9 @@ def get_52_week_low(symbol):
 def get_currency(symbol):
     """Currency the stock trades in.  Quick implementation based on the ticker."""
     # <span data-reactid="9">NasdaqGS - NasdaqGS Real Time Price. Currency in USD</span>
-    return _request_re(symbol, '<span data-reactid="\d+">.+?Currency in (USD|CAD)<\/span>')
+    return _request_re(
+            symbol,
+            r'<span data-reactid="\d+">.+?Currency in (USD|CAD)</span>')
 
 
 def get_market_cap(symbol):
@@ -158,9 +166,9 @@ def get_market_cap(symbol):
             re.escape('data-test="') +
             '(?:MARKET_CAP|NET_ASSETS)' +
             re.escape('-value" data-reactid="') +
-            '\d+' +
+            r'\d+' +
             re.escape('"><span class="Trsdu(0.3s) " data-reactid="') +
-            '\d+' +
+            r'\d+' +
             re.escape('">') +
             '(.+?)' +
             re.escape('</span></td></tr>'))
@@ -184,7 +192,7 @@ def get_dividend_yield(symbol):
     return _str_to_float(
         _request_re(
             symbol,
-            'data-test="(?:DIVIDEND_AND_YIELD|TD_YIELD)-value" data-reactid="\d+">.+?(?:\d+\.\d+ )?(\d+\.\d+)%.*?<\/td>'))
+            r'data-test="(?:DIVIDEND_AND_YIELD|TD_YIELD)-value" data-reactid="\d+">.+?(?:\d+\.\d+ )?(\d+\.\d+)%.*?</td>'))
 
 
 def get_price_earnings_ratio(symbol):
@@ -194,9 +202,9 @@ def get_price_earnings_ratio(symbol):
         _request_re(
             symbol,
             re.escape('data-test="PE_RATIO-value" data-reactid="') +
-            '\d+' +
+            r'\d+' +
             re.escape('"><span class="Trsdu(0.3s) " data-reactid="') +
-            '\d+' +
+            r'\d+' +
             re.escape('">') +
             '(.+?)' +
             re.escape('</span></td></tr>')))
