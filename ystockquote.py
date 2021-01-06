@@ -174,12 +174,11 @@ def get_market_cap(symbol):
             re.escape('</span></td></tr>'))
     if s.endswith('T'):
         return _str_to_float(s[:-1]) * 1000000000000
-    elif s.endswith('B'):
+    if s.endswith('B'):
         return _str_to_float(s[:-1]) * 1000000000
-    elif s.endswith('M'):
+    if s.endswith('M'):
         return _str_to_float(s[:-1]) * 1000000
-    else:
-        return _str_to_float(s)
+    return _str_to_float(s)
 
 
 def get_dividend_yield(symbol):
