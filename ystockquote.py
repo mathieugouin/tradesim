@@ -141,8 +141,7 @@ def get_52_week_low(symbol):
     m = re.search('^(.+?) - (.+?)$', s)
     if m:
         return _str_to_float(m.group(1))
-    else:
-        return _str_to_float('nan')
+    return _str_to_float('nan')
 
 
 def get_currency(symbol):
@@ -202,4 +201,3 @@ def get_price_earnings_ratio(symbol):
             re.escape('">') +
             '(.+?)' +
             re.escape('</span></td></tr>')))
-

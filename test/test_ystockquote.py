@@ -82,4 +82,3 @@ def test_ysq_api_dividend(s):
 @pytest.mark.parametrize("s", ['NA.TO', 'AAPL', 'XOM'])
 def test_ysq_get_price_earnings_ratio(s):
     assert 0 <= ysq.get_price_earnings_ratio(s) < 100
-
