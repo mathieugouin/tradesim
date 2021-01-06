@@ -131,8 +131,7 @@ def get_52_week_high(symbol):
     m = re.search('^(.+?) - (.+?)$', s)
     if m:
         return _str_to_float(m.group(2))
-    else:
-        return _str_to_float('nan')
+    return _str_to_float('nan')
 
 def get_52_week_low(symbol):
     # <td class="Ta(end) Fw(600) Lh(14px)" data-test="FIFTY_TWO_WK_RANGE-value" data-reactid="65">28.58 - 34.39</td>
@@ -167,7 +166,7 @@ def get_market_cap(symbol):
             re.escape('</span></td></tr>'))
     if s.endswith('T'):
         return _str_to_float(s[:-1]) * 1000000000000
-    if s.endswith('B'):
+    elif s.endswith('B'):
         return _str_to_float(s[:-1]) * 1000000000
     elif s.endswith('M'):
         return _str_to_float(s[:-1]) * 1000000
