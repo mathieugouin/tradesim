@@ -4,7 +4,7 @@
 
 name: Python package
 
-on: [push]
+on: [push, pull_request]
 
 jobs:
   build:
@@ -12,10 +12,11 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [2.7, 3.9]
+        python-version: [2.7, 3.6, 3.9]
 
     steps:
     - uses: actions/checkout@v2
+
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v2
       with:
@@ -34,6 +35,20 @@ jobs:
         # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
 
-    - name: Test with pytest
+    - name: Test setup
       run: |
-        python -m pytest -v
+        mkdir -p stock_db/test
+        mkdir -p stock_db/empty
+        mkdir -p stock_db/empty2
+        mkdir -p stock_db/empty3
+        mkdir -p stock_db/empty4
+        python get_yahoo_finance_data.py --concurrent 1 --file stock_db/test.txt --dir ./stock_db/test --startdate 20100101 --verbose
+
+#    - name: Test with pytest
+#      run: |
+#        python -m pytest -v
+
+    - name: Coverage with pytest
+      run: |
+        coverage run -m pytest -v
+
