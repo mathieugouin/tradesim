@@ -1,3 +1,6 @@
+# Refer to
+# https://about.codecov.io/blog/python-code-coverage-using-github-actions-and-codecov/
+
 name: CodeCov
 on: [push, pull_request]
 jobs:
@@ -21,4 +24,5 @@ jobs:
         coverage run -m unittest
     - name: Upload Coverage to Codecov
       uses: codecov/codecov-action@v1
-      with:
+# TBD to confirm?
+#      with:
