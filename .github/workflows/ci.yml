@@ -2,7 +2,7 @@
 # https://about.codecov.io/blog/python-code-coverage-using-github-actions-and-codecov/
 # https://docs.github.com/en/actions/guides/building-and-testing-python
 
-name: Python package
+name: Python Build
 
 on: [push, pull_request]
 
