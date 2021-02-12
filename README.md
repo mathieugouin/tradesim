@@ -1,5 +1,6 @@
 # Trading Simulator
 
+![Python Build](https://github.com/mathieugouin/tradesim/workflows/Python%20Build/badge.svg)
 [![Build Status](https://travis-ci.org/mathieugouin/tradesim.svg?branch=master)](https://travis-ci.org/mathieugouin/tradesim)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/06660652f79e4132a30c701271200041)](https://www.codacy.com/manual/mathieugouin/tradesim?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=mathieugouin/tradesim&amp;utm_campaign=Badge_Grade)
 [![CodeFactor](https://www.codefactor.io/repository/github/mathieugouin/tradesim/badge)](https://www.codefactor.io/repository/github/mathieugouin/tradesim)
