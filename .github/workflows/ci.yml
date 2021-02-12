@@ -37,7 +37,6 @@ jobs:
 
     - name: Test setup
       run: |
-        mkdir -p stock_db/test
         mkdir -p stock_db/empty
         mkdir -p stock_db/empty2
         mkdir -p stock_db/empty3
