@@ -4,7 +4,7 @@ from __future__ import print_function
 import datetime
 import stock_db_mgr as sdm
 
-import tmxstockquote as tsq
+import ystockquote as sq
 
 startdate = datetime.date(1900, 1, 1)
 today = datetime.date.today()
@@ -28,7 +28,7 @@ print(len(symbolList))
 print(symbolList)
 
 for s in symbolList:
-    print("symbol:{}, yield:{}, name:{}".format(s, tsq.get_dividend_yield(s), tsq.get_name(s)))
+    print("symbol:{}, yield:{}, name:{}".format(s, sq.get_dividend_yield(s), sq.get_name(s)))
 
     if not db.validate_symbol_data(s):
         inv.append(s)
