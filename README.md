@@ -1,10 +1,19 @@
 # Trading Simulator
 
-[![Build Status](https://travis-ci.org/mathieugouin/tradesim.svg?branch=master)](https://travis-ci.org/mathieugouin/tradesim)
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+
+## Continuous Integration Status
+
+### Build
+![Python Build](https://github.com/mathieugouin/tradesim/workflows/Python%20Build/badge.svg)
+
+### Checks
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/06660652f79e4132a30c701271200041)](https://www.codacy.com/manual/mathieugouin/tradesim?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=mathieugouin/tradesim&amp;utm_campaign=Badge_Grade)
 [![CodeFactor](https://www.codefactor.io/repository/github/mathieugouin/tradesim/badge)](https://www.codefactor.io/repository/github/mathieugouin/tradesim)
+
+### Coverage
 [![codecov](https://codecov.io/gh/mathieugouin/tradesim/branch/master/graph/badge.svg)](https://codecov.io/gh/mathieugouin/tradesim/branch/master)
-[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+[![Coverage Status](https://coveralls.io/repos/github/mathieugouin/tradesim/badge.svg?branch=master)](https://coveralls.io/github/mathieugouin/tradesim?branch=master)
 
 ## Overview
 
@@ -29,3 +38,4 @@ My ramblings on various stock analysis and data mining.
 ## Project TODO
 -   Analyze invalid stock
 -   Cleanup ticker files
+-   Migrate to Github actions
