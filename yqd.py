@@ -118,7 +118,7 @@ def load_yahoo_quote(ticker, begindate, enddate, info='quote'):
             tryAgain = False
         except Exception:
             tryCount = tryCount - 1
-            #print("Error, will try again:", ticker)
+            # print("Error, will try again:", ticker)
             alines = ""
 
     if len(alines) < 5:
