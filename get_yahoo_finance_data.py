@@ -26,6 +26,9 @@ import os
 # User
 import yqd
 
+# global options
+options = None
+
 if sys.version_info.major < 3:
     import Queue as queue_lib
 else:
@@ -80,6 +83,8 @@ class WorkerThread(threading.Thread):
 
 
 def _main():
+    global options
+
     # today is
     today = datetime.datetime.now().strftime("%Y%m%d")
     # default start date (very early to get all possible data)
