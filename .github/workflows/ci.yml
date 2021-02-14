@@ -15,7 +15,7 @@ jobs:
       matrix:
         os:
           - ubuntu-latest
-          - macos-latest
+          #- macos-latest
           #- windows-latest
         python-version:
           - "2.7"
@@ -49,8 +49,8 @@ jobs:
         run: |
           mkdir -p stock_db/empty
           mkdir -p stock_db/empty2
-          mkdir -p stock_db/bad
-          touch stock_db/bad/BAD.csv
+          mkdir -p stock_db/empty3
+          mkdir -p stock_db/empty4
           python get_yahoo_finance_data.py --concurrent 1 --file stock_db/test.txt --dir ./stock_db/test --startdate 20100101 --verbose
 
 #      - name: "Execute tests"
@@ -63,4 +63,10 @@ jobs:
 
       - name: "Upload Coverage to Codecov"
         uses: codecov/codecov-action@v1
-
+        with:
+          #token: ${{ secrets.CODECOV_TOKEN }} # not required for public repos
+          #files: ./coverage1.xml,./coverage2.xml # optional
+          #flags: unittests # optional
+          #name: codecov-umbrella # optional
+          fail_ci_if_error: true # optional (default = false)
+          verbose: true # optional (default = false)
