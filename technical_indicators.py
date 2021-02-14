@@ -3,7 +3,7 @@ from __future__ import print_function
 
 import math
 import numpy as np
-#import scipy as sp
+# import scipy as sp
 import scipy.signal as signal
 import ystockquote as tmx
 
@@ -26,6 +26,7 @@ def ramp(t):
 # -------------------------------------
 # Various technical indicators
 # -------------------------------------
+
 
 def linear_fit(x, n):
     """Linear regression of 'n' points used to give the smoothed point."""
@@ -100,7 +101,7 @@ def ema(x, n):
     k = 2.0 / (n + 1)
 
     y = np.zeros(x.size)
-    y[0] = x[0] # init
+    y[0] = x[0]  # init
 
     for i in range(1, x.size):
         y[i] = k * x[i] + (1 - k) * y[i - 1]

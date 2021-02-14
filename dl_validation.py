@@ -40,7 +40,7 @@ for s in symbolList:
 
         t = startdate
         if df is not None and len(df) > 0:
-            #t = r[-1].date
+            # t = r[-1].date
             t = df.iloc[-1].name.date()
         else:
             inv.append(s)

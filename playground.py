@@ -10,8 +10,8 @@ import scipy.stats as sps
 import stock_db_mgr as sdm
 import ystockquote as ysq
 
-startdate = datetime.date(2014, 1, 6) # Start of Questrade portfolio
-# startdate = datetime.date(2013, 8, 12) # Start of Questrade portfolio component highest start date (VUN.TO)
+startdate = datetime.date(2014, 1, 6)  # Start of Questrade portfolio
+# startdate = datetime.date(2013, 8, 12)  # Start of Questrade portfolio component highest start date (VUN.TO)
 today = datetime.date.today()
 
 # Pick one:
