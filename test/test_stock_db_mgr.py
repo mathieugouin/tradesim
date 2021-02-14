@@ -63,6 +63,12 @@ def test_get_symbol_data():
     assert df1 is df2
 
 
+def test_get_symbol_data_bad():
+    db = sdm.StockDBMgr('./stock_db/bad')
+    df = db.get_symbol_data('BAD')
+    assert (df is None)
+
+
 def test_get_all_symbol_data():
     db = sdm.StockDBMgr('./stock_db/test')
     dic = db.get_all_symbol_data()
