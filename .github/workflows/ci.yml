@@ -1,6 +1,9 @@
 # Refer to
 # https://about.codecov.io/blog/python-code-coverage-using-github-actions-and-codecov/
 # https://docs.github.com/en/actions/guides/building-and-testing-python
+#
+# Examples:
+# https://github.com/nedbat/coveragepy/blob/master/.github/workflows/coverage.yml
 
 name: "Python Build"
 
