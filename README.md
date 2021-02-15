@@ -7,9 +7,6 @@
 ### Build
 ![Python Build](https://github.com/mathieugouin/tradesim/workflows/Python%20Build/badge.svg)
 
-### Checks
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/06660652f79e4132a30c701271200041)](https://www.codacy.com/manual/mathieugouin/tradesim?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=mathieugouin/tradesim&amp;utm_campaign=Badge_Grade)
-
 ### Coverage
 [![codecov](https://codecov.io/gh/mathieugouin/tradesim/branch/master/graph/badge.svg)](https://codecov.io/gh/mathieugouin/tradesim/branch/master)
 [![Coverage Status](https://coveralls.io/repos/github/mathieugouin/tradesim/badge.svg?branch=master)](https://coveralls.io/github/mathieugouin/tradesim?branch=master)
