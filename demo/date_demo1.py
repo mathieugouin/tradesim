@@ -22,7 +22,7 @@ import stock_db_mgr as sdm
 
 # format the coords message box
 def price(x):
-    return '$%1.2f'%x
+    return '$%1.2f' % x
 
 
 date1 = datetime.date(1995, 1, 1)

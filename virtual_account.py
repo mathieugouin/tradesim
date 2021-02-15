@@ -74,5 +74,5 @@ class VirtualAccount(object):
     def delta_cash(self, delta):
         self._cash += delta
         if self._cash < 0:
-            #print("Error: not enough money: {}".format(wouldBeCash))
+            # print("Error: not enough money: {}".format(wouldBeCash))
             pass

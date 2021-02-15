@@ -51,9 +51,9 @@ def data_frame_test():
 
     df.sort_index(inplace=True)
 
-    #df['Close'].plot()
-    #df[['Open', 'High', 'Low', 'Close']][:50].plot()
-    #df[['Close', 'Adj Close']].plot()
+    # df['Close'].plot()
+    # df[['Open', 'High', 'Low', 'Close']][:50].plot()
+    # df[['Close', 'Adj Close']].plot()
 
     # Column indexing
     print(df['Close'][:10])  # (and row indexing)
@@ -80,7 +80,7 @@ def data_frame_test():
     print(df.isna().all(1).sum())
 
     # Adjusting Columns based on Adjusted Close
-    r = df['Adj Close'] / df['Close'] # ratio
+    r = df['Adj Close'] / df['Close']  # ratio
     for col in ['Open', 'High', 'Low', 'Close']:
         df[col] *= r
 
