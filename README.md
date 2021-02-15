@@ -9,7 +9,6 @@
 
 ### Coverage
 [![codecov](https://codecov.io/gh/mathieugouin/tradesim/branch/master/graph/badge.svg)](https://codecov.io/gh/mathieugouin/tradesim/branch/master)
-[![Coverage Status](https://coveralls.io/repos/github/mathieugouin/tradesim/badge.svg?branch=master)](https://coveralls.io/github/mathieugouin/tradesim?branch=master)
 
 ## Overview
 
