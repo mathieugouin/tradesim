@@ -26,6 +26,9 @@ import os
 # User
 import yqd
 
+# global options
+options = None
+
 if sys.version_info.major < 3:
     import Queue as queue_lib
 else:
@@ -52,7 +55,7 @@ class WorkerThread(threading.Thread):
                 ticker, fromdate, todate = self.queue.get_nowait()
             except queue_lib.Empty:
                 raise SystemExit
-            if ticker[0] == "^": # make sure filename compatible
+            if ticker[0] == "^":  # make sure filename compatible
                 filename_ticker = ticker[1:]
             else:
                 filename_ticker = ticker
@@ -79,7 +82,9 @@ class WorkerThread(threading.Thread):
                 sys.stdout.flush()
 
 
-if __name__ == '__main__':
+def _main():
+    global options
+
     # today is
     today = datetime.datetime.now().strftime("%Y%m%d")
     # default start date (very early to get all possible data)
@@ -114,8 +119,8 @@ if __name__ == '__main__':
     # build a queue with (ticker, fromdate, todate) tuples
     queue = queue_lib.Queue()
     for line in ticker_lines:
-        line = line.strip() # remove leading and trailing whitespace
-        # skip empty lines or line starting with # (comment)
+        line = line.strip()  # remove leading and trailing whitespace
+        # skip empty lines or line starting with  # (comment)
         if not line or line[0] == "#":
             if options.verbose:
                 print('Skipping ticker file line: ' + line)
@@ -163,3 +168,7 @@ if __name__ == '__main__':
     # tell something to the user before exiting
     if options.verbose:
         print("all threads are finished - goodbye.")
+
+
+if __name__ == '__main__':
+    _main()
