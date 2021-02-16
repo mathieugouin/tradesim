@@ -10,13 +10,13 @@ import scipy.stats as sps
 import stock_db_mgr as sdm
 import ystockquote as ysq
 
-startdate = datetime.date(2014, 1, 6) # Start of Questrade portfolio
-#startdate = datetime.date(2013, 8, 12) # Start of Questrade portfolio component highest start date (VUN.TO)
+startdate = datetime.date(2014, 1, 6)  # Start of Questrade portfolio
+# startdate = datetime.date(2013, 8, 12)  # Start of Questrade portfolio component highest start date (VUN.TO)
 today = datetime.date.today()
 
 # Pick one:
 enddate = datetime.date(2018, 1, 1)
-#enddate = today
+# enddate = today
 
 
 def indicator_test():
@@ -48,7 +48,7 @@ def correlation_test():
             c = sps.pearsonr(df.loc[:, s1], df.loc[:, s2])[0]
             dfc.loc[s1, s2] = c
 
-    #print(dfc)
+    # print(dfc)
 
     # Find inverse correlation
     print(dfc.min())
@@ -56,8 +56,8 @@ def correlation_test():
 
 
 def yahoo_play():
-    db = sdm.StockDBMgr('./stock_db/tsx', startdate, enddate)
-    #for s in db.get_all_symbols():
+    # db = sdm.StockDBMgr('./stock_db/tsx', startdate, enddate)
+    # for s in db.get_all_symbols():
     for s in ['SPY', 'NA.TO', 'XBB.TO', 'AP-UN.TO', 'AAPL', 'XOM']:
         print(s, ysq.get_dividend_yield(s))
 

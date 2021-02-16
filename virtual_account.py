@@ -37,7 +37,7 @@ class VirtualAccount(object):
     def sell_at_market(self, position, bar, name="sell_at_market"):
         print("sell_at_market()")
         if position.is_open():
-            sell_price = self._data_dic[position.get_symbol()].iloc[bar]['Low'] # Worst case
+            sell_price = self._data_dic[position.get_symbol()].iloc[bar]['Low']  # Worst case
             cost = calc_commission(position.get_nb_share())
             if cost < self._cash:
                 self._cash -= cost
@@ -74,5 +74,5 @@ class VirtualAccount(object):
     def delta_cash(self, delta):
         self._cash += delta
         if self._cash < 0:
-            #print("Error: not enough money: {}".format(wouldBeCash))
+            # print("Error: not enough money: {}".format(wouldBeCash))
             pass

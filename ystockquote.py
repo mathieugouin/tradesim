@@ -125,7 +125,6 @@ def get_stock_exchange(symbol):
             r'<span data-reactid="\d+">(.+?) - .*?Currency in (?:USD|CAD)</span>')
 
 
-
 def get_52_week_high(symbol):
     """Highest price value during the last 52 weeks."""
     # <td class="Ta(end) Fw(600) Lh(14px)" data-test="FIFTY_TWO_WK_RANGE-value" data-reactid="65">28.58 - 34.39</td>
@@ -136,6 +135,7 @@ def get_52_week_high(symbol):
     if m:
         return _str_to_float(m.group(2))
     return _str_to_float('nan')
+
 
 def get_52_week_low(symbol):
     # <td class="Ta(end) Fw(600) Lh(14px)" data-test="FIFTY_TWO_WK_RANGE-value" data-reactid="65">28.58 - 34.39</td>

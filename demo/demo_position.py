@@ -3,6 +3,7 @@ from __future__ import print_function
 
 import position
 
+
 def _main():
     p1 = position.Position(3, 'XBB.TO', 10, 23.45)
     print(p1)

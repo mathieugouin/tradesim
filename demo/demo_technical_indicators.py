@@ -48,7 +48,7 @@ def _main():
     x = ti.step(t - n/2) * 10
 
     # ramp
-    #x = ramp(t - n/2)
+    # x = ramp(t - n/2)
 
     # normalized random
     # x = np.cumsum(np.random.randn(n))

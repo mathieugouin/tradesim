@@ -31,7 +31,7 @@ _crumb = None
 
 # Headers to fake a user agent
 _headers = {
-    'User-Agent':   'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) ' \
+    'User-Agent':   'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) '
                     'Chrome/41.0.2272.101 Safari/537.36'
 }
 
@@ -65,8 +65,8 @@ def _get_cookie_crumb():
         _cookie = c.value
 
     # Print the cookie and crumb
-    #print('Cookie:', _cookie)
-    #print('Crumb:', _crumb)
+    # print('Cookie:', _cookie)
+    # print('Crumb:', _crumb)
 
 
 def load_yahoo_quote(ticker, begindate, enddate, info='quote'):
@@ -118,7 +118,7 @@ def load_yahoo_quote(ticker, begindate, enddate, info='quote'):
             tryAgain = False
         except Exception:
             tryCount = tryCount - 1
-            #print("Error, will try again:", ticker)
+            # print("Error, will try again:", ticker)
             alines = ""
 
     if len(alines) < 5:

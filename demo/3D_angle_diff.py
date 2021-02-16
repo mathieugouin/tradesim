@@ -17,7 +17,9 @@ def normalize_deg(x):
         x = x + 360
     return x
 
+
 vf = np.vectorize(normalize_deg)
+
 
 def angle_diff(x, y):
     return np.abs(vf(x - y))
