@@ -27,4 +27,6 @@ My ramblings on various stock analysis and data mining.
 ## Project TODO
 -   Analyze invalid stock
 -   Cleanup ticker files
--   Migrate to Github actions
+-   Migrate to Github actions (in progress)
+-   Fully remove pull request waiting on travis-ci
+
