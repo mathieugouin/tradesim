@@ -66,11 +66,7 @@ jobs:
 
       - name: "Show all files"
         run: |
-          ls -la
-
-      - name: "Git status"
-        run: |
-          git status
+          ls -laR
 
       - name: "Upload Coverage to Codecov"
         uses: codecov/codecov-action@v1
