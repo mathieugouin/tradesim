@@ -70,7 +70,7 @@ jobs:
 
       - name: "Show all files"
         run: |
-          ls -laR
+          ls -lAR
 
       - name: "Upload Coverage to Codecov"
         uses: codecov/codecov-action@v1
