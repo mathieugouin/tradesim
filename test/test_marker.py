@@ -26,10 +26,11 @@ def my_sum(a, b):
     return a + b
 
 
-# @pytest.mark.dummytest
+@pytest.mark.dummytest
+@pytest.mark.parametrize("x", [0])
 # @pytest.mark.parametrize("x", [0, 1, -1])
-# def test_coverage_1(x):
-#     assert my_coverage(x) is not None
+def test_coverage_1(x):
+    assert my_coverage(x) is not None
 
 
 # Sequential
