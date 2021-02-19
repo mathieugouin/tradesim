@@ -68,7 +68,7 @@ jobs:
         run: |
           coverage report
 
-      - name: "Upload Coverage to Codecov"
+      - name: "Upload coverage to Codecov"
         uses: codecov/codecov-action@v1
         with:
           #token: ${{ secrets.CODECOV_TOKEN }} # not required for public repos
@@ -80,4 +80,8 @@ jobs:
 
       - name: "Show all files"
         run: |
-          ls -lAR
+          ls -lAR --group-directories-first
+
+      - name: "Display coverage.xml"
+        run: |
+          if [ -f coverage.xml ]; then cat coverage.xml; fi
