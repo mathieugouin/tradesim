@@ -68,10 +68,6 @@ jobs:
         run: |
           coverage report
 
-      - name: "Show all files"
-        run: |
-          ls -lAR
-
       - name: "Upload Coverage to Codecov"
         uses: codecov/codecov-action@v1
         with:
@@ -81,3 +77,7 @@ jobs:
           #name: codecov-umbrella # optional
           fail_ci_if_error: true # optional (default = false)
           #verbose: true # optional (default = false)
+
+      - name: "Show all files"
+        run: |
+          ls -lAR
