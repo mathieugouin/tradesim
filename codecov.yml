@@ -2,3 +2,8 @@
 
 #ignore:
 #  - "*/test/*”
+
+# https://docs.codecov.io/docs/fixing-paths
+# Correct paths
+fixes:
+  - "/home/runner/work/tradesim/tradesim/::"
