@@ -93,3 +93,44 @@ jobs:
       - name: "Display coverage.xml"
         run: |
           if [ -f coverage.xml ]; then cat coverage.xml; fi
+
+  combine:
+    name: "Combine coverage data"
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: "Check out the repo"
+        uses: "actions/checkout@v2"
+        with:
+          fetch-depth: "0"
+
+      #- name: "Set up Python"
+      #  uses: "actions/setup-python@v2"
+      #  with:
+      #    python-version: "3.9"
+
+      #- name: "Install dependencies"
+      #  run: |
+      #    set -xe
+      #    python -VV
+      #    python -m site
+      #    python -m pip install -r requirements/ci.pip
+      #    python setup.py --quiet clean develop
+      #    python igor.py zip_mods install_egg
+
+      # https://github.com/actions/download-artifact
+      - name: "Download coverage data from github"
+        uses: actions/download-artifact@v2
+        with:
+          name: Coverage
+
+      - name: "Show all files"
+        run: |
+          ls -lAR --group-directories-first
+
+      #- name: "Combine and report"
+      #  run: |
+      #    set -xe
+      #    python -m igor combine_html
+
