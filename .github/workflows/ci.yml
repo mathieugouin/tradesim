@@ -54,15 +54,16 @@ jobs:
           mkdir -p stock_db/empty2
           mkdir -p stock_db/bad
           touch stock_db/bad/BAD.csv
-          python get_yahoo_finance_data.py --concurrent 1 --file stock_db/test.txt --dir ./stock_db/test --startdate 20100101 --verbose
+          coverage run -a get_yahoo_finance_data.py --concurrent 1 --file stock_db/test.txt --dir ./stock_db/test --startdate 20100101 --verbose
 
-#      - name: "Execute tests"
-#        run: |
-#          python -m pytest -v
+      #- name: "Execute tests"
+      #  run: |
+      #  python -m pytest -v
 
+      # Append coverage (-a)
       - name: "Execute tests with coverage"
         run: |
-          coverage run -m pytest -v
+          coverage run -a -m pytest -v
 
       - name: "Display coverage report"
         run: |
