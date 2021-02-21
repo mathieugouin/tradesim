@@ -54,16 +54,16 @@ jobs:
           mkdir -p stock_db/empty2
           mkdir -p stock_db/bad
           touch stock_db/bad/BAD.csv
-          coverage run -a get_yahoo_finance_data.py --concurrent 1 --file stock_db/test.txt --dir ./stock_db/test --startdate 20100101 --verbose
+          python -m coverage run -a get_yahoo_finance_data.py --concurrent 1 --file stock_db/test.txt --dir ./stock_db/test --startdate 20100101 --verbose
 
       # Append coverage (-a)
       - name: "Execute tests with coverage"
         run: |
-          coverage run -a -m pytest -v
+          python -m coverage run -a -m pytest -v
 
       - name: "Display coverage report"
         run: |
-          coverage report
+          python -m coverage report
 
       #- name: "Show all files"
       #  run: |
@@ -111,6 +111,10 @@ jobs:
       - name: "Combine report"
         run: |
           python -m coverage combine
+
+      - name: "Display coverage report"
+        run: |
+          python -m coverage report
 
       - name: "Upload coverage to Codecov"
         uses: codecov/codecov-action@v1
