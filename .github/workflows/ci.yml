@@ -68,6 +68,14 @@ jobs:
         run: |
           coverage report
 
+      # https://github.com/actions/upload-artifact
+      - name: "Upload coverage data to github"
+        uses: actions/upload-artifact@v2
+        with:
+          name: "Coverage_${{ matrix.python-version }}_${{ matrix.os }}"
+          path: .coverage
+          retention-days: 5  # Default is 90 days.
+
       - name: "Upload coverage to Codecov"
         uses: codecov/codecov-action@v1
         with:
