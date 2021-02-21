@@ -65,13 +65,9 @@ jobs:
         run: |
           coverage report
 
-      - name: "Show all files"
-        run: |
-          ls -lAR --group-directories-first
-
-      #- name: "Display coverage.xml"
+      #- name: "Show all files"
       #  run: |
-      #    if [ -f coverage.xml ]; then cat coverage.xml; fi
+      #    ls -lAR --group-directories-first
 
       - name: "Rename coverage"
         run: |
