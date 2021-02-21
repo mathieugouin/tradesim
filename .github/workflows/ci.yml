@@ -56,10 +56,6 @@ jobs:
           touch stock_db/bad/BAD.csv
           coverage run -a get_yahoo_finance_data.py --concurrent 1 --file stock_db/test.txt --dir ./stock_db/test --startdate 20100101 --verbose
 
-      #- name: "Execute tests"
-      #  run: |
-      #  python -m pytest -v
-
       # Append coverage (-a)
       - name: "Execute tests with coverage"
         run: |
@@ -68,14 +64,6 @@ jobs:
       - name: "Display coverage report"
         run: |
           coverage report
-
-      # https://github.com/actions/upload-artifact
-      - name: "Upload coverage data to github"
-        uses: actions/upload-artifact@v2
-        with:
-          name: "Coverage_${{ matrix.python-version }}_${{ matrix.os }}"
-          path: .coverage
-          retention-days: 5  # Default is 90 days.
 
       - name: "Upload coverage to Codecov"
         uses: codecov/codecov-action@v1
@@ -95,16 +83,29 @@ jobs:
         run: |
           if [ -f coverage.xml ]; then cat coverage.xml; fi
 
+      - name: "Rename coverage"
+        run: |
+          mv .coverage .coverage.${{ matrix.python-version }}.${{ matrix.os }}
+
+      # https://github.com/actions/upload-artifact
+      - name: "Upload coverage data to github"
+        uses: actions/upload-artifact@v2
+        with:
+          name: "Coverage"
+          path: .coverage.*
+          retention-days: 5  # Default is 90 days.
+
+
   combine:
     name: "Combine coverage data"
     needs: build
     runs-on: ubuntu-latest
 
     steps:
-      - name: "Check out the repo"
-        uses: "actions/checkout@v2"
-        with:
-          fetch-depth: "0"
+      #- name: "Check out the repo"
+      #  uses: "actions/checkout@v2"
+      #  with:
+      #    fetch-depth: "0"
 
       #- name: "Set up Python"
       #  uses: "actions/setup-python@v2"
@@ -123,8 +124,8 @@ jobs:
       # https://github.com/actions/download-artifact
       - name: "Download coverage data from github"
         uses: actions/download-artifact@v2
-        #with:
-        #  name: Coverage
+        with:
+          name: "Coverage"
 
       - name: "Show all files"
         run: |
