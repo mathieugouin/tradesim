@@ -88,6 +88,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # Seems required for the codecov.yml to be present locally?  TBD to confirm.
+      - name: "Check out the repo"
+        uses: "actions/checkout@v2"
+
       - name: "Set up Python"
         uses: "actions/setup-python@v2"
         with:
@@ -120,5 +124,5 @@ jobs:
 
       - name: "Show all files"
         run: |
-          ls -lAR --group-directories-first
+          ls -lA --group-directories-first
 
