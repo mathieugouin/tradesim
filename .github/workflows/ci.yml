@@ -83,19 +83,33 @@ jobs:
 
 
   combine:
-    name: "Combine coverage data"
+    name: "Combine coverage - Python ${{ matrix.python-version }} on ${{ matrix.os }}"
     needs: build
-    runs-on: ubuntu-latest
+    runs-on: "${{ matrix.os }}"
+
+    strategy:
+      # IMPORTANT: matrix need to match build matrix
+      matrix:
+        os:
+          - ubuntu-latest
+          #- macos-latest
+          #- windows-latest
+        python-version:
+          - "2.7"
+          - "3.6"
+          #- "3.9"
+      # No need to continue if one upload failed.
+      fail-fast: true
 
     steps:
-      # Seems required for the codecov.yml to be present locally?  TBD to confirm.
+      # Required for codecov script to confirm which commit.
       - name: "Check out the repo"
         uses: "actions/checkout@v2"
 
-      - name: "Set up Python"
-        uses: "actions/setup-python@v2"
+      - name: "Set up Python ${{ matrix.python-version }}"
+        uses: actions/setup-python@v2
         with:
-          python-version: "3.9"
+          python-version: ${{ matrix.python-version }}
 
       - name: "Install dependencies"
         run: |
@@ -108,13 +122,22 @@ jobs:
         with:
           name: "Coverage"
 
-      - name: "Combine report"
+      - name: "Keep only current report"
         run: |
-          python -m coverage combine
+          mv .coverage.${{ matrix.python-version }}.${{ matrix.os }} .coverage
+          rm -f .coverage.*
 
-      - name: "Display coverage report"
+      - name: "Show all files"
         run: |
-          python -m coverage report
+          ls -lA --group-directories-first
+
+      #- name: "Combine report"
+      #  run: |
+      #    python -m coverage combine
+
+      #- name: "Display coverage report"
+      #  run: |
+      #    python -m coverage report
 
       - name: "Upload coverage to Codecov"
         uses: codecov/codecov-action@v1
@@ -125,8 +148,4 @@ jobs:
           #name: codecov-umbrella # optional
           fail_ci_if_error: true # optional (default = false)
           #verbose: true # optional (default = false)
-
-      - name: "Show all files"
-        run: |
-          ls -lA --group-directories-first
 
