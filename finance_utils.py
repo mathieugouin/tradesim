@@ -78,6 +78,7 @@ def download_url(url):
         r = f.read()
         s = r.decode(charset)
 
+    # TBD need more exceptions here...
     except urllib.error.URLError as e:
         print("URLError: {}".format(e))
     return s

@@ -23,7 +23,9 @@ def _download_page(symbol):
     else:
         url = "https://finance.yahoo.com/quote/" + symbol
         lines = fu.download_url(url).splitlines()
-        _cached_lines[symbol] = lines
+        # Store only if successful
+        if len(lines) > 0:
+            _cached_lines[symbol] = lines
 
     return lines
 
