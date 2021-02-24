@@ -82,8 +82,8 @@ jobs:
           retention-days: 5  # Default is 90 days.
 
 
-  combine:
-    name: "Combine coverage - Python ${{ matrix.python-version }} on ${{ matrix.os }}"
+  upload:
+    name: "Upload coverage - Python ${{ matrix.python-version }} on ${{ matrix.os }}"
     needs: build
     runs-on: "${{ matrix.os }}"
 
@@ -130,14 +130,6 @@ jobs:
       - name: "Show all files"
         run: |
           ls -lA --group-directories-first
-
-      #- name: "Combine report"
-      #  run: |
-      #    python -m coverage combine
-
-      #- name: "Display coverage report"
-      #  run: |
-      #    python -m coverage report
 
       - name: "Upload coverage to Codecov"
         uses: codecov/codecov-action@v1
