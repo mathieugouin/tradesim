@@ -1,8 +1,35 @@
 import pytest
 
 
+def my_coverage(x):
+    a = None
+
+    if x == 0:
+        a = 0
+    else:
+        a = x
+
+    if x > 0:
+        a = 1
+    else:
+        a = x
+
+    if x < 0:
+        a = -1
+    else:
+        a = x
+
+    return a
+
+
 def my_sum(a, b):
     return a + b
+
+
+@pytest.mark.dummytest
+@pytest.mark.parametrize("x", [0, 1, -1])
+def test_coverage_1(x):
+    assert my_coverage(x) is not None
 
 
 # Sequential

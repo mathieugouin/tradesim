@@ -27,11 +27,6 @@ def test_ysq_internal_str_nan(s):
 
 
 @pytest.mark.webtest
-def test_ysq_internal_re():
-    assert len(ysq._request_multi_re('XBB.TO', [])) == 0
-
-
-@pytest.mark.webtest
 @pytest.mark.parametrize("api", [
         'get_price',
         'get_change',
