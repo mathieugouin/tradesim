@@ -9,6 +9,8 @@ import os
 import glob
 import csv
 import sys
+# For socket timeout
+import socket
 # Use six to import urllib so it is working for Python2/3
 from six.moves import urllib
 
@@ -78,7 +80,7 @@ def download_url(url):
         r = f.read()
         s = r.decode(charset)
 
-    except urllib.error.URLError as e:
+    except (socket.timeout, urllib.error.HTTPError, urllib.error.URLError) as e:
         print("URLError: {}".format(e))
     return s
 

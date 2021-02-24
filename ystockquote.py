@@ -3,8 +3,7 @@
 import finance_utils as fu
 import re
 
-_cached_symbol = None
-_cached_lines = None
+_cached_lines = {}
 
 
 def _str_to_float(s):
@@ -17,16 +16,16 @@ def _str_to_float(s):
 
 def _download_page(symbol):
     """Download the Yahoo data page for a given symbol.  A caching is implemented to prevent multiple re-download."""
-    global _cached_symbol
     global _cached_lines
 
-    if _cached_symbol and _cached_symbol == symbol:
-        lines = _cached_lines
+    if symbol in _cached_lines:
+        lines = _cached_lines[symbol]
     else:
         url = "https://finance.yahoo.com/quote/" + symbol
         lines = fu.download_url(url).splitlines()
-        _cached_symbol = symbol
-        _cached_lines = lines
+        # Store only if successful
+        if len(lines) > 0:
+            _cached_lines[symbol] = lines
 
     return lines
 
@@ -44,22 +43,23 @@ def _request_re(symbol, re_str):
     return value
 
 
-def _request_multi_re(symbol, re_arr):
-    """Scan using an array of re str, starting from the 1st element.  The last element must be the match."""
-    value = ""
-    if len(re_arr) > 0:
-        lines = _download_page(symbol)
-        j = 0  # re_arr indexer
-        for line in lines:
-            m = re.search(re_arr[j], line)
-            if m:
-                # If we are at the last re
-                if j == len(re_arr) - 1:
-                    value = m.group(1)
-                    break
-                # continue at next re
-                j = j + 1
-    return value
+# Not used...
+# def _request_multi_re(symbol, re_arr):
+#     """Scan using an array of re str, starting from the 1st element.  The last element must be the match."""
+#     value = ""
+#     if len(re_arr) > 0:
+#         lines = _download_page(symbol)
+#         j = 0  # re_arr indexer
+#         for line in lines:
+#             m = re.search(re_arr[j], line)
+#             if m:
+#                 # If we are at the last re
+#                 if j == len(re_arr) - 1:
+#                     value = m.group(1)
+#                     break
+#                 # continue at next re
+#                 j = j + 1
+#     return value
 
 
 def get_name(symbol):
