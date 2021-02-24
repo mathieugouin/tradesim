@@ -42,7 +42,9 @@ def _main():
 
     if True:
         db = sdm.StockDBMgr('../stock_db/test',
-                        datetime.date(2017, 1, 1), datetime.date(2018, 1, 1), False)
+                            datetime.date(2017, 1, 1),
+                            datetime.date(2018, 1, 1),
+                            False)
         df = db.get_symbol_data(symbol_list[0])
         print(df.describe())
 

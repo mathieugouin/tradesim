@@ -67,7 +67,7 @@ class NeuralNetwork(object):
 
         # input activations
         for i in range(self.ni-1):
-            #self.ai[i] = sigmoid(inputs[i])
+            # self.ai[i] = sigmoid(inputs[i])
             self.ai[i] = inputs[i]
 
         # hidden activations
@@ -85,7 +85,6 @@ class NeuralNetwork(object):
             self.ao[k] = sigmoid(summ)
 
         return self.ao[:]
-
 
     def backPropagate(self, targets, N, M):
         if len(targets) != self.no:
@@ -111,7 +110,7 @@ class NeuralNetwork(object):
                 change = output_deltas[k]*self.ah[j]
                 self.wo[j, k] = self.wo[j, k] + N*change + M*self.co[j, k]
                 self.co[j, k] = change
-                #print(N*change, M*self.co[j][k])
+                # print(N*change, M*self.co[j][k])
 
         # update input weights
         for i in range(self.ni):

@@ -45,10 +45,10 @@ def get_symbols_from_file(ticker_file):
 
     with open(ticker_file, 'r') as f:
         for ticker_row in f.readlines():
-            ticker_row = ticker_row.strip() # remove leading and trailing whitespace
+            ticker_row = ticker_row.strip()  # remove leading and trailing whitespace
             if not ticker_row or ticker_row[0] == "#":  # skip comment line starting with #
                 continue
-            ticker = ticker_row.split()[0] # split on whitespace
+            ticker = ticker_row.split()[0]  # split on whitespace
             ticker_list.append(ticker)
 
     return ticker_list
@@ -59,14 +59,14 @@ def download_url(url):
 
     # Headers to fake a user agent
     headers = {
-        'User-Agent':   'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 ' \
+        'User-Agent':   'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 '
                         '(KHTML, like Gecko) Chrome/41.0.2272.101 Safari/537.36'
     }
 
     s = ""
     try:
         req = urllib.request.Request(url, headers=headers)
-        f = urllib.request.urlopen(req, timeout=2)
+        f = urllib.request.urlopen(req, timeout=5)
         if sys.version_info.major > 2:
             charset = f.info().get_content_charset()
         else:
@@ -179,8 +179,8 @@ def load_data_frame(csv_file, start_date, end_date, adjust_price=True):
 
         if adjust_price:
             # Adjusting Columns based on Adjusted Close
-            r = df['Adj Close'] / df['Close'] # ratio
-            for col in ['Open', 'High', 'Low', 'Close']: # n/a for 'Volume'
+            r = df['Adj Close'] / df['Close']  # ratio
+            for col in ['Open', 'High', 'Low', 'Close']:  # n/a for 'Volume'
                 df[col] *= r
             df.drop('Adj Close', axis=1, inplace=True)
 
@@ -200,7 +200,7 @@ def load_data_frame(csv_file, start_date, end_date, adjust_price=True):
 
 def validate_symbol_data(csv_file):
     """Check for basic errors in historical market data."""
-    valid = True # Default
+    valid = True  # Default
     f = open(csv_file, 'r')
     f.seek(0)
     try:

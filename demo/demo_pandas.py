@@ -9,6 +9,17 @@ from __future__ import print_function
 import string
 import pandas as pd
 import numpy as np
+import matplotlib.pyplot as plt
+
+
+def plot_test():
+    df1 = pd.read_csv('../portfolio.csv', index_col='Date', parse_dates=True)
+    df2 = pd.read_csv('../portfolio2.csv', index_col='Date', parse_dates=True)
+
+    df = df2.join(df1, how='outer')
+    df.interpolate(method='linear', inplace=True)
+    df.plot()
+    plt.show()
 
 
 def data_frame_test2():
@@ -19,22 +30,30 @@ def data_frame_test2():
         data=np.random.randn(nrow, ncol),
         index=dates,
         columns=list(string.ascii_uppercase[0:ncol]))
-    df.rename_axis('Date', inplace=True)
+    df.rename_axis('Date', axis='rows', inplace=True)
+    df.rename_axis('DATA', axis='columns', inplace=True)
     print(df)
+    df['A'].plot(label='Label A', linestyle='None', marker='x')
+    df['B'].plot(label='Label B', linestyle='None', marker='o')
+    plt.legend()
+    plt.show()
+
+    df.plot()
+    plt.show()
 
 
 def data_frame_test():
     # This stock has a split
-    f = 'stock_db/tsx/NA.TO.csv'
+    f = '../stock_db/tsx/NA.TO.csv'
     df = pd.read_csv(f, index_col='Date', parse_dates=True, na_values='nan')
     print(df.describe())
     print(df.head())
 
     df.sort_index(inplace=True)
 
-    #df['Close'].plot()
-    #df[['Open', 'High', 'Low', 'Close']][:50].plot()
-    #df[['Close', 'Adj Close']].plot()
+    # df['Close'].plot()
+    # df[['Open', 'High', 'Low', 'Close']][:50].plot()
+    # df[['Close', 'Adj Close']].plot()
 
     # Column indexing
     print(df['Close'][:10])  # (and row indexing)
@@ -61,7 +80,7 @@ def data_frame_test():
     print(df.isna().all(1).sum())
 
     # Adjusting Columns based on Adjusted Close
-    r = df['Adj Close'] / df['Close'] # ratio
+    r = df['Adj Close'] / df['Close']  # ratio
     for col in ['Open', 'High', 'Low', 'Close']:
         df[col] *= r
 
@@ -72,6 +91,7 @@ def data_frame_test():
 
 
 def _main():
+    plot_test()
     data_frame_test2()
     data_frame_test()
 
