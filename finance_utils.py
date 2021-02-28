@@ -9,6 +9,7 @@ import os
 import glob
 import csv
 import sys
+import math
 # For socket timeout
 import socket
 # Use six to import urllib so it is working for Python2/3
@@ -19,6 +20,19 @@ import pandas as pd
 
 # User
 import yqd
+
+
+def calc_commission(nb_share):
+    """Return the regular stock commission on Questrade: positive=Buy, negative=Sell."""
+    nb_share = math.fabs(nb_share)
+    return (nb_share > 0) * (nb_share * 0.0035 + min(9.95, max(0.01 * nb_share, 4.95)))
+
+
+def calc_commission_etf(nb_share):
+    """Return the ETF trade commission on Questrade: positive=Buy, negative=Sell."""
+    # 0.01 $ per share (min 4.95, max 9.95)
+    # 0.0035 $ per share ECN fees (sometimes waived, but simpler to always include them)
+    return (nb_share < 0) * min(9.95, max(4.95, -nb_share * 0.01)) + math.fabs(nb_share) * 0.0035
 
 
 def filename_to_symbol(filename):
