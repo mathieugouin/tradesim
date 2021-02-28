@@ -126,3 +126,15 @@ def test_too_expensive_sell():
     a.sell_at_market(a.get_open_positions()[0], 10)
     assert a.get_cash() == c
     assert len(a.get_open_positions()) == 1
+
+
+def test_negative_delta_cash():
+    assert db
+    c = 1000.0
+    a = va.VirtualAccount(c, db.get_all_symbol_data())
+    assert a
+    assert a.get_cash() == c
+    a.delta_cash(-a.get_cash())
+    assert a.get_cash() == 0
+    a.delta_cash(-1)
+    assert a.get_cash() < 0
