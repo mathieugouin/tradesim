@@ -43,25 +43,6 @@ def _request_re(symbol, re_str):
     return value
 
 
-# Not used...
-# def _request_multi_re(symbol, re_arr):
-#     """Scan using an array of re str, starting from the 1st element.  The last element must be the match."""
-#     value = ""
-#     if len(re_arr) > 0:
-#         lines = _download_page(symbol)
-#         j = 0  # re_arr indexer
-#         for line in lines:
-#             m = re.search(re_arr[j], line)
-#             if m:
-#                 # If we are at the last re
-#                 if j == len(re_arr) - 1:
-#                     value = m.group(1)
-#                     break
-#                 # continue at next re
-#                 j = j + 1
-#     return value
-
-
 def get_name(symbol):
     """Full company name from symbol."""
     re_str = re.escape('<h1 class="D(ib) Fz(18px)" data-reactid="7">') + '(.+?)' + re.escape('</h1>')
