@@ -119,15 +119,23 @@ def normalize_data_frame(df):
     return df / df.iloc[0]
 
 
-def fill_nan_data(df):
-    """Fill the data in the given dataframe in place so no NaN gaps remain."""
+def fill_nan_data(df, inplace=False):
+    """Fill the data in the given dataframe so no NaN gaps remain.
+    Returns: Dataframe with missing values filled or None if inplace=True.
+    """
 
-    # print(df.loc[df.isna().any(axis=1)])
     # Data filling is done in 2 steps
-    # 1. Fill forward nan with last known good value.
-    df.fillna(method='ffill', inplace=True)
-    # 2. Fill baward nan with first known good value.
-    df.fillna(method='backfill', inplace=True)
+    if inplace:
+        # 1. Fill forward nan with last known good value.
+        df.fillna(method='ffill', inplace=inplace)
+        # 2. Fill baward nan with first known good value.
+        df.fillna(method='backfill', inplace=inplace)
+    else:
+        # 1. Fill forward nan with last known good value.
+        df2 = df.fillna(method='ffill', inplace=inplace)
+        # 2. Fill baward nan with first known good value.
+        df2 = df2.fillna(method='backfill', inplace=inplace)
+        return df2
 
 
 # TBD Are these get still useful?
