@@ -12,8 +12,8 @@ def _main():
     for ticker in tickers:
         print('===', ticker, '===')
         lines = yqd.load_yahoo_quote(ticker, '20180212', '20180213').split('\n')
-        for l in lines:
-            print(l)
+        for line in lines:
+            print(line)
 
 
 if __name__ == "__main__":

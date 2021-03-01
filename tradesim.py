@@ -65,7 +65,7 @@ def simulate():
                 buy_signal = ti.cross_over(s_close, s_close_sma)[bar]
                 if buy_signal:
                     nb_share = int(2500 / s_close[bar])  # 2500$ => about 0.8% commission buy + sell
-                    a.buy_at_market(bar + 1, symbol, nb_share) # bar + 1 = tomorrow
+                    a.buy_at_market(bar + 1, symbol, nb_share)  # bar + 1 = tomorrow
 
     for p in a.get_all_positions():
         print(p)
