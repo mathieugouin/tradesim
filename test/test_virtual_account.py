@@ -128,10 +128,13 @@ def test_too_expensive_sell():
     assert len(a.get_open_positions()) == 1
 
 
-def test_calc_commission():
-    n = 1
-    assert va.calc_commission(n) == 4.95 + 0.0035 * n
-    n = 495
-    assert va.calc_commission(n) == 4.95 + 0.0035 * n
-    n = 5000
-    assert va.calc_commission(n) == 9.95 + 0.0035 * n
+def test_negative_delta_cash():
+    assert db
+    c = 1000.0
+    a = va.VirtualAccount(c, db.get_all_symbol_data())
+    assert a
+    assert a.get_cash() == c
+    a.delta_cash(-a.get_cash())
+    assert a.get_cash() == 0
+    a.delta_cash(-1)
+    assert a.get_cash() < 0
