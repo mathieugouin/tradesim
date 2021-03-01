@@ -73,4 +73,3 @@ class VirtualAccount(object):
         self._cash += delta
         if self._cash < 0:
             print("Error: not enough money: {}".format(self._cash))
-            pass
