@@ -3,6 +3,7 @@
 [![Python Build](https://github.com/mathieugouin/tradesim/actions/workflows/ci.yml/badge.svg)](https://github.com/mathieugouin/tradesim/actions/workflows/ci.yml)
 [![CodeFactor](https://www.codefactor.io/repository/github/mathieugouin/tradesim/badge/master)](https://www.codefactor.io/repository/github/mathieugouin/tradesim/overview/master)
 [![codecov](https://codecov.io/gh/mathieugouin/tradesim/branch/master/graph/badge.svg)](https://www.codecov.io/gh/mathieugouin/tradesim/branch/master)
+![Last Commit](https://img.shields.io/github/last-commit/mathieugouin/tradesim)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
 ## Overview
