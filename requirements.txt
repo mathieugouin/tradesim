@@ -1,14 +1,16 @@
 # pip dependency requirement for CI
 
-# Main packages used
+# Main packages used:
 numpy
 pandas
 matplotlib
 scipy
+yfinance
 
-# To investigate
+# To investigate:
+# yahoofinancials
 # investpy
 
-# Required for CI
+# Required for CI:
 pytest
 coverage
