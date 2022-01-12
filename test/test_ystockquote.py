@@ -6,7 +6,6 @@ import pytest
 @pytest.mark.webtest
 @pytest.mark.parametrize("api", [
         'get_price',
-        'get_change',
         'get_volume',
         'get_market_cap',
         'get_52_week_low',

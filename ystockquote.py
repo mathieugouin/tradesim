@@ -13,7 +13,13 @@ def _get_info(symbol, data):
         t = yf.Ticker(symbol)
         _cached_ticker[symbol] = t
 
-    return t.info[data]
+    i = t.info
+    if data in i:
+        v = t.info[data]
+    else:
+        v = None
+
+    return v
 
 
 def get_name(symbol):
@@ -29,13 +35,8 @@ def get_volume(symbol):
 def get_price(symbol):
     """Current day's trading last price."""
     # TBD to confirm
-    #return _get_info(symbol, 'regularMarketPrice')
-    return _get_info(symbol, 'currentPrice')
-
-
-def get_change(symbol):
-    """Change in $ for the day."""
-    return float('') # TBD
+    return _get_info(symbol, 'regularMarketPrice')
+    #return _get_info(symbol, 'currentPrice')
 
 
 def get_stock_exchange(symbol):
@@ -59,11 +60,14 @@ def get_currency(symbol):
 
 def get_market_cap(symbol):
     """Return the market capitalization of the given stock."""
-    return _get_info(symbol, 'marketCap')
+    m = _get_info(symbol, 'marketCap')
+    if m is None:
+        m = _get_info(symbol, 'totalAssets')
+    return m
 
 def get_dividend_yield(symbol):
     """Return the dividend yield (in %) of the stock."""
-    return _get_info(symbol, 'trailingAnnualDividendYield')
+    return 100 * _get_info(symbol, 'trailingAnnualDividendYield')
 
 
 def get_price_earnings_ratio(symbol):
