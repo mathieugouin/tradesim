@@ -3,33 +3,9 @@ import ystockquote as ysq
 import pytest
 
 
-@pytest.mark.parametrize('s,n', [
-    ('0', 0),
-    ('34.50', 34.5),
-    ('-34.50', -34.5),
-    ('1,300,400.52', 1300400.52),
-    ('-1,300,400.52', -1300400.52),
-])
-def test_ysq_internal_str_good(s, n):
-    assert ysq._str_to_float(s) == n
-
-
-@pytest.mark.parametrize('s', [
-    '',
-    'bad number',
-    'n/a',
-    'N/A',
-    'null',
-    'NULL',
-])
-def test_ysq_internal_str_nan(s):
-    assert math.isnan(ysq._str_to_float(s))
-
-
 @pytest.mark.webtest
 @pytest.mark.parametrize("api", [
         'get_price',
-        'get_change',
         'get_volume',
         'get_market_cap',
         'get_52_week_low',
@@ -51,7 +27,7 @@ def test_ysq_api_common(s, api):
 @pytest.mark.webtest
 @pytest.mark.parametrize("s", ['NA.TO', 'XBB.TO', 'AP-UN.TO', 'AAPL', 'XOM'])
 def test_ysq_get_name(s):
-    assert len(ysq.get_name(s)) > 0
+    assert len(ysq.get_name(s)) > 5
 
 
 @pytest.mark.webtest
