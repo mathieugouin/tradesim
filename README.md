@@ -26,13 +26,3 @@ My ramblings on various stock analysis and data mining.
 ## Project TODO
 -   Analyze invalid stock
 -   Cleanup ticker files
-
-## Test
-Adding dummy markup in README.md to test coverage delta change.
-Adding dummy markup in README.md to test coverage delta change.
-Adding dummy markup in README.md to test coverage delta change.
-Adding dummy markup in README.md to test coverage delta change.
-Adding dummy markup in README.md to test coverage delta change.
-Adding dummy markup in README.md to test coverage delta change.
-Adding dummy markup in README.md to test coverage delta change.
-Adding dummy markup in README.md to test coverage delta change.
