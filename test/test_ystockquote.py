@@ -4,6 +4,13 @@ import pytest
 
 
 @pytest.mark.webtest
+@pytest.mark.parametrize("i", ['', 'badInfo', 'volume ', ' volume'])
+def test_get_info(i):
+    s = 'IBM'
+    assert ysq._get_info(s, i) is None
+
+
+@pytest.mark.webtest
 @pytest.mark.parametrize("api", [
         'get_price',
         'get_volume',
