@@ -155,31 +155,6 @@ def fill_nan_data(df, inplace=False):
         return df2
 
 
-# TBD Are these get still useful?
-def get_date(df):
-    return [i.date() for i in df.index]
-
-
-def get_open(df):
-    return df['Open'].values
-
-
-def get_high(df):
-    return df['High'].values
-
-
-def get_low(df):
-    return df['Low'].values
-
-
-def get_close(df):
-    return df['Close'].values
-
-
-def get_volume(df):
-    return df['Volume'].values
-
-
 def load_data_frame(csv_file, start_date, end_date, adjust_price=True):
     try:
         print("Loading {} ...".format(filename_to_symbol(csv_file)))

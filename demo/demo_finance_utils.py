@@ -45,13 +45,6 @@ def _main():
     print(df.describe())
     print(df.head())
 
-    print(fu.get_date(df)[0:3])
-    print(fu.get_open(df)[0:3])
-    print(fu.get_high(df)[0:3])
-    print(fu.get_low(df)[0:3])
-    print(fu.get_close(df)[0:3])
-    print(fu.get_volume(df)[0:3])
-
     # Not applicable for a single stock, but just to test...
     print(fu.normalize_data_frame(df).head())
 

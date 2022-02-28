@@ -99,14 +99,6 @@ def test_load_data_frame():
     for c in test_col:
         assert c in col
 
-    # TBD should not be there?
-    assert len(fu.get_date(df)) > 0
-    assert len(fu.get_open(df)) > 0
-    assert len(fu.get_high(df)) > 0
-    assert len(fu.get_low(df)) > 0
-    assert len(fu.get_close(df)) > 0
-    assert len(fu.get_volume(df)) > 0
-
 
 def test_load_data_frame_no_adj():
     f = 'stock_db/test/SPY.csv'
