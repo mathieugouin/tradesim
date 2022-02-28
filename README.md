@@ -23,6 +23,16 @@ My ramblings on various stock analysis and data mining.
 ## Project notes
 -   Histogram plot of data: <http://stackoverflow.com/questions/5328556/histogram-matplotlib/5328669>
 
+### IPython
+Setup:
+* python3 -m pip install --upgrade pip
+* python3 -m pip install ipykernel
+* python3 -m pip install jupyter
+
+Run:
+* cd to the current dir where to start
+* jupyter notebook
+
 ## Project TODO
 -   Analyze invalid stock
 -   Cleanup ticker files
