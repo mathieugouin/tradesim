@@ -90,14 +90,34 @@ def test_update_all_symbols():
 
 def test_load_data_frame():
     f = 'stock_db/test/SPY.csv'
-    df = fu.load_data_frame(f, datetime.date(2018, 1, 1), datetime.date(2018, 4, 1))
+    df = fu.load_data_frame(f, datetime.date(2018, 1, 1), datetime.date(2018, 4, 1), True)
 
+    col = list(df.columns)
+    test_col = ['Open', 'High', 'Low', 'Close', 'Volume']
+    assert len(col) == len(test_col)
+
+    for c in test_col:
+        assert c in col
+
+    # TBD should not be there?
     assert len(fu.get_date(df)) > 0
     assert len(fu.get_open(df)) > 0
     assert len(fu.get_high(df)) > 0
     assert len(fu.get_low(df)) > 0
     assert len(fu.get_close(df)) > 0
     assert len(fu.get_volume(df)) > 0
+
+
+def test_load_data_frame_no_adj():
+    f = 'stock_db/test/SPY.csv'
+    df = fu.load_data_frame(f, datetime.date(2018, 1, 1), datetime.date(2018, 4, 1), False)
+
+    col = list(df.columns)
+    test_col = ['Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume']
+    assert len(col) == len(test_col)
+
+    for c in test_col:
+        assert c in col
 
 
 def test_normalize_data_frame():
