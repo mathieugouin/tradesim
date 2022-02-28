@@ -3,10 +3,24 @@ from __future__ import print_function
 
 import datetime
 import numpy as np
+import matplotlib.pyplot as plt
 import finance_utils as fu
 
 
+def demo_commission():
+    s = np.arange(-2500, 2501)
+    c = [fu.calc_commission(i) for i in s]
+    plt.plot(s, c)
+    plt.show()
+
+    c = [fu.calc_commission_etf(i) for i in s]
+    plt.plot(s, c)
+    plt.show()
+
+
 def _main():
+    demo_commission()
+
     sf = '../stock_db/dj.txt'
     print("symbol file {} contains the following stocks: {}".format(sf, fu.get_symbols_from_file(sf)))
 
