@@ -24,14 +24,16 @@ import yqd
 
 def calc_commission(nb_share):
     """Return the regular stock commission on Questrade: positive=Buy, negative=Sell."""
+    # 0.01 $ per share (min 4.95, max 9.95)
+    # 0.0035 $ per share ECN fees (sometimes waived, but simpler to always include them)
     nb_share = math.fabs(nb_share)
     return (nb_share > 0) * (nb_share * 0.0035 + min(9.95, max(0.01 * nb_share, 4.95)))
 
 
 def calc_commission_etf(nb_share):
     """Return the ETF trade commission on Questrade: positive=Buy, negative=Sell."""
-    # 0.01 $ per share (min 4.95, max 9.95)
-    # 0.0035 $ per share ECN fees (sometimes waived, but simpler to always include them)
+    # Sell only: 0.01 $ per share (min 4.95, max 9.95)
+    # Buy or sell: 0.0035 $ per share ECN fees (sometimes waived, but simpler to always include them)
     return (nb_share < 0) * min(9.95, max(4.95, -nb_share * 0.01)) + math.fabs(nb_share) * 0.0035
 
 
@@ -130,6 +132,7 @@ def update_all_symbols(basedir, start_date, end_date):
 
 
 def normalize_data_frame(df):
+    """Return a new dataframe normalized so that first row is all 1.0."""
     return df / df.iloc[0]
 
 
@@ -222,6 +225,7 @@ def load_data_frame(csv_file, start_date, end_date, adjust_price=True):
         return None
 
 
+# TBD is this still valid?
 def validate_symbol_data(csv_file):
     """Check for basic errors in historical market data."""
     valid = True  # Default
