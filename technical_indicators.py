@@ -5,7 +5,7 @@ import math
 import numpy as np
 # import scipy as sp
 import scipy.signal as signal
-import ystockquote as tmx
+import ystockquote as ysq
 
 
 # -------------------------------------
@@ -158,16 +158,16 @@ def moving_max(x, n):
 
 def relative_position(symbol):
     """Based on the last 52 weeks: relative price based on min vs max, range is [0.0, 1.0]."""
-    price = tmx.get_price(symbol)
-    pmin = tmx.get_52_week_low(symbol)
-    pmax = tmx.get_52_week_high(symbol)
+    price = ysq.get_price(symbol)
+    pmin = ysq.get_52_week_low(symbol)
+    pmax = ysq.get_52_week_high(symbol)
     return (price - pmin) / (pmax - pmin)
 
 
 def relative_range(symbol):
     """Based on the last 52 weeks: high-low delta relative to the high, range is [0.0, 1.0]."""
-    pmin = tmx.get_52_week_low(symbol)
-    pmax = tmx.get_52_week_high(symbol)
+    pmin = ysq.get_52_week_low(symbol)
+    pmax = ysq.get_52_week_high(symbol)
     return (pmax - pmin) / pmax
 
 
