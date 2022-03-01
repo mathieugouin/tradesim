@@ -156,6 +156,11 @@ def fill_nan_data(df, inplace=False):
 
 
 def load_data_frame(csv_file, start_date, end_date, adjust_price=True):
+    """Load a CSV stock data file into a pandas dataframe.
+    The dataframe is sorted chronologically by date.
+    If requested, the prices (open, high, low, close) are adjusted according
+    to the adjusted close price.
+    """
     try:
         print("Loading {} ...".format(filename_to_symbol(csv_file)))
 
