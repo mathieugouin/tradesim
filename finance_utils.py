@@ -138,6 +138,9 @@ def normalize_data_frame(df):
 
 def fill_nan_data(df, inplace=False):
     """Fill the data in the given dataframe so no NaN gaps remain.
+    This is done by:
+    1. Fill forward nan with last known good value.
+    2. Fill backward nan with first known good value.
     Returns: Dataframe with missing values filled or None if inplace=True.
     """
 
@@ -145,12 +148,12 @@ def fill_nan_data(df, inplace=False):
     if inplace:
         # 1. Fill forward nan with last known good value.
         df.fillna(method='ffill', inplace=inplace)
-        # 2. Fill baward nan with first known good value.
+        # 2. Fill backward nan with first known good value.
         df.fillna(method='backfill', inplace=inplace)
     else:
         # 1. Fill forward nan with last known good value.
         df2 = df.fillna(method='ffill', inplace=inplace)
-        # 2. Fill baward nan with first known good value.
+        # 2. Fill backward nan with first known good value.
         df2 = df2.fillna(method='backfill', inplace=inplace)
         return df2
 
@@ -162,7 +165,7 @@ def load_data_frame(csv_file, start_date, end_date, adjust_price=True):
     to the adjusted close price.
     """
     try:
-        print("Loading {} ...".format(filename_to_symbol(csv_file)))
+        #print("Loading {} ...".format(filename_to_symbol(csv_file)))
 
         df = pd.read_csv(csv_file, index_col='Date', parse_dates=True)
 

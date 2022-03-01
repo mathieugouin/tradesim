@@ -33,6 +33,14 @@ Run:
 * cd to the current dir where to start
 * jupyter notebook
 
+Shortcuts:
+* dd: delete cell
+* a: insert cell above
+* b: insert cell below
+* m: convert cell to markdown (for documentation)
+* y: convert cell to code (python)
+* shift+enter: run & select cell below
+
 ## Project TODO
 -   Analyze invalid stock
 -   Cleanup ticker files
