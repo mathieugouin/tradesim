@@ -6,6 +6,7 @@ _cached_ticker = {}
 
 
 def _get_info(symbol, data):
+    symbol = symbol.upper()
     t = None
     if symbol in _cached_ticker:
         t = _cached_ticker[symbol]
