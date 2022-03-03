@@ -9,19 +9,20 @@
 My ramblings on various stock analysis and data mining.
 
 ## Prerequisites
--   Python 2.7
--   NumPy (<http://www.numpy.org>)
--   SciPy (<http://www.scipy.org>)
--   Pandas (<http://pandas.pydata.org/>)
--   yfinance (<https://pypi.org/project/yfinance>)
--   mpl_finance (<https://github.com/matplotlib/mpl_finance>)
+* Python 2.7
+* NumPy (<http://www.numpy.org>)
+* SciPy (<http://www.scipy.org>)
+* Pandas (<http://pandas.pydata.org/>)
+* yfinance (<https://pypi.org/project/yfinance>)
+* mpl_finance (<https://github.com/matplotlib/mpl_finance>)
 
 ## Quick Start
--   Run (and possibly edit) `download_historical_data.sh` to download the historical stock data locally.
--   Run and play with `tradesim.py`
+* If required, edit the stock list files in `stock_db/*.txt`.
+* Run (and possibly edit) `download_historical_data.sh` to download the historical stock data locally from the stock list files.
+* Run and play with `tradesim.py`
 
 ## Project notes
--   Histogram plot of data: <http://stackoverflow.com/questions/5328556/histogram-matplotlib/5328669>
+* Histogram plot of data: <http://stackoverflow.com/questions/5328556/histogram-matplotlib/5328669>
 
 ### IPython
 Setup:
@@ -42,5 +43,5 @@ Shortcuts:
 * shift+enter: run & select cell below
 
 ## Project TODO
--   Analyze invalid stock
--   Cleanup ticker files
+* Analyze invalid stock
+* Cleanup ticker files
