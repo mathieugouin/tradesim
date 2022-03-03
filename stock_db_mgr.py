@@ -94,13 +94,13 @@ class StockDBMgr(object):
 
         dic = self.get_all_symbol_data()
 
-        keys = list(dic.keys())
-        keys.sort()
+        symbols = list(dic.keys())
+        symbols.sort()
 
         df = pd.DataFrame(index=date_range)
-        for k in keys:
-            if data_item in dic[k]:
-                df[k] = dic[k][data_item]
+        for s in symbols:
+            if data_item in dic[s]:
+                df[s] = dic[s][data_item]
 
         # Discarding NaN values that are all NaN for a given row
         df.dropna(how='all', inplace=True)
