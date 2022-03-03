@@ -1,3 +1,7 @@
+"""Stock Database Manager.
+This class provides convenient methods to work with local CSV files containing
+historical financial data."""
+
 # To make print working for Python2/3
 from __future__ import print_function
 
