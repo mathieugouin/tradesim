@@ -26,13 +26,14 @@ My ramblings on various stock analysis and data mining.
 
 ### IPython
 Setup:
-* python3 -m pip install --upgrade pip
-* python3 -m pip install ipykernel
-* python3 -m pip install jupyter
+* `python3 -m pip install --upgrade pip`
+* `python3 -m pip install ipykernel`
+* `python3 -m pip install jupyter`
 
 Run:
 * cd to the current dir where to start
-* jupyter notebook
+* `jupyter notebook`
+* Or to directly open a notebook: `jupyter notebook tradesim_notebook.ipynb`
 
 Shortcuts:
 * dd: delete cell
