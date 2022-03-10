@@ -33,8 +33,8 @@ def _main():
     ax.legend()
 
     ax2 = fig.add_subplot(212)
-    ax2.plot(t, o, marker='^', markerfacecolor='None', linestyle='None', label='cross over')
-    ax2.plot(t, u, marker='v', markerfacecolor='None', linestyle='None', label='cross under')
+    ax2.plot(t, o * 1, marker='^', markerfacecolor='None', linestyle='None', label='cross over')
+    ax2.plot(t, u * 1, marker='v', markerfacecolor='None', linestyle='None', label='cross under')
     ax2.legend()
     plt.show()
 

@@ -23,17 +23,24 @@ def test_ramp():
     assert len(r) == len(t)
 
 
-def test_cross_over_under():
+# TBD: not very robust test
+def test_cross_over():
     t = np.linspace(0, 4 * np.pi, 50)
     s = np.sin(t)
     c = np.cos(t)
-    o = ti.cross_over(s, c)
-    assert min(o) == 0.0
-    assert max(o) == 1.0
+    x = ti.cross_over(s, c)
+    assert x.min() == False
+    assert x.max() == True
 
-    u = ti.cross_under(s, c)
-    assert min(u) == 0.0
-    assert max(u) == 1.0
+
+# TBD: not very robust test
+def test_cross_under():
+    t = np.linspace(0, 4 * np.pi, 50)
+    s = np.sin(t)
+    c = np.cos(t)
+    x = ti.cross_under(s, c)
+    assert x.min() == False
+    assert x.max() == True
 
 
 def test_data():
