@@ -18,9 +18,7 @@ def demo_commission():
     plt.show()
 
 
-def _main():
-    demo_commission()
-
+def demo_fu():
     sf = '../stock_db/dj.txt'
     print("symbol file {} contains the following stocks: {}".format(sf, fu.get_symbols_from_file(sf)))
 
@@ -41,6 +39,7 @@ def _main():
     if False:
         fu.download_data(s, d, start_date, end_date)
         fu.update_all_symbols(d, start_date, end_date)
+
     df = fu.load_data_frame(f, datetime.date(2018, 1, 1), datetime.date(2018, 4, 1))
     print(df.describe())
     print(df.head())
@@ -65,6 +64,10 @@ def _main():
     for u in url_array:
         print(fu.download_url(u)[:50])
 
+
+def _main():
+    demo_commission()
+    demo_fu()
 
 if __name__ == '__main__':
     _main()
