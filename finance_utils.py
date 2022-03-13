@@ -173,7 +173,7 @@ def load_data_frame(csv_file, start_date, end_date, adjust_price=True):
         # Refer to https://github.com/mathieugouin/tradesim/issues/38
         # Conditions: Only last index is duplicated
         if df.index.duplicated()[-1] and not df.index.duplicated()[0:-1].any():
-            df = df[0:-1] # Keep only 0 to second to last
+            df = df.iloc[0:-1] # Keep only 0 to second to last
 
         if len(df.index[df.index.duplicated()].unique()) > 0:
             raise Exception('Duplicated index in file {}'.format(csv_file))
