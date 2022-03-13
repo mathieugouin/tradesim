@@ -1,4 +1,13 @@
 # .coveragerc to control python coverage generation: coverage.py
+#
+# To run (dummytest only):
+#   python -m coverage run -m pytest -v -m dummytest
+#
+# To display simple ASCII coverage report:
+#   python -m coverage report
+#
+# To display detailed ASCII coverage report:
+#   python -m coverage report -m
 [run]
 
 # capture branch coverage

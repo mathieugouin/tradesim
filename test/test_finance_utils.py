@@ -1,14 +1,55 @@
 import finance_utils as fu
 import datetime
 import numpy as np
+import pytest
 
 
-def test_1():
-    sf = 'stock_db/dj.txt'
-    assert len(fu.get_symbols_from_file(sf)) > 0
+@pytest.mark.parametrize('nb,commission', [
+    (0, 0),
+    (1, .0035 + 4.95),
+    (100, 100 * .0035 + 4.95),
+    (495, 495 * .0035 + 4.95),
+    (500, (.01 + 0.0035) * 500),
+    (995, (.01 + 0.0035) * 995),
+    (10000, (0.0035) * 10000 + 9.95),
+    (-1, 4.95 + 0.0035),
+    (-100, 4.95 + 0.35),
+    (-700, (.01 + 0.0035) * 700),
+    (-995, (.01 + 0.0035) * 995),
+    (-10000, 9.95 + 0.0035 * 10000),
+])
+def test_calc_commission(nb, commission):
+    assert fu.calc_commission(nb) == commission
 
 
-def test_2():
+@pytest.mark.parametrize('nb,commission', [
+    (0, 0),
+    (1, .0035),
+    (495, .0035 * 495),
+    (1000, 3.5),
+    (-1, 4.95 + 0.0035),
+    (-100, 4.95 + 0.35),
+    (-700, (.01 + 0.0035) * 700),
+    (-995, (.01 + 0.0035) * 995),
+    (-10000, 9.95 + 0.0035 * 10000),
+])
+def test_calc_commission_etf(nb, commission):
+    assert fu.calc_commission_etf(nb) == commission
+
+
+@pytest.mark.parametrize('f', [
+        'stock_db/dj.txt',
+        'stock_db/indices.txt',
+        'stock_db/qt.txt',
+        'stock_db/sp500.txt',
+        'stock_db/test.txt',
+        'stock_db/tsx.txt',
+        ])
+def test_get_symbols_from_file(f):
+    assert len(fu.get_symbols_from_file(f)) > 0
+
+
+def test_symbol_filename():
     d = 'stock_db/test'
     s = 'SPY'
     f = fu.symbol_to_filename(s, d)
@@ -19,11 +60,11 @@ def test_2():
     assert fu.filename_to_symbol(f.upper()) == 'SPY'
 
 
-def test_3_1():
+def test_validate_symbol_data_ok():
     assert fu.validate_symbol_data('stock_db/test/SPY.csv')
 
 
-def test_3_2():
+def test_validate_symbol_data_bad():
     filename = 'stock_db/empty3/bad_csv.txt'
     with open(filename, 'w') as f:
         f.write('thisisabadcsvheader\n')
@@ -32,12 +73,14 @@ def test_3_2():
     assert not fu.validate_symbol_data(filename)
 
 
-def test_4():
+
+def test_get_all_symbols():
     d = 'stock_db/test'
     assert len(fu.get_all_symbols(d)) > 3
 
 
-def test_5():
+@pytest.mark.webtest
+def test_download_data():
     s = 'SPY'
     d = 'stock_db/empty2'
     start_date = datetime.date(2010, 1, 1)
@@ -46,7 +89,8 @@ def test_5():
     assert len(fu.get_all_symbols(d)) == 1
 
 
-def test_6():
+@pytest.mark.webtest
+def test_update_all_symbols():
     d = 'stock_db/empty2'
     start_date = datetime.date(2000, 1, 1)
     end_date = datetime.date.today()
@@ -54,30 +98,38 @@ def test_6():
     assert len(fu.get_all_symbols(d)) == 1
 
 
-def test_7():
-    assert len(fu.get_symbols_from_file('stock_db/test.txt')) > 3
-
-
-def test_8():
+def test_load_data_frame():
     f = 'stock_db/test/SPY.csv'
-    df = fu.load_data_frame(f, datetime.date(2018, 1, 1), datetime.date(2018, 4, 1))
+    df = fu.load_data_frame(f, datetime.date(2018, 1, 1), datetime.date(2018, 4, 1), True)
 
-    assert len(fu.get_date(df)) > 0
-    assert len(fu.get_open(df)) > 0
-    assert len(fu.get_high(df)) > 0
-    assert len(fu.get_low(df)) > 0
-    assert len(fu.get_close(df)) > 0
-    assert len(fu.get_volume(df)) > 0
+    col = list(df.columns)
+    test_col = ['Open', 'High', 'Low', 'Close', 'Volume']
+    assert len(col) == len(test_col)
+
+    for c in test_col:
+        assert c in col
 
 
-def test_9():
+def test_load_data_frame_no_adj():
+    f = 'stock_db/test/SPY.csv'
+    df = fu.load_data_frame(f, datetime.date(2018, 1, 1), datetime.date(2018, 4, 1), False)
+
+    col = list(df.columns)
+    test_col = ['Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume']
+    assert len(col) == len(test_col)
+
+    for c in test_col:
+        assert c in col
+
+
+def test_normalize_data_frame():
     f = 'stock_db/test/SPY.csv'
     df = fu.load_data_frame(f, datetime.date(2018, 1, 1), datetime.date(2018, 4, 1))
     # Not applicable for a single stock, but just to test...
     assert fu.normalize_data_frame(df).iloc[0].mean() == 1.0
 
 
-def test_10():
+def test_fill_nan_data_notinplace():
     f = 'stock_db/test/SPY.csv'
     df = fu.load_data_frame(f, datetime.date(2018, 1, 1), datetime.date(2018, 4, 1))
     # Test by adding some NaN
@@ -85,26 +137,44 @@ def test_10():
     df.iloc[11:20, 1] = np.nan  # middle
     df.iloc[-10:, 2] = np.nan  # end
     assert df.isna().any().any()
-    fu.fill_nan_data(df)
+    df2 = fu.fill_nan_data(df)  # default = not inplace
+    # New df2 modified:
+    assert not df2.isna().any().any()
+    # Original df not modified:
+    assert df.isna().any().any()
+
+
+def test_fill_nan_data_inplace():
+    f = 'stock_db/test/SPY.csv'
+    df = fu.load_data_frame(f, datetime.date(2018, 1, 1), datetime.date(2018, 4, 1))
+    # Test by adding some NaN
+    df.iloc[0:10, 0] = np.nan  # beginning
+    df.iloc[11:20, 1] = np.nan  # middle
+    df.iloc[-10:, 2] = np.nan  # end
+    assert df.isna().any().any()
+    df2 = fu.fill_nan_data(df, inplace=True)
+    # Original df modified:
     assert not df.isna().any().any()
+    # Returned df2 None
+    assert df2 is None
 
 
-def test_good_url():
-    url_array = [
+@pytest.mark.webtest
+@pytest.mark.parametrize('u', [
         'https://www.google.ca',
         'https://www.tmall.com',
         'https://tmxmoney.com/en/index.html',
-    ]
-    for u in url_array:
-        assert len(fu.download_url(u)) > 100
+        ])
+def test_download_url_good(u):
+    assert len(fu.download_url(u)) > 100
 
 
-def test_bad_url():
-    url_array = [
+@pytest.mark.webtest
+@pytest.mark.parametrize('u', [
         'https://cloud.iexapis.com',
         'https://cloud.iexapis.com/stable/stock/aapl/batch',
         'https://cloud.iexapis.com/stable/stock/aapl/batch?types=quote,news,chart&range=1m&last=10',
         'https://www.bad234123421342134.com',
-    ]
-    for u in url_array:
-        assert len(fu.download_url(u)) == 0
+    ])
+def test_download_url_bad(u):
+    assert len(fu.download_url(u)) == 0

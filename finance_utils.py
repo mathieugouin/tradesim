@@ -9,6 +9,9 @@ import os
 import glob
 import csv
 import sys
+import math
+# For socket timeout
+import socket
 # Use six to import urllib so it is working for Python2/3
 from six.moves import urllib
 
@@ -17,6 +20,21 @@ import pandas as pd
 
 # User
 import yqd
+
+
+def calc_commission(nb_share):
+    """Return the regular stock commission on Questrade: positive=Buy, negative=Sell."""
+    # 0.01 $ per share (min 4.95, max 9.95)
+    # 0.0035 $ per share ECN fees (sometimes waived, but simpler to always include them)
+    nb_share = math.fabs(nb_share)
+    return (nb_share > 0) * (nb_share * 0.0035 + min(9.95, max(0.01 * nb_share, 4.95)))
+
+
+def calc_commission_etf(nb_share):
+    """Return the ETF trade commission on Questrade: positive=Buy, negative=Sell."""
+    # Sell only: 0.01 $ per share (min 4.95, max 9.95)
+    # Buy or sell: 0.0035 $ per share ECN fees (sometimes waived, but simpler to always include them)
+    return (nb_share < 0) * min(9.95, max(4.95, -nb_share * 0.01)) + math.fabs(nb_share) * 0.0035
 
 
 def filename_to_symbol(filename):
@@ -45,10 +63,10 @@ def get_symbols_from_file(ticker_file):
 
     with open(ticker_file, 'r') as f:
         for ticker_row in f.readlines():
-            ticker_row = ticker_row.strip() # remove leading and trailing whitespace
+            ticker_row = ticker_row.strip()  # remove leading and trailing whitespace
             if not ticker_row or ticker_row[0] == "#":  # skip comment line starting with #
                 continue
-            ticker = ticker_row.split()[0] # split on whitespace
+            ticker = ticker_row.split()[0]  # split on whitespace
             ticker_list.append(ticker)
 
     return ticker_list
@@ -59,14 +77,14 @@ def download_url(url):
 
     # Headers to fake a user agent
     headers = {
-        'User-Agent':   'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 ' \
+        'User-Agent':   'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 '
                         '(KHTML, like Gecko) Chrome/41.0.2272.101 Safari/537.36'
     }
 
     s = ""
     try:
         req = urllib.request.Request(url, headers=headers)
-        f = urllib.request.urlopen(req, timeout=2)
+        f = urllib.request.urlopen(req, timeout=5)
         if sys.version_info.major > 2:
             charset = f.info().get_content_charset()
         else:
@@ -78,7 +96,7 @@ def download_url(url):
         r = f.read()
         s = r.decode(charset)
 
-    except urllib.error.URLError as e:
+    except (socket.timeout, urllib.error.HTTPError, urllib.error.URLError) as e:
         print("URLError: {}".format(e))
     return s
 
@@ -114,48 +132,40 @@ def update_all_symbols(basedir, start_date, end_date):
 
 
 def normalize_data_frame(df):
+    """Return a new dataframe normalized so that first row is all 1.0."""
     return df / df.iloc[0]
 
 
-def fill_nan_data(df):
-    """Fill the data in the given dataframe in place so no NaN gaps remain."""
+def fill_nan_data(df, inplace=False):
+    """Fill the data in the given dataframe so no NaN gaps remain.
+    This is done by:
+    1. Fill forward nan with last known good value.
+    2. Fill backward nan with first known good value.
+    Returns: Dataframe with missing values filled or None if inplace=True.
+    """
 
-    # print(df.loc[df.isna().any(axis=1)])
     # Data filling is done in 2 steps
-    # 1. Fill forward nan with last known good value.
-    df.fillna(method='ffill', inplace=True)
-    # 2. Fill baward nan with first known good value.
-    df.fillna(method='backfill', inplace=True)
-
-
-# TBD Are these get still useful?
-def get_date(df):
-    return [i.date() for i in df.index]
-
-
-def get_open(df):
-    return df['Open'].values
-
-
-def get_high(df):
-    return df['High'].values
-
-
-def get_low(df):
-    return df['Low'].values
-
-
-def get_close(df):
-    return df['Close'].values
-
-
-def get_volume(df):
-    return df['Volume'].values
+    if inplace:
+        # 1. Fill forward nan with last known good value.
+        df.fillna(method='ffill', inplace=inplace)
+        # 2. Fill backward nan with first known good value.
+        df.fillna(method='backfill', inplace=inplace)
+    else:
+        # 1. Fill forward nan with last known good value.
+        df2 = df.fillna(method='ffill', inplace=inplace)
+        # 2. Fill backward nan with first known good value.
+        df2 = df2.fillna(method='backfill', inplace=inplace)
+        return df2
 
 
 def load_data_frame(csv_file, start_date, end_date, adjust_price=True):
+    """Load a CSV stock data file into a pandas dataframe.
+    The dataframe is sorted chronologically by date.
+    If requested, the prices (open, high, low, close) are adjusted according
+    to the adjusted close price.
+    """
     try:
-        print("Loading {} ...".format(filename_to_symbol(csv_file)))
+        #print("Loading {} ...".format(filename_to_symbol(csv_file)))
 
         df = pd.read_csv(csv_file, index_col='Date', parse_dates=True)
 
@@ -179,8 +189,8 @@ def load_data_frame(csv_file, start_date, end_date, adjust_price=True):
 
         if adjust_price:
             # Adjusting Columns based on Adjusted Close
-            r = df['Adj Close'] / df['Close'] # ratio
-            for col in ['Open', 'High', 'Low', 'Close']: # n/a for 'Volume'
+            r = df['Adj Close'] / df['Close']  # ratio
+            for col in ['Open', 'High', 'Low', 'Close']:  # n/a for 'Volume'
                 df[col] *= r
             df.drop('Adj Close', axis=1, inplace=True)
 

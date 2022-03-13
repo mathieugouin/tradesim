@@ -1,15 +1,18 @@
 # pip dependency requirement for CI
+# Can be installed directly with:
+# python -m pip install -r requirements.txt
 
-# Main packages used
+# Main packages used:
 numpy
 pandas
 matplotlib
 scipy
+yfinance
 
-# To investigate
+# To investigate:
+# yahoofinancials
 # investpy
 
-# Required for CI
+# Required for CI:
 pytest
 coverage
-pytest
