@@ -60,8 +60,18 @@ def test_symbol_filename():
     assert fu.filename_to_symbol(f.upper()) == 'SPY'
 
 
-def test_validate_symbol_data():
+def test_validate_symbol_data_ok():
     assert fu.validate_symbol_data('stock_db/test/SPY.csv')
+
+
+def test_validate_symbol_data_bad():
+    filename = 'stock_db/bad/bad_csv.txt'
+    with open(filename, 'w') as f:
+        f.write('thisisabadcsvheader\n')
+        f.write('1,2,3\n')
+        f.write('4,5,6\n')
+    assert not fu.validate_symbol_data(filename)
+
 
 
 def test_get_all_symbols():
