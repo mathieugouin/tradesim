@@ -212,7 +212,11 @@ def load_data_frame(csv_file, start_date, end_date, adjust_price=True):
 def validate_symbol_data(csv_file):
     """Check for basic errors in historical market data."""
     valid = False  # Default
-    with open(csv_file, 'r') as f:
-        f.seek(0)
-        valid = csv.Sniffer().has_header(f.read(1024))
+    try:
+        with open(csv_file, 'r') as f:
+            f.seek(0)
+            valid = csv.Sniffer().has_header(f.read(1024))
+    except Exception:
+        valid = False
+
     return valid

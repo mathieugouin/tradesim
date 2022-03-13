@@ -65,7 +65,7 @@ def test_validate_symbol_data_ok():
 
 
 def test_validate_symbol_data_bad():
-    filename = 'stock_db/empty3/bad_csv.txt'
+    filename = 'stock_db/bad/bad_csv.txt'
     with open(filename, 'w') as f:
         f.write('thisisabadcsvheader\n')
         f.write('1,2,3\n')
