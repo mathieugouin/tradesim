@@ -131,6 +131,11 @@ jobs:
         run: |
           ls -lA --group-directories-first
 
+      # Refer to: https://about.codecov.io/security-update/
+      - name: "List environment"
+        run: |
+          env
+
       - name: "Upload coverage to Codecov"
         uses: codecov/codecov-action@v1
         with:

@@ -20,10 +20,11 @@ enddate = datetime.date(2018, 1, 1)
 
 
 def indicator_test():
-    db = sdm.StockDBMgr('./stock_db/tsx', startdate, enddate)
+    db = sdm.StockDBMgr('./stock_db/qt', startdate, enddate)
     print("Loading all symbols...")
     df = db.get_all_symbol_single_data_item('Close')
     print("Loading done.")
+    print(df.head())
 
     rp = (df.iloc[-1] - df.min()) / (df.max() - df.min())
     rps = 2.0 * rp - 1.0
@@ -42,13 +43,13 @@ def correlation_test():
     symbols = list(df.columns)
     n = len(symbols)
     dfc = pd.DataFrame(index=symbols, data=np.zeros((n, n)), columns=symbols)
-
+    # TBD should only perform the logic for half the array
     for s1 in symbols:
         for s2 in symbols:
             c = sps.pearsonr(df.loc[:, s1], df.loc[:, s2])[0]
             dfc.loc[s1, s2] = c
 
-    # print(dfc)
+    print(dfc)
 
     # Find inverse correlation
     print(dfc.min())

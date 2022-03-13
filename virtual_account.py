@@ -3,15 +3,13 @@ from __future__ import print_function
 
 import position
 import math
-
-
-def calc_commission(nb_share):
-    """Commission cost based on nb of shares.  Valid for Questrade stock trading only."""
-    return nb_share * 0.0035 + min(9.95, max(0.01 * nb_share, 4.95))
+import finance_utils as fu
 
 
 class VirtualAccount(object):
-    """Handles an account linked to a stock DB."""
+    """Handles an account linked to a stock DB.
+
+    Does not support partial sell of position."""
 
     def __init__(self, initial_capital, data_dic):
         """Instantiate a new virtual account object."""
@@ -24,7 +22,7 @@ class VirtualAccount(object):
         nb_share = math.floor(nb_share)
         if nb_share > 0:
             buy_price = self._data_dic[symbol].iloc[bar]['High']  # Worst case simulation
-            commission = calc_commission(nb_share)
+            commission = fu.calc_commission(nb_share)
             cost = buy_price * nb_share + commission
             if cost < self._cash:
                 self._positions.append(position.Position(bar, symbol, nb_share, buy_price, name, commission))
@@ -38,7 +36,7 @@ class VirtualAccount(object):
         print("sell_at_market()")
         if position.is_open():
             sell_price = self._data_dic[position.get_symbol()].iloc[bar]['Low']  # Worst case
-            cost = calc_commission(position.get_nb_share())
+            cost = fu.calc_commission(position.get_nb_share())
             if cost < self._cash:
                 self._cash -= cost
                 self._cash += position.close(bar, sell_price, name)
@@ -74,5 +72,4 @@ class VirtualAccount(object):
     def delta_cash(self, delta):
         self._cash += delta
         if self._cash < 0:
-            # print("Error: not enough money: {}".format(wouldBeCash))
-            pass
+            print("Error: not enough money: {}".format(self._cash))

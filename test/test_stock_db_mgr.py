@@ -78,9 +78,11 @@ def test_get_all_symbol_data():
 
 def test_get_all_symbol_single_data_item():
     db = sdm.StockDBMgr('./stock_db/test')
-    df = db.get_all_symbol_single_data_item('Close')
-    for s in db.get_all_symbols():
-        assert s in df
+    df1 = db.get_symbol_data(db.get_all_symbols()[0])
+    for p in df1.columns:
+        df = db.get_all_symbol_single_data_item(p)
+        for s in db.get_all_symbols():
+            assert s in df
 
     df = db.get_all_symbol_single_data_item('BadData')
     assert df is None

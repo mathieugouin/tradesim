@@ -128,23 +128,3 @@ def load_yahoo_quote(ticker, begindate, enddate, info='quote'):
 
     # return alines.split('\n')
     return alines
-
-
-def _main():
-    print("main")
-
-    ticker = 'IBM'
-    print('===', ticker, '===')
-    lines = load_yahoo_quote(ticker, '20180212', '20180212').split('\n')
-    for l in lines:
-        print(l)
-
-    ticker = 'ZCN.TO'
-    print('===', ticker, '===')
-    lines = load_yahoo_quote(ticker, '20180212', '20180213').split('\n')
-    for l in lines:
-        print(l)
-
-
-if __name__ == "__main__":
-    _main()

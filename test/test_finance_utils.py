@@ -4,6 +4,39 @@ import numpy as np
 import pytest
 
 
+@pytest.mark.parametrize('nb,commission', [
+    (0, 0),
+    (1, .0035 + 4.95),
+    (100, 100 * .0035 + 4.95),
+    (495, 495 * .0035 + 4.95),
+    (500, (.01 + 0.0035) * 500),
+    (995, (.01 + 0.0035) * 995),
+    (10000, (0.0035) * 10000 + 9.95),
+    (-1, 4.95 + 0.0035),
+    (-100, 4.95 + 0.35),
+    (-700, (.01 + 0.0035) * 700),
+    (-995, (.01 + 0.0035) * 995),
+    (-10000, 9.95 + 0.0035 * 10000),
+])
+def test_calc_commission(nb, commission):
+    assert fu.calc_commission(nb) == commission
+
+
+@pytest.mark.parametrize('nb,commission', [
+    (0, 0),
+    (1, .0035),
+    (495, .0035 * 495),
+    (1000, 3.5),
+    (-1, 4.95 + 0.0035),
+    (-100, 4.95 + 0.35),
+    (-700, (.01 + 0.0035) * 700),
+    (-995, (.01 + 0.0035) * 995),
+    (-10000, 9.95 + 0.0035 * 10000),
+])
+def test_calc_commission_etf(nb, commission):
+    assert fu.calc_commission_etf(nb) == commission
+
+
 @pytest.mark.parametrize('f', [
         'stock_db/dj.txt',
         'stock_db/indices.txt',
@@ -57,14 +90,26 @@ def test_update_all_symbols():
 
 def test_load_data_frame():
     f = 'stock_db/test/SPY.csv'
-    df = fu.load_data_frame(f, datetime.date(2018, 1, 1), datetime.date(2018, 4, 1))
+    df = fu.load_data_frame(f, datetime.date(2018, 1, 1), datetime.date(2018, 4, 1), True)
 
-    assert len(fu.get_date(df)) > 0
-    assert len(fu.get_open(df)) > 0
-    assert len(fu.get_high(df)) > 0
-    assert len(fu.get_low(df)) > 0
-    assert len(fu.get_close(df)) > 0
-    assert len(fu.get_volume(df)) > 0
+    col = list(df.columns)
+    test_col = ['Open', 'High', 'Low', 'Close', 'Volume']
+    assert len(col) == len(test_col)
+
+    for c in test_col:
+        assert c in col
+
+
+def test_load_data_frame_no_adj():
+    f = 'stock_db/test/SPY.csv'
+    df = fu.load_data_frame(f, datetime.date(2018, 1, 1), datetime.date(2018, 4, 1), False)
+
+    col = list(df.columns)
+    test_col = ['Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume']
+    assert len(col) == len(test_col)
+
+    for c in test_col:
+        assert c in col
 
 
 def test_normalize_data_frame():
@@ -74,7 +119,7 @@ def test_normalize_data_frame():
     assert fu.normalize_data_frame(df).iloc[0].mean() == 1.0
 
 
-def test_fill_nan_data():
+def test_fill_nan_data_notinplace():
     f = 'stock_db/test/SPY.csv'
     df = fu.load_data_frame(f, datetime.date(2018, 1, 1), datetime.date(2018, 4, 1))
     # Test by adding some NaN
@@ -82,8 +127,26 @@ def test_fill_nan_data():
     df.iloc[11:20, 1] = np.nan  # middle
     df.iloc[-10:, 2] = np.nan  # end
     assert df.isna().any().any()
-    fu.fill_nan_data(df)
+    df2 = fu.fill_nan_data(df)  # default = not inplace
+    # New df2 modified:
+    assert not df2.isna().any().any()
+    # Original df not modified:
+    assert df.isna().any().any()
+
+
+def test_fill_nan_data_inplace():
+    f = 'stock_db/test/SPY.csv'
+    df = fu.load_data_frame(f, datetime.date(2018, 1, 1), datetime.date(2018, 4, 1))
+    # Test by adding some NaN
+    df.iloc[0:10, 0] = np.nan  # beginning
+    df.iloc[11:20, 1] = np.nan  # middle
+    df.iloc[-10:, 2] = np.nan  # end
+    assert df.isna().any().any()
+    df2 = fu.fill_nan_data(df, inplace=True)
+    # Original df modified:
     assert not df.isna().any().any()
+    # Returned df2 None
+    assert df2 is None
 
 
 @pytest.mark.webtest

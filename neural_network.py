@@ -121,7 +121,7 @@ class NeuralNetwork(object):
 
         # calculate error
         error = 0.0
-        for k in range(len(targets)):
+        for k, item in enumerate(targets):
             error = error + 0.5*(targets[k]-self.ao[k])**2
         return error
 
