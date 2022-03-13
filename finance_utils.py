@@ -169,6 +169,12 @@ def load_data_frame(csv_file, start_date, end_date, adjust_price=True):
 
         df = pd.read_csv(csv_file, index_col='Date', parse_dates=True)
 
+        # Fix for yahoo bug during weekends.
+        # Refer to https://github.com/mathieugouin/tradesim/issues/38
+        # Conditions: Only last index is duplicated
+        if df.index.duplicated()[-1] and not df.index.duplicated()[0:-1].any():
+            df = df.iloc[0:-1] # Keep only 0 to second to last
+
         if len(df.index[df.index.duplicated()].unique()) > 0:
             raise Exception('Duplicated index in file {}'.format(csv_file))
 
@@ -208,19 +214,15 @@ def load_data_frame(csv_file, start_date, end_date, adjust_price=True):
         return None
 
 
-# TBD is this still valid?
+# TBD does not work
 def validate_symbol_data(csv_file):
     """Check for basic errors in historical market data."""
-    valid = True  # Default
-    f = open(csv_file, 'r')
-    f.seek(0)
+    valid = False  # Default
     try:
-        dialect = csv.Sniffer().sniff(f.read(1024))
-        if dialect:
-            pass  # validation stops here
-        else:  # csv was not able to find a dialect, consider not valid CSV
-            valid = False
+        with open(csv_file, 'r') as f:
+            f.seek(0)
+            valid = csv.Sniffer().has_header(f.read(1024))
     except Exception:
         valid = False
-    f.close()
+
     return valid

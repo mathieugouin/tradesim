@@ -69,6 +69,12 @@ def test_get_symbol_data_bad():
     assert (df is None)
 
 
+def test_get_symbol_data_bad2():
+    db = sdm.StockDBMgr('./stock_db/bad')
+    df = db.get_symbol_data('XXXZZZ')  # Invalid ticker
+    assert (df is None)
+
+
 def test_get_all_symbol_data():
     db = sdm.StockDBMgr('./stock_db/test')
     dic = db.get_all_symbol_data()
