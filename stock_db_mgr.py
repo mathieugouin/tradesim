@@ -21,6 +21,7 @@ _default_start_date = datetime.date(1900, 1, 1)
 _default_end_date = datetime.date.today()
 
 
+# TBD force uppercase for the symbol
 class StockDBMgr(object):
     """Stock Data Base Manager: handles stock data stored in CSV files."""
 
@@ -66,9 +67,14 @@ class StockDBMgr(object):
             df = fu.load_data_frame(f, self._start_date, self._end_date, adjust_price=self._adjust_price)
             if df is None:
                 print("ERROR: data for {} contains error".format(symbol))
-            self._dic[symbol] = df  # Store it for next time
-        # if data is already there, assume it is up to date (to save repetitive download)
-        return self._dic[symbol]
+            else:
+                self._dic[symbol] = df  # Store it for next time
+
+        if symbol in self._dic:
+            # if data is already there, assume it is up to date (to save repetitive download)
+            return self._dic[symbol]
+        else:
+            return None
 
     def get_all_symbol_data(self):
         """Return a dictionary of all symbols DataFrame."""
