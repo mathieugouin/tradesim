@@ -70,8 +70,8 @@ def simulate(rebalance_freq=1, plot_cash=False):
                 # +:Buy -:Sell
                 df['DeltaShare'] = np.floor(df['TgtValue'] / df['Price']) - df['NbShare']
 
-                df['Commission'] = df['DeltaShare'].apply(fu.calc_commission_etf)
-                # df['Commission'] = np.zeros(len(ratio))
+                #df['Commission'] = df['DeltaShare'].apply(fu.calc_commission_etf)
+                df['Commission'] = np.zeros(len(ratio))  # No commission test
 
                 # Test run
                 cash = a.get_cash()
@@ -119,7 +119,7 @@ def simulate(rebalance_freq=1, plot_cash=False):
 
     # Update last price
     df['Price'] = [dic[s].iloc[-1]['Close'] for s in symbol_list]
-    final_cash = sum(df['Price'] * df['NbShare']) + a.get_cash()
+    final_cash = sum(df['Price'] * df['NbShare']) + a.get_cash()  # Market value
 
     if plot_cash:
         plt.plot(range(len(cash_array)), cash_array)
@@ -134,7 +134,8 @@ def _main():
     gain_array = []
 
     print("Running simulation to graph cash...")
-    simulate(plot_cash=True)
+    simulate(rebalance_freq=1, plot_cash=True)
+    simulate(rebalance_freq=5, plot_cash=True)
 
     print("Running simulation for {} days...".format(nb_days))
     for relalance_freq in freq_array:
