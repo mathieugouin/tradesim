@@ -70,10 +70,7 @@ def get_currency(symbol):
 
 def get_market_cap(symbol):
     """Return the market capitalization of the given stock."""
-    m = _get_info(symbol, 'marketCap')
-    if m is None:
-        m = _get_info(symbol, 'totalAssets')
-    return m
+    return _get_info_choice(symbol, ['marketCap', 'totalAssets'])
 
 def get_dividend_yield(symbol):
     """Return the dividend yield (in %) of the stock."""
@@ -86,7 +83,7 @@ def get_dividend_yield(symbol):
             ]
         )
     if d is not None:
-        d = d * 100  # Bring to percentage
+        d *= 100.0  # Bring to percentage
     else:
         d = 0.0
     return d
