@@ -11,6 +11,12 @@ def test_get_info(i):
 
 
 @pytest.mark.webtest
+def test_get_info_choice():
+    s = 'IBM'
+    assert ysq._get_info_choice(s, []) is None
+
+
+@pytest.mark.webtest
 @pytest.mark.parametrize("api", [
         'get_price',
         'get_volume',
