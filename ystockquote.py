@@ -23,6 +23,15 @@ def _get_info(symbol, data):
     return v
 
 
+def _get_info_choice(symbol, data_choice):
+    v = None
+    for data in data_choice:
+        v = _get_info(symbol, data)
+        if v is not None:
+            break
+    return v
+
+
 def get_name(symbol):
     """Full company name from symbol."""
     return _get_info(symbol, 'longName')
@@ -61,14 +70,23 @@ def get_currency(symbol):
 
 def get_market_cap(symbol):
     """Return the market capitalization of the given stock."""
-    m = _get_info(symbol, 'marketCap')
-    if m is None:
-        m = _get_info(symbol, 'totalAssets')
-    return m
+    return _get_info_choice(symbol, ['marketCap', 'totalAssets'])
 
 def get_dividend_yield(symbol):
     """Return the dividend yield (in %) of the stock."""
-    return 100 * _get_info(symbol, 'trailingAnnualDividendYield')
+    d = _get_info_choice(
+            symbol,
+            [
+                'yield',
+                'dividendYield',
+                'trailingAnnualDividendYield',
+            ]
+        )
+    if d is not None:
+        d *= 100.0  # Bring to percentage
+    else:
+        d = 0.0
+    return d
 
 
 def get_price_earnings_ratio(symbol):

@@ -11,6 +11,12 @@ def test_get_info(i):
 
 
 @pytest.mark.webtest
+def test_get_info_choice():
+    s = 'IBM'
+    assert ysq._get_info_choice(s, []) is None
+
+
+@pytest.mark.webtest
 @pytest.mark.parametrize("api", [
         'get_price',
         'get_volume',
@@ -51,7 +57,7 @@ def test_ysq_get_currency(s):
 
 
 @pytest.mark.webtest
-@pytest.mark.parametrize("s", ['XBB.TO', 'NA.TO', 'SPY', 'XOM'])
+@pytest.mark.parametrize("s", ['XBB.TO', 'VUN.TO', 'ZCN.TO', 'BMO.TO', 'SPY', 'XOM', 'TSLA'])
 def test_ysq_api_dividend(s):
     assert 0 <= ysq.get_dividend_yield(s) < 100
 
