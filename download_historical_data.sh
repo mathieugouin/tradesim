@@ -1,10 +1,10 @@
 #!/bin/bash
 
 echo Test
-python get_yahoo_finance_data.py -c 1 -f stock_db/test.txt -d ./stock_db/test
+python get_yahoo_finance_data.py -f stock_db/test.txt -d ./stock_db/test
 
 echo Indices
-python get_yahoo_finance_data.py -c 1 -f stock_db/indices.txt -d ./stock_db/indices
+python get_yahoo_finance_data.py -f stock_db/indices.txt -d ./stock_db/indices
 
 echo Questrade
 python get_yahoo_finance_data.py -f stock_db/qt.txt -d ./stock_db/qt

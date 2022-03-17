@@ -1,18 +1,20 @@
 # Dow-Jones
-# as of 2017-09-01
+# as of 2022-02-22
 # https://en.wikipedia.org/wiki/Dow_Jones_Industrial_Average#Components
-# Symbol              Company
+# Symbol            Company
 AAPL                Apple
+AMGN                Amgen
 AXP                 American Express
 BA                  Boeing
 CAT                 Caterpillar
-CSCO                Cisco Systems
+CRM                 Salesforce
+CSCO                Cisco
 CVX                 Chevron
-DIS                 Walt Disney
-#DOW                 Dow
-GE                  General Electric
+DIS                 Disney
+DOW                 Dow
 GS                  Goldman Sachs
-HD                  The Home Depot
+HD                  Home Depot
+HON                 Honeywell
 IBM                 IBM
 INTC                Intel
 JNJ                 Johnson & Johnson
@@ -23,12 +25,10 @@ MMM                 3M
 MRK                 Merck
 MSFT                Microsoft
 NKE                 Nike
-PFE                 Pfizer
 PG                  Procter & Gamble
 TRV                 Travelers
-UNH                 UnitedHealth Group
-UTX                 United Technologies
+UNH                 UnitedHealth
 V                   Visa
 VZ                  Verizon
+WBA                 Walgreens Boots Alliance
 WMT                 Walmart
-XOM                 ExxonMobil
