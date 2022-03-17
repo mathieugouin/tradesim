@@ -9,12 +9,11 @@
 My ramblings on various stock analysis and data mining.
 
 ## Prerequisites
-* Python 2.7
+* Python 2.7 or 3.6+
 * NumPy (<http://www.numpy.org>)
 * SciPy (<http://www.scipy.org>)
 * Pandas (<http://pandas.pydata.org/>)
 * yfinance (<https://pypi.org/project/yfinance>)
-* mpl_finance (<https://github.com/matplotlib/mpl_finance>)
 
 ## Quick Start
 * If required, edit the stock list files in `stock_db/*.txt`.
