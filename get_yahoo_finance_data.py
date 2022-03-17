@@ -56,7 +56,7 @@ class WorkerThread(threading.Thread):
             except queue_lib.Empty:
                 raise SystemExit
             if ticker[0] == "^":  # make sure filename compatible
-                filename_ticker = ticker[1:]
+                filename_ticker = '_' + ticker[1:]
             else:
                 filename_ticker = ticker
 
