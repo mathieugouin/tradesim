@@ -100,6 +100,7 @@ def download_url(url):
     return s
 
 
+# TBD Bad name: should be download_historical_data
 def download_data(symbol, basedir, start_date, end_date):
     """Wrapper function to yqd library."""
     print("Downloading:{} ...".format(symbol))
