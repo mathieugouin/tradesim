@@ -74,4 +74,3 @@ def test_smoketest_1():
 @pytest.mark.smoketest
 def test_smoketest_2():
     assert True
-
