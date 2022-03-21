@@ -73,6 +73,7 @@ class StockDBMgr(object):
         if symbol in self._dic:
             # if data is already there, assume it is up to date (to save repetitive download)
             return self._dic[symbol]
+        # else:
         return None
 
     def get_all_symbol_data(self):
