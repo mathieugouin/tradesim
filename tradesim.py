@@ -42,7 +42,7 @@ def simulate():
         df = dic[symbol]
 
         # The various series (starting with s):
-        s_close = fu.get_close(df)
+        s_close = df['Close']
 
         # Technical indicators
         s_close_sma = ti.sma(s_close, 200)
@@ -76,13 +76,10 @@ def simulate():
 def plot_test():
     print("plot_test()")
 
-    symbol_list = list(dic.keys())
-    symbol_list.sort()
-    for symbol in symbol_list:
+    df = db.get_all_symbol_single_data_item('Close')
+    for symbol in df.columns:
         print("Plotting with " + symbol)
-        df = dic[symbol]
-
-        x = fu.get_close(df)
+        x = df[symbol]
         if len(x) > 5:
             t = np.arange(len(x))
             plt.plot(t, x,)
@@ -95,7 +92,6 @@ def plot_test():
             plt.title(symbol)
             plt.show()
 
-    df = db.get_all_symbol_single_data_item('Close')
     df = fu.fill_nan_data(df)
     df = fu.normalize_data_frame(df)
     df.plot()
@@ -115,11 +111,8 @@ def load_data():
 
 def _main():
     print("main()")
-
     load_data()
-
     plot_test()
-
     simulate()
 
 
