@@ -28,10 +28,10 @@ jobs:
 
     steps:
       - name: "Check out the repo"
-        uses: "actions/checkout@v2"
+        uses: "actions/checkout@v3"
 
       - name: "Set up Python ${{ matrix.python-version }}"
-        uses: actions/setup-python@v2
+        uses: "actions/setup-python@v4"
         with:
           python-version: ${{ matrix.python-version }}
 
@@ -54,6 +54,7 @@ jobs:
           mkdir -p stock_db/empty2
           mkdir -p stock_db/bad
           touch stock_db/bad/BAD.csv
+          # Append coverage (-a)
           python -m coverage run -a get_yahoo_finance_data.py --concurrent 1 --file stock_db/test.txt --dir ./stock_db/test --startdate 20100101 --verbose
 
       # Append coverage (-a)
@@ -75,7 +76,7 @@ jobs:
 
       # https://github.com/actions/upload-artifact
       - name: "Upload coverage data to github"
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: "Coverage"
           path: .coverage.*
@@ -104,10 +105,10 @@ jobs:
     steps:
       # Required for codecov script to confirm which commit.
       - name: "Check out the repo"
-        uses: "actions/checkout@v2"
+        uses: "actions/checkout@v3"
 
       - name: "Set up Python ${{ matrix.python-version }}"
-        uses: actions/setup-python@v2
+        uses: "actions/setup-python@v4"
         with:
           python-version: ${{ matrix.python-version }}
 
@@ -118,7 +119,7 @@ jobs:
 
       # https://github.com/actions/download-artifact
       - name: "Download coverage data from github"
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: "Coverage"
 
@@ -137,7 +138,7 @@ jobs:
           env
 
       - name: "Upload coverage to Codecov"
-        uses: codecov/codecov-action@v1
+        uses: codecov/codecov-action@v3
         with:
           #token: ${{ secrets.CODECOV_TOKEN }} # not required for public repos
           #files: ./coverage1.xml,./coverage2.xml # optional
