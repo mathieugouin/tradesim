@@ -76,7 +76,7 @@ jobs:
 
       # https://github.com/actions/upload-artifact
       - name: "Upload coverage data to github"
-        uses: actions/upload-artifact@v3
+        uses: "actions/upload-artifact@v3"
         with:
           name: "Coverage"
           path: .coverage.*
@@ -120,7 +120,7 @@ jobs:
 
       # https://github.com/actions/download-artifact
       - name: "Download coverage data from github"
-        uses: actions/download-artifact@v3
+        uses: "actions/download-artifact@v3"
         with:
           name: "Coverage"
 
@@ -139,7 +139,7 @@ jobs:
           env
 
       - name: "Upload coverage to Codecov"
-        uses: codecov/codecov-action@v3
+        uses: "codecov/codecov-action@v3"
         with:
           #token: ${{ secrets.CODECOV_TOKEN }} # not required for public repos
           #files: ./coverage1.xml,./coverage2.xml # optional
