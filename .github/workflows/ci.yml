@@ -112,10 +112,11 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
-      #- name: "Install dependencies"
-      #  run: |
-      #    python -m pip install --upgrade pip
-      #    pip install coverage
+      # python coverage module required for codecov upload
+      - name: "Install dependencies"
+        run: |
+          python -m pip install --upgrade pip
+          pip install coverage
 
       # https://github.com/actions/download-artifact
       - name: "Download coverage data from github"
