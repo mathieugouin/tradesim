@@ -34,7 +34,7 @@ def test_coverage_1(x):
 
 # Sequential
 @pytest.mark.dummytest
-@pytest.mark.parametrize("a,b,s", [
+@pytest.mark.parametrize("a, b, s", [
     (1, 1, 2),
     (1, 2, 3),
     (2, 2, 4),

@@ -39,13 +39,12 @@ def calc_commission_etf(nb_share):
 
 def filename_to_symbol(filename):
     """Return the basename of the filename without the .csv at the end."""
-    pat = re.compile(re.escape('.csv'), re.IGNORECASE)
-    return pat.sub('', os.path.basename(filename))
+    return re.sub('\.csv', '', re.sub('^_', '^', os.path.basename(filename)), flags=re.IGNORECASE)
 
 
 def symbol_to_filename(symbol, basedir):
     """Return the complete filename path based on the symbol and basedir."""
-    return os.path.join(basedir, symbol.upper()) + '.csv'
+    return os.path.join(basedir, re.sub('^\^', '_', symbol.upper())) + '.csv'
 
 
 def get_all_symbols(basedir):
@@ -101,6 +100,7 @@ def download_url(url):
     return s
 
 
+# TBD Bad name: should be download_historical_data
 def download_data(symbol, basedir, start_date, end_date):
     """Wrapper function to yqd library."""
     print("Downloading:{} ...".format(symbol))

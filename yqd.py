@@ -79,7 +79,6 @@ def load_yahoo_quote(ticker, begindate, enddate, info='quote'):
     The whole data is returned as a single string with newlines.
     """
     # Check to make sure that the cookie and crumb has been loaded
-    global _cookie, _crumb
     if _cookie is None or _crumb is None:
         _get_cookie_crumb()
 

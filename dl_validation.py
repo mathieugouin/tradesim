@@ -5,9 +5,8 @@ import datetime
 import glob
 
 import stock_db_mgr as sdm
-import ystockquote as sq
 
-startdate = datetime.date(1900, 1, 1)
+startdate = datetime.date(2020, 1, 1)
 today = datetime.date.today()
 
 # Pick one:
@@ -21,6 +20,7 @@ def list_all_stockdb():
 
 
 def check_db(path):
+    print("Validating {} ...".format(path))
     # Create data base:
     db = sdm.StockDBMgr('./stock_db/' + path, startdate, enddate)
 
@@ -29,13 +29,9 @@ def check_db(path):
     inv = []
 
     symbolList = db.get_all_symbols()
-    print(len(symbolList))
-    print(symbolList)
+    #print(symbolList)
 
     for s in symbolList:
-        if False:
-            print("symbol:{}, yield:{}, name:{}".format(s, sq.get_dividend_yield(s), sq.get_name(s)))
-
         if not db.validate_symbol_data(s):
             inv.append(s)
             continue
@@ -46,7 +42,6 @@ def check_db(path):
 
             t = startdate
             if df is not None and len(df) > 0:
-                # t = r[-1].date
                 t = df.iloc[-1].name.date()
             else:
                 inv.append(s)
@@ -54,16 +49,17 @@ def check_db(path):
 
             if (today - t) > datetime.timedelta(4):
                 inv.append(s)
-                print("%s: len = %d" % (s, len(df)))
+                #print("%s: len = %d" % (s, len(df)))
 
-    print("Invalid list:")
-    for s in inv:
-        print(s)
+    if len(inv) > 0:
+        print("Invalid list:")
+        for s in inv:
+            print("  " + s)
 
 
 def _main():
-    dbs = list_all_stockdb()
-    for p in dbs:
+    db = list_all_stockdb()
+    for p in db:
         check_db(p)
 
 

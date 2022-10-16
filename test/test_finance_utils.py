@@ -49,15 +49,31 @@ def test_get_symbols_from_file(f):
     assert len(fu.get_symbols_from_file(f)) > 0
 
 
-def test_symbol_filename():
-    d = 'stock_db/test'
-    s = 'SPY'
-    f = fu.symbol_to_filename(s, d)
+@pytest.mark.parametrize('symbol, directory, filename', [
+    ('IBM',         'dir',      'dir/IBM.csv'       ),
+    ('NA.TO',       'a/b/c',    'a/b/c/NA.TO.csv'   ),
+    ('AP-UN.TO',    '',         'AP-UN.TO.csv'      ),
+    ('BRK-A',       '',         'BRK-A.csv'         ),
+    ('^GSPC',       '',         '_GSPC.csv'         ),
+])
+def test_symbol_to_filename(symbol, directory, filename):
+    filename_test = fu.symbol_to_filename(symbol, directory)
+    assert filename_test == filename
+    # Loop back check
+    symbol_test = fu.filename_to_symbol(filename_test)
+    assert symbol_test == symbol
 
-    assert len(f) > 0
-    assert f.endswith('.csv')
-    assert fu.filename_to_symbol(f) == 'SPY'
-    assert fu.filename_to_symbol(f.upper()) == 'SPY'
+
+@pytest.mark.parametrize('filename, symbol', [
+    ('dir/IBM.csv',         'IBM'       ),
+    ('a/b/c/NA.TO.csv',     'NA.TO'     ),
+    ('AP-UN.TO.csv',        'AP-UN.TO'  ),
+    ('a/b/BRK-A.csv',       'BRK-A'     ),
+    ('_GSPC.csv',           '^GSPC'     ),
+])
+def test_filename_to_symbol(filename, symbol):
+    symbol_test = fu.filename_to_symbol(filename)
+    assert symbol_test == symbol
 
 
 def test_validate_symbol_data_ok():
