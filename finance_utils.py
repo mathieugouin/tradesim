@@ -48,6 +48,8 @@ def symbol_to_filename(symbol, basedir):
 
 
 def get_all_symbols(basedir):
+    """Return a sorted list of symbols available in a basedir folder.
+    The list is based on the presence of a *.csv file."""
     return sorted(map(filename_to_symbol, glob.glob(os.path.join(basedir, '*.csv'))))
 
 
@@ -100,11 +102,10 @@ def download_url(url):
     return s
 
 
-# TBD Bad name: should be download_historical_data
 def download_data(symbol, basedir, start_date, end_date):
     """Wrapper function to yqd library."""
-    print("Downloading:{} ...".format(symbol))
     symbol = symbol.upper()
+    print("Downloading: {} ...".format(symbol))
     # Date 1
     d1 = "{0:0>4}".format(start_date.year) + \
          "{0:0>2}".format(start_date.month) + \
@@ -120,9 +121,8 @@ def download_data(symbol, basedir, start_date, end_date):
     data = yqd.load_yahoo_quote(symbol, d1, d2)
     # prevent writing invalid data
     if len(data) > 0:
-        fh = open(f, 'w')
-        fh.write(data)
-        fh.close()
+        with open(f, 'w') as fh:
+            fh.write(data)
 
 
 def update_all_symbols(basedir, start_date, end_date):
@@ -172,10 +172,12 @@ def load_data_frame(csv_file, start_date, end_date, adjust_price=True):
         # Fix for yahoo bug during weekends.
         # Refer to https://github.com/mathieugouin/tradesim/issues/38
         # Conditions: Only last index is duplicated
-        if df.index.duplicated()[-1] and not df.index.duplicated()[0:-1].any():
-            df = df.iloc[0:-1] # Keep only 0 to second to last
+        # TBD: does not seem to happen anymore
+        #if df.index.duplicated()[-1] and not df.index.duplicated()[0:-1].any():
+        #    df = df.iloc[0:-1] # Keep only 0 to second to last
 
-        if len(df.index[df.index.duplicated()].unique()) > 0:
+        # Make sure no duplicated dates:
+        if df.index.duplicated().any():
             raise Exception('Duplicated index in file {}'.format(csv_file))
 
         df.sort_index(inplace=True)
@@ -190,7 +192,7 @@ def load_data_frame(csv_file, start_date, end_date, adjust_price=True):
         # Make sure none isolated remains:
         if df.isna().any().any():
             # To show the NaN
-            print(df.loc[df.isna().all(axis=1)])
+            print(df.loc[df.isna().all(axis='columns')])
             raise Exception("ERROR {} contains isolated NaN".format(csv_file))
 
         if adjust_price:
@@ -198,10 +200,12 @@ def load_data_frame(csv_file, start_date, end_date, adjust_price=True):
             r = df['Adj Close'] / df['Close']  # ratio
             for col in ['Open', 'High', 'Low', 'Close']:  # n/a for 'Volume'
                 df[col] *= r
-            df.drop('Adj Close', axis=1, inplace=True)
+            df.drop('Adj Close', axis='columns', inplace=True)
 
-        # Axis naming
-        df.rename_axis('DATA', axis='columns', inplace=True)
+        #df.rename_axis('DATA', axis='columns', inplace=True)
+
+        # Axis naming matching the symbol name
+        df.rename_axis(filename_to_symbol(csv_file), axis='columns', inplace=True)
 
         return df
 
@@ -214,9 +218,8 @@ def load_data_frame(csv_file, start_date, end_date, adjust_price=True):
         return None
 
 
-# TBD does not work
 def validate_symbol_data(csv_file):
-    """Check for basic errors in historical market data."""
+    """Check for basic errors in CSV file."""
     valid = False  # Default
     try:
         with open(csv_file, 'r') as f:
