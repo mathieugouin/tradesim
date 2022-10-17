@@ -65,7 +65,7 @@ def get_data(symbols, dates):
     df = db.get_all_symbol_single_data_item('Close')
     df = df.loc[:, symbols]  # keep only required symbols
     df = df.reindex(dates)  # keep only required dates
-    df.dropna(inplace=True)  # flush nan
+    df = df.dropna()  # flush nan
     return df
 
 
@@ -227,6 +227,7 @@ def test_missing_data():
 
 def test_histogram():
     # TBD continue @ 7.1
+    # continue on udacity.ipynb
     pass
 
 
