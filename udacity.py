@@ -81,14 +81,12 @@ def plot_data(df, title="Stock Prices", ylabel="Prices"):
 def plot_selected(df, stocks, sd, ed):
     df2 = df.loc[sd:ed, stocks]
     plot_data(df2)
-    pass
 
 
 def test_plot():
     df = db.get_all_symbol_single_data_item('Close')
     df2 = fu.normalize_data_frame(df)
     plot_selected(df2, ['SPY', 'IBM'], '2010-03-01', '2010-04-01')
-    pass
 
 
 def test_np_arrays():
@@ -121,8 +119,6 @@ def test_np_arrays():
     print(2 * a)
     print(a / 2)
     print(a / 2.0)
-
-    pass
 
 
 def test_time_series():
