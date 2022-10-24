@@ -1,9 +1,0 @@
-# https://about.codecov.io/blog/python-code-coverage-using-github-actions-and-codecov/
-
-#ignore:
-#  - "*/test/*”
-
-# https://docs.codecov.io/docs/fixing-paths
-# Correct paths => Not required
-#fixes:
-#  - "/home/runner/work/tradesim/tradesim/::"
