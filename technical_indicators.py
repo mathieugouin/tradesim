@@ -58,13 +58,13 @@ def rate_of_change(x, n):
     return y
 
 
-def acceleration(X, n):
+def acceleration(x, n):
     """Return the "Acceleration" (2nd derivative) based on 'n' points 2nd order regression."""
-    t = np.arange(len(X))
+    t = np.arange(len(x))
     y = np.array(
         [np.polyfit(
             t[i - n + 1:i + 1],
-            X[i - n + 1:i + 1],
+            x[i - n + 1:i + 1],
             2)[0] * 2 for i in np.arange(n - 1, len(t), 1)])
     # NaN at beginning (invalid value)
     # y = np.concatenate((np.array([np.nan] * (n-1)), y))

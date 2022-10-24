@@ -19,6 +19,7 @@ from __future__ import print_function
 from six.moves import urllib
 
 import time
+import re
 
 # Build the cookie handler
 cookier = urllib.request.HTTPCookieProcessor()
@@ -26,7 +27,6 @@ opener = urllib.request.build_opener(cookier)
 urllib.request.install_opener(opener)
 
 # Cookie and corresponding crumb
-_cookie = None
 _crumb = None
 
 # Headers to fake a user agent
@@ -38,7 +38,7 @@ _headers = {
 
 def _get_cookie_crumb():
     """Performs a query and extract the matching cookie and crumb."""
-    global cookier, _cookie, _crumb
+    global cookier, _crumb
 
     # Perform a Yahoo financial lookup on SP500
     cookier.cookiejar.clear()
@@ -48,38 +48,29 @@ def _get_cookie_crumb():
     alines = f.read().decode('utf-8')
 
     # Extract the crumb from the response
-    cs = alines.find('CrumbStore')
-    cr = alines.find('crumb', cs + 10)
-    cl = alines.find(':', cr + 5)
-    q1 = alines.find('"', cl + 1)
-    q2 = alines.find('"', q1 + 1)
-    crumb = alines[q1 + 1:q2]
-    _crumb = crumb
+    # Looking for: "CrumbStore":{"crumb":"Gke.RBNmMtU"}
+    m = re.search('\\"CrumbStore\\"\\:\\{\\"crumb\\"\\:\\"(.+?)\\"\\}', alines)
+    if m is not None:
+        _crumb = m.group(1)
 
-    # Extract the cookie from cookiejar
-    for c in cookier.cookiejar:
-        if c.domain != '.yahoo.com':
-            continue
-        if c.name != 'B':
-            continue
-        _cookie = c.value
+    if _crumb is None:
+        raise AssertionError('Could not get initial cookie crumb from Yahoo.')
 
     # Print the cookie and crumb
-    # print('Cookie:', _cookie)
     # print('Crumb:', _crumb)
 
 
 def load_yahoo_quote(ticker, begindate, enddate, info='quote'):
     """Loads the corresponding history/divident/split from Yahoo.
 
-    The "begindate" and "enddate" are in the format of YYYYMMDD are are inclusive.
+    The "begindate" and "enddate" are strings in the format of YYYYMMDD are are inclusive.
     The "info" can be "quote" for price, "dividend" for dividend events,
     or "split" for split events.
 
     The whole data is returned as a single string with newlines.
     """
     # Check to make sure that the cookie and crumb has been loaded
-    if _cookie is None or _crumb is None:
+    if _crumb is None:
         _get_cookie_crumb()
 
     # Prepare the parameters and the URL

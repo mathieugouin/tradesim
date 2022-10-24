@@ -6,7 +6,7 @@ import glob
 
 import stock_db_mgr as sdm
 
-startdate = datetime.date(2020, 1, 1)
+startdate = datetime.date(2021, 1, 1)
 today = datetime.date.today()
 
 # Pick one:

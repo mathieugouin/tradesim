@@ -44,7 +44,6 @@ def get_volume(symbol):
 
 def get_price(symbol):
     """Current day's trading last price."""
-    # TBD to confirm
     return _get_info(symbol, 'regularMarketPrice')
     #return _get_info(symbol, 'currentPrice')
 
@@ -76,6 +75,7 @@ def get_dividend_yield(symbol):
     """Return the dividend yield (in %) of the stock."""
     d = _get_info_choice(
             symbol,
+            # TBD to confirm, ref tradesim_notebook.ipynb Yield Tests
             [
                 'yield',
                 'dividendYield',

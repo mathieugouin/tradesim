@@ -1,5 +1,9 @@
 # pip dependency requirement for CI
-# Can be installed directly with:
+#
+# Make sure pip is up to date:
+# python -m pip install --upgrade pip
+#
+# Install all required packages:
 # python -m pip install -r requirements.txt
 
 # Main packages used:
@@ -9,10 +13,18 @@ matplotlib
 scipy
 yfinance
 
-# To investigate:
-# yahoofinancials
-# investpy
-
 # Required for CI:
 pytest
 coverage
+
+# For notebook handling
+# ipython
+# ipykernel
+# jupyter
+# jupyterlab
+# notebook
+# seaborn
+
+# To investigate:
+# yahoofinancials
+# investpy
