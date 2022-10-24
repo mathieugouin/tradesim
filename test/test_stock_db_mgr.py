@@ -21,6 +21,16 @@ def test_creation_custom_date_range():
     assert df.iloc[-1].name.date() == stop
 
 
+def test_print():
+    db = sdm.StockDBMgr('./stock_db/test')
+    s1 = str(db)
+    assert len(s1) > 0
+    # Cache some symbols
+    dic = db.get_all_symbol_data()
+    s2 = str(db)
+    assert len(s2) > len(s1)
+
+
 def test_get_all_symbols():
     db = sdm.StockDBMgr('./stock_db/test', datetime.date(2017, 1, 1), datetime.date(2018, 1, 1))
     symbol_list = db.get_all_symbols()
@@ -63,12 +73,14 @@ def test_get_symbol_data():
     assert df1 is df2
 
 
+@pytest.mark.webtest
 def test_get_symbol_data_bad():
     db = sdm.StockDBMgr('./stock_db/bad')
     df = db.get_symbol_data('BAD')
     assert (df is None)
 
 
+@pytest.mark.webtest
 def test_get_symbol_data_bad2():
     db = sdm.StockDBMgr('./stock_db/bad')
     df = db.get_symbol_data('XXXZZZ')  # Invalid ticker
