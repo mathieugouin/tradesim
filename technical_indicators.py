@@ -155,29 +155,3 @@ def moving_max(x, n):
         raise AssertionError("n must be >= 1")
     return np.array([max(x[max(0, i - n + 1):i + 1]) for i in range(len(x))])
 
-
-def relative_position(symbol):
-    """Based on the last 52 weeks: relative price based on min vs max, range is [0.0, 1.0]."""
-    price = ysq.get_price(symbol)
-    pmin = ysq.get_52_week_low(symbol)
-    pmax = ysq.get_52_week_high(symbol)
-    return (price - pmin) / (pmax - pmin)
-
-
-def relative_range(symbol):
-    """Based on the last 52 weeks: high-low delta relative to the high, range is [0.0, 1.0]."""
-    pmin = ysq.get_52_week_low(symbol)
-    pmax = ysq.get_52_week_high(symbol)
-    return (pmax - pmin) / pmax
-
-
-def test_indicator(symbol):
-    """TBD."""
-    # [-1, 1]
-    rps = relative_position(symbol) * 2.0 - 1.0
-
-    # [0, 1]
-    rr = relative_range(symbol)
-
-    # reduce the rr influence
-    return rps * math.pow(rr, 0.1)

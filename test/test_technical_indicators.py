@@ -6,11 +6,6 @@ import pytest
 # TBD super dummy tests
 
 
-@pytest.mark.webtest
-def test_test_indicator():
-    assert -5.0 < ti.test_indicator('XBB.TO') < 5.0
-
-
 def test_step():
     t = np.arange(-5, 5, 1)
     s = ti.step(t)

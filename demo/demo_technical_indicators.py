@@ -9,8 +9,6 @@ import technical_indicators as ti
 # To test various indicators
 def _main():
 
-    print("test_indicator = {}".format(ti.test_indicator('XBB.TO')))
-
     t = np.arange(-5, 5, 1)
     s = ti.step(t)
     r = ti.ramp(t)
