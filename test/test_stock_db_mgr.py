@@ -82,6 +82,13 @@ def test_get_all_symbol_data():
         assert s in dic
 
 
+# TBD to make more robust
+def test_get_all_symbol_dataframe():
+    db = sdm.StockDBMgr('./stock_db/test')
+    df = db.get_all_symbol_dataframe()
+    assert df is not None
+
+
 def test_get_all_symbol_single_data_item():
     db = sdm.StockDBMgr('./stock_db/test')
     df1 = db.get_symbol_data(db.get_all_symbols()[0])

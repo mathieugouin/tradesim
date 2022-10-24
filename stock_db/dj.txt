@@ -1,34 +1,31 @@
-# Dow-Jones
-# as of 2022-02-22
-# https://en.wikipedia.org/wiki/Dow_Jones_Industrial_Average#Components
-# Symbol            Company
-AAPL                Apple
-AMGN                Amgen
-AXP                 American Express
-BA                  Boeing
-CAT                 Caterpillar
-CRM                 Salesforce
-CSCO                Cisco
-CVX                 Chevron
-DIS                 Disney
-DOW                 Dow
-GS                  Goldman Sachs
-HD                  Home Depot
-HON                 Honeywell
-IBM                 IBM
-INTC                Intel
-JNJ                 Johnson & Johnson
-JPM                 JPMorgan Chase
-KO                  Coca-Cola
-MCD                 McDonald's
-MMM                 3M
-MRK                 Merck
-MSFT                Microsoft
-NKE                 Nike
-PG                  Procter & Gamble
-TRV                 Travelers
-UNH                 UnitedHealth
-V                   Visa
-VZ                  Verizon
-WBA                 Walgreens Boots Alliance
-WMT                 Walmart
+# Symbol	Company	Exchange	Industry	Date added	Notes	Index weighting
+AAPL	Apple	NASDAQ	Information technology	2015-03-19		3.15%
+AMGN	Amgen	NASDAQ	Biopharmaceutical	2020-08-31		4.88%
+AXP	American Express	NYSE	Financial services	1982-08-30		3.56%
+BA	Boeing	NYSE	Aerospace and defense	1987-03-12		3.40%
+CAT	Caterpillar	NYSE	Construction and Mining	1991-05-06		4.19%
+CRM	Salesforce	NYSE	Information technology	2020-08-31		3.38%
+CSCO	Cisco	NASDAQ	Information technology	2009-06-08		1.00%
+CVX	Chevron	NYSE	Petroleum industry	2008-02-19	Also 1930-07-18 to 1999-11-01	3.05%
+DIS	Disney	NYSE	Broadcasting and entertainment	1991-05-06		2.32%
+DOW	Dow	NYSE	Chemical industry	2019-04-02		1.32%
+GS	Goldman Sachs	NYSE	Financial services	2013-09-20		6.22%
+HD	Home Depot	NYSE	Home Improvement	1999-11-01		5.90%
+HON	Honeywell	NASDAQ	Conglomerate	2020-08-31	Also 1925-12-07 to 2008-02-19 under various names, including Allied Chemical and Dye, Allied Chemical, AlliedSignal and Honeywell	3.71%
+IBM	IBM	NYSE	Information technology	1979-06-29	Also 1932-05-26 to 1939-03-04	2.69%
+INTC	Intel	NASDAQ	Semiconductor industry	1999-11-01		0.91%
+JNJ	Johnson & Johnson	NYSE	Pharmaceutical industry	1997-03-17		3.60%
+JPM	JPMorgan Chase	NYSE	Financial services	1991-05-06		2.45%
+KO	Coca-Cola	NYSE	Drink industry	1987-03-12	Also 1932-05-26 to 1935-11-20	1.28%
+MCD	McDonald's	NYSE	Food industry	1985-10-30		4.89%
+MMM	3M	NYSE	Conglomerate	1976-08-09	As Minnesota Mining and Manufacturing	2.88%
+MRK	Merck	NYSE	Pharmaceutical industry	1979-06-29		1.65%
+MSFT	Microsoft	NASDAQ	Information technology	1999-11-01		5.43%
+NKE	Nike	NYSE	Clothing industry	2013-09-20		2.48%
+PG	Procter & Gamble	NYSE	Fast-moving consumer goods	1932-05-26		3.15%
+TRV	Travelers	NYSE	Insurance	2009-06-08		3.38%
+UNH	UnitedHealth	NYSE	Managed health care	2012-09-24		10.14%
+V	Visa	NYSE	Financial services	2013-09-20		4.06%
+VZ	Verizon	NYSE	Telecommunications industry	2004-04-08		0.97%
+WBA	Walgreens Boots Alliance	NASDAQ	Retailing	2018-06-26		0.88%
+WMT	Walmart	NYSE	Retailing	1997-03-17		3.04%

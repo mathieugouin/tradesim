@@ -23,16 +23,28 @@ My ramblings on various stock analysis and data mining.
 ## Project notes
 * Histogram plot of data: <http://stackoverflow.com/questions/5328556/histogram-matplotlib/5328669>
 
-### IPython
+### IPython / Notebook
 #### Setup
 * `python3 -m pip install --upgrade pip`
+* `python3 -m pip install ipython`
 * `python3 -m pip install ipykernel`
+* `python3 -m pip install notebook`
 * `python3 -m pip install jupyter`
+* `python3 -m pip install jupyterlab`
+* Make sure `~/.local/bin/` is in the path
 
-#### Run
+#### IPython Run
+* cd to the current dir where to start
+* `ipython`
+
+#### Classic Jupyter Notebook Run
 * cd to the current dir where to start
 * `jupyter notebook`
 * Or to directly open a notebook: `jupyter notebook tradesim_notebook.ipynb`
+
+#### Jupyter Lab Notebook Run
+* cd to the current dir where to start
+* `jupyter lab`
 
 #### Magic command
 Ref: https://ipython.readthedocs.io/en/stable/interactive/magics.html
@@ -44,7 +56,9 @@ Ref: https://ipython.readthedocs.io/en/stable/interactive/magics.html
 * b: insert cell below
 * m: convert cell to markdown (for documentation)
 * y: convert cell to code (python)
-* shift+enter: run & select cell below
+* Ctrl+Enter: run current cell
+* Shift+Enter: run & select cell below
+* Alt+Enter: run cell & insert below
 
 ## Project TODO
 * Analyze invalid stock

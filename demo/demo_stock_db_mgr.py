@@ -7,6 +7,8 @@ import stock_db_mgr as sdm
 
 def _main():
     db = sdm.StockDBMgr('../stock_db/test', datetime.date(2017, 1, 1), datetime.date(2018, 1, 1))
+    #db = sdm.StockDBMgr('../stock_db/tsx')
+    #db = sdm.StockDBMgr('../stock_db/sp500')
     symbol_list = db.get_all_symbols()
     print(symbol_list)
 
@@ -45,7 +47,7 @@ def _main():
                             datetime.date(2017, 1, 1),
                             datetime.date(2018, 1, 1),
                             False)
-        df = db.get_symbol_data(symbol_list[0])
+        df = db.get_symbol_data(db.get_all_symbols()[0])
         print(df.describe())
 
 

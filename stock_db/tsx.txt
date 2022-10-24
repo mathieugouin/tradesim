@@ -1,256 +1,238 @@
-################################################################################
-# TSX Index
-# Need to update with current listings
-# https://en.wikipedia.org/wiki/S%26P/TSX_Composite_Index
-################################################################################
-# Symbol	Company	Sector	Industry
-AAV.TO	Advantage Oil & Gas Ltd.	Energy	Exploration & Production
-ARE.TO	Aecon Group Inc.	Industrials	Engineering & Construction
-AEM.TO	Agnico Eagle Mines Limited	Materials	Metals & Mining
-AC.TO	Air Canada	Industrials	Airlines
-ASR.TO	Alacer Gold Corp.	Materials	Metals & Mining
-AGI.TO	Alamos Gold Inc.	Materials	Metals & Mining
-AD.TO	Alaris Royalty Corp.	Financials	Banks
+# Symbol	Company	Sector [6]	Industry [6]
+ABX.TO	Barrick Gold Corporation	Basic Materials	Metals & Mining
+AC.TO	Air Canada	Industrials	Transportation
+ACB.TO	Aurora Cannabis Inc.	Healthcare	Drug Manufacturers
+ACO-X.TO	ATCO Ltd.	Utilities	Regulated Utilities
+AEM.TO	Agnico Eagle Mines Limited	Basic Materials	Metals & Mining
+AGI.TO	Alamos Gold Inc.	Basic Materials	Metals & Mining
+AIF.TO	Altus Group Limited	Real Estate	Real Estate
+ALA.TO	AltaGas Ltd.	Utilities	Regulated Utilities
+AP-UN.TO	Allied Properties Real Estate Investment Trust	Real Estate	REITs
 AQN.TO	Algonquin Power & Utilities Corp.	Utilities	Independent Power Producers
-ATD-B.TO	Alimentation Couche-Tard Inc.	Consumer staples	Retail
-AP-UN.TO	Allied Properties Real Estate Investment Trust	Financials	REITs
-ALA.TO	AltaGas Ltd.	Energy	Midstream
-AIF.TO	Altus Group Limited	Financials	Application Software
-APHA.TO	Aphria Inc.	Health care
-ARX.TO	ARC Resources Ltd.	Energy
-AX-UN.TO	Artis Real Estate Investment Trust	Financials
-ACO-X.TO	ATCO Ltd.	Utilities
-ATA.TO	ATS Automation Tooling Systems Inc.	Industrials
-BTO.TO	B2Gold Corp.	Materials
-BAD.TO	Badger Daylighting Ltd.	Industrials
-BMO.TO	Bank of Montreal	Financials
-BNS.TO	Bank of Nova Scotia	Financials
-ABX.TO	Barrick Gold Corporation	Materials
-BTE.TO	Baytex Energy Corp.	Energy
-BCE.TO	BCE Inc.	Telecommunication services
-BIR.TO	Birchcliff Energy Ltd.	Energy
-BB.TO	BlackBerry Limited	Information technology
-BEI-UN.TO	Boardwalk Real Estate Investment Trust	Financials
-BBD-B.TO	Bombardier Inc.	Industrials
-BLX.TO	Boralex Inc.	Utilities
-BYD-UN.TO	Boyd Group Income Fund	Industrials
-BAM-A.TO	Brookfield Asset Management Inc.	Financials
-BBU-UN.TO	Brookfield Business Partners L.P.	Industrials
-BIP-UN.TO	Brookfield Infrastructure Partners L.P.	Utilities
-BPY-UN.TO	Brookfield Property Partners L.P.	Financials
-BEP-UN.TO	Brookfield Renewable Partners L.P.	Utilities
-DOO.TO	BRP Inc.	Consumer discretionary
-CAE.TO	CAE Inc.	Industrials
-CCO.TO	Cameco Corporation	Energy
-GOOS.TO	Canada Goose Holdings Inc.	Consumer discretionary
-CAR-UN.TO	Canadian Apartment Properties Real Estate Investment Trust	Financials
-CM.TO	Canadian Imperial Bank of Commerce	Financials
-CNR.TO	Canadian National Railway Company	Industrials
-CNQ.TO	Canadian Natural Resources Limited	Energy
-CP.TO	Canadian Pacific Railway Limited	Industrials
-#REF-UN.TO	Canadian Real Estate Investment Trust	Financials
-CTC-A.TO	Canadian Tire Corporation Limited	Consumer discretionary
-CU.TO	Canadian Utilities Limited	Utilities
-CWB.TO	Canadian Western Bank	Financials
-CFP.TO	Canfor Corporation	Materials
-WEED.TO	Canopy Growth Corporation	Consumer staples
-CPX.TO	Capital Power Corporation	Utilities
-CAS.TO	Cascades Inc.	Materials
-CCL-B.TO	CCL Industries Inc.	Materials
-CLS.TO	Celestica Inc.	Information technology
-CVE.TO	Cenovus Energy Inc.	Energy
-CG.TO	Centerra Gold Inc.	Materials
-CEU.TO	CES Energy Solutions Corp.	Energy
-GIB-A.TO	CGI Group Inc.	Information technology
-CSH-UN.TO	Chartwell Retirement Residences	Financials
-CHE-UN.TO	Chemtrade Logistics Income Fund	Materials
-CHR.TO	Chorus Aviation Inc.	Industrials
-CIX.TO	CI Financial Corp.	Financials
-CGX.TO	Cineplex Inc.	Consumer discretionary
-CCA.TO	Cogeco Communications Inc.	Consumer discretionary
-CIGI.TO	Colliers International Group Inc.	Financials
-CUF-UN.TO	Cominar Real Estate Investment Trust	Financials
-CMG.TO	Computer Modelling Group Ltd.	Information technology
-CSU.TO	Constellation Software Inc.	Information technology
-CJR-B.TO	Corus Entertainment Inc.	Consumer discretionary
-BCB.TO	Cott Corporation	Consumer staples
-CPG.TO	Crescent Point Energy Corp.	Energy
-CR.TO	Crew Energy Inc.	Energy
-CRR-UN.TO	Crombie Real Estate Investment Trust	Financials
-DSG.TO	Descartes Systems Group Inc.	Information technology
-DGC.TO	Detour Gold Corporation	Materials
-DOL.TO	Dollarama Inc.	Consumer discretionary
-DII-B.TO	Dorel Industries Inc.	Consumer discretionary
-DRG-UN.TO	Dream Global Real Estate Investment Trust	Financials
-D-UN.TO	Dream Office Real Estate Investment Trust	Financials
-ECN.TO	ECN Capital Corp.	Financials
-ELD.TO	Eldorado Gold Corporation	Materials
-EFN.TO	Element Fleet Management Corp.	Financials
-EMA.TO	Emera Incorporated	Utilities
-EMP-A.TO	Empire Company Limited	Consumer staples
-ENB.TO	Enbridge Inc.	Energy
-#ENF.TO	Enbridge Income Fund Holdings Inc.	Energy
-ECA.TO	Encana Corporation	Energy
-EDV.TO	Endeavour Mining Corporation	Materials
-#ECI.TO	EnerCare Inc.	Industrials
-EFX.TO	Enerflex Ltd.	Energy
-ERF.TO	Enerplus Corporation	Energy
-ENGH.TO	Enghouse Systems Limited	Information technology
-ESI.TO	Ensign Energy Services Inc.	Energy
-EIF.TO	Exchange Income Corporation	Aviation / equipment
-EXE.TO	Extendicare Inc.	Health care
-FFH.TO	Fairfax Financial Holdings Limited	Financials
-FTT.TO	Finning International Inc.	Industrials
-FCR.TO	First Capital Realty Inc.	Financials
-FR.TO	First Majestic Silver Corp.	Materials
-FM.TO	First Quantum Minerals Ltd.	Materials
-FSV.TO	FirstService Corporation	Financials
-FTS.TO	Fortis Inc.	Utilities
-FVI.TO	Fortuna Silver Mines Inc.	Materials
-FNV.TO	Franco-Nevada Corporation	Materials
-FRU.TO	Freehold Royalties Ltd.	Energy
-MIC.TO	Genworth MI Canada Inc.	Financials
-WN.TO	George Weston Limited	Consumer staples
-GEI.TO	Gibson Energy Inc.	Energy	Integrated Oil and Gas
-GIL.TO	Gildan Activewear Inc.	Consumer discretionary
-#G.TO	Goldcorp Inc.	Materials
-GTE.TO	Gran Tierra Energy Inc.	Energy
-GRT-UN.TO	Granite Real Estate Investment Trust	Financials
-GC.TO	Great Canadian Gaming Corporation	Consumer discretionary
-GWO.TO	Great-West Lifeco Inc.	Financials
-GUY.TO	Guyana Goldfields Inc.	Materials	Metals & Mining
-HR-UN.TO	H&R Real Estate Investment Trust	Financials
-HCG.TO	Home Capital Group Inc.	Financials
-HBM.TO	HudBay Minerals Inc.	Materials
-HBC.TO	Hudson's Bay Company	Consumer discretionary
-HSE.TO	Husky Energy Inc.	Energy
-H.TO	Hydro One Limited	Utilities
-IMG.TO	Iamgold Corporation	Materials
-IGM.TO	IGM Financial Inc.	Financials
-IMO.TO	Imperial Oil Limited	Energy
-IAG.TO	Industrial Alliance Insurance and Financial Services Inc.	Financials
-INE.TO	Innergex Renewable Energy Inc.	Utilities
-IFC.TO	Intact Financial Corporation	Financials
-IPL.TO	Inter Pipeline Ltd.	Energy
-IFP.TO	Interfor Corporation	Materials
-ITP.TO	Intertape Polymer Group Inc.	Materials
-IVN.TO	Ivanhoe Mines Ltd.	Materials
-#PJC-A.TO	Jean Coutu Group Inc.	Consumer staples
-KEL.TO	Kelt Exploration Ltd.	Energy
-KEY.TO	Keyera Corp.	Energy
-KMP-UN.TO	Killiam Apartment Real Estate Investment Trust	Financials
-KXS.TO	Kinaxis Inc.	Information technology
-KML.TO	Kinder Morgan Canada	Energy
-K.TO	Kinross Gold Corporation	Materials
-KL.TO	Kirkland Lake Gold Inc.	Materials
-#KDX.TO	Klondex Mines Ltd.	Materials
-GUD.TO	Knight Therapeutics Inc.	Health care	Drug manufacturers
-LIF.TO	Labrador Iron Ore Royalty Corporation	Materials
-LB.TO	Laurentian Bank of Canada	Financials
-LNR.TO	Linamar Corporation	Consumer discretionary
-L.TO	Loblaw Companies Limited	Consumer staples
-LUC.TO	Lucara Diamond Corp.	Materials
-LUN.TO	Lundin Mining Corporation	Materials
-MAG.TO	MAG Silver Corp.	Materials
-MG.TO	Magna International Inc.	Consumer discretionary
-MFC.TO	Manulife Financial Corporation	Financials
-MFI.TO	Maple Leaf Foods Inc.	Consumer staples
-MRE.TO	Martinrea International Inc.	Consumer discretionary
-MAXR.TO	Maxar Technologies Ltd.	Information technology
-MEG.TO	MEG Energy Corp.	Energy
-MX.TO	Methanex Corporation	Materials
-MRU.TO	Metro Inc.	Consumer staples
-#MNW.TO	Mitel Networks Corporation	Information technology
-MSI.TO	Morneau Shepell Inc.	Industrials
-MTL.TO	Mullen Group Ltd.	Energy
-NA.TO	National Bank of Canada	Financials
-#NSU.TO	Nevsun Resources Ltd.	Materials
-NFI.TO	New Flyer Industries Inc.	Industrials
-NGD.TO	New Gold Inc.	Materials
-NXE.TO	NexGen Energy Ltd.	Materials
-OSB.TO	Norbord Inc.	Materials
-NPI.TO	Northland Power Inc.	Utilities
-NVU-UN.TO	Northview Apartment Real Estate Investment Trust	Financials
-NG.TO	NovaGold Resources Inc.	Materials
-NTR.TO	Nutrien Ltd.	Materials
-NVA.TO	NuVista Energy Ltd.	Energy
-OGC.TO	OceanaGold Corporation	Materials
-ONEX.TO	Onex Corporation	Financials
-OTEX.TO	Open Text Corporation	Information technology
-OR.TO	Osisko Gold Royalties Ltd	Materials
-PAAS.TO	Pan American Silver Corp.	Materials
-POU.TO	Paramount Resources Ltd.	Energy
-PXT.TO	Parex Resources Inc.	Energy
-PKI.TO	Parkland Fuel Corporation	Energy
-PSI.TO	Pason Systems Inc.	Energy
-PPL.TO	Pembina Pipeline Corporation	Energy
-PEY.TO	Peyto Exploration & Development Corp.	Energy
-POW.TO	Power Corporation of Canada	Financials
-PWF.TO	Power Financial Corporation	Financials
-PSK.TO	PrairieSky Royalty Ltd.	Energy
-PD.TO	Precision Drilling Corporation	Energy
-PBH.TO	Premium Brands Holdings Corporation	Consumer staples
-PVG.TO	Pretium Resources Inc.	Materials
-PLI.TO	ProMetic Life Sciences Inc.	Health care
-#AAR-UN.TO	Pure Industrial Real Estate Trust	Financials
-QBR-B.TO	Quebecor Inc.	Consumer discretionary
-#RRX.TO	Raging River Exploration Inc.	Energy
-QSR.TO	Restaurant Brands International Inc.	Consumer discretionary
-REI-UN.TO	RioCan Real Estate Investment Trust	Financials
-RBA.TO	Ritchie Bros. Auctioneers Incorporated	Industrials
-RCI-B.TO	Rogers Communications Inc.	Telecommunication services
-RY.TO	Royal Bank of Canada	Financials
-RUS.TO	Russel Metals Inc.	Industrials
-SSL.TO	Sandstorm Gold Ltd.	Materials
-SAP.TO	Saputo Inc.	Consumer staples
-SES.TO	Secure Energy Services Inc.	Energy
-SMF.TO	Semafo Inc.	Materials
-VII.TO	Seven Generations Energy Ltd.	Energy
-SJR-B.TO	Shaw Communications Inc.	Telecommunication services
-SCL.TO	ShawCor Ltd.	Energy
-SHOP.TO	Shopify Inc.	Information technology
-SW.TO	Sierra Wireless Inc.	Information technology
-ZZZ.TO	Sleep Country Canada Holdings Inc.	Consumer discretionary
-SRU-UN.TO	SmartCentres Real Estate Investment Trust	Financials
-SNC.TO	SNC-Lavalin Group Inc.	Industrials
-#SPE.TO	Spartan Energy Corp.	Energy
-TOY.TO	Spin Master Corp.	Consumer discretionary
-SSRM.TO	SSR Mining	Materials
-STN.TO	Stantec Inc.	Industrials
-SJ.TO	Stella-Jones Inc.	Materials
-SLF.TO	Sun Life Financial Inc.	Financials
-SU.TO	Suncor Energy Inc.	Energy
-SPB.TO	Superior Plus Corp.	Industrials
-#THO.TO	Tahoe Resources Inc.	Materials
-TECK-B.TO	Teck Resources Limited	Materials
-T.TO	Telus Corporation	Telecommunication services
-TFII.TO	TFI International Inc.	Industrials
-NWC.TO	The North West Company Inc.	Consumer staples
-TSGI.TO	The Stars Group Inc.	Consumer discretionary
-TRI.TO	Thomson Reuters Corporation	Consumer discretionary
-X.TO	TMX Group Limited	Financials
-TOG.TO	TORC Oil & Gas Ltd.	Energy
-TXG.TO	Torex Gold Resources Inc.	Materials
-TIH.TO	Toromont Industries Ltd.	Industrials
-TD.TO	Toronto-Dominion Bank	Financials
-TOU.TO	Tourmaline Oil Corp.	Energy
-TA.TO	TransAlta Corporation	Utilities
-RNW.TO	TransAlta Renewables Inc.	Utilities
-TRP.TO	TransCanada Corporation	Energy
-TCL-A.TO	Transcontinental Inc.	Industrials
-TCW.TO	Trican Well Service Ltd.	Energy
-TCN.TO	Tricon Capital Group Inc.	Financials
-TRQ.TO	Turquoise Hill Resources Ltd.	Materials
-UNS.TO	Uni-Select Inc.	Consumer discretionary
-#VRX.TO	Valeant Pharmaceuticals International Inc.	Health care
-VET.TO	Vermilion Energy Inc.	Energy
-WCN.TO	Waste Connections Inc.	Industrials
-WFT.TO	West Fraser Timber Co. Ltd.	Materials
-WEF.TO	Western Forest Products Inc.	Materials
-WJA.TO	WestJet Airlines Ltd.	Industrials
-WTE.TO	Westshore Terminals Investment Corporation	Industrials
-WPM.TO	Wheaton Precious Metals Corp.	Materials
-WCP.TO	Whitecap Resources Inc.	Energy
-WPK.TO	Winpak Ltd.	Materials
-WSP.TO	WSP Global Inc.	Industrials
-YRI.TO	Yamana Gold Inc.	Materials
+ARE.TO	Aecon Group Inc.	Industrials	Construction
+ARX.TO	ARC Resources Ltd.	Energy	Oil & Gas
+ATA.TO	ATS Automation Tooling Systems Inc.	Industrials	Industrial Products
+ATD.TO	Alimentation Couche-Tard Inc.	Consumer Defensive	Retail Defensive
+ATZ.TO	Aritzia Inc.	Consumer Cyclical	Retail Cyclical
+#AUP.TO	Aurinia Pharmaceuticals Inc.	Healthcare	Biotechnology
+AX-UN.TO	Artis Real Estate Investment Trust	Real Estate	REITs
+BAM-A.TO	Brookfield Asset Management Inc.	Financial Services	Asset Management
+BB.TO	BlackBerry Limited	Technology	Software
+BBD-B.TO	Bombardier Inc.	Industrials	Aerospace & Defense
+BBU-UN.TO	Brookfield Business Partners L.P.	Industrials	Conglomerates
+BCE.TO	BCE Inc.	Communication Services	Telecommunication Services
+BDGI.TO	Badger Infrastructure Solutions Ltd.	Industrials	Construction
+BEI-UN.TO	Boardwalk Real Estate Investment Trust	Real Estate	REITs
+BEP-UN.TO	Brookfield Renewable Partners L.P.	Utilities	Independent Power Producers
+BHC.TO	Bausch Health Companies Inc.	Healthcare	Drug Manufacturers
+BIP-UN.TO	Brookfield Infrastructure Partners L.P.	Utilities	Regulated Utilities
+BIR.TO	Birchcliff Energy	Energy	Oil & Gas
+BLDP.TO	Ballard Power Systems Inc.	Industrials	Industrial Products
+BLX.TO	Boralex Inc.	Utilities	Independent Power Producers
+BMO.TO	Bank of Montreal	Financial Services	Banks
+BNS.TO	Bank of Nova Scotia	Financial Services	Banks
+#BPY-UN.TO	Brookfield Property Partners L.P.	Real Estate	Real Estate
+BTO.TO	B2Gold Corp.	Basic Materials	Metals & Mining
+BYD.TO	Boyd Group Services Inc.	Consumer Cyclical	Personal Services
+CAE.TO	CAE Inc.	Industrials	Aerospace & Defense
+CAR-UN.TO	Canadian Apartment Properties Real Estate Investment Trust	Real Estate	REITs
+CAS.TO	Cascades Inc.	Basic Materials	Forest Products
+CCA.TO	Cogeco Communications Inc.	Communication Services	Telecommunication Services
+CCL-B.TO	CCL Industries Inc.	Consumer Cyclical	Packaging & Containers
+CCO.TO	Cameco Corporation	Energy	Other Energy Sources
+CF.TO	Canaccord Genuity Group Inc.	Financial Services	Capital Markets
+CFP.TO	Canfor Corporation	Basic Materials	Forest Products
+CG.TO	Centerra Gold Inc.	Basic Materials	Metals & Mining
+CHP-UN.TO	Choice Properties Real Estate Investment Trust	Real Estate	REITs
+CIGI.TO	Colliers International Group Inc.	Real Estate	Real Estate
+CIX.TO	CI Financial Corp.	Financial Services	Asset Management
+CJR-B.TO	Corus Entertainment Inc.	Communication Services	Diversified Media
+CJT.TO	Cargojet Inc.	Industrials	Transportation
+CLS.TO	Celestica Inc.	Technology	Hardware
+CM.TO	Canadian Imperial Bank of Commerce	Financial Services	Banks
+CNQ.TO	Canadian Natural Resources Limited	Energy	Oil & Gas
+CNR.TO	Canadian National Railway Company	Industrials	Transportation
+CP.TO	Canadian Pacific Railway Limited	Industrials	Transportation
+CPG.TO	Crescent Point Energy Corp.	Energy	Oil & Gas
+CPX.TO	Capital Power Corporation	Utilities	Independent Power Producers
+CRON.TO	Cronos Group Inc.	Healthcare	Drug Manufacturers
+CRR-UN.TO	Crombie Real Estate Investment Trust	Real Estate	REITs
+CRT-UN.TO	CT Real Estate Investment Trust	Real Estate	REITs
+CS.TO	Capstone Mining Corp.	Basic Materials	Metals & Mining
+CSH-UN.TO	Chartwell Retirement Residences	Real Estate	Real Estate
+CSU.TO	Constellation Software Inc.	Technology	Software
+CTC-A.TO	Canadian Tire Corporation Limited	Consumer Cyclical	Retail Cyclical
+CTS.TO	Converge Technology Solutions Corp.	Technology	IT Consulting & Other Services
+CU.TO	Canadian Utilities Limited	Utilities	Regulated Utilities
+#CUF-UN.TO	Cominar Real Estate Investment Trust	Real Estate	REITs
+CVE.TO	Cenovus Energy Inc.	Energy	Oil & Gas
+CWB.TO	Canadian Western Bank	Financial Services	Banks
+D-UN.TO	Dream Office Real Estate Investment Trust	Real Estate	REITs
+DCBO.TO	Docebo Inc.	Technology	Application Software
+DIR-UN.TO	Dream Industrial Real Estate Investment Trust	Real Estate	REITs
+DML.TO	Denison Mines Corp.	Energy	Other Energy Sources
+DND.TO	Dye & Durham Limited	Technology	Software
+DOL.TO	Dollarama Inc.	Consumer Defensive	Retail Defensive
+DOO.TO	BRP Inc.	Consumer Cyclical	Vehicles & Parts
+DPM.TO	Dundee Precious Metals Inc.	Basic Materials	Metals & Mining
+DSG.TO	Descartes Systems Group Inc.	Technology	Software
+ECN.TO	ECN Capital Corp.	Financial Services	Credit Services
+EDR.TO	Endeavour Silver Corp.	Basic Materials	Metals & Mining
+EFN.TO	Element Fleet Management Corp.	Industrials	Business Services
+EIF.TO	Exchange Income Corporation	Industrials	Transportation
+ELD.TO	Eldorado Gold Corporation	Basic Materials	Metals & Mining
+EMA.TO	Emera Incorporated	Utilities	Regulated Utilities
+EMP-A.TO	Empire Company	Consumer Defensive	Retail Defensive
+ENB.TO	Enbridge Inc.	Energy	Oil & Gas
+ENGH.TO	Enghouse Systems Limited	Technology	Software
+EQB.TO	Equitable Group Inc.	Financial Services	Banks
+EQX.TO	Equinox Gold Corp.	Basic Materials	Metals & Mining
+ERF.TO	Enerplus Corporation	Energy	Oil & Gas
+ERO.TO	Ero Copper Corp.	Basic Materials	Metals & Mining
+FCR-UN.TO	First Capital Real Estate Investment Trust	Real Estate	REITs
+FFH.TO	Fairfax Financial Holdings Limited	Financial Services	Insurance
+FM.TO	First Quantum Minerals Ltd.	Basic Materials	Metals & Mining
+FNV.TO	Franco-Nevada Corporation	Basic Materials	Metals & Mining
+FR.TO	First Majestic Silver Corp.	Basic Materials	Metals & Mining
+FSV.TO	FirstService Corporation	Real Estate	Real Estate
+FTS.TO	Fortis Inc.	Utilities	Regulated Utilities
+FTT.TO	Finning International Inc.	Industrials	Industrial Distribution
+FVI.TO	Fortuna Silver Mines Inc.	Basic Materials	Metals & Mining
+GEI.TO	Gibson Energy Inc.	Energy	Oil & Gas
+GFL.TO	GFL Environmental Inc.	Industrials	Waste Management
+GIB-A.TO	CGI Inc.	Technology	Software
+GIL.TO	Gildan Activewear Inc.	Consumer Cyclical	Apparel & Accessories
+GOOS.TO	Canada Goose Holdings Inc.	Consumer Cyclical	Apparel & Accessories
+GRT-UN.TO	Granite Real Estate Investment Trust	Real Estate	REITs
+GSY.TO	goeasy Ltd.	Financial Services	Credit Services
+GWO.TO	Great-West Lifeco Inc.	Financial Services	Insurance
+H.TO	Hydro One Limited	Utilities	Regulated Utilities
+HBM.TO	Hudbay Minerals Inc.	Basic Materials	Metals & Mining
+HCG.TO	Home Capital Group Inc.	Financial Services	Banks
+HR-UN.TO	H&R Real Estate Investment Trust	Real Estate	REITs
+IAG.TO	iA Financial Corporation Inc.	Financial Services	Insurance
+IFC.TO	Intact Financial Corporation	Financial Services	Insurance
+IFP.TO	Interfor Corporation	Basic Materials	Forest Products
+IGM.TO	IGM Financial Inc.	Financial Services	Asset Management
+IIP-UN.TO	InterRent Real Estate Investment Trust	Real Estate	REITs
+IMG.TO	Iamgold Corporation	Basic Materials	Metals & Mining
+IMO.TO	Imperial Oil Limited	Energy	Oil & Gas
+INE.TO	Innergex Renewable Energy Inc.	Utilities	Independent Power Producers
+#IPL.TO	Inter Pipeline Ltd.	Energy	Oil & Gas
+#ITP.TO	Intertape Polymer Group Inc.	Consumer Cyclical	Packaging & Containers
+IVN.TO	Ivanhoe Mines Ltd.	Basic Materials	Metals & Mining
+JWEL.TO	Jamieson Wellness Inc.	Consumer Defensive	Consumer Packaged Goods
+K.TO	Kinross Gold Corporation	Basic Materials	Metals & Mining
+KEY.TO	Keyera Corp.	Energy	Oil & Gas
+#KL.TO	Kirkland Lake Gold Ltd.	Basic Materials	Metals & Mining
+KMP-UN.TO	Killam Apartment Real Estate Investment Trust	Real Estate	REITs
+KNT.TO	K92 Mining Inc.	Basic Materials	Metals & Mining
+KXS.TO	Kinaxis Inc.	Technology	Software
+L.TO	Loblaw Companies Limited	Consumer Defensive	Retail Defensive
+LAC.TO	Lithium Americas Corp.	Basic Materials	Metals & Mining
+LB.TO	Laurentian Bank of Canada	Financial Services	Banks
+LIF.TO	Labrador Iron Ore Royalty Corporation	Basic Materials	Steel
+LNR.TO	Linamar Corporation	Consumer Cyclical	Vehicles & Parts
+LSPD.TO	Lightspeed POS Inc.	Technology	Software
+LUN.TO	Lundin Mining Corporation	Basic Materials	Metals & Mining
+#LWRK.TO	LifeWorks Inc.	Technology	Software
+MAG.TO	MAG Silver Corp.	Basic Materials	Metals & Mining
+MEG.TO	MEG Energy Corp.	Energy	Oil & Gas
+MFC.TO	Manulife Financial Corporation	Financial Services	Insurance
+MFI.TO	Maple Leaf Foods Inc.	Consumer Defensive	Consumer Packaged Goods
+MG.TO	Magna International Inc.	Consumer Cyclical	Vehicles & Parts
+MRE.TO	Martinrea International Inc.	Consumer Cyclical	Vehicles & Parts
+MRU.TO	Metro Inc.	Consumer Defensive	Retail Defensive
+MTL.TO	Mullen Group Ltd.	Industrials	Transportation
+MTY.TO	MTY Food Group	Consumer Cyclical	Restaurants
+MX.TO	Methanex Corporation	Basic Materials	Chemicals
+NA.TO	National Bank of Canada	Financial Services	Banks
+NFI.TO	NFI Group Inc.	Consumer Cyclical	Vehicles & Parts
+NG.TO	NovaGold Resources Inc.	Basic Materials	Metals & Mining
+NGD.TO	New Gold Inc.	Basic Materials	Metals & Mining
+NPI.TO	Northland Power Inc.	Utilities	Independent Power Producers
+NTR.TO	Nutrien Ltd.	Basic Materials	Agriculture
+NVEI.TO	Nuvei Corporation	Technology	Software
+NWC.TO	The North West Company Inc.	Consumer Defensive	Retail Defensive
+NWH-UN.TO	NorthWest Healthcare Properties Real Estate Investment Trust	Real Estate	REITs
+NXE.TO	NexGen Energy Ltd.	Energy	Other Energy Sources
+OGC.TO	OceanaGold Corporation	Basic Materials	Metals & Mining
+OGI.TO	OrganiGram Holdings Inc.	Healthcare	Drug Manufacturers
+ONEX.TO	Onex Corporation	Financial Services	Asset Management
+OR.TO	Osisko Gold Royalties Ltd.	Basic Materials	Metals & Mining
+OSK.TO	Osisko Mining Inc.	Basic Materials	Metals & Mining
+OTEX.TO	Open Text Corporation	Technology	Software
+PAAS.TO	Pan American Silver Corp.	Basic Materials	Metals & Mining
+PBH.TO	Premium Brands Holdings Corporation	Consumer Defensive	Consumer Packaged Goods
+PKI.TO	Parkland Corporation	Energy	Oil & Gas
+POW.TO	Power Corporation of Canada	Financial Services	Insurance
+PPL.TO	Pembina Pipeline Corporation	Energy	Oil & Gas
+PRMW.TO	Primo Water Corporation	Consumer Defensive	Non-Alcoholic Beverages
+PSK.TO	PrairieSky Royalty Ltd.	Energy	Oil & Gas
+#PVG.TO	Pretium Resources Inc.	Basic Materials	Metals & Mining
+PXT.TO	Parex Resources Inc.	Energy	Oil & Gas
+QBR-B.TO	Quebecor Inc.	Communication Services	Telecommunication Services
+QSR.TO	Restaurant Brands International Inc.	Consumer Cyclical	Restaurants
+RBA.TO	Ritchie Bros. Auctioneers Incorporated	Industrials	Business Services
+RCH.TO	Richelieu Hardware Ltd.	Consumer Cyclical	Furnishings, Fixtures & Appliances
+RCI-B.TO	Rogers Communications Inc.	Communication Services	Telecommunication Services
+REAL.TO	Real Matters Inc.	Technology	Software
+REI-UN.TO	RioCan Real Estate Investment Trust	Real Estate	REITs
+RNW.TO	TransAlta Renewables Inc.	Utilities	Independent Power Producers
+RUS.TO	Russel Metals Inc.	Industrials	Industrial Distribution
+RY.TO	Royal Bank of Canada	Financial Services	Banks
+SAP.TO	Saputo Inc.	Consumer Defensive	Consumer Packaged Goods
+SEA.TO	Seabridge Gold Inc.	Basic Materials	Metals & Mining
+SHOP.TO	Shopify Inc.	Technology	Software
+SIA.TO	Sienna Senior Living Inc.	Healthcare	Healthcare Providers & Services
+SII.TO	Sprott Inc.	Financial Services	Asset Management
+SIL.TO	SilverCrest Metals Inc.	Basic Materials	Metals & Mining
+SJ.TO	Stella-Jones Inc.	Basic Materials	Forest Products
+SJR-B.TO	Shaw Communications Inc.	Communication Services	Telecommunication Services
+SLF.TO	Sun Life Financial Inc.	Financial Services	Insurance
+SMU-UN.TO	Summit Industrial Income REIT	Real Estate	REITs
+SNC.TO	SNC-Lavalin Group Inc.	Industrials	Construction
+SOY.TO	SunOpta Inc.	Consumer Defensive	Consumer Packaged Goods
+SPB.TO	Superior Plus Corp.	Utilities	Regulated Utilities
+SRU-UN.TO	SmartCentres Real Estate Investment Trust	Real Estate	REITs
+SSL.TO	Sandstorm Gold Ltd.	Basic Materials	Metals & Mining
+SSRM.TO	SSR Mining Inc.	Basic Materials	Metals & Mining
+STLC.TO	Stelco Holdings Inc.	Basic Materials	Steel
+STN.TO	Stantec Inc.	Industrials	Construction
+SU.TO	Suncor Energy Inc.	Energy	Oil & Gas
+SVM.TO	Silvercorp Metals Inc.	Basic Materials	Metals & Mining
+T.TO	Telus Corporation	Communication Services	Telecommunication Services
+TA.TO	TransAlta Corporation	Utilities	Independent Power Producers
+TCL-A.TO	Transcontinental Inc.	Industrials	Business Services
+TCN.TO	Tricon Residential Inc.	Real Estate	Real Estate
+TD.TO	Toronto-Dominion Bank	Financial Services	Banks
+TECK-B.TO	Teck Resources Limited	Basic Materials	Metals & Mining
+TFII.TO	TFI International Inc.	Industrials	Transportation
+TIH.TO	Toromont Industries Ltd.	Industrials	Industrial Distribution
+TIXT.TO	Telus International	Information Technology	Data Processing & Outsourced Services
+TLRY.TO	Tilray Inc.	Healthcare	Drug Manufacturers
+TOU.TO	Tourmaline Oil	Energy	Oil & Gas
+TOY.TO	Spin Master Corp.	Consumer Cyclical	Travel & Leisure
+TRI.TO	Thomson Reuters Corporation	Industrials	Business Services
+TRP.TO	TC Energy Corporation	Energy	Oil & Gas
+TRQ.TO	Turquoise Hill Resources Ltd.	Basic Materials	Metals & Mining
+TSU.TO	Trisura Group Ltd.	Financial Services	Insurance
+TXG.TO	Torex Gold Resources Inc.	Basic Materials	Metals & Mining
+VET.TO	Vermilion Energy Inc.	Energy	Oil & Gas
+#VFF.TO	Village Farms International, Inc.	Consumer Defensive	Consumer Packaged Goods
+WCN.TO	Waste Connections Inc.	Industrials	Waste Management
+WCP.TO	Whitecap Resources Inc.	Energy	Oil & Gas
+WDO.TO	Wesdome Gold Mines Ltd.	Basic Materials	Metals & Mining
+WEED.TO	Canopy Growth Corporation	Healthcare	Drug Manufacturers
+WELL.TO	WELL Health Technologies Corp.	Healthcare	Health Care Services
+WFG.TO	West Fraser Timber Co. Ltd.	Basic Materials	Forest Products
+#WIR-UN.TO	WPT Industrial Real Estate Investment Trust	Real Estate	REITs
+WN.TO	George Weston Limited	Consumer Defensive	Retail Defensive
+WPK.TO	Winpak Ltd.	Consumer Cyclical	Packaging & Containers
+WPM.TO	Wheaton Precious Metals Corp.	Basic Materials	Metals & Mining
+WPRT.TO	Westport Fuel Systems Inc.	Consumer Cyclical	Vehicles & Parts
+WSP.TO	WSP Global Inc.	Industrials	Construction
+WTE.TO	Westshore Terminals Investment Corporation	Industrials	Transportation
+X.TO	TMX Group Limited	Financial Services	Capital Markets
+YRI.TO	Yamana Gold Inc.	Basic Materials	Metals & Mining
+ZZZ.TO	Sleep Country Canada Holdings Inc.	Consumer Cyclical	Retail Cyclical
