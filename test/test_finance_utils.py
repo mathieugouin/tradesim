@@ -89,7 +89,6 @@ def test_validate_symbol_data_bad():
     assert not fu.validate_symbol_data(filename)
 
 
-
 def test_get_all_symbols():
     d = 'stock_db/test'
     assert len(fu.get_all_symbols(d)) > 3
