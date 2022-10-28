@@ -48,8 +48,8 @@ class StockDBMgr(object):
         s += "  Start Date: %s\n" % self._start_date
         s += "  End Date: %s\n" % self._end_date
         s += "  Adjust price: %s\n" % self._adjust_price
-        s += "  Cached symbols:\n"
         if len(self._dic) > 0:
+            s += "  Cached symbols:\n"
             for symbol in self._dic:
                 s += "    %s\n" % symbol
         return s
