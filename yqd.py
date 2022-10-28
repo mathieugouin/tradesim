@@ -49,7 +49,7 @@ def _get_cookie_crumb():
 
     # Extract the crumb from the response
     # Looking for: "CrumbStore":{"crumb":"Gke.RBNmMtU"}
-    m = re.search('\\"CrumbStore\\"\\:\\{\\"crumb\\"\\:\\"(.+?)\\"\\}', alines)
+    m = re.search(r'"CrumbStore"\:\{"crumb"\:"(.+?)"\}', alines)
     if m is not None:
         _crumb = m.group(1)
 

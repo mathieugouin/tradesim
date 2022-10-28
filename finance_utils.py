@@ -39,12 +39,12 @@ def calc_commission_etf(nb_share):
 
 def filename_to_symbol(filename):
     """Return the basename of the filename without the .csv at the end."""
-    return re.sub('\.csv', '', re.sub('^_', '^', os.path.basename(filename)), flags=re.IGNORECASE)
+    return re.sub(r'\.csv', '', re.sub('^_', '^', os.path.basename(filename)), flags=re.IGNORECASE)
 
 
 def symbol_to_filename(symbol, basedir):
     """Return the complete filename path based on the symbol and basedir."""
-    return os.path.join(basedir, re.sub('^\^', '_', symbol.upper())) + '.csv'
+    return os.path.join(basedir, re.sub(r'^\^', '_', symbol.upper())) + '.csv'
 
 
 def get_all_symbols(basedir):

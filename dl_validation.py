@@ -29,7 +29,7 @@ def check_db(path):
     inv = []
 
     symbolList = db.get_all_symbols()
-    #print(symbolList)
+    # print(symbolList)
 
     for s in symbolList:
         if not db.validate_symbol_data(s):
@@ -49,7 +49,7 @@ def check_db(path):
 
             if (today - t) > datetime.timedelta(4):
                 inv.append(s)
-                #print("%s: len = %d" % (s, len(df)))
+                # print("%s: len = %d" % (s, len(df)))
 
     if len(inv) > 0:
         print("Invalid list:")
