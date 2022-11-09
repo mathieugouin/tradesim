@@ -56,9 +56,6 @@ def _get_cookie_crumb():
     if _crumb is None:
         raise AssertionError('Could not get initial cookie crumb from Yahoo.')
 
-    # Print the cookie and crumb
-    # print('Crumb:', _crumb)
-
 
 def load_yahoo_quote(ticker, begindate, enddate, info='quote'):
     """Loads the corresponding history/divident/split from Yahoo.
@@ -114,7 +111,4 @@ def load_yahoo_quote(ticker, begindate, enddate, info='quote'):
     if len(alines) < 5:
         print('\nERROR: Symbol not found:', ticker)
 
-    # print(alines)
-
-    # return alines.split('\n')
     return alines
