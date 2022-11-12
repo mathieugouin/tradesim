@@ -40,6 +40,20 @@ class StockDBMgr(object):
         self._adjust_price = adjust_price
         self._dic = {}
 
+    def __str__(self):
+        """Converts the StockDBMgr to a string representation."""
+        s = ""
+        s += "StockDBMgr class\n"
+        s += "  Base directory: %s\n" % self._basedir
+        s += "  Start Date: %s\n" % self._start_date
+        s += "  End Date: %s\n" % self._end_date
+        s += "  Adjust price: %s\n" % self._adjust_price
+        if len(self._dic) > 0:
+            s += "  Cached symbols:\n"
+            for symbol in self._dic:
+                s += "    %s\n" % symbol
+        return s
+
     def get_all_symbols(self):
         """Return a list of ticker symbols corresponding to the data available locally on disk."""
         return fu.get_all_symbols(self._basedir)

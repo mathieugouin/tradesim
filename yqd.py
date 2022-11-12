@@ -49,15 +49,12 @@ def _get_cookie_crumb():
 
     # Extract the crumb from the response
     # Looking for: "CrumbStore":{"crumb":"Gke.RBNmMtU"}
-    m = re.search('\\"CrumbStore\\"\\:\\{\\"crumb\\"\\:\\"(.+?)\\"\\}', alines)
+    m = re.search(r'"CrumbStore"\:\{"crumb"\:"(.+?)"\}', alines)
     if m is not None:
         _crumb = m.group(1)
 
     if _crumb is None:
         raise AssertionError('Could not get initial cookie crumb from Yahoo.')
-
-    # Print the cookie and crumb
-    # print('Crumb:', _crumb)
 
 
 def load_yahoo_quote(ticker, begindate, enddate, info='quote'):
@@ -114,7 +111,4 @@ def load_yahoo_quote(ticker, begindate, enddate, info='quote'):
     if len(alines) < 5:
         print('\nERROR: Symbol not found:', ticker)
 
-    # print(alines)
-
-    # return alines.split('\n')
     return alines

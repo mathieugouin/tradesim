@@ -6,17 +6,14 @@ import pytest
 # TBD super dummy tests
 
 
-@pytest.mark.webtest
-def test_test_indicator():
-    assert -5.0 < ti.test_indicator('XBB.TO') < 5.0
-
-
+@pytest.mark.smoketest
 def test_step():
     t = np.arange(-5, 5, 1)
     s = ti.step(t)
     assert len(s) == len(t)
 
 
+@pytest.mark.smoketest
 def test_ramp():
     t = np.arange(-5, 5, 1)
     r = ti.ramp(t)
@@ -24,6 +21,7 @@ def test_ramp():
 
 
 # TBD: not very robust test
+@pytest.mark.smoketest
 def test_cross_over():
     t = np.linspace(0, 4 * np.pi, 50)
     s = np.sin(t)
@@ -34,6 +32,7 @@ def test_cross_over():
 
 
 # TBD: not very robust test
+@pytest.mark.smoketest
 def test_cross_under():
     t = np.linspace(0, 4 * np.pi, 50)
     s = np.sin(t)
@@ -43,6 +42,7 @@ def test_cross_under():
     assert x.max() == True
 
 
+@pytest.mark.smoketest
 def test_data():
     n = 100
     t = np.arange(n)  # [0 .. n-1]

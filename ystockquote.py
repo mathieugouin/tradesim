@@ -45,7 +45,7 @@ def get_volume(symbol):
 def get_price(symbol):
     """Current day's trading last price."""
     return _get_info(symbol, 'regularMarketPrice')
-    #return _get_info(symbol, 'currentPrice')
+    # return _get_info(symbol, 'currentPrice')
 
 
 def get_stock_exchange(symbol):
@@ -70,6 +70,7 @@ def get_currency(symbol):
 def get_market_cap(symbol):
     """Return the market capitalization of the given stock."""
     return _get_info_choice(symbol, ['marketCap', 'totalAssets'])
+
 
 def get_dividend_yield(symbol):
     """Return the dividend yield (in %) of the stock."""

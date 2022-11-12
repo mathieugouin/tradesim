@@ -69,5 +69,6 @@ def _main():
     demo_commission()
     demo_fu()
 
+
 if __name__ == '__main__':
     _main()
