@@ -43,6 +43,7 @@ My ramblings on various stock analysis and data mining.
 * Or to directly open a notebook: `jupyter notebook tradesim_notebook.ipynb`
 
 #### Jupyter Lab Notebook Run
+Jupyter lab has a nicer interface.
 * cd to the current dir where to start
 * `jupyter lab`
 
@@ -51,14 +52,14 @@ Ref: https://ipython.readthedocs.io/en/stable/interactive/magics.html
 * `%whos`: Print all interactive variables
 
 #### Shortcuts
-* dd: delete cell
-* a: insert cell above
-* b: insert cell below
-* m: convert cell to markdown (for documentation)
-* y: convert cell to code (python)
-* Ctrl+Enter: run current cell
-* Shift+Enter: run & select cell below
-* Alt+Enter: run cell & insert below
+* `dd`: delete cell
+* `a`: insert cell above
+* `b`: insert cell below
+* `m`: convert cell to markdown (for documentation)
+* `y`: convert cell to code (python)
+* `Ctrl+Enter`: run current cell
+* `Shift+Enter`: run & select cell below
+* `Alt+Enter`: run cell & insert below
 
 ## Project TODO
 * Analyze invalid stock
