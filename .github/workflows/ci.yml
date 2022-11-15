@@ -66,6 +66,11 @@ jobs:
         run: |
           python -m coverage run -a -m pytest -v
 
+      # Append coverage (-a)
+      - name: "Additional utilities execution"
+        run: |
+          python -m coverage run -a update_stock_lists.py
+
       - name: "Display coverage report"
         run: |
           python -m coverage report
