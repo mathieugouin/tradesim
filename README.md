@@ -63,4 +63,3 @@ Ref: https://ipython.readthedocs.io/en/stable/interactive/magics.html
 
 ## Project TODO
 * Analyze invalid stock
-* Cleanup ticker files
