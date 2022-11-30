@@ -15,7 +15,7 @@ import finance_utils as fu
 import stock_db_mgr as sdm
 import virtual_account as va
 
-start_date = datetime.date(2014, 1, 6)
+start_date = datetime.date(2014, 1, 6)  # Start of Questrade portfolio
 end_date = datetime.date.today()
 data_dir = './stock_db/qt'
 

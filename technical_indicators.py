@@ -1,11 +1,8 @@
 # To make print working for Python2/3
 from __future__ import print_function
 
-import math
 import numpy as np
-# import scipy as sp
 import scipy.signal as signal
-import ystockquote as ysq
 
 
 # -------------------------------------
@@ -26,7 +23,6 @@ def ramp(t):
 # -------------------------------------
 # Various technical indicators
 # -------------------------------------
-
 
 def linear_fit(x, n):
     """Linear regression of 'n' points used to give the smoothed point."""

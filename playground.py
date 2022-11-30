@@ -1,10 +1,7 @@
 # To make print working for Python2/3
 from __future__ import print_function
 
-import pandas as pd
-import numpy as np
 import datetime
-import scipy.stats as sps
 
 # user
 import stock_db_mgr as sdm

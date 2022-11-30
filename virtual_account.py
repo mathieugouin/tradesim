@@ -1,8 +1,8 @@
 # To make print working for Python2/3
 from __future__ import print_function
 
-import position
 import math
+import position
 import finance_utils as fu
 
 
