@@ -7,3 +7,4 @@ GLD         Gold ETF
 GOOG        Google
 IBM         IBM
 SPY         SP-500 ETF
+XOM         Exxon Mobile

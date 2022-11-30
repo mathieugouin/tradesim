@@ -61,8 +61,8 @@ def update_sp500():
 
 def _main():
     update_dj()
-    #update_tsx()  # TBD wiki not fully up-to-date
-    #update_sp500()
+    update_tsx()  # TBD wiki not fully up-to-date
+    update_sp500()
 
 
 if __name__ == '__main__':

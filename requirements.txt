@@ -11,7 +11,8 @@ numpy
 pandas
 matplotlib
 scipy
-yfinance
+# bug in latest version
+yfinance==0.1.84
 
 # Required for CI:
 pytest

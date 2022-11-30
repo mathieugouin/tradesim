@@ -150,4 +150,3 @@ def moving_max(x, n):
     if n < 1:
         raise AssertionError("n must be >= 1")
     return np.array([max(x[max(0, i - n + 1):i + 1]) for i in range(len(x))])
-
