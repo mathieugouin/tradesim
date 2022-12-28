@@ -2,6 +2,7 @@ import finance_utils as fu
 import datetime
 import numpy as np
 import pytest
+import os
 
 
 @pytest.mark.parametrize('nb,commission', [
@@ -87,6 +88,7 @@ def test_validate_symbol_data_bad():
         f.write('1,2,3\n')
         f.write('4,5,6\n')
     assert not fu.validate_symbol_data(filename)
+    os.remove(filename)
 
 
 def test_get_all_symbols():
