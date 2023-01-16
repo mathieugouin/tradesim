@@ -1,6 +1,6 @@
 import math
-import ystockquote as ysq
 import pytest
+import ystockquote as ysq
 
 
 @pytest.mark.webtest

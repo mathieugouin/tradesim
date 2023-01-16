@@ -1,6 +1,6 @@
 import numpy as np
-import technical_indicators as ti
 import pytest
+import technical_indicators as ti
 
 
 # TBD super dummy tests

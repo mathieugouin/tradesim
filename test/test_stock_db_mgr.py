@@ -1,6 +1,6 @@
 import datetime
-import stock_db_mgr as sdm
 import pytest
+import stock_db_mgr as sdm
 
 
 def test_creation_default_date_range():
