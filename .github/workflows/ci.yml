@@ -18,7 +18,8 @@ jobs:
     strategy:
       matrix:
         os:
-          - ubuntu-latest
+          - ubuntu-20.04  # Fix OS version to have old python availability
+          #- ubuntu-latest
           #- macos-latest
           #- windows-latest
         python-version:
