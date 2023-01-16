@@ -1,6 +1,7 @@
 # Refer to
 # https://about.codecov.io/blog/python-code-coverage-using-github-actions-and-codecov/
 # https://docs.github.com/en/actions/guides/building-and-testing-python
+# https://raw.githubusercontent.com/actions/python-versions/main/versions-manifest.json
 #
 # Examples:
 # https://github.com/nedbat/coveragepy/blob/master/.github/workflows/coverage.yml
