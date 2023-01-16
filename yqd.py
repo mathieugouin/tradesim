@@ -40,16 +40,16 @@ def _get_cookie_crumb():
     """Performs a query and extract the matching cookie and crumb."""
     global cookier, _crumb
 
-    # Perform a Yahoo financial lookup on SP500
+    # Perform a Yahoo financial lookup on SP500: ticker = ^GSPC
     cookier.cookiejar.clear()
     req = urllib.request.Request(
-        'https://finance.yahoo.com/quote/^GSPC', headers=_headers)
+        'https://finance.yahoo.com/quote/%5EGSPC', headers=_headers)
     f = urllib.request.urlopen(req, timeout=5)
     alines = f.read().decode('utf-8')
 
     # Extract the crumb from the response
-    # Looking for: "CrumbStore":{"crumb":"Gke.RBNmMtU"}
-    m = re.search(r'"CrumbStore"\:\{"crumb"\:"(.+?)"\}', alines)
+    # Looking for: "crumb":"xxxxxxxxxx"
+    m = re.search('"crumb":"(.+?)"', alines)
     if m is not None:
         _crumb = m.group(1)
 
@@ -89,7 +89,7 @@ def load_yahoo_quote(ticker, begindate, enddate, info='quote'):
     param['crumb'] = _crumb
     params = urllib.parse.urlencode(param)
     url = 'https://query1.finance.yahoo.com/v7/finance/download/{}?{}'.format(
-        ticker, params)
+        urllib.parse.quote(ticker), params)
     # print(url)
     req = urllib.request.Request(url, headers=_headers)
 
