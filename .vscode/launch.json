@@ -1,22 +1,25 @@
 {
-    "configurations": [
-        
-        {
-            "name": "Python: File",
+	"version": "0.2.0",
+	"configurations": [
+		{
+			"name": "Python: File",
+			"type": "python",
+			"request": "launch",
+			"program": "${file}",
+			"justMyCode": true
+		},
+		{
+            "name": "Python Config for test explorer (hidden)",
             "type": "python",
             "request": "launch",
-            "program": "${file}",
-            "justMyCode": true
-        },
-        {
-            "name": "Python: Debug Tests",
-            "type": "python",
-            "request": "launch",
-            // "program": "${file}",
-            "module": "pytest",
-            "purpose": ["debug-test"],
             "console": "integratedTerminal",
-            "justMyCode": false
+            "purpose": ["debug-test"],
+            "justMyCode": true,
+            "presentation": {
+                "hidden": true,
+                "group": "",
+                "order": 4
+            }
         }
-    ]
+	]
 }
