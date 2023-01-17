@@ -5,6 +5,12 @@
 #
 # Install all required packages:
 # python -m pip install -r requirements.txt
+#
+# Manual package install:
+# python -m pip install package_name
+#
+# Package upgrade:
+# python -m pip install package_name --upgrade
 
 # Main packages used:
 numpy
@@ -12,7 +18,7 @@ pandas
 matplotlib
 scipy
 # bug in latest version
-yfinance==0.1.84
+yfinance
 
 # Required for CI:
 pytest
