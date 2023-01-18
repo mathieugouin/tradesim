@@ -23,8 +23,9 @@ jobs:
           #- macos-latest
           #- windows-latest
         python-version:
-          - "2.7"
-          - "3.6"
+          #- "2.7"
+          #- "3.6"
+          - "3.9"
           - "3.10"
       fail-fast: false
 
@@ -108,8 +109,9 @@ jobs:
           #- macos-latest
           #- windows-latest
         python-version:
-          - "2.7"
-          - "3.6"
+          #- "2.7"
+          #- "3.6"
+          - "3.9"
           - "3.10"
       # No need to continue if one upload failed.
       fail-fast: true
