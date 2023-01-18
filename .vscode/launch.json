@@ -1,14 +1,14 @@
 {
-	"version": "0.2.0",
-	"configurations": [
-		{
-			"name": "Python: File",
-			"type": "python",
-			"request": "launch",
-			"program": "${file}",
-			"justMyCode": true
-		},
-		{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python: File",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "justMyCode": true
+        },
+        {
             "name": "Python Config for test explorer (hidden)",
             "type": "python",
             "request": "launch",
@@ -21,5 +21,5 @@
                 "order": 4
             }
         }
-	]
+    ]
 }
