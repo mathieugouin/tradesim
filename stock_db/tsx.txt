@@ -118,7 +118,7 @@ IIP-UN.TO	InterRent Real Estate Investment Trust
 IMG.TO	Iamgold Corporation
 IMO.TO	Imperial Oil Limited
 INE.TO	Innergex Renewable Energy Inc.
-IPL.TO	Inter Pipeline Ltd.
+#IPL.TO	Inter Pipeline Ltd.
 #ITP.TO	Intertape Polymer Group Inc.
 IVN.TO	Ivanhoe Mines Ltd.
 JWEL.TO	Jamieson Wellness Inc.
@@ -188,7 +188,7 @@ SIA.TO	Sienna Senior Living Inc.
 SII.TO	Sprott Inc.
 SIL.TO	SilverCrest Metals Inc.
 SJ.TO	Stella-Jones Inc.
-SJR-B.TO	Shaw Communications Inc.
+#SJR-B.TO	Shaw Communications Inc.
 SLF.TO	Sun Life Financial Inc.
 #SMU-UN.TO	Summit Industrial Income REIT
 SNC.TO	SNC-Lavalin Group Inc.
