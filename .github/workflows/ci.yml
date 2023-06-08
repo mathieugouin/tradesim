@@ -163,12 +163,16 @@ jobs:
           fail_ci_if_error: true # optional (default = false)
           verbose: true # optional (default = false)
 
+
+  # Last final step to depend on all previous jobs.
+  # This "dummy" step will be used to trigger on branch merging rule.
+  # It will avoid having to change the rules all the time when changing python or os versions.
   finalize:
-    name: "Last final step to trigger on all completed jobs."
+    name: "All jobs completed"
     needs: upload
     runs-on: ubuntu-latest
 
     steps:
       - name: "Print success"
         run: |
-          echo Completed job
+          echo All CI Jobs completed.
