@@ -150,7 +150,7 @@ class StockDBMgr(object):
             df = pd.concat(
                 [dic[s][data_item] for s in symbols],
                 axis="columns",
-                join="inner",
+                join="outer",
                 keys=symbols)
 
             # Discarding NaN values that are all NaN for a given row
