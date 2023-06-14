@@ -140,7 +140,7 @@ def clean_dataframe(df, start_date):
     * Symbols with at least one valid day in the first 5 days from start_date.
       This is to prevent symbols that are too young and were not present at start_date.
 
-    * Symbols with at least one valid day in the last 5 days from start_date.
+    * Symbols with at least one valid day in the last 5 days from the end of the DataFrame.
       This is to prevent symbols that stopped trading before the end of the DataFrame.
     """
     nb_days = 5  # valid grace period from start and end date
