@@ -40,12 +40,12 @@ def demo_fu():
         fu.download_data(s, d, start_date, end_date)
         fu.update_all_symbols(d, start_date, end_date)
 
-    df = fu.load_data_frame(f, datetime.date(2018, 1, 1), datetime.date(2018, 4, 1))
+    df = fu.load_dataframe(f, datetime.date(2018, 1, 1), datetime.date(2018, 4, 1))
     print(df.describe())
     print(df.head())
 
     # Not applicable for a single stock, but just to test...
-    print(fu.normalize_data_frame(df).head())
+    print(fu.normalize_dataframe(df).head())
 
     # Test by adding some NaN
     df.iloc[0:10, 0] = np.nan  # beginning

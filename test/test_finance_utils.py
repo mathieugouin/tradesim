@@ -115,9 +115,9 @@ def test_update_all_symbols():
     assert len(fu.get_all_symbols(d)) == 1
 
 
-def test_load_data_frame():
+def test_load_dataframe():
     f = 'stock_db/test/SPY.csv'
-    df = fu.load_data_frame(f, datetime.date(2018, 1, 1), datetime.date(2018, 4, 1), True)
+    df = fu.load_dataframe(f, datetime.date(2018, 1, 1), datetime.date(2018, 4, 1), True)
 
     col = list(df.columns)
     test_col = ['Open', 'High', 'Low', 'Close', 'Volume']
@@ -127,9 +127,9 @@ def test_load_data_frame():
         assert c in col
 
 
-def test_load_data_frame_no_adj():
+def test_load_dataframe_no_adj():
     f = 'stock_db/test/SPY.csv'
-    df = fu.load_data_frame(f, datetime.date(2018, 1, 1), datetime.date(2018, 4, 1), False)
+    df = fu.load_dataframe(f, datetime.date(2018, 1, 1), datetime.date(2018, 4, 1), False)
 
     col = list(df.columns)
     test_col = ['Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume']
@@ -139,16 +139,16 @@ def test_load_data_frame_no_adj():
         assert c in col
 
 
-def test_normalize_data_frame():
+def test_normalize_dataframe():
     f = 'stock_db/test/SPY.csv'
-    df = fu.load_data_frame(f, datetime.date(2018, 1, 1), datetime.date(2018, 4, 1))
+    df = fu.load_dataframe(f, datetime.date(2018, 1, 1), datetime.date(2018, 4, 1))
     # Not applicable for a single stock, but just to test...
-    assert fu.normalize_data_frame(df).iloc[0].mean() == 1.0
+    assert fu.normalize_dataframe(df).iloc[0].mean() == 1.0
 
 
 def test_fill_nan_data_notinplace():
     f = 'stock_db/test/SPY.csv'
-    df = fu.load_data_frame(f, datetime.date(2018, 1, 1), datetime.date(2018, 4, 1))
+    df = fu.load_dataframe(f, datetime.date(2018, 1, 1), datetime.date(2018, 4, 1))
     # Test by adding some NaN
     df.iloc[0:10, 0] = np.nan  # beginning
     df.iloc[11:20, 1] = np.nan  # middle
@@ -163,7 +163,7 @@ def test_fill_nan_data_notinplace():
 
 def test_fill_nan_data_inplace():
     f = 'stock_db/test/SPY.csv'
-    df = fu.load_data_frame(f, datetime.date(2018, 1, 1), datetime.date(2018, 4, 1))
+    df = fu.load_dataframe(f, datetime.date(2018, 1, 1), datetime.date(2018, 4, 1))
     # Test by adding some NaN
     df.iloc[0:10, 0] = np.nan  # beginning
     df.iloc[11:20, 1] = np.nan  # middle
