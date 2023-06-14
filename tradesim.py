@@ -93,7 +93,7 @@ def plot_test():
             plt.show()
 
     df = fu.fill_nan_data(df)
-    df = fu.normalize_data_frame(df)
+    df = fu.normalize_dataframe(df)
     df.plot()
     plt.show()
 

@@ -22,7 +22,7 @@ def plot_test():
     plt.show()
 
 
-def data_frame_test2():
+def dataframe_test2():
     nrow = 8
     ncol = 5
     dates = pd.date_range('2000-01-01', periods=nrow)
@@ -42,7 +42,7 @@ def data_frame_test2():
     plt.show()
 
 
-def data_frame_test():
+def dataframe_test():
     # This stock has a split
     f = '../stock_db/tsx/NA.TO.csv'
     df = pd.read_csv(f, index_col='Date', parse_dates=True, na_values='nan')
@@ -92,8 +92,8 @@ def data_frame_test():
 
 def _main():
     plot_test()
-    data_frame_test2()
-    data_frame_test()
+    dataframe_test2()
+    dataframe_test()
 
 
 if __name__ == '__main__':

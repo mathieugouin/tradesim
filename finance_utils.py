@@ -131,17 +131,17 @@ def update_all_symbols(basedir, start_date, end_date):
         download_data(s, basedir, start_date, end_date)
 
 
-def normalize_data_frame(df):
-    """Return a new dataframe normalized so that first row is all 1.0."""
+def normalize_dataframe(df):
+    """Return a new DataFrame normalized so that first row is all 1.0."""
     return df / df.iloc[0]
 
 
 def fill_nan_data(df, inplace=False):
-    """Fill the data in the given dataframe so no NaN gaps remain.
+    """Fill the data in the given DataFrame so no NaN gaps remain.
     This is done by:
     1. Fill forward nan with last known good value.
     2. Fill backward nan with first known good value.
-    Returns: Dataframe with missing values filled or None if inplace=True.
+    Returns: DataFrame with missing values filled or None if inplace=True.
     """
 
     # Data filling is done in 2 steps
@@ -158,9 +158,9 @@ def fill_nan_data(df, inplace=False):
         return df2
 
 
-def load_data_frame(csv_file, start_date, end_date, adjust_price=True):
-    """Load a CSV stock data file into a pandas dataframe.
-    The dataframe is sorted chronologically by date.
+def load_dataframe(csv_file, start_date, end_date, adjust_price=True):
+    """Load a CSV stock data file into a pandas DataFrame.
+    The DataFrame is sorted chronologically by date.
     If requested, the prices (open, high, low, close) are adjusted according
     to the adjusted close price.
     """

@@ -84,7 +84,7 @@ class StockDBMgr(object):
             f = fu.symbol_to_filename(symbol, self._basedir)
             if not os.path.exists(f):
                 self.download_data(symbol)
-            df = fu.load_data_frame(f, self._start_date, self._end_date, adjust_price=self._adjust_price)
+            df = fu.load_dataframe(f, self._start_date, self._end_date, adjust_price=self._adjust_price)
             if df is None:
                 print("ERROR: data for {} contains error".format(symbol))
             else:
