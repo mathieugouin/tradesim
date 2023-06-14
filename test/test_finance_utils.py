@@ -1,6 +1,7 @@
 import datetime
 import os
 import numpy as np
+import pandas as pd
 import pytest
 import finance_utils as fu
 
@@ -139,11 +140,60 @@ def test_load_dataframe_no_adj():
         assert c in col
 
 
-def test_normalize_dataframe():
-    f = 'stock_db/test/SPY.csv'
-    df = fu.load_dataframe(f, datetime.date(2018, 1, 1), datetime.date(2018, 4, 1))
-    # Not applicable for a single stock, but just to test...
-    assert fu.normalize_dataframe(df).iloc[0].mean() == 1.0
+def create_random_df():
+    index = pd.date_range(start='2000-01-01', end='2002-01-01')
+    columns = list("ABCDE")
+    return pd.DataFrame( \
+        index=index, \
+        columns=columns, \
+        data=np.random.random((len(index), len(columns))))
+
+
+def test_clean_dataframe_no_nan():
+    df = create_random_df()
+    df2 = fu.clean_dataframe(df, '2000-01-01')
+    assert (df == df2).all().all()
+
+
+def test_clean_dataframe_few_early_nan():
+    df = create_random_df()
+    df.loc['2000-01-01':'2000-01-03', 'A'] = np.nan
+    df2 = fu.clean_dataframe(df, '2000-01-01')
+    # Column A should NOT be dropped
+    # equals for nan handling
+    assert df.equals(df2)
+
+
+def test_clean_dataframe_many_early_nan():
+    df = create_random_df()
+    df.loc['2000-01-01':'2000-01-06', 'A'] = np.nan
+    df2 = fu.clean_dataframe(df, '2000-01-01')
+    # Column A should be dropped
+    assert (df.loc[:, 'B':] == df2).all().all()
+
+
+def test_clean_dataframe_few_late_nan():
+    df = create_random_df()
+    df.loc['2001-12-30':, 'A'] = np.nan
+    df2 = fu.clean_dataframe(df, '2000-01-01')
+    # Column A should NOT be dropped
+    # equals for nan handling
+    assert df.equals(df2)
+
+
+def test_clean_dataframe_many_late_nan():
+    df = create_random_df()
+    df.loc['2001-12-28':, 'A'] = np.nan
+    df2 = fu.clean_dataframe(df, '2000-01-01')
+    # Column A should be dropped
+    assert (df.loc[:, 'B':] == df2).all().all()
+
+
+def test_clean_dataframe_middle_nan():
+    df = create_random_df()
+    df.loc['2001-01-01':'2001-08-01', ['A','C','E']] = np.nan
+    df2 = fu.clean_dataframe(df, '2000-01-01')
+    assert df.equals(df2)
 
 
 def test_fill_nan_data_notinplace():
@@ -174,6 +224,13 @@ def test_fill_nan_data_inplace():
     assert not df.isna().any().any()
     # Returned df2 None
     assert df2 is None
+
+
+def test_normalize_dataframe():
+    f = 'stock_db/test/SPY.csv'
+    df = fu.load_dataframe(f, datetime.date(2018, 1, 1), datetime.date(2018, 4, 1))
+    # Not applicable for a single stock, but just to test...
+    assert fu.normalize_dataframe(df).iloc[0].mean() == 1.0
 
 
 @pytest.mark.webtest
