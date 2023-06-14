@@ -144,7 +144,7 @@ def clean_dataframe(df, start_date):
     nb_days = 5  # valid grace period from start and end date
 
     valid_symbols_at_start = df.loc[start_date : ].iloc[0:nb_days].notna().any().pipe(lambda x: x[x]).index
-    valid_symbols_at_end   = df.iloc[-nb_days:].notna().any().pipe(lambda x: x[x]).index
+    valid_symbols_at_end = df.iloc[-nb_days:].notna().any().pipe(lambda x: x[x]).index
 
     return df.loc[start_date : ][valid_symbols_at_start.intersection(valid_symbols_at_end)]
 
