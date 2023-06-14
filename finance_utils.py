@@ -131,8 +131,6 @@ def update_all_symbols(basedir, start_date, end_date):
         download_data(s, basedir, start_date, end_date)
 
 
-# TBD arguments...
-# TBD name
 def clean_dataframe(df, start_date):
     """Return a DataFrame with symbols 'mostly' valid from start_date.
 
@@ -165,12 +163,13 @@ def fill_nan_data(df, inplace=False):
         df.fillna(method='ffill', inplace=inplace)
         # 2. Fill backward nan with first known good value.
         df.fillna(method='backfill', inplace=inplace)
-    else:
-        # 1. Fill forward nan with last known good value.
-        df2 = df.fillna(method='ffill', inplace=inplace)
-        # 2. Fill backward nan with first known good value.
-        df2 = df2.fillna(method='backfill', inplace=inplace)
-        return df2
+        return None
+    
+    # 1. Fill forward nan with last known good value.
+    df2 = df.fillna(method='ffill', inplace=inplace)
+    # 2. Fill backward nan with first known good value.
+    df2 = df2.fillna(method='backfill', inplace=inplace)
+    return df2
 
 
 def normalize_dataframe(df):
