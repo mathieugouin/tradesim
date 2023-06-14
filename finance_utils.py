@@ -131,9 +131,22 @@ def update_all_symbols(basedir, start_date, end_date):
         download_data(s, basedir, start_date, end_date)
 
 
-def normalize_dataframe(df):
-    """Return a new DataFrame normalized so that first row is all 1.0."""
-    return df / df.iloc[0]
+def clean_dataframe(df, start_date):
+    """Return a DataFrame with symbols 'mostly' valid from start_date.
+
+    Explaining 'mostly':
+    * Symbols with at least one valid day in the first 5 days from start_date.
+      This is to prevent symbols that are too young and were not present at start_date.
+
+    * Symbols with at least one valid day in the last 5 days from the end of the DataFrame.
+      This is to prevent symbols that stopped trading before the end of the DataFrame.
+    """
+    nb_days = 5  # valid grace period from start and end date
+
+    valid_symbols_at_start = df.loc[start_date : ].iloc[0:nb_days].notna().any().pipe(lambda x: x[x]).index
+    valid_symbols_at_end = df.iloc[-nb_days:].notna().any().pipe(lambda x: x[x]).index
+
+    return df.loc[start_date : ][valid_symbols_at_start.intersection(valid_symbols_at_end)]
 
 
 def fill_nan_data(df, inplace=False):
@@ -150,12 +163,18 @@ def fill_nan_data(df, inplace=False):
         df.fillna(method='ffill', inplace=inplace)
         # 2. Fill backward nan with first known good value.
         df.fillna(method='backfill', inplace=inplace)
-    else:
-        # 1. Fill forward nan with last known good value.
-        df2 = df.fillna(method='ffill', inplace=inplace)
-        # 2. Fill backward nan with first known good value.
-        df2 = df2.fillna(method='backfill', inplace=inplace)
-        return df2
+        return None
+    
+    # 1. Fill forward nan with last known good value.
+    df2 = df.fillna(method='ffill', inplace=inplace)
+    # 2. Fill backward nan with first known good value.
+    df2 = df2.fillna(method='backfill', inplace=inplace)
+    return df2
+
+
+def normalize_dataframe(df):
+    """Return a new DataFrame normalized so that first row is all 1.0."""
+    return df / df.iloc[0]
 
 
 def load_dataframe(csv_file, start_date, end_date, adjust_price=True):
