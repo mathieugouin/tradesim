@@ -143,9 +143,9 @@ def test_load_dataframe_no_adj():
 def create_random_df():
     index = pd.date_range(start='2000-01-01', end='2002-01-01')
     columns = list("ABCDE")
-    return pd.DataFrame( \
-        index=index, \
-        columns=columns, \
+    return pd.DataFrame(
+        index=index,
+        columns=columns,
         data=np.random.random((len(index), len(columns))))
 
 
