@@ -71,6 +71,17 @@ def test_get_symbol_data():
     assert (df1 == df2).all().all()
     assert len(df1) == len(df2)
     assert df1 is df2
+    assert 'Adj Close' not in df1.columns
+
+
+def test_get_symbol_data_noadj():
+    db = sdm.StockDBMgr('./stock_db/test', adjust_price=False)
+    df1 = db.get_symbol_data('SPY')
+    df2 = db.get_symbol_data('SPY')
+    assert (df1 == df2).all().all()
+    assert len(df1) == len(df2)
+    assert df1 is df2
+    assert 'Adj Close' in df1.columns
 
 
 @pytest.mark.webtest
