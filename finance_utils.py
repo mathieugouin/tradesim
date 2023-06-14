@@ -151,11 +151,6 @@ def clean_dataframe(df, start_date):
     return df.loc[start_date : ][valid_symbols_at_start.intersection(valid_symbols_at_end)]
 
 
-def normalize_dataframe(df):
-    """Return a new DataFrame normalized so that first row is all 1.0."""
-    return df / df.iloc[0]
-
-
 def fill_nan_data(df, inplace=False):
     """Fill the data in the given DataFrame so no NaN gaps remain.
     This is done by:
@@ -176,6 +171,11 @@ def fill_nan_data(df, inplace=False):
         # 2. Fill backward nan with first known good value.
         df2 = df2.fillna(method='backfill', inplace=inplace)
         return df2
+
+
+def normalize_dataframe(df):
+    """Return a new DataFrame normalized so that first row is all 1.0."""
+    return df / df.iloc[0]
 
 
 def load_dataframe(csv_file, start_date, end_date, adjust_price=True):
