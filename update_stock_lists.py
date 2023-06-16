@@ -7,16 +7,14 @@ import pandas as pd
 def update_dj():
     h = pd.read_html('https://en.wikipedia.org/wiki/Dow_Jones_Industrial_Average', keep_default_na=False)
     df = h[1]  # 2nd table
+
+    # Make sure Symbol column is first, only keep relevant columns
+    df = df.loc[:, ['Symbol', 'Company']]
+
     df.sort_values(by='Symbol', inplace=True)
 
     # yahoo use - instead of .
     df['Symbol'] = df['Symbol'].map(lambda s: s.replace('.', '-'))
-
-    # Make sure Symbol column is first
-    cols = list(df.columns.values)
-    cols.remove('Symbol')
-    cols = ['Symbol'] + cols
-    df = df.loc[:, cols]
 
     # insert comment
     df.rename(columns={'Symbol': '# Symbol'}, inplace=True)
@@ -28,7 +26,12 @@ def update_dj():
 def update_tsx():
     h = pd.read_html('https://en.wikipedia.org/wiki/S%26P/TSX_Composite_Index', keep_default_na=False)
     df = h[1]  # 2nd table
+
     df.rename(columns={'Ticker': 'Symbol'}, inplace=True)
+
+    # Make sure Symbol column is first, only keep relevant columns
+    df = df.loc[:, ['Symbol', 'Company']]
+
     df.sort_values(by='Symbol', inplace=True)
 
     # yahoo use - instead of .
@@ -47,6 +50,12 @@ def update_tsx():
 def update_sp500():
     h = pd.read_html('https://en.wikipedia.org/wiki/List_of_S%26P_500_companies', keep_default_na=False)
     df = h[0]  # first table
+
+    # Make sure Symbol column is first, only keep relevant columns
+    df = df.loc[:, ['Symbol', 'Security']]
+
+    df.rename(columns={'Security': 'Company'}, inplace=True)
+
     df.sort_values(by='Symbol', inplace=True)
 
     # yahoo use - instead of .

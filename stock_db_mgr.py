@@ -84,7 +84,7 @@ class StockDBMgr(object):
             f = fu.symbol_to_filename(symbol, self._basedir)
             if not os.path.exists(f):
                 self.download_data(symbol)
-            df = fu.load_data_frame(f, self._start_date, self._end_date, adjust_price=self._adjust_price)
+            df = fu.load_dataframe(f, self._start_date, self._end_date, adjust_price=self._adjust_price)
             if df is None:
                 print("ERROR: data for {} contains error".format(symbol))
             else:
@@ -133,25 +133,30 @@ class StockDBMgr(object):
 
         Return None for invalid data_item.
         """
-        # Re-index to only have the relevant date range
-        date_range = pd.date_range(self._start_date, self._end_date, name='Date')
-
         dic = self.get_all_symbol_data()
 
         symbols = list(dic.keys())
         symbols.sort()
 
-        df = pd.DataFrame(index=date_range)
+        valid_data_item = True
         for s in symbols:
-            if data_item in dic[s]:
-                df[s] = dic[s][data_item]
+            if data_item not in dic[s]:
+                valid_data_item = False
+                break
 
-        # Discarding NaN values that are all NaN for a given row
-        df.dropna(how='all', inplace=True)
+        df = None
 
-        # Axis naming
-        df.rename_axis(data_item, axis='columns', inplace=True)
+        if valid_data_item:
+            df = pd.concat(
+                [dic[s][data_item] for s in symbols],
+                axis="columns",
+                join="outer",
+                keys=symbols)
 
-        if df.empty:
-            return None
+            # Discarding NaN values that are all NaN for a given row
+            df.dropna(how='all', inplace=True)
+
+            # Axis naming
+            df.rename_axis(data_item, axis='columns', inplace=True)
+
         return df

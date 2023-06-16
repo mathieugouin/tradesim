@@ -65,9 +65,10 @@ jobs:
           python -m coverage run -a get_yahoo_finance_data.py --concurrent 1 --file stock_db/test.txt --dir ./stock_db/test --startdate 20100101 --verbose
 
       # Append coverage (-a)
+      # -rxXs  # show extra info on xfailed, xpassed, and skipped tests
       - name: "Execute tests with coverage"
         run: |
-          python -m coverage run -a -m pytest -v
+          python -m coverage run -a -m pytest -v -rxXs
 
       # Append coverage (-a)
       - name: "Additional utilities execution"
@@ -162,3 +163,16 @@ jobs:
           fail_ci_if_error: true # optional (default = false)
           verbose: true # optional (default = false)
 
+
+  # Last final step to depend on all previous jobs.
+  # This "dummy" step will be used to trigger on branch merging rule.
+  # It will avoid having to change the rules all the time when changing python or os versions.
+  finalize:
+    name: "All jobs completed"
+    needs: upload
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: "Print success"
+        run: |
+          echo All CI Jobs completed.

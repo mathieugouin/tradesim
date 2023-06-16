@@ -2,12 +2,15 @@
 from __future__ import print_function
 
 import datetime
+
+import parent_import
 import stock_db_mgr as sdm
 
 
 def _main():
-    db = sdm.StockDBMgr('../stock_db/test', datetime.date(2017, 1, 1), datetime.date(2018, 1, 1))
-    #db = sdm.StockDBMgr('../stock_db/tsx')
+    #db = sdm.StockDBMgr('../stock_db/test', datetime.date(2017, 1, 1), datetime.date(2018, 1, 1))
+    #db = sdm.StockDBMgr('stock_db/tsx', datetime.date(2023, 1, 1), datetime.date(2023, 6, 1))
+    db = sdm.StockDBMgr('stock_db/tsx')
     #db = sdm.StockDBMgr('../stock_db/sp500')
     symbol_list = db.get_all_symbols()
     print(symbol_list)
@@ -24,25 +27,26 @@ def _main():
         db.update_all_symbols()
         df = db.get_symbol_data(s)
 
-    if True:
+    if False:
         print("Validating symbols")
         for s in db.get_all_symbols():
             if not db.validate_symbol_data(s):
                 print("{} failed validation".format(s))
 
-    if True:
+    if False:
         print("Loading all symbols to a dict")
         # To test caching
         dd = db.get_all_symbol_data()
         dd = db.get_all_symbol_data()
         print(dd.keys())
 
-        df = db.get_all_symbol_single_data_item('Close')
-        print(df.head())
-        df = db.get_all_symbol_single_data_item('Volume')
-        print(df.head())
-
     if True:
+        df = db.get_all_symbol_single_data_item('Close')
+        print(df)
+        #df = db.get_all_symbol_single_data_item('Volume')
+        #print(df.head())
+
+    if False:
         db = sdm.StockDBMgr('../stock_db/test',
                             datetime.date(2017, 1, 1),
                             datetime.date(2018, 1, 1),
