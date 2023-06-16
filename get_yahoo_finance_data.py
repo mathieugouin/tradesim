@@ -94,7 +94,7 @@ def _main():
     parser = argparse.ArgumentParser(description='Yahoo historical quotes downloader')
     parser.add_argument('-f', '--file', action='store', default='./tickers.txt',
                         help='read ticker list from file, it uses ./tickers.txt as default')
-    parser.add_argument('-c', '--concurrent', type=int, default=1,
+    parser.add_argument('-c', '--concurrent', type=int, default=10,
                         action='store', help='# of concurrent connections used for the download')
     parser.add_argument('-d', '--dir', action='store', default='./rawdata',
                         help='save data to this directory, it uses ./rawdata/ as default')
