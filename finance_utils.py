@@ -164,7 +164,7 @@ def fill_nan_data(df, inplace=False):
         # 2. Fill backward nan with first known good value.
         df.fillna(method='backfill', inplace=inplace)
         return None
-    
+
     # 1. Fill forward nan with last known good value.
     df2 = df.fillna(method='ffill', inplace=inplace)
     # 2. Fill backward nan with first known good value.
@@ -201,6 +201,7 @@ def load_dataframe(csv_file, start_date, end_date, adjust_price=True):
 
         df.sort_index(inplace=True)
 
+        ### TBD possible optimization: use slice instead of re-index
         # Re-index to only have the relevant date range
         date_range = pd.date_range(start=start_date, end=end_date, name='Date')
         df = df.reindex(date_range)
@@ -217,6 +218,9 @@ def load_dataframe(csv_file, start_date, end_date, adjust_price=True):
         if adjust_price:
             # Adjusting Columns based on Adjusted Close
             r = df['Adj Close'] / df['Close']  # ratio
+
+            ### TBD possible optimization: perform this operation all at once instead of for loop.
+
             for col in ['Open', 'High', 'Low', 'Close']:  # n/a for 'Volume'
                 df[col] *= r
             df.drop('Adj Close', axis='columns', inplace=True)
