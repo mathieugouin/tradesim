@@ -120,6 +120,8 @@ def test_load_dataframe_adj():
     f = 'stock_db/test/SPY.csv'
     df = fu.load_dataframe(f, datetime.date(2018, 1, 1), datetime.date(2018, 4, 1), True)
 
+    assert df.notna().all().all()
+
     col = list(df.columns)
     test_col = ['Open', 'High', 'Low', 'Close', 'Volume']
     assert len(col) == len(test_col)
@@ -131,6 +133,8 @@ def test_load_dataframe_adj():
 def test_load_dataframe_no_adj():
     f = 'stock_db/test/SPY.csv'
     df = fu.load_dataframe(f, datetime.date(2018, 1, 1), datetime.date(2018, 4, 1), False)
+
+    assert df.notna().all().all()
 
     col = list(df.columns)
     test_col = ['Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume']
