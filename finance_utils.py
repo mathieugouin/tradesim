@@ -164,7 +164,7 @@ def fill_nan_data(df, inplace=False):
         # 2. Fill backward nan with first known good value.
         df.fillna(method='backfill', inplace=inplace)
         return None
-    
+
     # 1. Fill forward nan with last known good value.
     df2 = df.fillna(method='ffill', inplace=inplace)
     # 2. Fill backward nan with first known good value.
@@ -184,8 +184,6 @@ def load_dataframe(csv_file, start_date, end_date, adjust_price=True):
     to the adjusted close price.
     """
     try:
-        #print("Loading {} ...".format(filename_to_symbol(csv_file)))
-
         df = pd.read_csv(csv_file, index_col='Date', parse_dates=True)
 
         # Fix for yahoo bug during weekends.
@@ -201,9 +199,8 @@ def load_dataframe(csv_file, start_date, end_date, adjust_price=True):
 
         df.sort_index(inplace=True)
 
-        # Re-index to only have the relevant date range
-        date_range = pd.date_range(start=start_date, end=end_date, name='Date')
-        df = df.reindex(date_range)
+        # Keep only the required date range
+        df = df.loc[start_date : end_date]
 
         # Discarding NaN values that are all NaN for a given row
         df.dropna(how='all', inplace=True)
@@ -216,10 +213,12 @@ def load_dataframe(csv_file, start_date, end_date, adjust_price=True):
 
         if adjust_price:
             # Adjusting Columns based on Adjusted Close
-            r = df['Adj Close'] / df['Close']  # ratio
-            for col in ['Open', 'High', 'Low', 'Close']:  # n/a for 'Volume'
-                df[col] *= r
-            df.drop('Adj Close', axis='columns', inplace=True)
+            ratio = df['Adj Close'] / df['Close']
+
+            for col in ['Open', 'High', 'Low']:  # n/a for 'Volume'
+                df[col] *= ratio
+            df.drop('Close', axis='columns', inplace=True)
+            df.rename(columns={'Adj Close': 'Close'}, inplace=True)
 
         #df.rename_axis('DATA', axis='columns', inplace=True)
 

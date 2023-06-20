@@ -12,8 +12,9 @@ def _main():
     #db = sdm.StockDBMgr('stock_db/tsx', datetime.date(2023, 1, 1), datetime.date(2023, 6, 1))
     db = sdm.StockDBMgr('stock_db/tsx')
     #db = sdm.StockDBMgr('../stock_db/sp500')
+
     symbol_list = db.get_all_symbols()
-    print(symbol_list)
+    #print(symbol_list)
 
     # Work with first symbol only
     s = symbol_list[0]
@@ -39,6 +40,9 @@ def _main():
         dd = db.get_all_symbol_data()
         dd = db.get_all_symbol_data()
         print(dd.keys())
+
+    if False:
+        df = db.get_symbol_data('MG.TO')
 
     if True:
         df = db.get_all_symbol_single_data_item('Close')

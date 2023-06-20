@@ -116,9 +116,11 @@ def test_update_all_symbols():
     assert len(fu.get_all_symbols(d)) == 1
 
 
-def test_load_dataframe():
+def test_load_dataframe_adj():
     f = 'stock_db/test/SPY.csv'
     df = fu.load_dataframe(f, datetime.date(2018, 1, 1), datetime.date(2018, 4, 1), True)
+
+    assert df.notna().all().all()
 
     col = list(df.columns)
     test_col = ['Open', 'High', 'Low', 'Close', 'Volume']
@@ -132,12 +134,32 @@ def test_load_dataframe_no_adj():
     f = 'stock_db/test/SPY.csv'
     df = fu.load_dataframe(f, datetime.date(2018, 1, 1), datetime.date(2018, 4, 1), False)
 
+    assert df.notna().all().all()
+
     col = list(df.columns)
     test_col = ['Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume']
     assert len(col) == len(test_col)
 
     for c in test_col:
         assert c in col
+
+
+def test_load_dataframe_date_check_1():
+    f = 'stock_db/test/SPY.csv'
+    start_date = datetime.date(2018, 1, 3)
+    stop_date = datetime.date(2018, 1, 17)
+    df = fu.load_dataframe(f, start_date, stop_date)
+    assert df.iloc[0].name.date() == start_date
+    assert df.iloc[-1].name.date() == stop_date
+
+
+def test_load_dataframe_date_check_2():
+    f = 'stock_db/test/SPY.csv'
+    start_date = datetime.date(1900, 1, 3)
+    stop_date = datetime.date(2100, 1, 17)
+    df = fu.load_dataframe(f, start_date, stop_date)
+    assert df.iloc[0].name.date() > start_date
+    assert df.iloc[-1].name.date() < stop_date
 
 
 def create_random_df():
