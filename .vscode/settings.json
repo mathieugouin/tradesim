@@ -1,4 +1,5 @@
 {
+    "files.trimTrailingWhitespace": true,
     "workbench.list.openMode": "doubleClick",
     "python.testing.autoTestDiscoverOnSaveEnabled": true,
     "python.testing.unittestEnabled": false,
