@@ -184,8 +184,6 @@ def load_dataframe(csv_file, start_date, end_date, adjust_price=True):
     to the adjusted close price.
     """
     try:
-        #print("Loading {} ...".format(filename_to_symbol(csv_file)))
-
         df = pd.read_csv(csv_file, index_col='Date', parse_dates=True)
 
         # Fix for yahoo bug during weekends.
@@ -201,10 +199,8 @@ def load_dataframe(csv_file, start_date, end_date, adjust_price=True):
 
         df.sort_index(inplace=True)
 
-        ### TBD possible optimization: use slice instead of re-index
-        # Re-index to only have the relevant date range
-        date_range = pd.date_range(start=start_date, end=end_date, name='Date')
-        df = df.reindex(date_range)
+        # Keep only the required date range
+        df = df.loc[start_date : end_date]
 
         # Discarding NaN values that are all NaN for a given row
         df.dropna(how='all', inplace=True)
