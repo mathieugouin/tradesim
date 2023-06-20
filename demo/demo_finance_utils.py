@@ -4,6 +4,8 @@ from __future__ import print_function
 import datetime
 import numpy as np
 import matplotlib.pyplot as plt
+
+import parent_import
 import finance_utils as fu
 
 
@@ -19,12 +21,12 @@ def demo_commission():
 
 
 def demo_fu():
-    sf = '../stock_db/dj.txt'
+    sf = 'stock_db/dj.txt'
     print("symbol file {} contains the following stocks: {}".format(sf, fu.get_symbols_from_file(sf)))
 
-    d = '../stock_db/test'
+    d = 'stock_db/test'
 
-    s = 'SPY'
+    s = 'IBM'
     f = fu.symbol_to_filename(s, d)
     print("symbol {} with directory {} gives filename {}".format(s, d, f))
     print("filename {} gives symbol {}".format(f, fu.filename_to_symbol(f)))
