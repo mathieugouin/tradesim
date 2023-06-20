@@ -213,13 +213,12 @@ def load_dataframe(csv_file, start_date, end_date, adjust_price=True):
 
         if adjust_price:
             # Adjusting Columns based on Adjusted Close
-            r = df['Adj Close'] / df['Close']  # ratio
+            ratio = df['Adj Close'] / df['Close']
 
-            ### TBD possible optimization: perform this operation all at once instead of for loop.
-
-            for col in ['Open', 'High', 'Low', 'Close']:  # n/a for 'Volume'
-                df[col] *= r
-            df.drop('Adj Close', axis='columns', inplace=True)
+            for col in ['Open', 'High', 'Low']:  # n/a for 'Volume'
+                df[col] *= ratio
+            df.drop('Close', axis='columns', inplace=True)
+            df.rename(columns={'Adj Close': 'Close'}, inplace=True)
 
         #df.rename_axis('DATA', axis='columns', inplace=True)
 
