@@ -44,8 +44,8 @@ def get_volume(symbol):
 
 def get_price(symbol):
     """Current day's trading last price."""
-    return _get_info(symbol, 'regularMarketPrice')
-    # return _get_info(symbol, 'currentPrice')
+    #                                                                       For ETF??
+    return _get_info_choice(symbol, ['regularMarketPrice', 'currentPrice', 'ask', 'navPrice'])
 
 
 def get_stock_exchange(symbol):
