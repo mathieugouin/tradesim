@@ -1,12 +1,13 @@
 # To make print working for Python2/3
 from __future__ import print_function
 
+import parent_import
 import ystockquote as ysq
 
 
 def _main():
 
-    for s in ["NA.TO", "XBB.TO", "NOU.V", "AP-UN.TO", "BRK-A", "AAPL"]:
+    for s in ["NA.TO", "XBB.TO", "NOU.V", "AP-UN.TO", "BRK-A", "AAPL", "SPY"]:
         print("=============================================")
         print("s: {}".format(s))
 
