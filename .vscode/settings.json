@@ -1,5 +1,5 @@
 {
-    "pylint.args": ["--rcfile=.pylintrc"],
+    "pylint.args": ["--good-names=i,j,k,s,df"],
     "files.trimTrailingWhitespace": true,
     "workbench.list.openMode": "doubleClick",
     "python.testing.autoTestDiscoverOnSaveEnabled": true,
