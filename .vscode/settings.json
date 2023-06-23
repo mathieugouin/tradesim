@@ -1,4 +1,5 @@
 {
+    "pylint.args": ["--rcfile=.pylintrc"],
     "files.trimTrailingWhitespace": true,
     "workbench.list.openMode": "doubleClick",
     "python.testing.autoTestDiscoverOnSaveEnabled": true,
