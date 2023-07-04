@@ -73,6 +73,8 @@ jobs:
       # Append coverage (-a)
       - name: "Additional utilities execution"
         run: |
+          python -m coverage run -a dl_validation.py
+          python -m coverage run -a playground.py
           python -m coverage run -a update_stock_lists.py
 
       - name: "Display coverage report"
