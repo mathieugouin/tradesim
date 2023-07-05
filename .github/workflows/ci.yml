@@ -159,6 +159,8 @@ jobs:
         uses: "codecov/codecov-action@v3"
         with:
           #token: ${{ secrets.CODECOV_TOKEN }} # not required for public repos
+          #public repo, so token is irrelevant, but to try to help with failed upload
+          token: "7cbbd72c-0b58-44d2-98ae-f4a4dd4ea2b0"
           #files: ./coverage1.xml,./coverage2.xml # optional
           #flags: unittests # optional
           #name: codecov-umbrella # optional
