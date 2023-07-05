@@ -29,19 +29,6 @@ def _main():
         df = db.get_symbol_data(s)
 
     if False:
-        print("Validating symbols")
-        for s in db.get_all_symbols():
-            if not db.validate_symbol_data(s):
-                print("{} failed validation".format(s))
-
-    if False:
-        print("Loading all symbols to a dict")
-        # To test caching
-        dd = db.get_all_symbol_data()
-        dd = db.get_all_symbol_data()
-        print(dd.keys())
-
-    if False:
         df = db.get_symbol_data('MG.TO')
 
     if True:

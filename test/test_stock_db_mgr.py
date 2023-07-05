@@ -88,14 +88,14 @@ def test_get_symbol_data_noadj():
 
 
 @pytest.mark.webtest
-def test_get_symbol_data_bad():
+def test_get_symbol_data_bad_1():
     db = sdm.StockDBMgr('./stock_db/bad')
     df = db.get_symbol_data('BAAD')
     assert df is None
 
 
 @pytest.mark.webtest
-def test_get_symbol_data_bad2():
+def test_get_symbol_data_bad_2():
     db = sdm.StockDBMgr('./stock_db/bad')
     # A stock symbol or ticker is a unique series of letters assigned
     # to a security for trading purposes. Stocks listed on the
