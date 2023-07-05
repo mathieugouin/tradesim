@@ -52,9 +52,9 @@ def check_db(path):
                 # print("%s: len = %d" % (s, len(df)))
 
     if len(inv) > 0:
-        print("Invalid list:")
+        print("  Invalid list:")
         for s in inv:
-            print("  " + s)
+            print("    " + s)
 
 
 def _main():
