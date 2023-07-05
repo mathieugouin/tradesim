@@ -96,15 +96,15 @@ def load_yahoo_quote(ticker, begindate, enddate, info='quote'):
     # Perform the query
     # There is no need to enter the cookie here, as it is automatically handled by opener
     alines = ""
-    tryAgain = True
-    tryCount = 3
-    while tryAgain and tryCount > 0:
+    try_again = True
+    try_count = 3
+    while try_again and try_count > 0:
         try:
             f = urllib.request.urlopen(req, timeout=5)
             alines = f.read().decode('utf-8')
-            tryAgain = False
+            try_again = False
         except Exception:
-            tryCount = tryCount - 1
+            try_count = try_count - 1
             # print("Error, will try again:", ticker)
             alines = ""
 

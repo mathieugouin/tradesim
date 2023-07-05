@@ -6,18 +6,12 @@ def my_coverage(x):
 
     if x == 0:
         a = 0
-    else:
-        a = x
 
     if x > 0:
         a = 1
-    else:
-        a = x
 
     if x < 0:
         a = -1
-    else:
-        a = x
 
     return a
 
@@ -55,22 +49,22 @@ def test_param_2(a, b, s):
 @pytest.mark.dummytest
 @pytest.mark.webtest
 def test_webtest_1():
-    assert True
+    assert my_sum(2, 2) == 4
 
 
 @pytest.mark.dummytest
 @pytest.mark.webtest
 def test_webtest_2():
-    assert True
+    assert my_sum(2, 2) == 4
 
 
 @pytest.mark.dummytest
 @pytest.mark.smoketest
 def test_smoketest_1():
-    assert True
+    assert my_sum(2, 2) == 4
 
 
 @pytest.mark.dummytest
 @pytest.mark.smoketest
 def test_smoketest_2():
-    assert True
+    assert my_sum(2, 2) == 4

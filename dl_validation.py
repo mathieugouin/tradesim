@@ -28,10 +28,10 @@ def check_db(path):
 
     inv = []
 
-    symbolList = db.get_all_symbols()
-    # print(symbolList)
+    symbol_list = db.get_all_symbols()
+    # print(symbol_list)
 
-    for s in symbolList:
+    for s in symbol_list:
         if not db.validate_symbol_data(s):
             inv.append(s)
             continue
