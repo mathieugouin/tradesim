@@ -213,7 +213,7 @@ def test_clean_dataframe_many_late_nan():
 
 def test_clean_dataframe_middle_nan():
     df = create_random_df()
-    df.loc['2001-01-01':'2001-08-01', ['A','C','E']] = np.nan
+    df.loc['2001-01-01':'2001-08-01', ['A', 'C', 'E']] = np.nan
     df2 = fu.clean_dataframe(df, '2000-01-01')
     assert df.equals(df2)
 
