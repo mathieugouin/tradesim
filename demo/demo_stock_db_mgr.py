@@ -8,13 +8,13 @@ import stock_db_mgr as sdm
 
 
 def _main():
-    #db = sdm.StockDBMgr('../stock_db/test', datetime.date(2017, 1, 1), datetime.date(2018, 1, 1))
-    #db = sdm.StockDBMgr('stock_db/tsx', datetime.date(2023, 1, 1), datetime.date(2023, 6, 1))
+    # db = sdm.StockDBMgr('../stock_db/test', datetime.date(2017, 1, 1), datetime.date(2018, 1, 1))
+    # db = sdm.StockDBMgr('stock_db/tsx', datetime.date(2023, 1, 1), datetime.date(2023, 6, 1))
     db = sdm.StockDBMgr('stock_db/tsx')
-    #db = sdm.StockDBMgr('../stock_db/sp500')
+    # db = sdm.StockDBMgr('../stock_db/sp500')
 
     symbol_list = db.get_all_symbols()
-    #print(symbol_list)
+    # print(symbol_list)
 
     # Work with first symbol only
     s = symbol_list[0]
@@ -34,8 +34,8 @@ def _main():
     if True:
         df = db.get_all_symbol_single_data_item('Close')
         print(df)
-        #df = db.get_all_symbol_single_data_item('Volume')
-        #print(df.head())
+        # df = db.get_all_symbol_single_data_item('Volume')
+        # print(df.head())
 
     if False:
         db = sdm.StockDBMgr('../stock_db/test',
