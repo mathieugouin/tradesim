@@ -15,11 +15,11 @@ This code is provided to obtain such matching cookie and crumb.
 # To make print working for Python2/3
 from __future__ import print_function
 
-# Use six to import urllib so it is working for Python2/3
-from six.moves import urllib
-
 import time
 import re
+
+# Use six to import urllib so it is working for Python2/3
+from six.moves import urllib
 
 # Build the cookie handler
 cookier = urllib.request.HTTPCookieProcessor()
@@ -38,7 +38,7 @@ _headers = {
 
 def _get_cookie_crumb():
     """Performs a query and extract the matching cookie and crumb."""
-    global cookier, _crumb
+    global _crumb
 
     # Perform a Yahoo financial lookup on SP500: ticker = ^GSPC
     cookier.cookiejar.clear()
