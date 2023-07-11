@@ -65,10 +65,11 @@ jobs:
           python -m coverage run -a get_yahoo_finance_data.py --concurrent 1 --file stock_db/test.txt --dir ./stock_db/test --startdate 20100101 --verbose
 
       # Append coverage (-a)
-      # -rxXs  # show extra info on xfailed, xpassed, and skipped tests
+      # -r...  # show all except regular pass
+      # https://docs.pytest.org/en/7.4.x/how-to/output.html
       - name: "Execute tests with coverage"
         run: |
-          python -m coverage run -a -m pytest -v -rxXs
+          python -m coverage run -a -m pytest -v -rfEsxXP
 
       # Append coverage (-a)
       - name: "Additional utilities execution"

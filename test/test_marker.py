@@ -74,3 +74,9 @@ def test_smoketest_1():
 @pytest.mark.smoketest
 def test_smoketest_2():
     assert True
+
+
+@pytest.mark.dummytest
+def test_print_pass():
+    print("test_print_pass should pass...")
+    assert True
