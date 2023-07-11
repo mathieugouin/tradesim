@@ -76,7 +76,7 @@ def load_yahoo_quote(ticker, begindate, enddate, info='quote'):
     te = time.mktime((int(enddate[0:4]), int(
         enddate[4:6]), int(enddate[6:8]), 18, 0, 0, 0, 0, 0))
 
-    param = dict()
+    param = {}
     param['period1'] = int(tb)
     param['period2'] = int(te)
     param['interval'] = '1d'
@@ -90,23 +90,16 @@ def load_yahoo_quote(ticker, begindate, enddate, info='quote'):
     params = urllib.parse.urlencode(param)
     url = 'https://query1.finance.yahoo.com/v7/finance/download/{}?{}'.format(
         urllib.parse.quote(ticker), params)
-    # print(url)
     req = urllib.request.Request(url, headers=_headers)
 
     # Perform the query
     # There is no need to enter the cookie here, as it is automatically handled by opener
     alines = ""
-    try_again = True
-    try_count = 3
-    while try_again and try_count > 0:
-        try:
-            f = urllib.request.urlopen(req, timeout=5)
+    try:
+        with urllib.request.urlopen(req, timeout=5) as f:
             alines = f.read().decode('utf-8')
-            try_again = False
-        except Exception:
-            try_count = try_count - 1
-            # print("Error, will try again:", ticker)
-            alines = ""
+    except Exception:
+        alines = ""
 
     if len(alines) < 5:
         print('\nERROR: Symbol not found:', ticker)
