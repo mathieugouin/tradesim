@@ -1,3 +1,7 @@
+"""
+This simple module allows importing module from parent directory.
+It adds the parent directory of this file to the sys.path.
+"""
 import sys
 import os
 
