@@ -5,13 +5,14 @@ import matplotlib.ticker as mticker
 import matplotlib.pyplot as plt
 import matplotlib.font_manager as font_manager
 
+import parent_import
 import stock_db_mgr as sdm
 
 startdate = datetime.date(2019, 1, 1)
 enddate = datetime.date.today()
 ticker = 'SPY'
 
-db = sdm.StockDBMgr('../stock_db/test', startdate, enddate)
+db = sdm.StockDBMgr('stock_db/test', startdate, enddate)
 
 
 def moving_average(x, n, moving_average_type='simple'):

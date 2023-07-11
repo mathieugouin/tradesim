@@ -13,10 +13,11 @@ This example requires an active internet connection since it uses
 yahoo finance to get the data for plotting
 """
 
+import datetime
 from pylab import figure, show
 from matplotlib.dates import YearLocator, MonthLocator, DateFormatter
-import datetime
 
+import parent_import
 import stock_db_mgr as sdm
 
 
@@ -28,7 +29,7 @@ def price(x):
 date1 = datetime.date(1995, 1, 1)
 date2 = datetime.date(2004, 4, 12)
 
-db = sdm.StockDBMgr('../stock_db/test', date1, date2)
+db = sdm.StockDBMgr('stock_db/test', date1, date2)
 
 years = YearLocator()   # every year
 months = MonthLocator()  # every month
