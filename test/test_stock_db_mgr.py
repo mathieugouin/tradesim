@@ -114,13 +114,14 @@ def test_get_all_symbol_data():
         assert s in dic
 
 
-# TBD to make more robust
+@pytest.mark.toimprove
 def test_get_all_symbol_dataframe():
     db = sdm.StockDBMgr(_STOCK_DB_TEST_PATH)
     df = db.get_all_symbol_dataframe()
     assert df is not None
 
 
+@pytest.mark.toimprove
 def test_get_all_symbol_single_data_item():
     db = sdm.StockDBMgr(_STOCK_DB_TEST_PATH, adjust_price=False)
     symbol_list = db.get_all_symbols()

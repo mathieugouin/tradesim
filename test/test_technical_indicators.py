@@ -3,9 +3,7 @@ import pytest
 import technical_indicators as ti
 
 
-# TBD super dummy tests
-
-
+@pytest.mark.toimprove
 @pytest.mark.smoketest
 def test_step():
     t = np.arange(-5, 5, 1)
@@ -13,6 +11,7 @@ def test_step():
     assert len(s) == len(t)
 
 
+@pytest.mark.toimprove
 @pytest.mark.smoketest
 def test_ramp():
     t = np.arange(-5, 5, 1)
@@ -20,7 +19,7 @@ def test_ramp():
     assert len(r) == len(t)
 
 
-# TBD: not very robust test
+@pytest.mark.toimprove
 @pytest.mark.smoketest
 def test_cross_over():
     t = np.linspace(0, 4 * np.pi, 50)
@@ -31,7 +30,7 @@ def test_cross_over():
     assert x.max() == True
 
 
-# TBD: not very robust test
+@pytest.mark.toimprove
 @pytest.mark.smoketest
 def test_cross_under():
     t = np.linspace(0, 4 * np.pi, 50)
@@ -42,8 +41,9 @@ def test_cross_under():
     assert x.max() == True
 
 
+@pytest.mark.toimprove
 @pytest.mark.smoketest
-def test_data():
+def test_indicators():
     n = 100
     t = np.arange(n)  # [0 .. n-1]
 
