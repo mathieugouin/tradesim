@@ -36,20 +36,18 @@ def check_db(path):
             inv.append(s)
             continue
 
-        # Only applies if recent download...
-        if True:
-            df = db.get_symbol_data(s)
+        df = db.get_symbol_data(s)
 
-            t = startdate
-            if df is not None and len(df) > 0:
-                t = df.iloc[-1].name.date()
-            else:
-                inv.append(s)
-                continue
+        t = startdate
+        if df is not None and len(df) > 0:
+            t = df.iloc[-1].name.date()
+        else:
+            inv.append(s)
+            continue
 
-            if (today - t) > datetime.timedelta(4):
-                inv.append(s)
-                # print("%s: len = %d" % (s, len(df)))
+        if (today - t) > datetime.timedelta(4):
+            inv.append(s)
+            # print("%s: len = %d" % (s, len(df)))
 
     if len(inv) > 0:
         print("  Invalid list:")
