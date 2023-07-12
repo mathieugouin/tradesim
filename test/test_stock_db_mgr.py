@@ -26,12 +26,12 @@ def test_creation_custom_date_range():
 
 def test_print():
     db = sdm.StockDBMgr(_STOCK_DB_TEST_PATH)
-    s1 = str(db)
-    assert len(s1) > 0
+    str1 = str(db)
+    assert len(str1) > 0
     # Cache some symbols
     db.get_all_symbol_data()
-    s2 = str(db)
-    assert len(s2) > len(s1)
+    str2 = str(db)
+    assert len(str2) > len(str1)
 
 
 def test_get_all_symbols():
@@ -120,11 +120,13 @@ def test_get_all_symbol_dataframe():
 
 
 def test_get_all_symbol_single_data_item():
-    db = sdm.StockDBMgr(_STOCK_DB_TEST_PATH)
-    df1 = db.get_symbol_data(db.get_all_symbols()[0])
-    for p in df1.columns:
-        df = db.get_all_symbol_single_data_item(p)
-        for s in db.get_all_symbols():
+    db = sdm.StockDBMgr(_STOCK_DB_TEST_PATH, adjust_price=False)
+    symbol_list = db.get_all_symbols()
+    df1 = db.get_symbol_data(symbol_list[0])
+    for data in df1.columns:
+        df = db.get_all_symbol_single_data_item(data)
+        # TBD check that df name matches the data
+        for s in symbol_list:
             assert s in df
 
     df = db.get_all_symbol_single_data_item('BadData')
