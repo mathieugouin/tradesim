@@ -28,10 +28,12 @@ def test_print():
     db = sdm.StockDBMgr(_STOCK_DB_TEST_PATH)
     str1 = str(db)
     assert len(str1) > 0
+    print(str1)
     # Cache some symbols
-    db.get_all_symbol_data()
+    _ = db.get_all_symbol_data()
     str2 = str(db)
     assert len(str2) > len(str1)
+    print(str2)
 
 
 def test_get_all_symbols():

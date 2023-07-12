@@ -34,7 +34,7 @@ class StockDBMgr(object):
             start_date = _default_start_date
         if end_date is None:
             end_date = _default_end_date
-        self._basedir = basedir
+        self._basedir = os.path.abspath(basedir)
         self._start_date = start_date
         self._end_date = end_date
         self._adjust_price = adjust_price

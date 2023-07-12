@@ -44,7 +44,7 @@ def dataframe_test2():
 
 def dataframe_test():
     # This stock has a split
-    f = '../stock_db/tsx/NA.TO.csv'
+    f = 'stock_db/tsx/NA.TO.csv'
     df = pd.read_csv(f, index_col='Date', parse_dates=True, na_values='nan')
     print(df.describe())
     print(df.head())
@@ -72,8 +72,8 @@ def dataframe_test():
     print(df.loc['2020-01-01':'2020-01-31', ['Open', 'Close']])
 
     # NA test
-    print(df.isna().any(1).sum())
-    print(df.isna().all(1).sum())
+    print(df.isna().any(axis=1).sum())
+    print(df.isna().all(axis=1).sum())
 
     # Adjusting Columns based on Adjusted Close
     r = df['Adj Close'] / df['Close']  # ratio
@@ -87,7 +87,7 @@ def dataframe_test():
 
 
 def _main():
-    plot_test()
+    # plot_test()
     dataframe_test2()
     dataframe_test()
 

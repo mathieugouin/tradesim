@@ -1,7 +1,10 @@
 # To make print working for Python2/3
 from __future__ import print_function
 
+import parent_import
 import virtual_account as va
+import finance_utils as fu
+import stock_db_mgr as sdm
 
 
 def __print_position(account):
@@ -15,10 +18,9 @@ def __print_position(account):
 
 
 def __main():
-    import stock_db_mgr as sdm
-    db = sdm.StockDBMgr('../stock_db/qt')
+    db = sdm.StockDBMgr('stock_db/qt')
     account = va.VirtualAccount(100000, db.get_all_symbol_data())
-    print("comm = {}".format(va.calc_commission(300)))
+    print("comm = {}".format(fu.calc_commission(300)))
     print("$ = {}".format(account.get_cash()))
     account.delta_cash(100)
     print("$ = {}".format(account.get_cash()))

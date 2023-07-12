@@ -2,6 +2,7 @@
 from __future__ import print_function
 
 # User
+import parent_import
 import yqd
 
 

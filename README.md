@@ -1,7 +1,9 @@
 # Trading Simulator
 [![Python Build](https://github.com/mathieugouin/tradesim/actions/workflows/ci.yml/badge.svg)](https://github.com/mathieugouin/tradesim/actions/workflows/ci.yml)
-[![CodeFactor](https://www.codefactor.io/repository/github/mathieugouin/tradesim/badge/master)](https://www.codefactor.io/repository/github/mathieugouin/tradesim/overview/master)
 [![codecov](https://codecov.io/gh/mathieugouin/tradesim/branch/master/graph/badge.svg?token=4ZZ9V7NU91)](https://codecov.io/gh/mathieugouin/tradesim)
+[![CodeFactor](https://www.codefactor.io/repository/github/mathieugouin/tradesim/badge/master)](https://www.codefactor.io/repository/github/mathieugouin/tradesim/overview/master)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=mathieugouin_tradesim&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=mathieugouin_tradesim)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=mathieugouin_tradesim&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=mathieugouin_tradesim)
 ![Last Commit](https://img.shields.io/github/last-commit/mathieugouin/tradesim)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
