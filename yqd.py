@@ -15,11 +15,11 @@ This code is provided to obtain such matching cookie and crumb.
 # To make print working for Python2/3
 from __future__ import print_function
 
-# Use six to import urllib so it is working for Python2/3
-from six.moves import urllib
-
 import time
 import re
+
+# Use six to import urllib so it is working for Python2/3
+from six.moves import urllib
 
 # Build the cookie handler
 cookier = urllib.request.HTTPCookieProcessor()
@@ -38,7 +38,7 @@ _headers = {
 
 def _get_cookie_crumb():
     """Performs a query and extract the matching cookie and crumb."""
-    global cookier, _crumb
+    global _crumb
 
     # Perform a Yahoo financial lookup on SP500: ticker = ^GSPC
     cookier.cookiejar.clear()
@@ -76,7 +76,7 @@ def load_yahoo_quote(ticker, begindate, enddate, info='quote'):
     te = time.mktime((int(enddate[0:4]), int(
         enddate[4:6]), int(enddate[6:8]), 18, 0, 0, 0, 0, 0))
 
-    param = dict()
+    param = {}
     param['period1'] = int(tb)
     param['period2'] = int(te)
     param['interval'] = '1d'
@@ -90,23 +90,16 @@ def load_yahoo_quote(ticker, begindate, enddate, info='quote'):
     params = urllib.parse.urlencode(param)
     url = 'https://query1.finance.yahoo.com/v7/finance/download/{}?{}'.format(
         urllib.parse.quote(ticker), params)
-    # print(url)
     req = urllib.request.Request(url, headers=_headers)
 
     # Perform the query
     # There is no need to enter the cookie here, as it is automatically handled by opener
     alines = ""
-    tryAgain = True
-    tryCount = 3
-    while tryAgain and tryCount > 0:
-        try:
-            f = urllib.request.urlopen(req, timeout=5)
+    try:
+        with urllib.request.urlopen(req, timeout=5) as f:
             alines = f.read().decode('utf-8')
-            tryAgain = False
-        except Exception:
-            tryCount = tryCount - 1
-            # print("Error, will try again:", ticker)
-            alines = ""
+    except Exception:
+        alines = ""
 
     if len(alines) < 5:
         print('\nERROR: Symbol not found:', ticker)

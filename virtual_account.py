@@ -33,7 +33,7 @@ class VirtualAccount(object):
             if cost < self._cash:
                 self._positions.append(
                     pos.Position(bar, symbol, nb_share,
-                        buy_price, name, commission))
+                                 buy_price, name, commission))
                 self._cash -= cost
             else:
                 print("Error: not enough money")

@@ -6,6 +6,9 @@ import pytest
 import finance_utils as fu
 
 
+_TEST_STOCK_FILE = 'stock_db/test/SPY.csv'
+
+
 @pytest.mark.parametrize('nb,commission', [
     (0, 0),
     (1, .0035 + 4.95),
@@ -79,7 +82,7 @@ def test_filename_to_symbol(filename, symbol):
 
 
 def test_validate_symbol_data_ok():
-    assert fu.validate_symbol_data('stock_db/test/SPY.csv')
+    assert fu.validate_symbol_data(_TEST_STOCK_FILE)
 
 
 def test_validate_symbol_data_bad():
@@ -117,7 +120,7 @@ def test_update_all_symbols():
 
 
 def test_load_dataframe_adj():
-    f = 'stock_db/test/SPY.csv'
+    f = _TEST_STOCK_FILE
     df = fu.load_dataframe(f, datetime.date(2018, 1, 1), datetime.date(2018, 4, 1), True)
 
     assert df.notna().all().all()
@@ -131,7 +134,7 @@ def test_load_dataframe_adj():
 
 
 def test_load_dataframe_no_adj():
-    f = 'stock_db/test/SPY.csv'
+    f = _TEST_STOCK_FILE
     df = fu.load_dataframe(f, datetime.date(2018, 1, 1), datetime.date(2018, 4, 1), False)
 
     assert df.notna().all().all()
@@ -145,7 +148,7 @@ def test_load_dataframe_no_adj():
 
 
 def test_load_dataframe_date_check_1():
-    f = 'stock_db/test/SPY.csv'
+    f = _TEST_STOCK_FILE
     start_date = datetime.date(2018, 1, 3)
     stop_date = datetime.date(2018, 1, 17)
     df = fu.load_dataframe(f, start_date, stop_date)
@@ -154,7 +157,7 @@ def test_load_dataframe_date_check_1():
 
 
 def test_load_dataframe_date_check_2():
-    f = 'stock_db/test/SPY.csv'
+    f = _TEST_STOCK_FILE
     start_date = datetime.date(1900, 1, 3)
     stop_date = datetime.date(2100, 1, 17)
     df = fu.load_dataframe(f, start_date, stop_date)
@@ -213,13 +216,13 @@ def test_clean_dataframe_many_late_nan():
 
 def test_clean_dataframe_middle_nan():
     df = create_random_df()
-    df.loc['2001-01-01':'2001-08-01', ['A','C','E']] = np.nan
+    df.loc['2001-01-01':'2001-08-01', ['A', 'C', 'E']] = np.nan
     df2 = fu.clean_dataframe(df, '2000-01-01')
     assert df.equals(df2)
 
 
 def test_fill_nan_data_notinplace():
-    f = 'stock_db/test/SPY.csv'
+    f = _TEST_STOCK_FILE
     df = fu.load_dataframe(f, datetime.date(2018, 1, 1), datetime.date(2018, 4, 1))
     # Test by adding some NaN
     df.iloc[0:10, 0] = np.nan  # beginning
@@ -234,7 +237,7 @@ def test_fill_nan_data_notinplace():
 
 
 def test_fill_nan_data_inplace():
-    f = 'stock_db/test/SPY.csv'
+    f = _TEST_STOCK_FILE
     df = fu.load_dataframe(f, datetime.date(2018, 1, 1), datetime.date(2018, 4, 1))
     # Test by adding some NaN
     df.iloc[0:10, 0] = np.nan  # beginning
@@ -249,7 +252,7 @@ def test_fill_nan_data_inplace():
 
 
 def test_normalize_dataframe():
-    f = 'stock_db/test/SPY.csv'
+    f = _TEST_STOCK_FILE
     df = fu.load_dataframe(f, datetime.date(2018, 1, 1), datetime.date(2018, 4, 1))
     # Not applicable for a single stock, but just to test...
     assert fu.normalize_dataframe(df).iloc[0].mean() == 1.0

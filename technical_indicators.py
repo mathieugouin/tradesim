@@ -24,6 +24,7 @@ def ramp(t):
 # Various technical indicators
 # -------------------------------------
 
+
 def linear_fit(x, n):
     """Linear regression of 'n' points used to give the smoothed point."""
     if n < 2:

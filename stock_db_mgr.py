@@ -81,12 +81,12 @@ class StockDBMgr(object):
         """Return a single symbol data as a DataFrame."""
         symbol = symbol.upper()
         if symbol not in self._dic:
-            f = fu.symbol_to_filename(symbol, self._basedir)
-            if not os.path.exists(f):
+            filename = fu.symbol_to_filename(symbol, self._basedir)
+            if not os.path.exists(filename):
                 self.download_data(symbol)
-            df = fu.load_dataframe(f,
-                self._start_date, self._end_date,
-                adjust_price=self._adjust_price)
+            df = fu.load_dataframe(filename,
+                                   self._start_date, self._end_date,
+                                   adjust_price=self._adjust_price)
             if df is None:
                 print("ERROR: data for {} contains error".format(symbol))
             else:
@@ -102,7 +102,7 @@ class StockDBMgr(object):
         """Return a dictionary of all symbols DataFrame."""
         # Update the dictionary cache
         for s in self.get_all_symbols():
-            self.get_symbol_data(s)  # return is ignored on purpose
+            _ = self.get_symbol_data(s)
         return self._dic
 
     def get_all_symbol_dataframe(self):

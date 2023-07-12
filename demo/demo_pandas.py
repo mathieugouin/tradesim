@@ -51,10 +51,6 @@ def dataframe_test():
 
     df.sort_index(inplace=True)
 
-    # df['Close'].plot()
-    # df[['Open', 'High', 'Low', 'Close']][:50].plot()
-    # df[['Close', 'Adj Close']].plot()
-
     # Column indexing
     print(df['Close'][:10])  # (and row indexing)
     print(df['Close'].max())

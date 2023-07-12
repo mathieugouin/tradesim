@@ -143,10 +143,10 @@ def clean_dataframe(df, start_date):
     """
     nb_days = 5  # valid grace period from start and end date
 
-    valid_symbols_at_start = df.loc[start_date : ].iloc[0:nb_days].notna().any().pipe(lambda x: x[x]).index
+    valid_symbols_at_start = df.loc[start_date:].iloc[0:nb_days].notna().any().pipe(lambda x: x[x]).index
     valid_symbols_at_end = df.iloc[-nb_days:].notna().any().pipe(lambda x: x[x]).index
 
-    return df.loc[start_date : ][valid_symbols_at_start.intersection(valid_symbols_at_end)]
+    return df.loc[start_date:][valid_symbols_at_start.intersection(valid_symbols_at_end)]
 
 
 def fill_nan_data(df, inplace=False):
@@ -190,8 +190,8 @@ def load_dataframe(csv_file, start_date, end_date, adjust_price=True):
         # Refer to https://github.com/mathieugouin/tradesim/issues/38
         # Conditions: Only last index is duplicated
         # TBD: does not seem to happen anymore
-        #if df.index.duplicated()[-1] and not df.index.duplicated()[0:-1].any():
-        #    df = df.iloc[0:-1] # Keep only 0 to second to last
+        # if df.index.duplicated()[-1] and not df.index.duplicated()[0:-1].any():
+        #     df = df.iloc[0:-1] # Keep only 0 to second to last
 
         # Make sure no duplicated dates:
         if df.index.duplicated().any():
@@ -200,7 +200,7 @@ def load_dataframe(csv_file, start_date, end_date, adjust_price=True):
         df.sort_index(inplace=True)
 
         # Keep only the required date range
-        df = df.loc[start_date : end_date]
+        df = df.loc[start_date:end_date]
 
         # Discarding NaN values that are all NaN for a given row
         df.dropna(how='all', inplace=True)
@@ -220,7 +220,7 @@ def load_dataframe(csv_file, start_date, end_date, adjust_price=True):
             df.drop('Close', axis='columns', inplace=True)
             df.rename(columns={'Adj Close': 'Close'}, inplace=True)
 
-        #df.rename_axis('DATA', axis='columns', inplace=True)
+        # df.rename_axis('DATA', axis='columns', inplace=True)
 
         # Axis naming matching the symbol name
         df.rename_axis(filename_to_symbol(csv_file), axis='columns', inplace=True)
