@@ -22,9 +22,6 @@ My ramblings on various stock analysis and data mining.
 * Run (and possibly edit) `download_historical_data.sh` to download the historical stock data locally from the stock list files.
 * Run and play with `tradesim.py`
 
-## Project notes
-* Histogram plot of data: <http://stackoverflow.com/questions/5328556/histogram-matplotlib/5328669>
-
 ### IPython / Notebook
 #### Setup
 * `python3 -m pip install --upgrade pip`
@@ -62,6 +59,3 @@ Ref: https://ipython.readthedocs.io/en/stable/interactive/magics.html
 * `Ctrl+Enter`: run current cell
 * `Shift+Enter`: run & select cell below
 * `Alt+Enter`: run cell & insert below
-
-## Project TODO
-* Analyze invalid stock
