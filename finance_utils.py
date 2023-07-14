@@ -57,8 +57,8 @@ def get_symbols_from_file(ticker_file):
     """Return the list of ticker symbol listed in the provided text file.
 
     The parsing is done to ignore blank lines or lines starting with # (comment).
-    On a non-comment row, only the first word is taken as a symbol.  This allow crafting the file with
-    optional description following the symbol.
+    On a non-comment row, only the first word is taken as a symbol.
+    This allow crafting the file with optional description following the symbol.
     """
     ticker_list = []
 
