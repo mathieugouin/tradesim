@@ -124,6 +124,9 @@ def test_update_all_symbols():
 def test_load_dataframe_adj():
     f = _TEST_STOCK_FILE
     df = fu.load_dataframe(f, datetime.date(2018, 1, 1), datetime.date(2018, 4, 1), True)
+    # DataFrame axes is a list.  It has the row axis labels and column axis labels
+    # as the only members. They are returned in that order.
+    assert df.axes[1].name == fu.filename_to_symbol(_TEST_STOCK_FILE)
 
     assert df.notna().all().all()
 
@@ -138,6 +141,9 @@ def test_load_dataframe_adj():
 def test_load_dataframe_no_adj():
     f = _TEST_STOCK_FILE
     df = fu.load_dataframe(f, datetime.date(2018, 1, 1), datetime.date(2018, 4, 1), False)
+    # DataFrame axes is a list.  It has the row axis labels and column axis labels
+    # as the only members. They are returned in that order.
+    assert df.axes[1].name == fu.filename_to_symbol(_TEST_STOCK_FILE)
 
     assert df.notna().all().all()
 
