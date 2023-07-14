@@ -1,6 +1,7 @@
 import datetime
 import pytest
 import stock_db_mgr as sdm
+import finance_utils as fu
 
 
 _STOCK_DB_TEST_PATH = './stock_db/test'
@@ -37,9 +38,10 @@ def test_print():
 
 
 def test_get_all_symbols():
-    db = sdm.StockDBMgr(_STOCK_DB_TEST_PATH, datetime.date(2017, 1, 1), datetime.date(2018, 1, 1))
-    symbol_list = db.get_all_symbols()
-    assert len(symbol_list) > 3
+    db = sdm.StockDBMgr(_STOCK_DB_TEST_PATH)
+    symbol_list_db = db.get_all_symbols()
+    symbol_list_fu = fu.get_symbols_from_file("./stock_db/test.txt")
+    assert len(symbol_list_db) == len(symbol_list_fu)
 
 
 @pytest.mark.webtest

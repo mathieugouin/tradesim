@@ -91,8 +91,10 @@ def test_validate_symbol_data_bad():
         f.write('thisisabadcsvheader\n')
         f.write('1,2,3\n')
         f.write('4,5,6\n')
+    assert os.path.exists(filename)
     assert not fu.validate_symbol_data(filename)
     os.remove(filename)
+    assert not os.path.exists(filename)
 
 
 def test_get_all_symbols():
@@ -125,12 +127,12 @@ def test_load_dataframe_adj():
 
     assert df.notna().all().all()
 
-    col = list(df.columns)
+    df_col = list(df.columns)
     test_col = ['Open', 'High', 'Low', 'Close', 'Volume']
-    assert len(col) == len(test_col)
+    assert len(df_col) == len(test_col)
 
-    for c in test_col:
-        assert c in col
+    for col in test_col:
+        assert col in df_col
 
 
 def test_load_dataframe_no_adj():
@@ -139,12 +141,12 @@ def test_load_dataframe_no_adj():
 
     assert df.notna().all().all()
 
-    col = list(df.columns)
+    df_col = list(df.columns)
     test_col = ['Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume']
-    assert len(col) == len(test_col)
+    assert len(df_col) == len(test_col)
 
-    for c in test_col:
-        assert c in col
+    for col in test_col:
+        assert col in df_col
 
 
 def test_load_dataframe_date_check_1():
