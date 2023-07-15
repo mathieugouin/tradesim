@@ -105,7 +105,6 @@ def download_url(url):
 def download_data(symbol, basedir, start_date, end_date):
     """Wrapper function to yqd library."""
     symbol = symbol.upper()
-    print("Downloading: {} ...".format(symbol))
     # Date 1
     d1 = "{0:0>4}".format(start_date.year) + \
          "{0:0>2}".format(start_date.month) + \
