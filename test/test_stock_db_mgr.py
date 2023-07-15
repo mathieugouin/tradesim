@@ -1,4 +1,5 @@
 import datetime
+import os
 import pytest
 import stock_db_mgr as sdm
 import finance_utils as fu
@@ -64,14 +65,23 @@ def test_validate():
 
 @pytest.mark.webtest
 def test_update_all_symbols():
-    db = sdm.StockDBMgr('./stock_db/empty')
+    directory = './stock_db/empty'
+    filename = fu.symbol_to_filename('SPY', directory)
+    assert not os.path.exists(filename)
+    db = sdm.StockDBMgr(directory)
     assert 'SPY' not in db._dic
     # Get a single symbol
-    db.get_symbol_data('SPY')
+    df = db.get_symbol_data('SPY')
+    assert len(df) > 100
+    assert os.path.exists(filename)
+    # Symbol is in cache
     assert 'SPY' in db._dic
     db.update_all_symbols()
+    # Symbol is not in cache
     assert 'SPY' not in db._dic
-
+    # Clean-up
+    os.remove(filename)
+    assert not os.path.exists(filename)
 
 def test_get_symbol_data():
     db = sdm.StockDBMgr(_STOCK_DB_TEST_PATH)

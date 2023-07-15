@@ -106,7 +106,7 @@ def test_get_all_symbols():
 @pytest.mark.webtest
 def test_download_data():
     symbol = 'SPY'
-    directory = 'stock_db/empty2'
+    directory = 'stock_db/empty'
     start_date = datetime.date(2010, 1, 1)
     end_date = datetime.date(2012, 1, 1)
     fu.download_data(symbol, directory, start_date, end_date)
@@ -119,7 +119,7 @@ def test_download_data():
 @pytest.mark.webtest
 def test_update_all_symbols():
     symbol = 'SPY'
-    directory = 'stock_db/empty2'
+    directory = 'stock_db/empty'
     filename = fu.symbol_to_filename(symbol, directory)
     # Create an empty stock file
     open(filename, 'w').close()

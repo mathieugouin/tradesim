@@ -58,7 +58,6 @@ jobs:
       - name: "Pre-Test setup"
         run: |
           mkdir -p stock_db/empty
-          mkdir -p stock_db/empty2
           mkdir -p stock_db/bad
           touch stock_db/bad/BAD.csv
           # Append coverage (-a)
