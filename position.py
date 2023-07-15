@@ -72,5 +72,5 @@ class Position(object):
             exit_value = self._nb_share * self._exit_price - self._exit_commission
             pc = (exit_value - entry_cost) / entry_cost * 100
         else:
-            print("ERROR: position still open")
+            print("Error: position still open")
         return pc

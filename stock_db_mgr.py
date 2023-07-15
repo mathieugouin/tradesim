@@ -88,7 +88,7 @@ class StockDBMgr(object):
                                    self._start_date, self._end_date,
                                    adjust_price=self._adjust_price)
             if df is None:
-                print("ERROR: data for {} contains error".format(symbol))
+                print("Error: data for {} contains error".format(symbol))
             else:
                 self._dic[symbol] = df  # Store it for next time
 
