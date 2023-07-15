@@ -87,10 +87,11 @@ def test_validate_symbol_data_ok():
 
 def test_validate_symbol_data_bad():
     filename = 'stock_db/bad/bad_csv.txt'
-    with open(filename, 'w') as f:
-        f.write('thisisabadcsvheader\n')
-        f.write('1,2,3\n')
-        f.write('4,5,6\n')
+    assert not os.path.exists(filename)
+    with open(filename, 'w') as file:
+        file.write('thisisabadcsvheader\n')
+        file.write('1,2,3\n')
+        file.write('4,5,6\n')
     assert os.path.exists(filename)
     assert not fu.validate_symbol_data(filename)
     os.remove(filename)
@@ -98,32 +99,44 @@ def test_validate_symbol_data_bad():
 
 
 def test_get_all_symbols():
-    d = 'stock_db/test'
-    assert len(fu.get_all_symbols(d)) > 3
+    directory = 'stock_db/test'
+    assert len(fu.get_all_symbols(directory)) > 3
 
 
 @pytest.mark.webtest
 def test_download_data():
-    s = 'SPY'
-    d = 'stock_db/empty2'
+    symbol = 'SPY'
+    directory = 'stock_db/empty2'
     start_date = datetime.date(2010, 1, 1)
     end_date = datetime.date(2012, 1, 1)
-    fu.download_data(s, d, start_date, end_date)
-    assert len(fu.get_all_symbols(d)) == 1
+    fu.download_data(symbol, directory, start_date, end_date)
+    assert len(fu.get_all_symbols(directory)) == 1
+    filename = fu.symbol_to_filename(symbol, directory)
+    os.remove(filename)
+    assert not os.path.exists(filename)
 
 
 @pytest.mark.webtest
 def test_update_all_symbols():
-    d = 'stock_db/empty2'
-    start_date = datetime.date(2000, 1, 1)
-    end_date = datetime.date.today()
-    fu.update_all_symbols(d, start_date, end_date)
-    assert len(fu.get_all_symbols(d)) == 1
+    symbol = 'SPY'
+    directory = 'stock_db/empty2'
+    filename = fu.symbol_to_filename(symbol, directory)
+    # Create an empty stock file
+    open(filename, 'w').close()
+
+    start_date = datetime.date(2010, 1, 1)
+    end_date = datetime.date(2012, 1, 1)
+    fu.update_all_symbols(directory, start_date, end_date)
+    assert len(fu.get_all_symbols(directory)) == 1
+
+    # Clean-up
+    os.remove(filename)
+    assert not os.path.exists(filename)
 
 
 def test_load_dataframe_adj():
-    f = _TEST_STOCK_FILE
-    df = fu.load_dataframe(f, datetime.date(2018, 1, 1), datetime.date(2018, 4, 1), True)
+    filename = _TEST_STOCK_FILE
+    df = fu.load_dataframe(filename, datetime.date(2018, 1, 1), datetime.date(2018, 4, 1), True)
     # DataFrame axes is a list.  It has the row axis labels and column axis labels
     # as the only members. They are returned in that order.
     assert df.axes[1].name == fu.filename_to_symbol(_TEST_STOCK_FILE)
@@ -139,8 +152,8 @@ def test_load_dataframe_adj():
 
 
 def test_load_dataframe_no_adj():
-    f = _TEST_STOCK_FILE
-    df = fu.load_dataframe(f, datetime.date(2018, 1, 1), datetime.date(2018, 4, 1), False)
+    filename = _TEST_STOCK_FILE
+    df = fu.load_dataframe(filename, datetime.date(2018, 1, 1), datetime.date(2018, 4, 1), False)
     # DataFrame axes is a list.  It has the row axis labels and column axis labels
     # as the only members. They are returned in that order.
     assert df.axes[1].name == fu.filename_to_symbol(_TEST_STOCK_FILE)
@@ -156,19 +169,19 @@ def test_load_dataframe_no_adj():
 
 
 def test_load_dataframe_date_check_1():
-    f = _TEST_STOCK_FILE
+    filename = _TEST_STOCK_FILE
     start_date = datetime.date(2018, 1, 3)
     stop_date = datetime.date(2018, 1, 17)
-    df = fu.load_dataframe(f, start_date, stop_date)
+    df = fu.load_dataframe(filename, start_date, stop_date)
     assert df.iloc[0].name.date() == start_date
     assert df.iloc[-1].name.date() == stop_date
 
 
 def test_load_dataframe_date_check_2():
-    f = _TEST_STOCK_FILE
+    filename = _TEST_STOCK_FILE
     start_date = datetime.date(1900, 1, 3)
     stop_date = datetime.date(2100, 1, 17)
-    df = fu.load_dataframe(f, start_date, stop_date)
+    df = fu.load_dataframe(filename, start_date, stop_date)
     assert df.iloc[0].name.date() > start_date
     assert df.iloc[-1].name.date() < stop_date
 
@@ -230,8 +243,8 @@ def test_clean_dataframe_middle_nan():
 
 
 def test_fill_nan_data_notinplace():
-    f = _TEST_STOCK_FILE
-    df = fu.load_dataframe(f, datetime.date(2018, 1, 1), datetime.date(2018, 4, 1))
+    filename = _TEST_STOCK_FILE
+    df = fu.load_dataframe(filename, datetime.date(2018, 1, 1), datetime.date(2018, 4, 1))
     # Test by adding some NaN
     df.iloc[0:10, 0] = np.nan  # beginning
     df.iloc[11:20, 1] = np.nan  # middle
@@ -245,8 +258,8 @@ def test_fill_nan_data_notinplace():
 
 
 def test_fill_nan_data_inplace():
-    f = _TEST_STOCK_FILE
-    df = fu.load_dataframe(f, datetime.date(2018, 1, 1), datetime.date(2018, 4, 1))
+    filename = _TEST_STOCK_FILE
+    df = fu.load_dataframe(filename, datetime.date(2018, 1, 1), datetime.date(2018, 4, 1))
     # Test by adding some NaN
     df.iloc[0:10, 0] = np.nan  # beginning
     df.iloc[11:20, 1] = np.nan  # middle
@@ -260,10 +273,10 @@ def test_fill_nan_data_inplace():
 
 
 def test_normalize_dataframe():
-    f = _TEST_STOCK_FILE
-    df = fu.load_dataframe(f, datetime.date(2018, 1, 1), datetime.date(2018, 4, 1))
+    filename = _TEST_STOCK_FILE
+    df = fu.load_dataframe(filename, datetime.date(2018, 1, 1), datetime.date(2018, 4, 1))
     # Not applicable for a single stock, but just to test...
-    assert fu.normalize_dataframe(df).iloc[0].mean() == 1.0
+    assert fu.normalize_dataframe(df).iloc[0].mean() == pytest.approx(1.0)
 
 
 @pytest.mark.webtest
