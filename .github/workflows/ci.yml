@@ -60,7 +60,6 @@ jobs:
           mkdir -p stock_db/empty
           mkdir -p stock_db/empty2
           mkdir -p stock_db/bad
-          touch stock_db/bad/BAD.csv
           # Append coverage (-a)
           python -m coverage run -a get_yahoo_finance_data.py --concurrent 1 --file stock_db/test.txt --dir ./stock_db/test --startdate 20100101 --verbose
 
