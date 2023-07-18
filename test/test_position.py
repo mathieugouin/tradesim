@@ -3,6 +3,7 @@ import re
 import position
 
 
+@pytest.mark.smoketest
 def test_position_default():
     p = position.Position(3, 'XBB.TO', 100, 20.0)
     s1 = str(p)
@@ -27,6 +28,7 @@ def test_position_default():
     assert 0.0 < p.get_pct_gain() < 100.0
 
 
+@pytest.mark.smoketest
 def test_position_custom_arg():
     open_name = 'Test Pos Open'
     close_name = 'Test Pos Close'
