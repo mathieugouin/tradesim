@@ -7,16 +7,21 @@ import technical_indicators as ti
 @pytest.mark.smoketest
 def test_step():
     t = np.arange(-5, 5, 1)
-    s = ti.step(t)
-    assert len(s) == len(t)
+    x = ti.step(t)
+    assert len(x) == len(t)
+    assert x.min() == 0
+    assert x.max() == 1
 
 
 @pytest.mark.toimprove
 @pytest.mark.smoketest
 def test_ramp():
     t = np.arange(-5, 5, 1)
-    r = ti.ramp(t)
-    assert len(r) == len(t)
+    x = ti.ramp(t)
+    assert len(x) == len(t)
+    assert len(x) == len(t)
+    assert x.min() == 0
+    assert x.max() == x.max()
 
 
 @pytest.mark.toimprove
@@ -59,13 +64,10 @@ def test_indicators():
     # normalized random
     # x = np.cumsum(np.random.randn(n))
 
-    # x = np.sin(8 * np.pi/n * t) + (.1 * t)
-
-    # x = 20 * np.sin(2 * 2*np.pi/n * t)
-
     # Add noise:
     x = x + 1.2 * np.random.randn(len(x))
 
+    # TBD very dummy tests...
     assert len(ti.sma(x, 10)) == len(x)
     assert len(ti.ema(x, 10)) == len(x)
     assert len(ti.linear_fit(x, 10)) == len(x)
