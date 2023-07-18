@@ -44,4 +44,3 @@ def test_position_custom_arg():
     assert len(s2) > len(s1)
     assert re.search(open_name, s2)
     assert re.search(close_name, s2)
-
