@@ -1,9 +1,9 @@
 import numpy as np
+import pandas as pd
 import pytest
 import technical_indicators as ti
 
 
-@pytest.mark.toimprove
 @pytest.mark.smoketest
 def test_step():
     t = np.arange(-5, 5, 1)
@@ -13,15 +13,31 @@ def test_step():
     assert x.max() == 1
 
 
-@pytest.mark.toimprove
+@pytest.mark.smoketest
+def test_step_series():
+    t = pd.Series(np.arange(-5, 5, 1))
+    x = ti.step(t)
+    assert len(x) == len(t)
+    assert x.min() == 0
+    assert x.max() == 1
+
+
 @pytest.mark.smoketest
 def test_ramp():
     t = np.arange(-5, 5, 1)
     x = ti.ramp(t)
     assert len(x) == len(t)
+    assert x.min() == 0
+    assert x.max() == t.max()
+
+
+@pytest.mark.smoketest
+def test_ramp_series():
+    t = pd.Series(np.arange(-5, 5, 1))
+    x = ti.ramp(t)
     assert len(x) == len(t)
     assert x.min() == 0
-    assert x.max() == x.max()
+    assert x.max() == t.max()
 
 
 @pytest.mark.toimprove
