@@ -210,7 +210,7 @@ def load_dataframe(csv_file, start_date, end_date, adjust_price=True):
         if df.isna().any().any():
             # To show the NaN
             print(df.loc[df.isna().all(axis='columns')])
-            raise Exception("ERROR {} contains isolated NaN".format(csv_file))
+            raise AssertionError("ERROR {} contains isolated NaN".format(csv_file))
 
         if adjust_price:
             # Adjusting Columns based on Adjusted Close

@@ -14,11 +14,16 @@ def test_position_default():
     assert p.get_nb_share() == 100
     assert p.is_open()
     assert p.get_entry_price() == 20.0
-    assert p.get_pct_gain() == 0.0
+
+    with pytest.raises(Exception):
+        p.get_pct_gain()
 
     c = p.close(4, 25.0)
     assert not p.is_open()
-    assert p.close(5, 30.0) == c
+
+    with pytest.raises(Exception):
+        p.close(5, 30.0)
+
     assert not p.is_open()
     s2 = str(p)
     assert len(s2) > len(s1)
