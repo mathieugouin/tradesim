@@ -83,6 +83,7 @@ def test_update_all_symbols():
     os.remove(filename)
     assert not os.path.exists(filename)
 
+
 def test_get_symbol_data():
     db = sdm.StockDBMgr(_STOCK_DB_TEST_PATH)
     symbol = "SPY"
