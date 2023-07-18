@@ -7,29 +7,29 @@ _cached_ticker = {}
 
 def _get_info(symbol, data):
     symbol = symbol.upper()
-    t = None
+    ticker = None
     if symbol in _cached_ticker:
-        t = _cached_ticker[symbol]
+        ticker = _cached_ticker[symbol]
     else:
-        t = yf.Ticker(symbol)
-        _cached_ticker[symbol] = t
+        ticker = yf.Ticker(symbol)
+        _cached_ticker[symbol] = ticker
 
-    i = t.info
-    if data in i:
-        v = t.info[data]
+    info = ticker.info
+    if data in info:
+        value = ticker.info[data]
     else:
-        v = None
+        value = None
 
-    return v
+    return value
 
 
 def _get_info_choice(symbol, data_choice):
-    v = None
+    value = None
     for data in data_choice:
-        v = _get_info(symbol, data)
-        if v is not None:
+        value = _get_info(symbol, data)
+        if value is not None:
             break
-    return v
+    return value
 
 
 def get_name(symbol):
@@ -74,7 +74,7 @@ def get_market_cap(symbol):
 
 def get_dividend_yield(symbol):
     """Return the dividend yield (in %) of the stock."""
-    d = _get_info_choice(
+    dividend = _get_info_choice(
             symbol,
             # TBD to confirm, ref tradesim_notebook.ipynb Yield Tests
             [
@@ -83,11 +83,11 @@ def get_dividend_yield(symbol):
                 'trailingAnnualDividendYield',
             ]
         )
-    if d is not None:
-        d *= 100.0  # Bring to percentage
+    if dividend is not None:
+        dividend *= 100.0  # Bring to percentage
     else:
-        d = 0.0
-    return d
+        dividend = 0.0
+    return dividend
 
 
 def get_price_earnings_ratio(symbol):
