@@ -19,6 +19,7 @@ def test_position_default():
         p.get_pct_gain()
 
     c = p.close(4, 25.0)
+    assert c == 25 * 100
     assert not p.is_open()
 
     with pytest.raises(Exception):

@@ -8,6 +8,9 @@ import numpy as np
 from scipy import signal
 
 
+_N_GET_1 = "n must be >= 1"
+
+
 # -------------------------------------
 # Utility math functions
 # -------------------------------------
@@ -42,6 +45,8 @@ def linear_fit(x, n):
 
 def rate_of_change(x, n):
     """Return the rate of change (1st derivative) based on 'n' points linear regression."""
+    if n < 2:
+        raise AssertionError("n must be >= 2")
     t = np.arange(len(x))
     y = np.array(
         [np.polyfit(
@@ -58,6 +63,8 @@ def rate_of_change(x, n):
 
 def acceleration(x, n):
     """Return the "acceleration" (2nd derivative) based on 'n' points 2nd order regression."""
+    if n < 3:
+        raise AssertionError("n must be >= 3")
     t = np.arange(len(x))
     y = np.array(
         [np.polyfit(
@@ -92,7 +99,7 @@ def iir_lowpass(x, order, period):
 def ema(x, n):
     """Exponential Moving Average."""
     if n < 1:
-        raise ValueError("n must be >= 1")
+        raise ValueError(_N_GET_1)
     if n >= x.size:
         raise ValueError("n too big compared to size of array")
 
@@ -110,7 +117,7 @@ def ema(x, n):
 def aema(x, n):
     """Adaptive EMA (my invention...)."""
     if n < 1:
-        raise ValueError("n must be >= 1")
+        raise ValueError("_N_GET_1")
     if n >= x.size:
         raise ValueError("n too big compared to size of array")
     e = ema(x, n)
@@ -143,12 +150,12 @@ def cross_under(x1, x2):
 def moving_min(x, n):
     """Moving minimum over the last n elements."""
     if n < 1:
-        raise ValueError("n must be >= 1")
+        raise ValueError("_N_GET_1")
     return np.array([min(x[max(0, i - n + 1):i + 1]) for i in range(len(x))])
 
 
 def moving_max(x, n):
     """Moving maximum over the last n elements."""
     if n < 1:
-        raise ValueError("n must be >= 1")
+        raise ValueError("_N_GET_1")
     return np.array([max(x[max(0, i - n + 1):i + 1]) for i in range(len(x))])
