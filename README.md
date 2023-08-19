@@ -62,4 +62,3 @@ Ref: https://ipython.readthedocs.io/en/stable/interactive/magics.html
 
 ## Notes
 * Sympy equation wrapper: https://raw.githubusercontent.com/mathcube7/customize-sympy/main/customizer.py
-
