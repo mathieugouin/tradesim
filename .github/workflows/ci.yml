@@ -2,13 +2,23 @@
 # https://about.codecov.io/blog/python-code-coverage-using-github-actions-and-codecov/
 # https://docs.github.com/en/actions/guides/building-and-testing-python
 # https://raw.githubusercontent.com/actions/python-versions/main/versions-manifest.json
+# https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions
 #
 # Examples:
 # https://github.com/nedbat/coveragepy/blob/master/.github/workflows/coverage.yml
 
 name: "Python Build"
 
-on: [push, pull_request]
+# on: [push, pull_request]
+
+on:
+  push:
+    paths-ignore:
+      - "**.md"
+      - "docs/**"
+  pull_request:
+    branches:
+      - "main"
 
 jobs:
   build:

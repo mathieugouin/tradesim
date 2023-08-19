@@ -59,3 +59,7 @@ Ref: https://ipython.readthedocs.io/en/stable/interactive/magics.html
 * `Ctrl+Enter`: run current cell
 * `Shift+Enter`: run & select cell below
 * `Alt+Enter`: run cell & insert below
+
+## Notes
+* Sympy equation wrapper: https://raw.githubusercontent.com/mathcube7/customize-sympy/main/customizer.py
+
