@@ -11,6 +11,9 @@
 #
 # Package upgrade:
 # python -m pip install package_name --upgrade
+#
+# List all packages versions:
+# python -m pip list
 
 # Main packages used:
 numpy
