@@ -101,7 +101,6 @@ def test_indicators():
         'linear_fit',
         'rate_of_change',
         'acceleration',
-        # 'iir_lowpass',
         'ema',
         'aema',
         'sma',
