@@ -8,7 +8,12 @@ import numpy as np
 from scipy import signal
 
 
-_N_GET_1 = "n must be >= 1"
+# Error reporting
+def _check_input(n, n_min, n_max):
+    if n < n_min:
+        raise ValueError("n must be >= %d" % n_min)
+    if n >= n_max:
+        raise ValueError("n too big compared to the size of the input array")
 
 
 # -------------------------------------
@@ -31,10 +36,7 @@ def ramp(t):
 
 def linear_fit(x, n):
     """Linear regression of 'n' points used to give the smoothed point."""
-    if n < 2:
-        raise ValueError("n must be >= 2")
-    if n >= x.size:
-        raise ValueError("n too big compared to size of array")
+    _check_input(n, 2, len(x))
     t = np.arange(len(x))
     y = np.array(
         [np.polyval(
@@ -47,10 +49,7 @@ def linear_fit(x, n):
 
 def rate_of_change(x, n):
     """Return the rate of change (1st derivative) based on 'n' points linear regression."""
-    if n < 2:
-        raise ValueError("n must be >= 2")
-    if n >= x.size:
-        raise ValueError("n too big compared to size of array")
+    _check_input(n, 2, len(x))
     t = np.arange(len(x))
     y = np.array(
         [np.polyfit(
@@ -67,10 +66,7 @@ def rate_of_change(x, n):
 
 def acceleration(x, n):
     """Return the "acceleration" (2nd derivative) based on 'n' points 2nd order regression."""
-    if n < 3:
-        raise ValueError("n must be >= 3")
-    if n >= x.size:
-        raise ValueError("n too big compared to size of array")
+    _check_input(n, 3, len(x))
     t = np.arange(len(x))
     y = np.array(
         [np.polyfit(
@@ -104,10 +100,7 @@ def iir_lowpass(x, order, period):
 
 def ema(x, n):
     """Exponential Moving Average."""
-    if n < 1:
-        raise ValueError(_N_GET_1)
-    if n >= x.size:
-        raise ValueError("n too big compared to size of array")
+    _check_input(n, 1, len(x))
 
     k = 2.0 / (n + 1)
 
@@ -122,10 +115,7 @@ def ema(x, n):
 
 def aema(x, n):
     """Adaptive EMA (my invention...)."""
-    if n < 1:
-        raise ValueError("_N_GET_1")
-    if n >= x.size:
-        raise ValueError("n too big compared to size of array")
+    _check_input(n, 1, len(x))
     e = ema(x, n)
     # TBD: tune factor here...
     y = e + 0.5 * ema(x - e, n)
@@ -134,10 +124,7 @@ def aema(x, n):
 
 def sma(x, n):
     """Simple Moving Average.  From y[:n-2] is invalid."""
-    if n < 2:
-        raise ValueError("n must be > 1")
-    if n >= x.size:
-        raise ValueError("n too big compared to size of array")
+    _check_input(n, 2, len(x))
     c = np.ones(n) / n
     y = np.convolve(x, c)[:-(n - 1)]
     # invalidate the range
@@ -157,17 +144,11 @@ def cross_under(x1, x2):
 
 def moving_min(x, n):
     """Moving minimum over the last n elements."""
-    if n < 1:
-        raise ValueError("_N_GET_1")
-    if n >= x.size:
-        raise ValueError("n too big compared to size of array")
+    _check_input(n, 1, len(x))
     return np.array([min(x[max(0, i - n + 1):i + 1]) for i in range(len(x))])
 
 
 def moving_max(x, n):
     """Moving maximum over the last n elements."""
-    if n < 1:
-        raise ValueError("_N_GET_1")
-    if n >= x.size:
-        raise ValueError("n too big compared to size of array")
+    _check_input(n, 1, len(x))
     return np.array([max(x[max(0, i - n + 1):i + 1]) for i in range(len(x))])
