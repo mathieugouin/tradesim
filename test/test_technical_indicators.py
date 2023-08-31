@@ -94,3 +94,43 @@ def test_indicators():
 
     assert len(ti.rate_of_change(x, 20)) == len(x)
     assert len(ti.acceleration(x, 20)) == len(x)
+
+
+@pytest.mark.smoketest
+@pytest.mark.parametrize("indicator", [
+        'linear_fit',
+        'rate_of_change',
+        'acceleration',
+        # 'iir_lowpass',
+        'ema',
+        'aema',
+        'sma',
+        'moving_min',
+        'moving_max',
+    ])
+@pytest.mark.parametrize("offset", [0, 1, 10])
+def test_common_indicator_n_too_big(indicator, offset):
+    n = 100
+    x = np.arange(n)
+    with pytest.raises(ValueError):
+        _ = getattr(ti, indicator)(x, n + offset)
+    _ = getattr(ti, indicator)(x, n - 1)
+
+
+@pytest.mark.smoketest
+@pytest.mark.parametrize("indicator, min_valid_n", [
+        ('linear_fit', 2),
+        ('rate_of_change', 2),
+        ('acceleration', 3),
+        ('ema', 1),  # TBD 2?
+        ('aema', 1),  # TBD 2?
+        ('sma', 2),
+        ('moving_min', 1),  # TBD 2?
+        ('moving_max', 1),  # TBD 2?
+    ])
+def test_common_indicator_n_too_small(indicator, min_valid_n):
+    x = np.arange(100)
+    for n in range(-5, min_valid_n, 1):  # end loop is excluded
+        with pytest.raises(ValueError):
+            _ = getattr(ti, indicator)(x, n)
+    _ = getattr(ti, indicator)(x, min_valid_n)  # no exception
