@@ -26,8 +26,6 @@ My ramblings on various stock analysis and data mining.
 #### Setup
 * `python3 -m pip install --upgrade pip`
 * `python3 -m pip install ipython`
-* `python3 -m pip install ipykernel`
-* `python3 -m pip install notebook`
 * `python3 -m pip install jupyter`
 * `python3 -m pip install jupyterlab`
 * Make sure `~/.local/bin/` is in the path
