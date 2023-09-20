@@ -74,3 +74,9 @@ def test_smoketest_2():
 def test_print_pass():
     print("test_print_pass should pass...")
     assert my_sum(2, 2) == 4
+
+
+@pytest.mark.xfail(reason="This test is known to fail")
+@pytest.mark.dummytest
+def test_known_failure():
+    assert my_sum(2, 2) == 5
