@@ -81,6 +81,12 @@ def test_filename_to_symbol(filename, symbol):
     assert symbol_test == symbol
 
 
+@pytest.mark.parametrize("adj", [False, True])
+def test_validate_dataframe_ok(adj):
+    df = fu.load_dataframe(_TEST_STOCK_FILE, datetime.date(2018, 1, 1), datetime.date(2018, 4, 1), adj)
+    assert fu.validate_dataframe(df)
+
+
 def test_validate_symbol_data_file_ok():
     assert fu.validate_symbol_data_file(_TEST_STOCK_FILE)
 

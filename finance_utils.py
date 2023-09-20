@@ -237,8 +237,16 @@ def load_dataframe(csv_file, start_date, end_date, adjust_price=True):
 
 def validate_dataframe(df):
     """Check for basic errors in historical data.  Return True when valid, False otherwise."""
-    for column in ['Open', 'High', 'Low', 'Close', 'Volume']:
+    required_columns = ['Open', 'High', 'Low', 'Close', 'Volume']
+    for column in required_columns:
         if column not in df:
+            return False
+
+    if len(df.columns) > len(required_columns) + 1:
+        return False
+
+    if len(df.columns) == len(required_columns) + 1:
+        if "Adj Close" not in df:
             return False
 
     check = True
