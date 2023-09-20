@@ -67,9 +67,12 @@ class StockDBMgr(object):
             del self._dic[symbol]
 
     def validate_symbol_data(self, symbol):
-        """Perform basic data validation on symbol, return True/False based on the result."""
+        """Perform basic data validation on symbol historical data.
+        return True when valid, False otherwise."""
         symbol = symbol.upper()
-        return fu.validate_symbol_data(fu.symbol_to_filename(symbol, self._basedir))
+        if not fu.validate_symbol_data_file(fu.symbol_to_filename(symbol, self._basedir)):
+            return False
+        return fu.validate_dataframe(self.get_symbol_data(symbol))
 
     def update_all_symbols(self):
         """Re-download all symbol data available on disk."""
