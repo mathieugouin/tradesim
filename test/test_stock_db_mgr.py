@@ -59,7 +59,8 @@ def test_download_data():
 def test_validate_symbol_data(symbol):
     db = sdm.StockDBMgr(_STOCK_DB_TEST_PATH,
                         datetime.date(2023, 1, 1),
-                        datetime.date(2023, 2, 1))
+                        datetime.date(2023, 2, 1),
+                        False)
     assert db.validate_symbol_data(symbol)
 
 

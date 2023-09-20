@@ -112,8 +112,8 @@ def test_validate_dataframe_extra_column(adj):
 @pytest.mark.parametrize("col", ['Open', 'Low', 'Close'])
 def test_validate_dataframe_bad_high_value(col):
     df = fu.load_dataframe(_TEST_STOCK_FILE,
-                           datetime.date(2018, 1, 1),
-                           datetime.date(2018, 4, 1))
+                           datetime.date(2023, 1, 1),
+                           datetime.date(2023, 2, 1))
     df["High"] = df[col] - .01
     assert not fu.validate_dataframe(df)
 
@@ -121,8 +121,8 @@ def test_validate_dataframe_bad_high_value(col):
 @pytest.mark.parametrize("col", ['Open', 'High', 'Close'])
 def test_validate_dataframe_bad_low_value(col):
     df = fu.load_dataframe(_TEST_STOCK_FILE,
-                           datetime.date(2018, 1, 1),
-                           datetime.date(2018, 4, 1))
+                           datetime.date(2023, 1, 1),
+                           datetime.date(2023, 2, 1))
     df["Low"] = df[col] + .01
     assert not fu.validate_dataframe(df)
 

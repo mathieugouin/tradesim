@@ -252,17 +252,23 @@ def validate_dataframe(df):
     check = True
 
     # Compare with High
+    # TBD: temp printing to help test debug
     if (df['High'] < df['Open']).any():
+        print(df[df['High'] < df['Open']])
         check = False
     if (df['High'] < df['Low']).any():
+        print(df[df['High'] < df['Low']])
         check = False
     if (df['High'] < df['Close']).any():
+        print(df[df['High'] < df['Close']])
         check = False
 
     # Compare with Low
     if (df['Low'] > df['Open']).any():
+        print(df[df['Low'] > df['Open']])
         check = False
     if (df['Low'] > df['Close']).any():
+        print(df[df['Low'] > df['Close']])
         check = False
 
     return check
