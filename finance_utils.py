@@ -249,21 +249,23 @@ def validate_dataframe(df):
     if len(df.columns) == len(required_columns) + 1 and "Adj Close" not in df:
         return False
 
+    check = True
+
     # Compare with High
     if (df['High'] < df['Open']).any():
-        return False
+        check = False
     if (df['High'] < df['Low']).any():
-        return False
+        check = False
     if (df['High'] < df['Close']).any():
-        return False
+        check = False
 
     # Compare with Low
     if (df['Low'] > df['Open']).any():
-        return False
+        check = False
     if (df['Low'] > df['Close']).any():
-        return False
+        check = False
 
-    return True
+    return check
 
 
 def validate_symbol_data_file(csv_file):
