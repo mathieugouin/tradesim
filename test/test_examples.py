@@ -91,3 +91,9 @@ def test_no_exception():
 def test_exception():
     with pytest.raises(AssertionError):
         exception_function(0)
+
+
+@pytest.mark.xfail(reason="This test is known to fail")
+@pytest.mark.dummytest
+def test_known_failure():
+    assert my_sum(2, 2) == 5
