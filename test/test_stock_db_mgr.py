@@ -58,8 +58,8 @@ def test_download_data():
 @pytest.mark.parametrize("symbol", sdm.StockDBMgr(_STOCK_DB_TEST_PATH).get_all_symbols())
 def test_validate_symbol_data(symbol):
     db = sdm.StockDBMgr(_STOCK_DB_TEST_PATH,
-                        datetime.date(2018, 1, 1),
-                        datetime.date(2018, 4, 1))
+                        datetime.date(2023, 1, 1),
+                        datetime.date(2023, 2, 1))
     assert db.validate_symbol_data(symbol)
 
 
