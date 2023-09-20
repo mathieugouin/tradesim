@@ -3,10 +3,17 @@ from __future__ import print_function
 
 import datetime
 import glob
+import logging
 
 import stock_db_mgr as sdm
 
-startdate = datetime.date(2021, 1, 1)
+logging.basicConfig(level=logging.INFO,
+                    format='%(asctime)s%(msecs)03d %(name)-12s %(levelname)-8s %(pathname)s:%(lineno)d %(message)s',
+                    datefmt='%Y-%m-%d %H:%M:%S.',
+                    force=True)
+
+
+startdate = datetime.date(2023, 1, 1)
 today = datetime.date.today()
 
 # Pick one:
@@ -20,16 +27,15 @@ def list_all_stockdb():
 
 
 def check_db(path):
-    print("Validating {} ...".format(path))
+    logging.info("Validating {} ...".format(path))
     # Create data base:
-    db = sdm.StockDBMgr('./stock_db/' + path, startdate, enddate)
+    db = sdm.StockDBMgr('./stock_db/' + path, startdate, enddate, False)
 
     # db.update_all_symbols()
 
     inv = []
 
     symbol_list = db.get_all_symbols()
-    # print(symbol_list)
 
     for s in symbol_list:
         if not db.validate_symbol_data(s):
@@ -47,12 +53,9 @@ def check_db(path):
 
         if (today - t) > datetime.timedelta(4):
             inv.append(s)
-            # print("%s: len = %d" % (s, len(df)))
 
     if len(inv) > 0:
-        print("  Invalid list:")
-        for s in inv:
-            print("    " + s)
+        logging.error("Invalid list of %s : %s" % (path, str(inv)))
 
 
 def _main():
