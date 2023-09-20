@@ -235,8 +235,41 @@ def load_dataframe(csv_file, start_date, end_date, adjust_price=True):
         return None
 
 
-def validate_symbol_data(csv_file):
-    """Check for basic errors in CSV file."""
+def validate_dataframe(df):
+    """Check for basic errors in historical data.  Return True when valid, False otherwise."""
+    required_columns = ['Open', 'High', 'Low', 'Close', 'Volume']
+    for column in required_columns:
+        if column not in df:
+            return False
+
+    if len(df.columns) > len(required_columns) + 1:
+        return False
+
+    # "Adj Close" is optionnal and only present when DataFrame is not adjusted.
+    if len(df.columns) == len(required_columns) + 1 and "Adj Close" not in df:
+        return False
+
+    check = True
+
+    # Compare with High
+    if (df['High'] < df['Open']).any():
+        check = False
+    if (df['High'] < df['Low']).any():
+        check = False
+    if (df['High'] < df['Close']).any():
+        check = False
+
+    # Compare with Low
+    if (df['Low'] > df['Open']).any():
+        check = False
+    if (df['Low'] > df['Close']).any():
+        check = False
+
+    return check
+
+
+def validate_symbol_data_file(csv_file):
+    """Check for basic errors in CSV file.  Return True when valid, False otherwise."""
     valid = False  # Default
     try:
         with open(csv_file, 'r') as f:
