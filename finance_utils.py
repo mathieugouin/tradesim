@@ -245,17 +245,20 @@ def validate_dataframe(df):
     if len(df.columns) > len(required_columns) + 1:
         return False
 
-    if len(df.columns) == len(required_columns) + 1:
-        if "Adj Close" not in df:
-            return False
+    # "Adj Close" is optionnal and only present when DataFrame is not adjusted.
+    if len(df.columns) == len(required_columns) + 1 and "Adj Close" not in df:
+        return False
 
     check = True
-    check = check or (df['High'] >= df['Open']).all()
-    check = check or (df['High'] >= df['Low']).all()
-    check = check or (df['High'] >= df['Close']).all()
+    # Compare with High
+    check = check and (df['High'] >= df['Open']).all()
+    check = check and (df['High'] >= df['Low']).all()
+    check = check and (df['High'] >= df['Close']).all()
 
-    check = check or (df['Low'] <= df['Open']).all()
-    check = check or (df['Low'] <= df['Close']).all()
+    # Compare with Low
+    check = check and (df['Low'] <= df['Open']).all()
+    check = check and (df['Low'] <= df['Close']).all()
+
     return check
 
 
