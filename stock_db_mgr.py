@@ -70,7 +70,7 @@ class StockDBMgr(object):
         """Perform basic data validation on symbol historical data.
         return True when valid, False otherwise."""
         symbol = symbol.upper()
-        if not fu.validate_symbol_data(fu.symbol_to_filename(symbol, self._basedir)):
+        if not fu.validate_symbol_data_file(fu.symbol_to_filename(symbol, self._basedir)):
             return False
         return fu.validate_dataframe(self.get_symbol_data(symbol))
 

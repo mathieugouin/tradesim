@@ -81,17 +81,17 @@ def test_filename_to_symbol(filename, symbol):
     assert symbol_test == symbol
 
 
-def test_validate_symbol_data_ok():
-    assert fu.validate_symbol_data(_TEST_STOCK_FILE)
+def test_validate_symbol_data_file_ok():
+    assert fu.validate_symbol_data_file(_TEST_STOCK_FILE)
 
 
-def test_validate_symbol_data_bad():
+def test_validate_symbol_data_file_bad():
     filename = 'stock_db/bad/bad_csv.txt'
     with open(filename, 'w') as f:
-        f.write('thisisabadcsvheader\n')
+        f.write('this_is_a_bad_csv_header\n')
         f.write('1,2,3\n')
         f.write('4,5,6\n')
-    assert not fu.validate_symbol_data(filename)
+    assert not fu.validate_symbol_data_file(filename)
     os.remove(filename)
 
 

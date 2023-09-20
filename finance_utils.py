@@ -237,8 +237,8 @@ def load_dataframe(csv_file, start_date, end_date, adjust_price=True):
 
 def validate_dataframe(df):
     """Check for basic errors in historical data.  Return True when valid, False otherwise."""
-    for c in ['Open', 'High', 'Low', 'Close', 'Volume']:
-        if not c in df:
+    for column in ['Open', 'High', 'Low', 'Close', 'Volume']:
+        if not column in df:
             return False
 
     check = True
@@ -251,7 +251,7 @@ def validate_dataframe(df):
     return check
 
 
-def validate_symbol_data(csv_file):
+def validate_symbol_data_file(csv_file):
     """Check for basic errors in CSV file.  Return True when valid, False otherwise."""
     valid = False  # Default
     try:
