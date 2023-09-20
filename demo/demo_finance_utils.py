@@ -31,7 +31,7 @@ def demo_fu():
     print("symbol {} with directory {} gives filename {}".format(s, d, f))
     print("filename {} gives symbol {}".format(f, fu.filename_to_symbol(f)))
     print("filename {} gives symbol {}".format(f.upper(), fu.filename_to_symbol(f.upper())))
-    print("validate_symbol_data {} = {}".format(f, fu.validate_symbol_data(f)))
+    print("validate_symbol_data_file {} = {}".format(f, fu.validate_symbol_data_file(f)))
 
     print("directory {} contains the following stocks: {}".format(d, fu.get_all_symbols(d)))
 
