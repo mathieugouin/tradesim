@@ -1,22 +1,43 @@
 import numpy as np
+import pandas as pd
 import pytest
 import technical_indicators as ti
 
 
-@pytest.mark.toimprove
 @pytest.mark.smoketest
 def test_step():
     t = np.arange(-5, 5, 1)
-    s = ti.step(t)
-    assert len(s) == len(t)
+    x = ti.step(t)
+    assert len(x) == len(t)
+    assert x.min() == 0
+    assert x.max() == 1
 
 
-@pytest.mark.toimprove
+@pytest.mark.smoketest
+def test_step_series():
+    t = pd.Series(np.arange(-5, 5, 1))
+    x = ti.step(t)
+    assert len(x) == len(t)
+    assert x.min() == 0
+    assert x.max() == 1
+
+
 @pytest.mark.smoketest
 def test_ramp():
     t = np.arange(-5, 5, 1)
-    r = ti.ramp(t)
-    assert len(r) == len(t)
+    x = ti.ramp(t)
+    assert len(x) == len(t)
+    assert x.min() == 0
+    assert x.max() == t.max()
+
+
+@pytest.mark.smoketest
+def test_ramp_series():
+    t = pd.Series(np.arange(-5, 5, 1))
+    x = ti.ramp(t)
+    assert len(x) == len(t)
+    assert x.min() == 0
+    assert x.max() == t.max()
 
 
 @pytest.mark.toimprove
@@ -59,13 +80,10 @@ def test_indicators():
     # normalized random
     # x = np.cumsum(np.random.randn(n))
 
-    # x = np.sin(8 * np.pi/n * t) + (.1 * t)
-
-    # x = 20 * np.sin(2 * 2*np.pi/n * t)
-
     # Add noise:
     x = x + 1.2 * np.random.randn(len(x))
 
+    # TBD very dummy tests...
     assert len(ti.sma(x, 10)) == len(x)
     assert len(ti.ema(x, 10)) == len(x)
     assert len(ti.linear_fit(x, 10)) == len(x)
@@ -76,3 +94,42 @@ def test_indicators():
 
     assert len(ti.rate_of_change(x, 20)) == len(x)
     assert len(ti.acceleration(x, 20)) == len(x)
+
+
+@pytest.mark.smoketest
+@pytest.mark.parametrize("indicator", [
+        'linear_fit',
+        'rate_of_change',
+        'acceleration',
+        'ema',
+        'aema',
+        'sma',
+        'moving_min',
+        'moving_max',
+    ])
+@pytest.mark.parametrize("offset", [0, 1, 10])
+def test_common_indicator_n_too_big(indicator, offset):
+    n = 100
+    x = np.arange(n)
+    with pytest.raises(ValueError):
+        _ = getattr(ti, indicator)(x, n + offset)
+    _ = getattr(ti, indicator)(x, n - 1)
+
+
+@pytest.mark.smoketest
+@pytest.mark.parametrize("indicator, min_valid_n", [
+        ('linear_fit', 2),
+        ('rate_of_change', 2),
+        ('acceleration', 3),
+        ('ema', 1),  # TBD 2?
+        ('aema', 1),  # TBD 2?
+        ('sma', 2),
+        ('moving_min', 1),  # TBD 2?
+        ('moving_max', 1),  # TBD 2?
+    ])
+def test_common_indicator_n_too_small(indicator, min_valid_n):
+    x = np.arange(100)
+    for n in range(-5, min_valid_n, 1):  # end loop is excluded
+        with pytest.raises(ValueError):
+            _ = getattr(ti, indicator)(x, n)
+    _ = getattr(ti, indicator)(x, min_valid_n)  # no exception

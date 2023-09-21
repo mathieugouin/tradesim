@@ -1,8 +1,19 @@
+"""Provides various utility functions and
+technical indicators."""
+
 # To make print working for Python2/3
 from __future__ import print_function
 
 import numpy as np
-import scipy.signal as signal
+from scipy import signal
+
+
+# Error reporting
+def _check_input(n, n_min, n_max):
+    if n < n_min:
+        raise ValueError("n must be >= %d" % n_min)
+    if n >= n_max:
+        raise ValueError("n too big compared to the size of the input array")
 
 
 # -------------------------------------
@@ -11,24 +22,21 @@ import scipy.signal as signal
 
 def step(t):
     """Returns 1 where t >= 0, else 0."""
-    y = np.zeros(len(t))
-    y[t >= 0] = 1
-    return y
+    return (t >= 0) * 1
 
 
 def ramp(t):
     """Returns 0 for negative inputs, output equals input for non-negative inputs."""
     return t * step(t)
 
+
 # -------------------------------------
 # Various technical indicators
 # -------------------------------------
 
-
 def linear_fit(x, n):
     """Linear regression of 'n' points used to give the smoothed point."""
-    if n < 2:
-        raise AssertionError("n must be >= 2")
+    _check_input(n, 2, len(x))
     t = np.arange(len(x))
     y = np.array(
         [np.polyval(
@@ -40,7 +48,8 @@ def linear_fit(x, n):
 
 
 def rate_of_change(x, n):
-    """Return the Rate Of Change (1st derivative) based on 'n' points linear regression."""
+    """Return the rate of change (1st derivative) based on 'n' points linear regression."""
+    _check_input(n, 2, len(x))
     t = np.arange(len(x))
     y = np.array(
         [np.polyfit(
@@ -56,7 +65,8 @@ def rate_of_change(x, n):
 
 
 def acceleration(x, n):
-    """Return the "Acceleration" (2nd derivative) based on 'n' points 2nd order regression."""
+    """Return the "acceleration" (2nd derivative) based on 'n' points 2nd order regression."""
+    _check_input(n, 3, len(x))
     t = np.arange(len(x))
     y = np.array(
         [np.polyfit(
@@ -84,16 +94,13 @@ def iir_lowpass(x, order, period):
         output='ba'
     )
     zi = signal.lfilter_zi(b, a)
-    y, _zf = signal.lfilter(b, a, x, zi=zi * x[0])
+    y, _ = signal.lfilter(b, a, x, zi=zi * x[0])
     return y
 
 
 def ema(x, n):
     """Exponential Moving Average."""
-    if n < 1:
-        raise AssertionError("n must be >= 1")
-    if n >= x.size:
-        raise AssertionError("n too big compared to size of array")
+    _check_input(n, 1, len(x))
 
     k = 2.0 / (n + 1)
 
@@ -108,20 +115,16 @@ def ema(x, n):
 
 def aema(x, n):
     """Adaptive EMA (my invention...)."""
-    if n < 1:
-        raise AssertionError("n must be >= 1")
-    if n >= x.size:
-        raise AssertionError("n too big compared to size of array")
+    _check_input(n, 1, len(x))
     e = ema(x, n)
     # TBD: tune factor here...
-    y = e + 0.5 * ema(x - e, int(n))
+    y = e + 0.5 * ema(x - e, n)
     return y
 
 
 def sma(x, n):
     """Simple Moving Average.  From y[:n-2] is invalid."""
-    if n < 2:
-        raise AssertionError("n must be > 1")
+    _check_input(n, 2, len(x))
     c = np.ones(n) / n
     y = np.convolve(x, c)[:-(n - 1)]
     # invalidate the range
@@ -141,13 +144,11 @@ def cross_under(x1, x2):
 
 def moving_min(x, n):
     """Moving minimum over the last n elements."""
-    if n < 1:
-        raise AssertionError("n must be >= 1")
+    _check_input(n, 1, len(x))
     return np.array([min(x[max(0, i - n + 1):i + 1]) for i in range(len(x))])
 
 
 def moving_max(x, n):
     """Moving maximum over the last n elements."""
-    if n < 1:
-        raise AssertionError("n must be >= 1")
+    _check_input(n, 1, len(x))
     return np.array([max(x[max(0, i - n + 1):i + 1]) for i in range(len(x))])

@@ -47,7 +47,7 @@ class Position(object):
             self._exit_bar = bar
             self._exit_name = name
         else:
-            print("Error: position already closed.")
+            raise AssertionError("Position already closed.")
         return self._nb_share * self._exit_price
 
     def get_symbol(self):
@@ -72,5 +72,5 @@ class Position(object):
             exit_value = self._nb_share * self._exit_price - self._exit_commission
             pc = (exit_value - entry_cost) / entry_cost * 100
         else:
-            print("Error: position still open")
+            raise AssertionError("Position still open")
         return pc

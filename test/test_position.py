@@ -1,28 +1,54 @@
 import pytest
+import re
 import position
 
 
-@pytest.mark.toimprove
+@pytest.mark.smoketest
 def test_position_default():
     p = position.Position(3, 'XBB.TO', 100, 20.0)
-    assert len(str(p)) > 0  # TBD
+    s1 = str(p)
+    assert len(s1) > 0
+    assert re.search('buy', s1)
+    assert re.search('sell', s1) is None
     assert p.get_symbol() == 'XBB.TO'
     assert p.get_nb_share() == 100
     assert p.is_open()
     assert p.get_entry_price() == 20.0
-    assert p.get_pct_gain() == 0.0
+
+    with pytest.raises(Exception):
+        p.get_pct_gain()
 
     c = p.close(4, 25.0)
+    assert c == 25 * 100
     assert not p.is_open()
-    assert p.close(5, 30.0) == c
+
+    with pytest.raises(Exception):
+        p.close(5, 30.0)
+
     assert not p.is_open()
-    assert len(str(p)) > 0  # TBD
+    s2 = str(p)
+    assert len(s2) > len(s1)
+    assert re.search('buy', s2)
+    assert re.search('sell', s2)
     assert p.get_exit_price() == 25.0
     assert 0.0 < p.get_pct_gain() < 100.0
 
 
-@pytest.mark.toimprove
+@pytest.mark.smoketest
 def test_position_custom_arg():
-    p = position.Position(6, 'ZCN.TO', 1000, 23.45, name='Test Pos Open', commission=0.1)
-    p.close(7, 25.68, name='Test Pos Close')
-    assert len(str(p)) > 0  # TBD
+    open_name = 'Test Pos Open'
+    close_name = 'Test Pos Close'
+
+    p = position.Position(6, 'ZCN.TO', 1000, 23.45, name=open_name, commission=0.1)
+
+    s1 = str(p)
+    assert len(s1) > 0
+    assert re.search(open_name, s1)
+    assert re.search(close_name, s1) is None
+
+    _ = p.close(7, 25.68, name=close_name)
+    s2 = str(p)
+
+    assert len(s2) > len(s1)
+    assert re.search(open_name, s2)
+    assert re.search(close_name, s2)

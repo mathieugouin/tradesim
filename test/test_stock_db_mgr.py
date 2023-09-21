@@ -39,9 +39,12 @@ def test_print():
 
 
 def test_get_all_symbols():
-    db = sdm.StockDBMgr(_STOCK_DB_TEST_PATH, datetime.date(2017, 1, 1), datetime.date(2018, 1, 1))
-    symbol_list = db.get_all_symbols()
-    assert len(symbol_list) > 3
+    db = sdm.StockDBMgr(_STOCK_DB_TEST_PATH)
+    symbol_list_db = db.get_all_symbols()
+    symbol_list_fu = fu.get_symbols_from_file("./stock_db/test.txt")
+    assert len(symbol_list_db) == len(symbol_list_fu)
+    for symbol in symbol_list_db:
+        assert symbol in symbol_list_fu
 
 
 @pytest.mark.webtest
@@ -89,32 +92,48 @@ def test_validate_symbol_data_fail():
 
 @pytest.mark.webtest
 def test_update_all_symbols():
-    db = sdm.StockDBMgr('./stock_db/empty')
+    directory = './stock_db/empty'
+    filename = fu.symbol_to_filename('SPY', directory)
+    assert not os.path.exists(filename)
+    db = sdm.StockDBMgr(directory)
     assert 'SPY' not in db._dic
     # Get a single symbol
-    db.get_symbol_data('SPY')
+    df = db.get_symbol_data('SPY')
+    assert len(df) > 100
+    assert os.path.exists(filename)
+    # Symbol is in cache
     assert 'SPY' in db._dic
     db.update_all_symbols()
+    # Symbol is not in cache
     assert 'SPY' not in db._dic
+    # Clean-up
+    os.remove(filename)
+    assert not os.path.exists(filename)
 
 
 def test_get_symbol_data():
     db = sdm.StockDBMgr(_STOCK_DB_TEST_PATH)
-    df1 = db.get_symbol_data('SPY')
-    df2 = db.get_symbol_data('SPY')
+    symbol = "SPY"
+    df1 = db.get_symbol_data(symbol)
+    assert df1.axes[1].name == symbol
+    df2 = db.get_symbol_data(symbol)
     assert (df1 == df2).all().all()
     assert len(df1) == len(df2)
     assert df1 is df2
+    # Note: other columns are tested in test_finance_utils.
     assert 'Adj Close' not in df1.columns
 
 
 def test_get_symbol_data_noadj():
     db = sdm.StockDBMgr(_STOCK_DB_TEST_PATH, adjust_price=False)
-    df1 = db.get_symbol_data('SPY')
-    df2 = db.get_symbol_data('SPY')
+    symbol = "SPY"
+    df1 = db.get_symbol_data(symbol)
+    assert df1.axes[1].name == symbol
+    df2 = db.get_symbol_data(symbol)
     assert (df1 == df2).all().all()
     assert len(df1) == len(df2)
     assert df1 is df2
+    # Note: other columns are tested in test_finance_utils.
     assert 'Adj Close' in df1.columns
 
 
@@ -139,25 +158,44 @@ def test_get_symbol_data_bad_2():
 def test_get_all_symbol_data():
     db = sdm.StockDBMgr(_STOCK_DB_TEST_PATH)
     dic = db.get_all_symbol_data()
-    for s in db.get_all_symbols():
+    all_symbols = db.get_all_symbols()
+    assert len(all_symbols) == len(dic.keys())
+    for s in all_symbols:
         assert s in dic
+        assert dic[s].axes[1].name == s
 
 
-@pytest.mark.toimprove
 def test_get_all_symbol_dataframe():
     db = sdm.StockDBMgr(_STOCK_DB_TEST_PATH)
     df = db.get_all_symbol_dataframe()
+    db_symbols = db.get_all_symbols()
     assert df is not None
+    assert df.axes[1].nlevels == 2
+    assert df.axes[1].names[0] == "Symbol"
+    assert df.axes[1].names[1] == "Data"
+    dic = {}
+    for col in df.axes[1]:
+        if col[0] in dic:
+            dic[col[0]].append(col[1])
+        else:
+            dic[col[0]] = [col[1]]
+
+    test_data = ['Open', 'High', 'Low', 'Close', 'Volume']
+    assert len(db_symbols) == len(dic)
+    for symbol in dic:
+        assert symbol in db_symbols
+        assert len(test_data) == len(dic[symbol])
+        for data in dic[symbol]:
+            assert data in test_data
 
 
-@pytest.mark.toimprove
 def test_get_all_symbol_single_data_item():
     db = sdm.StockDBMgr(_STOCK_DB_TEST_PATH, adjust_price=False)
     symbol_list = db.get_all_symbols()
     df1 = db.get_symbol_data(symbol_list[0])
     for data in df1.columns:
         df = db.get_all_symbol_single_data_item(data)
-        # TBD check that df name matches the data
+        assert df.axes[1].name == data
         for s in symbol_list:
             assert s in df
 

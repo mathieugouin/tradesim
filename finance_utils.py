@@ -33,7 +33,8 @@ def calc_commission(nb_share):
 def calc_commission_etf(nb_share):
     """Return the ETF trade commission on Questrade: positive=Buy, negative=Sell."""
     # Sell only: 0.01 $ per share (min 4.95, max 9.95)
-    # Buy or sell: 0.0035 $ per share ECN fees (sometimes waived, but simpler to always include them)
+    # Buy or sell: 0.0035 $ per share ECN fees
+    #   (sometimes waived, but simpler to always include them)
     return (nb_share < 0) * min(9.95, max(4.95, -nb_share * 0.01)) + math.fabs(nb_share) * 0.0035
 
 
@@ -208,7 +209,7 @@ def load_dataframe(csv_file, start_date, end_date, adjust_price=True):
         if df.isna().any().any():
             # To show the NaN
             print(df.loc[df.isna().all(axis='columns')])
-            raise Exception("ERROR {} contains isolated NaN".format(csv_file))
+            raise AssertionError("ERROR {} contains isolated NaN".format(csv_file))
 
         if adjust_price:
             # Adjusting Columns based on Adjusted Close
@@ -218,8 +219,6 @@ def load_dataframe(csv_file, start_date, end_date, adjust_price=True):
                 df[col] *= ratio
             df.drop('Close', axis='columns', inplace=True)
             df.rename(columns={'Adj Close': 'Close'}, inplace=True)
-
-        # df.rename_axis('DATA', axis='columns', inplace=True)
 
         # Axis naming matching the symbol name
         df.rename_axis(filename_to_symbol(csv_file), axis='columns', inplace=True)
