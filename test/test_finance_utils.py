@@ -82,12 +82,12 @@ def test_filename_to_symbol(filename, symbol):
 
 
 @pytest.mark.toimprove
-@pytest.mark.xfail(reason="Known Yahoo Historical Errors")
+#@pytest.mark.xfail(reason="Known Yahoo Historical Errors")
 @pytest.mark.parametrize("adj", [False, True])
 def test_validate_dataframe_ok(adj):
     df = fu.load_dataframe(_TEST_STOCK_FILE,
-                           datetime.date(2023, 1, 1),
-                           datetime.date(2023, 2, 1),
+                           datetime.date(2018, 1, 1),
+                           datetime.date(2018, 4, 1),
                            adj)
     assert fu.validate_dataframe(df)
 

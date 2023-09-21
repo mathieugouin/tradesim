@@ -94,6 +94,15 @@ jobs:
       #  run: |
       #    ls -lAR --group-directories-first
 
+      # https://github.com/actions/upload-artifact
+      - name: "Upload stock DB to github"
+        uses: "actions/upload-artifact@v3"
+        with:
+          name: "Stock DB ${{ matrix.python-version }} on ${{ matrix.os }}"
+          path: stock_db/**/*.csv
+          retention-days: 12  # Default is 90 days.
+          if-no-files-found: error
+
       - name: "Rename coverage"
         run: |
           mv .coverage .coverage.${{ matrix.python-version }}.${{ matrix.os }}
