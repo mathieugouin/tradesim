@@ -37,6 +37,7 @@ jobs:
           #- "3.6"
           - "3.8"
           - "3.10"
+      # Let the other builds complete if one is failed.
       fail-fast: false
 
     steps:
@@ -51,7 +52,7 @@ jobs:
       - name: "Install dependencies"
         run: |
           python -m pip install --upgrade pip
-          python -m pip install flake8 pytest
+          python -m pip install flake8
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
       - name: "List package versions"
@@ -61,9 +62,9 @@ jobs:
       - name: "Lint with flake8"
         run: |
           # stop the build if there are Python syntax errors or undefined names
-          flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+          python -m flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
           # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
-          flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+          python -m flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
 
       - name: "Pre-Test setup"
         run: |
@@ -94,17 +95,18 @@ jobs:
       #  run: |
       #    ls -lAR --group-directories-first
 
-      - name: "Rename coverage"
-        run: |
-          mv .coverage .coverage.${{ matrix.python-version }}.${{ matrix.os }}
+      #- name: "Rename coverage"
+      #  run: |
+      #    mv .coverage .coverage.${{ matrix.python-version }}.${{ matrix.os }}
 
       # https://github.com/actions/upload-artifact
       - name: "Upload coverage data to github"
         uses: "actions/upload-artifact@v3"
         with:
-          name: "Coverage"
-          path: .coverage.*
-          retention-days: 5  # Default is 90 days.
+          name: "Coverage ${{ matrix.python-version }} on ${{ matrix.os }}"
+          path: .coverage
+          if-no-files-found: error  # In case coverage was not properly generated
+          retention-days: 1  # Default is 90 days.
 
 
   upload:
@@ -142,18 +144,18 @@ jobs:
       - name: "Install dependencies"
         run: |
           python -m pip install --upgrade pip
-          pip install coverage
+          python -m pip install coverage
 
       # https://github.com/actions/download-artifact
       - name: "Download coverage data from github"
         uses: "actions/download-artifact@v3"
         with:
-          name: "Coverage"
+          name: "Coverage ${{ matrix.python-version }} on ${{ matrix.os }}"
 
-      - name: "Keep only current report"
-        run: |
-          mv .coverage.${{ matrix.python-version }}.${{ matrix.os }} .coverage
-          rm -f .coverage.*
+      #- name: "Keep only current report"
+      #  run: |
+      #    mv .coverage.${{ matrix.python-version }}.${{ matrix.os }} .coverage
+      #    rm -f .coverage.*
 
       - name: "Show all files"
         run: |
