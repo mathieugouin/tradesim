@@ -57,13 +57,13 @@ def test_download_data():
     assert 'SPY' not in db._dic
 
 
-#@pytest.mark.xfail(reason="Known Yahoo Historical Errors")
+@pytest.mark.toimprove
+@pytest.mark.xfail(reason="Known Yahoo Historical Errors")
 @pytest.mark.parametrize("symbol", sdm.StockDBMgr(_STOCK_DB_TEST_PATH).get_all_symbols())
 def test_validate_symbol_data(symbol):
     db = sdm.StockDBMgr(_STOCK_DB_TEST_PATH,
                         datetime.date(2023, 1, 1),
-                        datetime.date(2023, 2, 1),
-                        False)
+                        datetime.date(2023, 2, 1))
     assert db.validate_symbol_data(symbol)
 
 
