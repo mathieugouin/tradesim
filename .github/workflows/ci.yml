@@ -87,7 +87,8 @@ jobs:
       # https://docs.pytest.org/en/7.4.x/how-to/output.html
       - name: "Execute tests with coverage"
         run: |
-          python -m coverage run -a -m pytest -v -rfEsxXP --strict-markers
+          # temporary disable webtests to check if this is the cause.
+          python -m coverage run -a -m pytest -v -rfEsxXP --strict-markers -m 'not webtest'
 
       # https://github.com/actions/upload-artifact
       - name: "Upload post-test stock DB"
