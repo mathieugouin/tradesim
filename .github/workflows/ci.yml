@@ -72,6 +72,15 @@ jobs:
           # Append coverage (-a)
           python -m coverage run -a get_yahoo_finance_data.py --concurrent 1 --file stock_db/test.txt --dir ./stock_db/test --startdate 20100101 --verbose
 
+      # https://github.com/actions/upload-artifact
+      - name: "Upload stock DB to github"
+        uses: "actions/upload-artifact@v3"
+        with:
+          name: "Stock DB before ${{ matrix.python-version }} on ${{ matrix.os }}"
+          path: stock_db/**/*.csv
+          retention-days: 30  # Default is 90 days.
+          if-no-files-found: error
+
       # Append coverage (-a)
       # -r...  # show all except regular pass
       # https://docs.pytest.org/en/7.4.x/how-to/output.html
@@ -98,9 +107,9 @@ jobs:
       - name: "Upload stock DB to github"
         uses: "actions/upload-artifact@v3"
         with:
-          name: "Stock DB ${{ matrix.python-version }} on ${{ matrix.os }}"
+          name: "Stock DB after ${{ matrix.python-version }} on ${{ matrix.os }}"
           path: stock_db/**/*.csv
-          retention-days: 12  # Default is 90 days.
+          retention-days: 30  # Default is 90 days.
           if-no-files-found: error
 
       - name: "Rename coverage"
