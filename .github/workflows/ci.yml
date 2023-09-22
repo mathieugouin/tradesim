@@ -89,6 +89,16 @@ jobs:
         run: |
           python -m coverage run -a -m pytest -v -rfEsxXP --strict-markers
 
+      # https://github.com/actions/upload-artifact
+      - name: "Upload stock DB to github"
+        if: always()
+        uses: "actions/upload-artifact@v3"
+        with:
+          name: "Stock DB after ${{ matrix.python-version }} on ${{ matrix.os }}"
+          path: stock_db/**/*.csv
+          retention-days: 30  # Default is 90 days.
+          if-no-files-found: error
+
       # Append coverage (-a)
       - name: "Additional utilities execution"
         run: |
@@ -103,15 +113,6 @@ jobs:
       #- name: "Show all files"
       #  run: |
       #    ls -lAR --group-directories-first
-
-      # https://github.com/actions/upload-artifact
-      - name: "Upload stock DB to github"
-        uses: "actions/upload-artifact@v3"
-        with:
-          name: "Stock DB after ${{ matrix.python-version }} on ${{ matrix.os }}"
-          path: stock_db/**/*.csv
-          retention-days: 30  # Default is 90 days.
-          if-no-files-found: error
 
       - name: "Rename coverage"
         run: |
