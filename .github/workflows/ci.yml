@@ -74,7 +74,7 @@ jobs:
           python -m coverage run -a get_yahoo_finance_data.py --concurrent 1 --file stock_db/test.txt --dir ./stock_db/test --startdate 20100101 --verbose
 
       # https://github.com/actions/upload-artifact
-      - name: "Upload stock DB to github"
+      - name: "Upload pre-test stock DB"
         uses: "actions/upload-artifact@v3"
         with:
           name: "Stock DB before ${{ matrix.python-version }} on ${{ matrix.os }}"
@@ -90,7 +90,7 @@ jobs:
           python -m coverage run -a -m pytest -v -rfEsxXP --strict-markers
 
       # https://github.com/actions/upload-artifact
-      - name: "Upload stock DB to github"
+      - name: "Upload post-test stock DB"
         if: always()
         uses: "actions/upload-artifact@v3"
         with:
