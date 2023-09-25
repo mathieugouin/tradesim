@@ -3,10 +3,12 @@ from __future__ import print_function
 
 import datetime
 import glob
+import shutil
 
 import stock_db_mgr as sdm
+import finance_utils as fu
 
-startdate = datetime.date(2021, 1, 1)
+startdate = datetime.date(2018, 1, 1)
 today = datetime.date.today()
 
 # Pick one:
@@ -55,7 +57,40 @@ def check_db(path):
             print("    " + s)
 
 
+def get_timestamp():
+    return datetime.datetime.today().strftime('%Y%m%d_%H%M%S.%f')
+
+
+def find_inv_csv(db_dir, inv_dir):
+    db = sdm.StockDBMgr(db_dir) #, startdate, enddate)
+
+    symbol_list = db.get_all_symbols()
+    for s in symbol_list:
+        if not db.validate_symbol_data(s):
+            inv_csv = fu.symbol_to_filename(s, db_dir)
+            bak_csv = fu.symbol_to_filename(s + '_' + get_timestamp(), inv_dir)
+            print("%s => %s" %(inv_csv, bak_csv))
+            shutil.copy(inv_csv, bak_csv)
+
+
+def analyze_inv(db_dir):
+    db = sdm.StockDBMgr(db_dir, adjust_price=False)
+
+    df = db.get_all_symbol_single_data_item('Adj Close')
+
+
+    for col in db.get_symbol_data(db.get_all_symbols()[0]):
+        df = db.get_all_symbol_single_data_item(col)
+        print(col, df.apply(lambda c: c.eq(c.iloc[0]).all(), axis=1).all())
+
+
 def _main():
+    analyze_inv('./stock_db/test_xom')
+    return
+
+    find_inv_csv('./stock_db/test', './stock_db/test_bad')
+    return
+
     db = list_all_stockdb()
     for p in db:
         check_db(p)
