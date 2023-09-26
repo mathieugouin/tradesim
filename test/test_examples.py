@@ -77,6 +77,12 @@ def test_smoketest_2():
 
 
 @pytest.mark.dummytest
+@pytest.mark.toimprove
+def test_toimprove():
+    assert my_sum(2, 2) == 4
+
+
+@pytest.mark.dummytest
 def test_print_pass():
     print("test_print_pass should pass...")
     assert my_sum(2, 2) == 4
