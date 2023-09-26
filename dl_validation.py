@@ -62,8 +62,7 @@ def get_timestamp():
 
 
 def find_inv_csv(db_dir, inv_dir):
-    db = sdm.StockDBMgr(db_dir) #, startdate, enddate)
-
+    db = sdm.StockDBMgr(db_dir)
     symbol_list = db.get_all_symbols()
     for s in symbol_list:
         if not db.validate_symbol_data(s):
@@ -78,17 +77,14 @@ def analyze_inv(db_dir):
 
     df = db.get_all_symbol_single_data_item('Adj Close')
 
-
     for col in db.get_symbol_data(db.get_all_symbols()[0]):
         df = db.get_all_symbol_single_data_item(col)
         print(col, df.apply(lambda c: c.eq(c.iloc[0]).all(), axis=1).all())
 
 
 def _main():
+    #find_inv_csv('./stock_db/test', './stock_db/test_bad')
     analyze_inv('./stock_db/test_xom')
-    return
-
-    find_inv_csv('./stock_db/test', './stock_db/test_bad')
     return
 
     db = list_all_stockdb()
