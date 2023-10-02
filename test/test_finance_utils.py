@@ -241,7 +241,7 @@ def test_load_dataframe_date_check_2():
 def create_random_df():
     index = pd.date_range(start='2000-01-01', end='2002-01-01')
     columns = list("ABCDE")
-    rng = np.random.default_rng()
+    rng = np.random.default_rng(0)  # Fix seed for reproductibility
     return pd.DataFrame(
         index=index,
         columns=columns,
