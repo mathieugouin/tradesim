@@ -1,9 +1,9 @@
 bandit:
   # run it natively
-  run: false
+  run: true
 
 pylint:
-  run: false
+  run: true
 
 dodgy:
   run: true
@@ -15,7 +15,7 @@ mccabe:
   run: true
 
 mypy:
-  run: false
+  run: true
 
 pep257:
   run: true
@@ -38,7 +38,7 @@ pyflakes:
   run: true
 
 pyroma:
-  run: false
+  run: true
 
 vulture:
   run: true
