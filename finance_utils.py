@@ -160,15 +160,15 @@ def fill_nan_data(df, inplace=False):
     # Data filling is done in 2 steps
     if inplace:
         # 1. Fill forward nan with last known good value.
-        df.fillna(method='ffill', inplace=inplace)
+        df.ffill(inplace=inplace)
         # 2. Fill backward nan with first known good value.
-        df.fillna(method='backfill', inplace=inplace)
+        df.bfill(inplace=inplace)
         return None
 
     # 1. Fill forward nan with last known good value.
-    df2 = df.fillna(method='ffill', inplace=inplace)
+    df2 = df.ffill(inplace=inplace)
     # 2. Fill backward nan with first known good value.
-    df2 = df2.fillna(method='backfill', inplace=inplace)
+    df2 = df2.bfill(inplace=inplace)
     return df2
 
 
