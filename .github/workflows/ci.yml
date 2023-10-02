@@ -55,7 +55,7 @@ jobs:
           python -m pip install flake8
           # python -m pip install prospector[with_everything]
           # python -m pip install prospector
-          python -m pip install prospector[with_bandit]
+          python -m pip install prospector[with_bandit,with_mypy]
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
       - name: "List package versions"
