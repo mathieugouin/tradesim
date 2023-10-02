@@ -186,13 +186,6 @@ def load_dataframe(csv_file, start_date, end_date, adjust_price=True):
     try:
         df = pd.read_csv(csv_file, index_col='Date', parse_dates=True)
 
-        # Fix for yahoo bug during weekends.
-        # Refer to https://github.com/mathieugouin/tradesim/issues/38
-        # Conditions: Only last index is duplicated
-        # TBD: does not seem to happen anymore
-        # if df.index.duplicated()[-1] and not df.index.duplicated()[0:-1].any():
-        #     df = df.iloc[0:-1] # Keep only 0 to second to last
-
         # Make sure no duplicated dates:
         if df.index.duplicated().any():
             raise Exception('Duplicated index in file {}'.format(csv_file))
@@ -251,23 +244,17 @@ def validate_dataframe(df):
     check = True
 
     # Compare with High
-    # TBD: temp printing to help test debug
     if (df['High'] < df['Open']).any():
-        print(df[df['High'] < df['Open']])
         check = False
     if (df['High'] < df['Low']).any():
-        print(df[df['High'] < df['Low']])
         check = False
     if (df['High'] < df['Close']).any():
-        print(df[df['High'] < df['Close']])
         check = False
 
     # Compare with Low
     if (df['Low'] > df['Open']).any():
-        print(df[df['Low'] > df['Open']])
         check = False
     if (df['Low'] > df['Close']).any():
-        print(df[df['Low'] > df['Close']])
         check = False
 
     return check
