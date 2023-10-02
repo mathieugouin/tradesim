@@ -68,7 +68,7 @@ jobs:
 
       - name: "Lint with prospector"
         run: |
-          python -m prospector
+          prospector
 
       - name: "Pre-Test setup"
         run: |
