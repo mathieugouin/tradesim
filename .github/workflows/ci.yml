@@ -68,9 +68,10 @@ jobs:
 
       - name: "Pre-Test setup"
         run: |
+          # The 'empty' DB folder is always kept empty after each test.
           mkdir -p stock_db/empty
-          mkdir -p stock_db/bad
           # Append coverage (-a)
+          # The 'test' DB folder contains a few symbols used during tests.
           python -m coverage run -a get_yahoo_finance_data.py --concurrent 1 --file stock_db/test.txt --dir ./stock_db/test --startdate 20100101 --verbose
 
       # Append coverage (-a)

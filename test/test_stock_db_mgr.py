@@ -2,10 +2,12 @@ import datetime
 import os
 import shutil
 import pytest
-import stock_db_mgr as sdm
+from test import test_utils as tu
 import finance_utils as fu
+import stock_db_mgr as sdm
 
 _STOCK_DB_TEST_PATH = './stock_db/test'
+_STOCK_DB_EMPTY_PATH = './stock_db/empty'
 
 
 def test_creation_default_date_range():
@@ -49,12 +51,15 @@ def test_get_all_symbols():
 
 @pytest.mark.webtest
 def test_download_data():
-    db = sdm.StockDBMgr(_STOCK_DB_TEST_PATH)
+    db_dir = _STOCK_DB_EMPTY_PATH
+    db = sdm.StockDBMgr(db_dir)
     assert 'SPY' not in db._dic
     db.get_symbol_data('SPY')
     assert 'SPY' in db._dic
     db.download_data('SPY')
     assert 'SPY' not in db._dic
+    tu.empty_folder_content(db_dir)
+    assert len(tu.list_folder_content(db_dir)) == 0
 
 
 @pytest.mark.toimprove
@@ -68,11 +73,12 @@ def test_validate_symbol_data(symbol):
 
 
 def test_validate_symbol_data_fail():
-    db = sdm.StockDBMgr(_STOCK_DB_TEST_PATH)
-    symbol = db.get_all_symbols()[0]
-    file = fu.symbol_to_filename(symbol, _STOCK_DB_TEST_PATH)
-    file_bak = file + '.bak'
-    shutil.copyfile(file, file_bak)
+    # Manipulation to not mark this test webtest.
+    symbol = 'SPY'
+    db_dir = _STOCK_DB_EMPTY_PATH
+    shutil.copy(fu.symbol_to_filename(symbol, _STOCK_DB_TEST_PATH), db_dir)
+    file = fu.symbol_to_filename(symbol, db_dir)
+
     # Corrupt CSV file
     with open(file, 'w') as file_handle:
         file_handle.write('this_is_a_bad_csv_header\n')
@@ -80,22 +86,19 @@ def test_validate_symbol_data_fail():
         file_handle.write('4,5,6\n')
 
     # Confirm invalid
+    db = sdm.StockDBMgr(db_dir)
     assert not db.validate_symbol_data(symbol)
 
     # Clean-up
-    shutil.copyfile(file_bak, file)
-    os.remove(file_bak)
-
-    # Confirm clean-up (validate only the file because of rare historical error from Y!)
-    assert fu.validate_symbol_data_file(file)
+    tu.empty_folder_content(db_dir)
 
 
 @pytest.mark.webtest
 def test_update_all_symbols():
-    directory = './stock_db/empty'
-    filename = fu.symbol_to_filename('SPY', directory)
+    db_dir = _STOCK_DB_EMPTY_PATH
+    filename = fu.symbol_to_filename('SPY', db_dir)
     assert not os.path.exists(filename)
-    db = sdm.StockDBMgr(directory)
+    db = sdm.StockDBMgr(db_dir)
     assert 'SPY' not in db._dic
     # Get a single symbol
     df = db.get_symbol_data('SPY')
@@ -107,11 +110,11 @@ def test_update_all_symbols():
     # Symbol is not in cache
     assert 'SPY' not in db._dic
     # Clean-up
-    os.remove(filename)
-    assert not os.path.exists(filename)
+    tu.empty_folder_content(db_dir)
+    assert len(tu.list_folder_content(db_dir)) == 0
 
 
-def test_get_symbol_data():
+def test_get_symbol_data_adj_default():
     db = sdm.StockDBMgr(_STOCK_DB_TEST_PATH)
     symbol = "SPY"
     df1 = db.get_symbol_data(symbol)
@@ -122,6 +125,15 @@ def test_get_symbol_data():
     assert df1 is df2
     # Note: other columns are tested in test_finance_utils.
     assert 'Adj Close' not in df1.columns
+
+
+def test_get_symbol_data_adj_explicit():
+    # Test
+    db = sdm.StockDBMgr(_STOCK_DB_TEST_PATH, adjust_price=True)
+    symbol = "SPY"
+    df = db.get_symbol_data(symbol)
+    # Note: other columns are tested in test_finance_utils.
+    assert 'Adj Close' not in df.columns
 
 
 def test_get_symbol_data_noadj():
@@ -139,20 +151,24 @@ def test_get_symbol_data_noadj():
 
 @pytest.mark.webtest
 def test_get_symbol_data_bad_1():
-    db = sdm.StockDBMgr('./stock_db/bad')
+    db_dir = _STOCK_DB_EMPTY_PATH
+    db = sdm.StockDBMgr(db_dir)
     df = db.get_symbol_data('BAAD')
     assert df is None
+    tu.empty_folder_content(db_dir)
 
 
 @pytest.mark.webtest
 def test_get_symbol_data_bad_2():
-    db = sdm.StockDBMgr('./stock_db/bad')
+    db_dir = _STOCK_DB_EMPTY_PATH
+    db = sdm.StockDBMgr(db_dir)
     # A stock symbol or ticker is a unique series of letters assigned
     # to a security for trading purposes. Stocks listed on the
     # New York Stock Exchange (NYSE) can have four or fewer letters.
     # Nasdaq-listed securities can have up to five characters.
     df = db.get_symbol_data('XXXZZZ')  # Invalid ticker
     assert df is None
+    tu.empty_folder_content(db_dir)
 
 
 def test_get_all_symbol_data():

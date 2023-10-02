@@ -3,6 +3,7 @@ import os
 import numpy as np
 import pandas as pd
 import pytest
+from test import test_utils as tu
 import finance_utils as fu
 
 
@@ -136,7 +137,7 @@ def test_validate_symbol_data_file_ok():
 
 
 def test_validate_symbol_data_file_bad():
-    filename = 'stock_db/bad/bad_csv.txt'
+    filename = 'stock_db/empty/bad_csv.txt'
     assert not os.path.exists(filename)
     with open(filename, 'w') as file:
         file.write('this_is_a_bad_csv_header\n')
@@ -161,11 +162,12 @@ def test_download_data():
     end_date = datetime.date(2012, 1, 1)
     fu.download_data(symbol, directory, start_date, end_date)
     assert len(fu.get_all_symbols(directory)) == 1
-    filename = fu.symbol_to_filename(symbol, directory)
-    os.remove(filename)
-    assert not os.path.exists(filename)
+    # Clean-up
+    tu.empty_folder_content(directory)
+    assert len(tu.list_folder_content(directory)) == 0
 
 
+@pytest.mark.toimprove  # Should update more than one symbols...
 @pytest.mark.webtest
 def test_update_all_symbols():
     symbol = 'SPY'
@@ -180,8 +182,8 @@ def test_update_all_symbols():
     assert len(fu.get_all_symbols(directory)) == 1
 
     # Clean-up
-    os.remove(filename)
-    assert not os.path.exists(filename)
+    tu.empty_folder_content(directory)
+    assert len(tu.list_folder_content(directory)) == 0
 
 
 def test_load_dataframe_adj():

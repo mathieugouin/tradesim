@@ -103,3 +103,9 @@ def test_exception():
 @pytest.mark.dummytest
 def test_known_failure():
     assert my_sum(2, 2) == 5
+
+
+@pytest.mark.dummytest
+@pytest.mark.sideeffect
+def test_sideeffect():
+    assert my_sum(2, 2) == 4
