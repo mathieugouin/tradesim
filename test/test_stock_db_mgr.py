@@ -8,7 +8,7 @@ import stock_db_mgr as sdm
 
 _STOCK_DB_TEST_PATH = './stock_db/test'
 _STOCK_DB_EMPTY_PATH = './stock_db/empty'
-
+_ADJ_CLOSE = 'Adj Close'
 
 def test_creation_default_date_range():
     db = sdm.StockDBMgr(_STOCK_DB_TEST_PATH)
@@ -124,7 +124,7 @@ def test_get_symbol_data_adj_default():
     assert len(df1) == len(df2)
     assert df1 is df2
     # Note: other columns are tested in test_finance_utils.
-    assert 'Adj Close' not in df1.columns
+    assert _ADJ_CLOSE not in df1.columns
 
 
 def test_get_symbol_data_adj_explicit():
@@ -133,7 +133,7 @@ def test_get_symbol_data_adj_explicit():
     symbol = "SPY"
     df = db.get_symbol_data(symbol)
     # Note: other columns are tested in test_finance_utils.
-    assert 'Adj Close' not in df.columns
+    assert _ADJ_CLOSE not in df.columns
 
 
 def test_get_symbol_data_noadj():
@@ -146,7 +146,7 @@ def test_get_symbol_data_noadj():
     assert len(df1) == len(df2)
     assert df1 is df2
     # Note: other columns are tested in test_finance_utils.
-    assert 'Adj Close' in df1.columns
+    assert _ADJ_CLOSE in df1.columns
 
 
 @pytest.mark.webtest

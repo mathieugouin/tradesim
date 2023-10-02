@@ -241,10 +241,11 @@ def test_load_dataframe_date_check_2():
 def create_random_df():
     index = pd.date_range(start='2000-01-01', end='2002-01-01')
     columns = list("ABCDE")
+    rng = np.random.default_rng()
     return pd.DataFrame(
         index=index,
         columns=columns,
-        data=np.random.random((len(index), len(columns))))
+        data=rng.random((len(index), len(columns))))
 
 
 def test_clean_dataframe_no_nan():
