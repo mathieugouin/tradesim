@@ -7,8 +7,10 @@ test-warnings: true
 bandit:
   # run it natively
   run: true
-  disable:
-    - B101  # Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.
+  options:
+    skips:
+      # Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.
+      - B101
 
 pylint:
   run: true
