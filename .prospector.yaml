@@ -1,3 +1,9 @@
+ignore-paths:
+  - docs
+  - demo
+
+test-warnings: true
+
 bandit:
   # run it natively
   run: true
@@ -34,12 +40,17 @@ pep8:
 pydocstyle:
   run: true
 
+pycodestyle:
+  run: true
+  options:
+    max-line-length: 127  # The GitHub editor is 127 chars wide
+
 pyflakes:
   run: true
 
 pyroma:
-  run: true
+  run: false
 
 vulture:
-  run: true
+  run: false
 

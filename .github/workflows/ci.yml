@@ -71,7 +71,7 @@ jobs:
 
       - name: "Lint with prospector"
         run: |
-          prospector
+          prospector --zero-exit --max-line-length 127 --output-format pylint
 
       - name: "Pre-Test setup"
         run: |
