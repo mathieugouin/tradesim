@@ -1,0 +1,5 @@
+# FILE: .bandit
+[bandit]
+#exclude = tests,path/to/file
+#tests = B201,B301
+skips = B101
