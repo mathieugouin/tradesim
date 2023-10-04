@@ -23,7 +23,8 @@ def empty_folder_content(folder):
 def list_folder_content(folder):
     """List all files recursively from a folder."""
     matches = []
-    for root, dirnames, filenames in os.walk(folder):
+    #         dirnames unused
+    for root, _,       filenames in os.walk(folder):
         for filename in filenames:
             matches.append(os.path.join(root, filename))
     return matches

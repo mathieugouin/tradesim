@@ -23,7 +23,7 @@ class VirtualAccount(object):
         self._positions = []
 
     def buy_at_market(self, bar, symbol, nb_share, name="buy_at_market"):
-        """TBD bar vs date"""
+        """TBD bar vs date."""
         print("buy_at_market()")
         nb_share = math.floor(nb_share)
         if nb_share > 0:
@@ -41,7 +41,7 @@ class VirtualAccount(object):
             print("Error: can't buy 0 share")
 
     def sell_at_market(self, position, bar, name="sell_at_market"):
-        """TBD bar vs date"""
+        """TBD bar vs date."""
         print("sell_at_market()")
         if position.is_open():
             sell_price = self._data_dic[position.get_symbol()].iloc[bar]['Low']  # Worst case
@@ -55,8 +55,7 @@ class VirtualAccount(object):
             print("Error: position already closed")
 
     def get_all_positions(self, symbol=""):
-        """Return all positions for a given symbol,
-        or for all symbols if none are provided."""
+        """Return all positions for a given symbol, or for all symbols if none are provided."""
         if symbol in self._data_dic:
             # positions only for symbol
             return [p for p in self._positions if p.get_symbol() == symbol]
@@ -64,8 +63,7 @@ class VirtualAccount(object):
         return self._positions
 
     def get_open_positions(self, symbol=""):
-        """Return all open positions (not sold) for a given symbol,
-        or for all symbols if none are provided."""
+        """Return all open positions (not sold) for a given symbol, or for all symbols if none are provided."""
         if symbol in self._data_dic:
             # open positions only for symbol
             return [p for p in self._positions if p.get_symbol() == symbol and p.is_open()]
