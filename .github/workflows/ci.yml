@@ -9,8 +9,6 @@
 
 name: "Python Build"
 
-# on: [push, pull_request]
-
 on:
   push:
     paths-ignore:
@@ -21,6 +19,7 @@ on:
       - "master"
 
 jobs:
+  ##########################################################################################
   build:
     name: "Build - Python ${{ matrix.python-version }} on ${{ matrix.os }}"
     runs-on: "${{ matrix.os }}"
@@ -109,6 +108,7 @@ jobs:
           retention-days: 1  # Default is 90 days.
 
 
+  ##########################################################################################
   upload:
     name: "Upload coverage - Python ${{ matrix.python-version }} on ${{ matrix.os }}"
     needs: build
@@ -169,16 +169,33 @@ jobs:
           #files: ./coverage1.xml,./coverage2.xml # optional
           #flags: unittests # optional
           #name: codecov-umbrella # optional
-          fail_ci_if_error: true # optional (default = false)
-          verbose: true # optional (default = false)
+          fail_ci_if_error: true # optional (default: false)
+          verbose: true # optional (default: false)
 
 
+  ##########################################################################################
+  sonarcloud:
+    name: SonarCloud
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Check out the repo"
+        uses: "actions/checkout@v3"
+        with:
+          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+
+  ##########################################################################################
   # Last final step to depend on all previous jobs.
   # This "dummy" step will be used to trigger on branch merging rule.
   # It will avoid having to change the rules all the time when changing python or os versions.
   finalize:
     name: "All jobs completed"
-    needs: upload
+    needs: [build, upload, sonarcloud]
     runs-on: ubuntu-latest
 
     steps:

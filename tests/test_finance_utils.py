@@ -303,7 +303,7 @@ def test_fill_nan_data_notinplace():
     df.iloc[11:20, 1] = np.nan  # middle
     df.iloc[-10:, 2] = np.nan  # end
     assert df.isna().any().any()
-    df2 = fu.fill_nan_data(df)  # default = not inplace
+    df2 = fu.fill_nan_data(df)  # default: not inplace
     # New df2 modified:
     assert not df2.isna().any().any()
     # Original df not modified:
