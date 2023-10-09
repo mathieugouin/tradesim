@@ -188,7 +188,7 @@ def load_dataframe(csv_file, start_date, end_date, adjust_price=True):
 
         # Make sure no duplicated dates:
         if df.index.duplicated().any():
-            raise Exception('Duplicated index in file {}'.format(csv_file))
+            raise AssertionError('Duplicated index in file {}'.format(csv_file))
 
         df.sort_index(inplace=True)
 
