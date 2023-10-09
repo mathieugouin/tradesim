@@ -50,7 +50,9 @@ def symbol_to_filename(symbol, basedir):
 
 def get_all_symbols(basedir):
     """Return a sorted list of symbols available in a basedir folder.
-    The list is based on the presence of a *.csv file."""
+
+    The symbol list is based on the presence of a *.csv file in the basedir.
+    """
     return sorted(map(filename_to_symbol, glob.glob(os.path.join(basedir, '*.csv'))))
 
 
@@ -75,8 +77,7 @@ def get_symbols_from_file(ticker_file):
 
 
 def download_url(url):
-    """Download a URL and provide the result as a big string."""
-
+    """Download a URL and provide the result as a single string."""
     # Headers to fake a user agent
     headers = {
         'User-Agent':   'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 '
@@ -86,17 +87,17 @@ def download_url(url):
     s = ""
     try:
         req = urllib.request.Request(url, headers=headers)
-        f = urllib.request.urlopen(req, timeout=5)
-        if sys.version_info.major > 2:
-            charset = f.info().get_content_charset()
-        else:
-            charset = f.headers.getparam('charset')
+        with urllib.request.urlopen(req, timeout=5) as f:
+            if sys.version_info.major > 2:
+                charset = f.info().get_content_charset()
+            else:
+                charset = f.headers.getparam('charset')
 
-        if charset is None:  # Default according to HTTP
-            charset = 'iso-8859-1'
+            if charset is None:  # Default according to HTTP
+                charset = 'iso-8859-1'
 
-        r = f.read()
-        s = r.decode(charset)
+            r = f.read()
+            s = r.decode(charset)
 
     except (socket.timeout, urllib.error.HTTPError, urllib.error.URLError) as e:
         print("URLError: {}".format(e))
@@ -151,12 +152,12 @@ def clean_dataframe(df, start_date):
 
 def fill_nan_data(df, inplace=False):
     """Fill the data in the given DataFrame so no NaN gaps remain.
+
     This is done by:
     1. Fill forward nan with last known good value.
     2. Fill backward nan with first known good value.
     Returns: DataFrame with missing values filled or None if inplace=True.
     """
-
     # Data filling is done in 2 steps
     if inplace:
         # 1. Fill forward nan with last known good value.
@@ -179,6 +180,7 @@ def normalize_dataframe(df):
 
 def load_dataframe(csv_file, start_date, end_date, adjust_price=True):
     """Load a CSV stock data file into a pandas DataFrame.
+
     The DataFrame is sorted chronologically by date.
     If requested, the prices (open, high, low, close) are adjusted according
     to the adjusted close price.

@@ -1,4 +1,5 @@
-"""VirtualAccount
+"""Module to define VirtualAccount class.
+
 This class provides the means to operate on a virtual account.
 Buy and sell operation can be performed.
 """
@@ -14,7 +15,8 @@ import finance_utils as fu
 class VirtualAccount(object):
     """Handles an account linked to a stock DB.
 
-    Does not support partial sell of position."""
+    Does not support partial sell of position.
+    """
 
     def __init__(self, initial_capital, data_dic):
         """Instantiate a new virtual account object."""
@@ -63,16 +65,21 @@ class VirtualAccount(object):
         return self._positions
 
     def get_open_positions(self, symbol=""):
-        """Return all open positions (not sold) for a given symbol, or for all symbols if none are provided."""
+        """Return all open positions (not sold).
+
+        The list is for the given symbol, or for all symbols if None is provided.
+        """
         if symbol in self._data_dic:
             # open positions only for symbol
             return [p for p in self._positions if p.get_symbol() == symbol and p.is_open()]
         # all open positions
         return [p for p in self._positions if p.is_open()]
 
-    def get_close_positions(self, symbol=""):
-        """Return all close positions (sold) for a given symbol,
-        or for all symbols if none are provided."""
+    def get_close_positions(self, symbol=None):
+        """Return all close positions (sold).
+
+        The list is for the given symbol, or for all symbols if None is provided.
+        """
         if symbol in self._data_dic:
             # close positions only for symbol
             return [p for p in self._positions if p.get_symbol() == symbol and not p.is_open()]

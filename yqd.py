@@ -44,14 +44,14 @@ def _get_cookie_crumb():
     cookier.cookiejar.clear()
     req = urllib.request.Request(
         'https://finance.yahoo.com/quote/%5EGSPC', headers=_headers)
-    f = urllib.request.urlopen(req, timeout=5)
-    alines = f.read().decode('utf-8')
+    with urllib.request.urlopen(req, timeout=5) as html_page:
+        all_lines = html_page.read().decode('utf-8')
 
-    # Extract the crumb from the response
-    # Looking for: "crumb":"xxxxxxxxxx"
-    m = re.search('"crumb":"(.+?)"', alines)
-    if m is not None:
-        _crumb = m.group(1)
+        # Extract the crumb from the response
+        # Looking for: "crumb":"xxxxxxxxxx"
+        match = re.search('"crumb":"(.+?)"', all_lines)
+        if match is not None:
+            _crumb = match.group(1)
 
     if _crumb is None:
         raise AssertionError('Could not get initial cookie crumb from Yahoo.')

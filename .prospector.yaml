@@ -53,7 +53,7 @@ pydocstyle:  # pep257 was renamed pydocstyle
     # Ref: http://www.pydocstyle.org/en/5.0.2/error_codes.html
     - D213
   enable:
-    - D203
+    - D211
     - D212
 
 pycodestyle:  #  pep8 was renamed pycodestyle
