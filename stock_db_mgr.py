@@ -1,6 +1,8 @@
-"""Stock Database Manager.
+"""Module to define the StockDBMgr class (Stock Database Manager).
+
 This class provides convenient methods to work with local CSV files containing
-historical financial data."""
+historical financial data.
+"""
 
 # To make print working for Python2/3
 from __future__ import print_function
@@ -22,10 +24,12 @@ _default_end_date = datetime.date.today()
 
 
 class StockDBMgr(object):
+
     """Stock Data Base Manager: handles stock data stored in CSV files."""
 
     def __init__(self, basedir, start_date=None, end_date=None, adjust_price=True):
         """Instantiate the class.
+        
         When no dates are provided, they are set as follows:
         - Start: Jan 1st 1900
         - End: today
@@ -68,7 +72,9 @@ class StockDBMgr(object):
 
     def validate_symbol_data(self, symbol):
         """Perform basic data validation on symbol historical data.
-        return True when valid, False otherwise."""
+        
+        return True when valid, False otherwise.
+        """
         symbol = symbol.upper()
         if not fu.validate_symbol_data_file(fu.symbol_to_filename(symbol, self._basedir)):
             return False
