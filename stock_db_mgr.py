@@ -116,7 +116,6 @@ class StockDBMgr(object):
 
     def get_all_symbol_dataframe(self):
         """Return a multi-index DataFrame of all symbols."""
-
         dic = self.get_all_symbol_data()
 
         symbols = list(dic.keys())
