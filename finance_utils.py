@@ -50,7 +50,7 @@ def symbol_to_filename(symbol, basedir):
 
 def get_all_symbols(basedir):
     """Return a sorted list of symbols available in a basedir folder.
-    
+
     The symbol list is based on the presence of a *.csv file in the basedir.
     """
     return sorted(map(filename_to_symbol, glob.glob(os.path.join(basedir, '*.csv'))))
@@ -152,7 +152,7 @@ def clean_dataframe(df, start_date):
 
 def fill_nan_data(df, inplace=False):
     """Fill the data in the given DataFrame so no NaN gaps remain.
-    
+
     This is done by:
     1. Fill forward nan with last known good value.
     2. Fill backward nan with first known good value.
@@ -180,7 +180,7 @@ def normalize_dataframe(df):
 
 def load_dataframe(csv_file, start_date, end_date, adjust_price=True):
     """Load a CSV stock data file into a pandas DataFrame.
-    
+
     The DataFrame is sorted chronologically by date.
     If requested, the prices (open, high, low, close) are adjusted according
     to the adjusted close price.

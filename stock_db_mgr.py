@@ -29,7 +29,7 @@ class StockDBMgr(object):
 
     def __init__(self, basedir, start_date=None, end_date=None, adjust_price=True):
         """Instantiate the class.
-        
+
         When no dates are provided, they are set as follows:
         - Start: Jan 1st 1900
         - End: today
@@ -72,7 +72,7 @@ class StockDBMgr(object):
 
     def validate_symbol_data(self, symbol):
         """Perform basic data validation on symbol historical data.
-        
+
         return True when valid, False otherwise.
         """
         symbol = symbol.upper()
