@@ -85,7 +85,7 @@ jobs:
       # https://docs.pytest.org/en/7.4.x/how-to/output.html
       - name: "Execute tests with coverage"
         run: |
-          # TBD !!!!! to speed up: python -m coverage run -a -m pytest -v -rfEsxXP --strict-markers
+          python -m coverage run -a -m pytest -v -rfEsxXP --strict-markers
 
       # Append coverage (-a)
       - name: "Additional utilities execution"
