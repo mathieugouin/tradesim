@@ -1,9 +1,12 @@
+""" Module to play with portfolio rebalancing concepts over time.
+
+Is it worth to rebalance regularly a portfolio to keep the desired target allocation?
+Will the trading commissions eat up our profit?
+What if the commission was zero?
+"""
+
 # To make print working for Python2/3
 from __future__ import print_function
-
-# Is it worth to rebalance regularly a portfolio to keep the desired target allocation?
-# Will the trading commissions eat up our profit?
-# What if the commission was zero?
 
 import datetime
 
@@ -39,7 +42,8 @@ def simulate(rebalance_freq=1, plot_cash=False):
         'XEC.TO': 0.1
     }
 
-    assert mu.isclose(ratio.values(), 1.0)
+    if not mu.isclose(ratio.values(), 1.0):
+        raise AssertionError("Wrong portfolio allocation")
 
     symbol_list = list(dic.keys())
     symbol_list.sort()
