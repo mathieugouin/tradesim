@@ -12,6 +12,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 import finance_utils as fu
+import math_utils as mu
 import stock_db_mgr as sdm
 import virtual_account as va
 
@@ -38,7 +39,7 @@ def simulate(rebalance_freq=1, plot_cash=False):
         'XEC.TO': 0.1
     }
 
-    assert sum(ratio.values()) == 1.0
+    assert mu.isclose(ratio.values(), 1.0)
 
     symbol_list = list(dic.keys())
     symbol_list.sort()
