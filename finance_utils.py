@@ -77,7 +77,7 @@ def get_symbols_from_file(ticker_file):
 
 
 def download_url(url):
-    """Download a URL and provide the result as a big string."""
+    """Download a URL and provide the result as a single string."""
     # Headers to fake a user agent
     headers = {
         'User-Agent':   'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 '
@@ -87,17 +87,17 @@ def download_url(url):
     s = ""
     try:
         req = urllib.request.Request(url, headers=headers)
-        f = urllib.request.urlopen(req, timeout=5)
-        if sys.version_info.major > 2:
-            charset = f.info().get_content_charset()
-        else:
-            charset = f.headers.getparam('charset')
+        with urllib.request.urlopen(req, timeout=5) as f:
+            if sys.version_info.major > 2:
+                charset = f.info().get_content_charset()
+            else:
+                charset = f.headers.getparam('charset')
 
-        if charset is None:  # Default according to HTTP
-            charset = 'iso-8859-1'
+            if charset is None:  # Default according to HTTP
+                charset = 'iso-8859-1'
 
-        r = f.read()
-        s = r.decode(charset)
+            r = f.read()
+            s = r.decode(charset)
 
     except (socket.timeout, urllib.error.HTTPError, urllib.error.URLError) as e:
         print("URLError: {}".format(e))

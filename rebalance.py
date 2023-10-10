@@ -1,4 +1,4 @@
-""" Module to play with portfolio rebalancing concepts over time.
+"""Module to play with portfolio rebalancing concepts over time.
 
 Is it worth to rebalance regularly a portfolio to keep the desired target allocation?
 Will the trading commissions eat up our profit?
