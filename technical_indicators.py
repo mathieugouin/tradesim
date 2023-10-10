@@ -1,5 +1,4 @@
-"""Provides various utility functions and
-technical indicators."""
+"""Provides various utility functions and technical indicators."""
 
 # To make print working for Python2/3
 from __future__ import print_function
@@ -14,20 +13,6 @@ def _check_input(n, n_min, n_max):
         raise ValueError("n must be >= %d" % n_min)
     if n >= n_max:
         raise ValueError("n too big compared to the size of the input array")
-
-
-# -------------------------------------
-# Utility math functions
-# -------------------------------------
-
-def step(t):
-    """Returns 1 where t >= 0, else 0."""
-    return (t >= 0) * 1
-
-
-def ramp(t):
-    """Returns 0 for negative inputs, output equals input for non-negative inputs."""
-    return t * step(t)
 
 
 # -------------------------------------

@@ -1,43 +1,7 @@
 import numpy as np
-import pandas as pd
 import pytest
+import math_utils as mu
 import technical_indicators as ti
-
-
-@pytest.mark.smoketest
-def test_step():
-    t = np.arange(-5, 5, 1)
-    x = ti.step(t)
-    assert len(x) == len(t)
-    assert x.min() == 0
-    assert x.max() == 1
-
-
-@pytest.mark.smoketest
-def test_step_series():
-    t = pd.Series(np.arange(-5, 5, 1))
-    x = ti.step(t)
-    assert len(x) == len(t)
-    assert x.min() == 0
-    assert x.max() == 1
-
-
-@pytest.mark.smoketest
-def test_ramp():
-    t = np.arange(-5, 5, 1)
-    x = ti.ramp(t)
-    assert len(x) == len(t)
-    assert x.min() == 0
-    assert x.max() == t.max()
-
-
-@pytest.mark.smoketest
-def test_ramp_series():
-    t = pd.Series(np.arange(-5, 5, 1))
-    x = ti.ramp(t)
-    assert len(x) == len(t)
-    assert x.min() == 0
-    assert x.max() == t.max()
 
 
 @pytest.mark.toimprove
@@ -68,11 +32,13 @@ def test_indicators():
     n = 100
     t = np.arange(n)  # [0 .. n-1]
 
+    # TBD to move some technicals indicator inputs in notebook.
+
     # triangle
     # x = np.concatenate((np.arange(0,n/2,1), np.arange(n/2,0,-1)))
 
     # step
-    x = ti.step(t - n/2) * 10
+    x = mu.step(t - n/2) * 10
 
     # ramp
     # x = ramp(t - n/2)
