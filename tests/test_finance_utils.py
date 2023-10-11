@@ -163,8 +163,7 @@ def test_download_data():
     fu.download_data(symbol, directory, start_date, end_date)
     assert len(fu.get_all_symbols(directory)) == 1
     # Clean-up
-    tu.empty_folder_content(directory)
-    assert len(tu.list_folder_content(directory)) == 0
+    tu.empty_folder_and_confirm(directory)
 
 
 @pytest.mark.toimprove  # Should update more than one symbols...
@@ -182,8 +181,7 @@ def test_update_all_symbols():
     assert len(fu.get_all_symbols(directory)) == 1
 
     # Clean-up
-    tu.empty_folder_content(directory)
-    assert len(tu.list_folder_content(directory)) == 0
+    tu.empty_folder_and_confirm(directory)
 
 
 def test_load_dataframe_adj():

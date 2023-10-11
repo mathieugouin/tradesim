@@ -11,11 +11,6 @@ _STOCK_DB_EMPTY_PATH = './stock_db/empty'
 _ADJ_CLOSE = 'Adj Close'
 
 
-def empty_folder_and_confirm(folder):
-    tu.empty_folder_content(folder)
-    assert len(tu.list_folder_content(folder)) == 0
-
-
 def test_creation_default_date_range():
     db = sdm.StockDBMgr(_STOCK_DB_TEST_PATH)
     df = db.get_symbol_data('SPY')
@@ -64,7 +59,7 @@ def test_download_data():
     assert 'SPY' in db._dic
     db.download_data('SPY')
     assert 'SPY' not in db._dic
-    empty_folder_and_confirm(db_dir)
+    tu.empty_folder_and_confirm(db_dir)
 
 
 @pytest.mark.toimprove
@@ -95,7 +90,7 @@ def test_validate_symbol_data_fail():
     assert not db.validate_symbol_data(symbol)
 
     # Clean-up
-    empty_folder_and_confirm(db_dir)
+    tu.empty_folder_and_confirm(db_dir)
 
 
 @pytest.mark.webtest
@@ -115,7 +110,7 @@ def test_update_all_symbols():
     # Symbol is not in cache
     assert 'SPY' not in db._dic
     # Clean-up
-    empty_folder_and_confirm(db_dir)
+    tu.empty_folder_and_confirm(db_dir)
 
 
 def test_get_symbol_data_adj_default():
@@ -159,7 +154,7 @@ def test_get_symbol_data_bad_1():
     db = sdm.StockDBMgr(db_dir)
     df = db.get_symbol_data('BAAD')
     assert df is None
-    empty_folder_and_confirm(db_dir)
+    tu.empty_folder_and_confirm(db_dir)
 
 
 @pytest.mark.webtest
@@ -172,7 +167,7 @@ def test_get_symbol_data_bad_2():
     # Nasdaq-listed securities can have up to five characters.
     df = db.get_symbol_data('XXXZZZ')  # Invalid ticker
     assert df is None
-    empty_folder_and_confirm(db_dir)
+    tu.empty_folder_and_confirm(db_dir)
 
 
 def test_get_all_symbol_data():

@@ -28,3 +28,8 @@ def list_folder_content(folder):
         for filename in filenames:
             matches.append(os.path.join(root, filename))
     return matches
+
+
+def empty_folder_and_confirm(folder):
+    empty_folder_content(folder)
+    assert len(list_folder_content(folder)) == 0
