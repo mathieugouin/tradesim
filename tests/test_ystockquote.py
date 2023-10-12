@@ -55,7 +55,7 @@ def test_ysq_get_stock_exchange(s):
 @pytest.mark.parametrize("s", ['NA.TO', 'XBB.TO', 'AAPL', 'XOM'])
 def test_ysq_get_currency(s):
     c = ysq.get_currency(s)
-    assert c == 'USD' or c == 'CAD'
+    assert c in ['USD', 'CAD']
 
 
 @pytest.mark.webtest

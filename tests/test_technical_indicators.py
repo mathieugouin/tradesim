@@ -11,8 +11,8 @@ def test_cross_over():
     s = np.sin(t)
     c = np.cos(t)
     x = ti.cross_over(s, c)
-    assert x.min() == False
-    assert x.max() == True
+    assert x.min() is np.False_
+    assert x.max() is np.True_
 
 
 @pytest.mark.toimprove
@@ -22,8 +22,8 @@ def test_cross_under():
     s = np.sin(t)
     c = np.cos(t)
     x = ti.cross_under(s, c)
-    assert x.min() == False
-    assert x.max() == True
+    assert x.min() is np.False_
+    assert x.max() is np.True_
 
 
 @pytest.mark.toimprove
