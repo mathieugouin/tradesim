@@ -17,44 +17,66 @@ from __future__ import print_function
 
 import time
 import re
+import requests
 
 # Use six to import urllib so it is working for Python2/3
-from six.moves import urllib
-
-# Build the cookie handler
-cookier = urllib.request.HTTPCookieProcessor()
-opener = urllib.request.build_opener(cookier)
-urllib.request.install_opener(opener)
+#from six.moves import urllib
 
 # Cookie and corresponding crumb
 _crumb = None
 
 # Headers to fake a user agent
 _headers = {
-    'User-Agent':   'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) '
-                    'Chrome/41.0.2272.101 Safari/537.36'
+    "User-Agent":
+        "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36"
 }
+
+def get_yahoo_cookie():
+    cookie = None
+
+    # You can tell Requests to stop waiting for a response after a given number of seconds with the timeout parameter. Nearly all production code should use this parameter in nearly all requests.
+    response = requests.get(
+        "https://fc.yahoo.com",
+        headers=_headers,
+        allow_redirects=True,
+        timeout=1
+    )
+
+    if not response.cookies:
+        raise AssertionError("Failed to obtain Yahoo auth cookie.")
+
+    cookie = list(response.cookies)[0]
+
+    return cookie
+
+
+def get_yahoo_crumb(cookie):
+    crumb = None
+
+    crumb_response = requests.get(
+        "https://query1.finance.yahoo.com/v1/test/getcrumb",
+        headers=_headers,
+        cookies={cookie.name: cookie.value},
+        allow_redirects=True,
+        timeout=1
+    )
+    crumb = crumb_response.text
+
+    if crumb is None:
+        raise AssertionError('Could not get initial cookie crumb from Yahoo.')
+
+    return crumb
 
 
 def _get_cookie_crumb():
     """Performs a query and extract the matching cookie and crumb."""
     global _crumb
 
-    # Perform a Yahoo financial lookup on SP500: ticker = ^GSPC
-    cookier.cookiejar.clear()
-    req = urllib.request.Request(
-        'https://finance.yahoo.com/quote/%5EGSPC', headers=_headers)
-    with urllib.request.urlopen(req, timeout=5) as html_page:
-        all_lines = html_page.read().decode('utf-8')
-
-        # Extract the crumb from the response
-        # Looking for: "crumb":"xxxxxxxxxx"
-        match = re.search('"crumb":"(.+?)"', all_lines)
-        if match is not None:
-            _crumb = match.group(1)
-
-    if _crumb is None:
-        raise AssertionError('Could not get initial cookie crumb from Yahoo.')
+    # Usage
+    cookie = get_yahoo_cookie()
+    crumb = get_yahoo_crumb(cookie)
+    _crumb = crumb
+    return
 
 
 def load_yahoo_quote(ticker, begindate, enddate, info='quote'):
@@ -87,19 +109,22 @@ def load_yahoo_quote(ticker, begindate, enddate, info='quote'):
     elif info == 'split':
         param['events'] = 'split'
     param['crumb'] = _crumb
-    params = urllib.parse.urlencode(param)
-    url = 'https://query1.finance.yahoo.com/v7/finance/download/{}?{}'.format(
-        urllib.parse.quote(ticker), params)
-    req = urllib.request.Request(url, headers=_headers)
 
-    # Perform the query
-    # There is no need to enter the cookie here, as it is automatically handled by opener
     alines = ""
     try:
-        with urllib.request.urlopen(req, timeout=5) as f:
-            alines = f.read().decode('utf-8')
-    except Exception:
+        response = requests.get(
+            "https://query1.finance.yahoo.com/v7/finance/download/" + ticker,
+            headers=_headers,
+            allow_redirects=True,
+            data=param,
+            timeout=1
+        )
+        alines = response.text
+    except Exception as exc:
         alines = ""
+        print(type(exc))  # the exception instance
+        print(exc.args)  # arguments stored in .args
+        print(exc)  # __str__ allows args to be printed directly
 
     if len(alines) < 5:
         print('\nERROR: Symbol not found:', ticker)
