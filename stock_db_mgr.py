@@ -24,7 +24,6 @@ _default_end_date = datetime.date.today()
 
 
 class StockDBMgr(object):
-
     """Stock Data Base Manager: handles stock data stored in CSV files."""
 
     def __init__(self, basedir, start_date=None, end_date=None, adjust_price=True):
