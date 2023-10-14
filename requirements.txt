@@ -21,6 +21,7 @@ pandas
 matplotlib
 scipy
 yfinance
+requests
 
 # Required for CI:
 pytest
