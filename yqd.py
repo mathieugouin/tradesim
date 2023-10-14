@@ -10,23 +10,21 @@ by Yahoo employee in forum posts.
 Yahoo financial EOD data, however, still works on Yahoo financial pages.
 These download links uses a "crumb" for authentication with a cookie "B".
 This code is provided to obtain such matching cookie and crumb.
+
+Updates: Mathieu Gouin
 """
 
 # To make print working for Python2/3
 from __future__ import print_function
 
 import time
-import re
 import requests
-
-# Use six to import urllib so it is working for Python2/3
-#from six.moves import urllib
 
 # Cookie and corresponding crumb
 _crumb = None
 
 # Headers to fake a user agent
-_headers = {
+_HEADERS = {
     "User-Agent":
         "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36"
 }
@@ -43,7 +41,7 @@ def _get_cookie_crumb():
     try:
         response = requests.get(
             "https://fc.yahoo.com",
-            headers=_headers,
+            headers=_HEADERS,
             allow_redirects=True,
             timeout=1
         )
@@ -53,7 +51,7 @@ def _get_cookie_crumb():
         cookie = list(response.cookies)[0]
         crumb_response = requests.get(
             "https://query1.finance.yahoo.com/v1/test/getcrumb",
-            headers=_headers,
+            headers=_HEADERS,
             cookies={cookie.name: cookie.value},
             allow_redirects=True,
             timeout=1
@@ -104,17 +102,14 @@ def load_yahoo_quote(ticker, begindate, enddate, info='quote'):
     try:
         response = requests.get(
             "https://query1.finance.yahoo.com/v7/finance/download/" + ticker,
-            headers=_headers,
+            headers=_HEADERS,
             allow_redirects=True,
             params=params,
             timeout=1
         )
         alines = response.text
-    except Exception as exc:
+    except Exception:
         alines = ""
-        print(type(exc))  # the exception instance
-        print(exc.args)  # arguments stored in .args
-        print(exc)  # __str__ allows args to be printed directly
 
     if len(alines) < len("Date,Open,High,Low,Close,Adj Close,Volume"):
         print('\nERROR: Symbol not found:', ticker)
