@@ -31,52 +31,42 @@ _headers = {
         "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36"
 }
 
-def get_yahoo_cookie():
-    cookie = None
-
-    # You can tell Requests to stop waiting for a response after a given number of seconds with the timeout parameter. Nearly all production code should use this parameter in nearly all requests.
-    response = requests.get(
-        "https://fc.yahoo.com",
-        headers=_headers,
-        allow_redirects=True,
-        timeout=1
-    )
-
-    if not response.cookies:
-        raise AssertionError("Failed to obtain Yahoo auth cookie.")
-
-    cookie = list(response.cookies)[0]
-
-    return cookie
-
-
-def get_yahoo_crumb(cookie):
-    crumb = None
-
-    crumb_response = requests.get(
-        "https://query1.finance.yahoo.com/v1/test/getcrumb",
-        headers=_headers,
-        cookies={cookie.name: cookie.value},
-        allow_redirects=True,
-        timeout=1
-    )
-    crumb = crumb_response.text
-
-    if crumb is None:
-        raise AssertionError('Could not get initial cookie crumb from Yahoo.')
-
-    return crumb
-
-
 def _get_cookie_crumb():
     """Performs a query and extract the matching cookie and crumb."""
     global _crumb
 
-    # Usage
-    cookie = get_yahoo_cookie()
-    crumb = get_yahoo_crumb(cookie)
+    crumb = None
+
+    # You can tell Requests to stop waiting for a response after
+    # a given number of seconds with the timeout parameter.
+    # Nearly all production code should use this parameter in nearly all requests.
+    try:
+        response = requests.get(
+            "https://fc.yahoo.com",
+            headers=_headers,
+            allow_redirects=True,
+            timeout=1
+        )
+        if not response.cookies:
+            raise AssertionError("Failed to obtain Yahoo auth cookie.")
+
+        cookie = list(response.cookies)[0]
+        crumb_response = requests.get(
+            "https://query1.finance.yahoo.com/v1/test/getcrumb",
+            headers=_headers,
+            cookies={cookie.name: cookie.value},
+            allow_redirects=True,
+            timeout=1
+        )
+        crumb = crumb_response.text
+    except Exception as exc:
+        raise AssertionError('Could not get initial cookie crumb from Yahoo. ' + str(exc))
+
+    if crumb is None or len(crumb) < 3:
+        raise AssertionError('Could not get initial cookie crumb from Yahoo.')
+
+    # Store it globally
     _crumb = crumb
-    return
 
 
 def load_yahoo_quote(ticker, begindate, enddate, info='quote'):
@@ -93,22 +83,22 @@ def load_yahoo_quote(ticker, begindate, enddate, info='quote'):
         _get_cookie_crumb()
 
     # Prepare the parameters and the URL
-    tb = time.mktime((int(begindate[0:4]), int(
+    time_begin = time.mktime((int(begindate[0:4]), int(
         begindate[4:6]), int(begindate[6:8]), 4, 0, 0, 0, 0, 0))
-    te = time.mktime((int(enddate[0:4]), int(
+    time_end = time.mktime((int(enddate[0:4]), int(
         enddate[4:6]), int(enddate[6:8]), 18, 0, 0, 0, 0, 0))
 
-    param = {}
-    param['period1'] = int(tb)
-    param['period2'] = int(te)
-    param['interval'] = '1d'
+    params = {}
+    params['period1'] = int(time_begin)
+    params['period2'] = int(time_end)
+    params['interval'] = '1d'
     if info == 'quote':
-        param['events'] = 'history'
+        params['events'] = 'history'
     elif info == 'dividend':
-        param['events'] = 'div'
+        params['events'] = 'div'
     elif info == 'split':
-        param['events'] = 'split'
-    param['crumb'] = _crumb
+        params['events'] = 'split'
+    params['crumb'] = _crumb
 
     alines = ""
     try:
@@ -116,7 +106,7 @@ def load_yahoo_quote(ticker, begindate, enddate, info='quote'):
             "https://query1.finance.yahoo.com/v7/finance/download/" + ticker,
             headers=_headers,
             allow_redirects=True,
-            data=param,
+            params=params,
             timeout=1
         )
         alines = response.text
@@ -126,7 +116,8 @@ def load_yahoo_quote(ticker, begindate, enddate, info='quote'):
         print(exc.args)  # arguments stored in .args
         print(exc)  # __str__ allows args to be printed directly
 
-    if len(alines) < 5:
+    if len(alines) < len("Date,Open,High,Low,Close,Adj Close,Volume"):
         print('\nERROR: Symbol not found:', ticker)
+        alines = ""
 
     return alines
