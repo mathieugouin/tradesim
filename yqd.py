@@ -10,51 +10,61 @@ by Yahoo employee in forum posts.
 Yahoo financial EOD data, however, still works on Yahoo financial pages.
 These download links uses a "crumb" for authentication with a cookie "B".
 This code is provided to obtain such matching cookie and crumb.
+
+Updates: Mathieu Gouin
 """
 
 # To make print working for Python2/3
 from __future__ import print_function
 
 import time
-import re
-
-# Use six to import urllib so it is working for Python2/3
-from six.moves import urllib
-
-# Build the cookie handler
-cookier = urllib.request.HTTPCookieProcessor()
-opener = urllib.request.build_opener(cookier)
-urllib.request.install_opener(opener)
+import requests
 
 # Cookie and corresponding crumb
 _crumb = None
 
 # Headers to fake a user agent
-_headers = {
-    'User-Agent':   'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) '
-                    'Chrome/41.0.2272.101 Safari/537.36'
+_HEADERS = {
+    "User-Agent":
+        "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36"
 }
-
 
 def _get_cookie_crumb():
     """Performs a query and extract the matching cookie and crumb."""
     global _crumb
 
-    # Perform a Yahoo financial lookup on SP500: ticker = ^GSPC
-    cookier.cookiejar.clear()
-    req = urllib.request.Request(
-        'https://finance.yahoo.com/quote/%5EGSPC', headers=_headers)
-    with urllib.request.urlopen(req, timeout=5) as html_page:
-        all_lines = html_page.read().decode('utf-8')
+    crumb = None
 
-        # Extract the crumb from the response
-        # Looking for: "crumb":"xxxxxxxxxx"
-        match = re.search('"crumb":"(.+?)"', all_lines)
-        if match is not None:
-            _crumb = match.group(1)
+    # You can tell Requests to stop waiting for a response after
+    # a given number of seconds with the timeout parameter.
+    # Nearly all production code should use this parameter in nearly all requests.
+    try:
+        response = requests.get(
+            "https://fc.yahoo.com",
+            headers=_HEADERS,
+            allow_redirects=True,
+            timeout=1
+        )
+        if not response.cookies:
+            raise AssertionError("Failed to obtain Yahoo auth cookie.")
 
-    if _crumb is None:
+        cookie = list(response.cookies)[0]
+        crumb_response = requests.get(
+            "https://query1.finance.yahoo.com/v1/test/getcrumb",
+            headers=_HEADERS,
+            cookies={cookie.name: cookie.value},
+            allow_redirects=True,
+            timeout=1
+        )
+        crumb = crumb_response.text
+    except Exception as exc:
+        raise AssertionError('Could not get initial cookie crumb from Yahoo. ' + str(exc))
+
+    if crumb is None or len(crumb) < 3:
         raise AssertionError('Could not get initial cookie crumb from Yahoo.')
+
+    # Store it globally
+    _crumb = crumb
 
 
 def load_yahoo_quote(ticker, begindate, enddate, info='quote'):
@@ -71,37 +81,38 @@ def load_yahoo_quote(ticker, begindate, enddate, info='quote'):
         _get_cookie_crumb()
 
     # Prepare the parameters and the URL
-    tb = time.mktime((int(begindate[0:4]), int(
+    time_begin = time.mktime((int(begindate[0:4]), int(
         begindate[4:6]), int(begindate[6:8]), 4, 0, 0, 0, 0, 0))
-    te = time.mktime((int(enddate[0:4]), int(
+    time_end = time.mktime((int(enddate[0:4]), int(
         enddate[4:6]), int(enddate[6:8]), 18, 0, 0, 0, 0, 0))
 
-    param = {}
-    param['period1'] = int(tb)
-    param['period2'] = int(te)
-    param['interval'] = '1d'
+    params = {}
+    params['period1'] = int(time_begin)
+    params['period2'] = int(time_end)
+    params['interval'] = '1d'
     if info == 'quote':
-        param['events'] = 'history'
+        params['events'] = 'history'
     elif info == 'dividend':
-        param['events'] = 'div'
+        params['events'] = 'div'
     elif info == 'split':
-        param['events'] = 'split'
-    param['crumb'] = _crumb
-    params = urllib.parse.urlencode(param)
-    url = 'https://query1.finance.yahoo.com/v7/finance/download/{}?{}'.format(
-        urllib.parse.quote(ticker), params)
-    req = urllib.request.Request(url, headers=_headers)
+        params['events'] = 'split'
+    params['crumb'] = _crumb
 
-    # Perform the query
-    # There is no need to enter the cookie here, as it is automatically handled by opener
     alines = ""
     try:
-        with urllib.request.urlopen(req, timeout=5) as f:
-            alines = f.read().decode('utf-8')
+        response = requests.get(
+            "https://query1.finance.yahoo.com/v7/finance/download/" + ticker,
+            headers=_HEADERS,
+            allow_redirects=True,
+            params=params,
+            timeout=1
+        )
+        alines = response.text
     except Exception:
         alines = ""
 
-    if len(alines) < 5:
+    if len(alines) < len("Date,Open,High,Low,Close,Adj Close,Volume"):
         print('\nERROR: Symbol not found:', ticker)
+        alines = ""
 
     return alines
