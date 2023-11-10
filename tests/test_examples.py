@@ -1,3 +1,5 @@
+"""Example test module."""
+import logging
 import pytest
 
 
@@ -85,7 +87,6 @@ def test_toimprove():
 @pytest.mark.dummytest
 def test_print_pass():
     print("test_print_pass should pass...")
-    assert my_sum(2, 2) == 4
 
 
 @pytest.mark.dummytest
@@ -109,3 +110,28 @@ def test_known_failure():
 @pytest.mark.sideeffect
 def test_sideeffect():
     assert my_sum(2, 2) == 4
+
+
+@pytest.mark.dummytest
+def test_log_debug():
+    logging.debug("test debug message")
+
+
+@pytest.mark.dummytest
+def test_log_info():
+    logging.info("test info message")
+
+
+@pytest.mark.dummytest
+def test_log_warning():
+    logging.warning("test warning message")
+
+
+@pytest.mark.dummytest
+def test_log_error():
+    logging.error("test error message")
+
+
+@pytest.mark.dummytest
+def test_log_critical():
+    logging.critical("test critical message")

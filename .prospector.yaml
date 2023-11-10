@@ -58,6 +58,12 @@ pydocstyle:  # pep257 was renamed pydocstyle
 
 pycodestyle:  #  pep8 was renamed pycodestyle
   run: true
+  enable:
+    - E127
+    - E128
+    - E301
+    - E302
+    - E303
 
 pyflakes:
   run: true

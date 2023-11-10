@@ -1,0 +1,22 @@
+# Ref: https://flake8.pycqa.org/en/latest/user/configuration.html
+#      https://flake8.pycqa.org/en/latest/user/options.html
+[flake8]
+
+# To be able to specify it differently for CI
+# exit-zero = True
+
+max-complexity = 10
+
+max-line-length = 120
+
+exclude =
+    .git
+    example
+    .ipynb_checkpoints
+    .pytest_cache
+
+statistics = True
+
+count = True
+
+show-source = True

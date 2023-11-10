@@ -1,0 +1,18 @@
+# pylint config file
+# Ref: https://github.com/pylint-dev/pylint/blob/main/pylintrc
+
+[MESSAGES CONTROL]
+#disable=logging-fstring-interpolation
+
+[LOGGING]
+# Logging modules to check that the string format arguments are in logging
+# function parameter format
+logging-modules=logging
+
+[BASIC]
+# Good variable names which should always be accepted, separated by a comma
+good-names=df,i,j,s
+
+[REFACTORING]
+# Maximum number of nested blocks for function / method body
+max-nested-blocks=5
