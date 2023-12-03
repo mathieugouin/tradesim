@@ -2,7 +2,6 @@ import math
 import pytest
 import ystockquote as ysq
 
-# To investigate...
 pytest.skip("Skipping unstable ystockquote tests", allow_module_level=True)
 
 
