@@ -5,6 +5,7 @@ import pandas as pd
 
 
 def update_dj():
+    """Update Dow Jones list"""
     h = pd.read_html('https://en.wikipedia.org/wiki/Dow_Jones_Industrial_Average', keep_default_na=False)
     df = h[1]  # 2nd table
 
@@ -24,8 +25,18 @@ def update_dj():
 
 
 def update_tsx():
+    """Update TSX list"""
     h = pd.read_html('https://en.wikipedia.org/wiki/S%26P/TSX_Composite_Index', keep_default_na=False)
-    df = h[1]  # 2nd table
+
+    df = None
+    found = False
+    for df in h:
+        if 'Ticker' in df.columns and 'Company' in df.columns:
+            found = True
+            break
+
+    if not found:
+        return
 
     df.rename(columns={'Ticker': 'Symbol'}, inplace=True)
 
@@ -48,6 +59,7 @@ def update_tsx():
 
 
 def update_sp500():
+    """Update SP-500 list"""
     h = pd.read_html('https://en.wikipedia.org/wiki/List_of_S%26P_500_companies', keep_default_na=False)
     df = h[0]  # first table
 
