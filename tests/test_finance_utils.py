@@ -165,6 +165,24 @@ def test_download_data():
     tu.empty_folder_and_confirm(directory)
 
 
+@pytest.mark.webtest
+@pytest.mark.parametrize("loop", range(20))
+def test_download_data_repetitive(loop):
+    symbol = 'XOM'
+    directory = 'stock_db/empty'
+    start_date = datetime.date(2018, 1, 1)
+    end_date = datetime.date.today()
+    fu.download_data(symbol, directory, start_date, end_date)
+    assert len(fu.get_all_symbols(directory)) == 1
+    df = fu.load_dataframe(fu.symbol_to_filename(symbol, directory),
+                           start_date,
+                           end_date)
+    assert not fu.validate_dataframe(df)
+
+    # Clean-up
+    tu.empty_folder_and_confirm(directory)
+
+
 @pytest.mark.toimprove  # Should update more than one symbols...
 @pytest.mark.webtest
 def test_update_all_symbols():
