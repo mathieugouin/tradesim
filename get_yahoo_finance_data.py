@@ -23,16 +23,13 @@ import threading
 import datetime
 import argparse
 import os
+import queue as queue_lib
 # User
 import yqd
 
+
 # global options
 options = None
-
-if sys.version_info.major < 3:
-    import Queue as queue_lib
-else:
-    import queue as queue_lib
 
 
 def _my_assert(expression, msg='No message provided'):

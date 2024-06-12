@@ -8,7 +8,6 @@ import re
 import os
 import glob
 import csv
-import sys
 import math
 # For socket timeout
 import socket
@@ -88,10 +87,7 @@ def download_url(url):
     try:
         req = urllib.request.Request(url, headers=headers)
         with urllib.request.urlopen(req, timeout=5) as f:
-            if sys.version_info.major > 2:
-                charset = f.info().get_content_charset()
-            else:
-                charset = f.headers.getparam('charset')
+            charset = f.info().get_content_charset()
 
             if charset is None:  # Default according to HTTP
                 charset = 'iso-8859-1'
