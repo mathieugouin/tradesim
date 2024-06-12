@@ -8,7 +8,6 @@ import re
 import os
 import glob
 import csv
-import sys
 import math
 # For socket timeout
 import socket
