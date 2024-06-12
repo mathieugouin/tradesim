@@ -63,7 +63,6 @@ def test_download_data():
 
 
 @pytest.mark.toimprove
-@pytest.mark.xfail(reason="Known Yahoo Historical Errors")
 @pytest.mark.parametrize("symbol", sdm.StockDBMgr(_STOCK_DB_TEST_PATH).get_all_symbols())
 def test_validate_symbol_data(symbol):
     db = sdm.StockDBMgr(_STOCK_DB_TEST_PATH,
