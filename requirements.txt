@@ -30,9 +30,7 @@ coverage
 # For notebook handling
 # ipython
 # ipykernel
-# jupyter
 # jupyterlab
-# notebook
 # seaborn
 
 # To investigate:
