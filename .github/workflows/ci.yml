@@ -164,7 +164,7 @@ jobs:
 
       # https://github.com/actions/download-artifact
       - name: "Download coverage data from github"
-        uses: "actions/download-artifact@v3"
+        uses: "actions/download-artifact@v4.1.7"
         with:
           name: "Coverage ${{ matrix.python-version }} on ${{ matrix.os }}"
 
