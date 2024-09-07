@@ -116,7 +116,7 @@ jobs:
 
       # https://github.com/actions/upload-artifact
       - name: "Upload coverage data to github"
-        uses: "actions/upload-artifact@v3"
+        uses: "actions/upload-artifact@v4"
         with:
           name: "Coverage ${{ matrix.python-version }} on ${{ matrix.os }}"
           path: .coverage
