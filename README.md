@@ -26,18 +26,12 @@ My ramblings on various stock analysis and data mining.
 #### Setup
 * `python3 -m pip install --upgrade pip`
 * `python3 -m pip install ipython`
-* `python3 -m pip install jupyter`
 * `python3 -m pip install jupyterlab`
 * Make sure `~/.local/bin/` is in the path
 
 #### IPython Run
 * cd to the current dir where to start
 * `ipython`
-
-#### Classic Jupyter Notebook Run
-* cd to the current dir where to start
-* `jupyter notebook`
-* Or to directly open a notebook: `jupyter notebook tradesim_notebook.ipynb`
 
 #### Jupyter Lab Notebook Run
 Jupyter lab has a nicer interface.
