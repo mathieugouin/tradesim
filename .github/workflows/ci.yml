@@ -121,6 +121,7 @@ jobs:
         with:
           name: "Coverage ${{ matrix.python-version }} on ${{ matrix.os }}"
           path: .coverage
+          include-hidden-files: true
           if-no-files-found: error  # In case coverage was not properly generated
           retention-days: 1  # Default is 90 days.
 
@@ -135,15 +136,16 @@ jobs:
       # IMPORTANT: matrix need to match build matrix
       matrix:
         os:
-          - ubuntu-20.04  # Fix OS version to have old python availability
-          #- ubuntu-latest
+          #- ubuntu-20.04  # Fix OS version to have old python availability
+          - ubuntu-latest
           #- macos-latest
           #- windows-latest
         python-version:
           #- "2.7"
           #- "3.6"
-          - "3.8"
+          #- "3.8"
           - "3.10"
+          - "3.12"
       # No need to continue if one upload failed.
       fail-fast: true
 
