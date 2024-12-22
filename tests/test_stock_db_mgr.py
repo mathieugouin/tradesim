@@ -53,6 +53,7 @@ def test_get_all_symbols():
 @pytest.mark.webtest
 def test_download_data():
     db_dir = _STOCK_DB_EMPTY_PATH
+    tu.empty_folder_and_confirm(db_dir)
     db = sdm.StockDBMgr(db_dir)
     assert 'SPY' not in db._dic
     db.get_symbol_data('SPY')
@@ -76,6 +77,7 @@ def test_validate_symbol_data_fail():
     # Manipulation to not mark this test webtest.
     symbol = 'SPY'
     db_dir = _STOCK_DB_EMPTY_PATH
+    tu.empty_folder_and_confirm(db_dir)
     shutil.copy(fu.symbol_to_filename(symbol, _STOCK_DB_TEST_PATH), db_dir)
     file = fu.symbol_to_filename(symbol, db_dir)
 
@@ -96,6 +98,7 @@ def test_validate_symbol_data_fail():
 @pytest.mark.webtest
 def test_update_all_symbols():
     db_dir = _STOCK_DB_EMPTY_PATH
+    tu.empty_folder_and_confirm(db_dir)
     filename = fu.symbol_to_filename('SPY', db_dir)
     assert not os.path.exists(filename)
     db = sdm.StockDBMgr(db_dir)
@@ -135,6 +138,7 @@ def test_get_symbol_data_adj_explicit():
     assert _ADJ_CLOSE not in df.columns
 
 
+@pytest.mark.xfail(reason="No adjust not supported anymore.  Related to new yqd implementation.")
 def test_get_symbol_data_noadj():
     db = sdm.StockDBMgr(_STOCK_DB_TEST_PATH, adjust_price=False)
     symbol = "SPY"
@@ -151,6 +155,7 @@ def test_get_symbol_data_noadj():
 @pytest.mark.webtest
 def test_get_symbol_data_bad_1():
     db_dir = _STOCK_DB_EMPTY_PATH
+    tu.empty_folder_and_confirm(db_dir)
     db = sdm.StockDBMgr(db_dir)
     df = db.get_symbol_data('BAAD')
     assert df is None
@@ -160,6 +165,7 @@ def test_get_symbol_data_bad_1():
 @pytest.mark.webtest
 def test_get_symbol_data_bad_2():
     db_dir = _STOCK_DB_EMPTY_PATH
+    tu.empty_folder_and_confirm(db_dir)
     db = sdm.StockDBMgr(db_dir)
     # A stock symbol or ticker is a unique series of letters assigned
     # to a security for trading purposes. Stocks listed on the

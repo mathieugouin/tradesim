@@ -201,6 +201,7 @@ def test_load_dataframe_adj():
         assert col in df_col
 
 
+@pytest.mark.xfail(reason="No adjust not supported anymore.  Related to new yqd implementation.")
 def test_load_dataframe_no_adj():
     filename = _TEST_STOCK_FILE
     df = fu.load_dataframe(filename, datetime.date(2018, 1, 1), datetime.date(2018, 4, 1), False)

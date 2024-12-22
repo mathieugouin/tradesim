@@ -115,11 +115,7 @@ def download_data(symbol, basedir, start_date, end_date):
 
     f = symbol_to_filename(symbol, basedir)
 
-    data = yqd.load_yahoo_quote(symbol, d1, d2)
-    # prevent writing invalid data
-    if len(data) > 0:
-        with open(f, 'w') as fh:
-            fh.write(data)
+    yqd.load_yahoo_quote(symbol, d1, d2, f)
 
 
 def update_all_symbols(basedir, start_date, end_date):
@@ -202,14 +198,14 @@ def load_dataframe(csv_file, start_date, end_date, adjust_price=True):
             print(df.loc[df.isna().all(axis='columns')])
             raise AssertionError("ERROR {} contains isolated NaN".format(csv_file))
 
-        if adjust_price:
-            # Adjusting Columns based on Adjusted Close
-            ratio = df['Adj Close'] / df['Close']
+        # if adjust_price:
+        #     # Adjusting Columns based on Adjusted Close
+        #     ratio = df['Adj Close'] / df['Close']
 
-            for col in ['Open', 'High', 'Low']:  # n/a for 'Volume'
-                df[col] *= ratio
-            df.drop('Close', axis='columns', inplace=True)
-            df.rename(columns={'Adj Close': 'Close'}, inplace=True)
+        #     for col in ['Open', 'High', 'Low']:  # n/a for 'Volume'
+        #         df[col] *= ratio
+        #     df.drop('Close', axis='columns', inplace=True)
+        #     df.rename(columns={'Adj Close': 'Close'}, inplace=True)
 
         # Axis naming matching the symbol name
         df.rename_axis(filename_to_symbol(csv_file), axis='columns', inplace=True)
