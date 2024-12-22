@@ -7,7 +7,7 @@ import pandas as pd
 def update_dj():
     """Update Dow Jones list"""
     h = pd.read_html('https://en.wikipedia.org/wiki/Dow_Jones_Industrial_Average', keep_default_na=False)
-    df = h[1]  # 2nd table
+    df = h[2]  # 3rd table
 
     # Make sure Symbol column is first, only keep relevant columns
     df = df.loc[:, ['Symbol', 'Company']]
