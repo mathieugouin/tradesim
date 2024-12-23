@@ -37,6 +37,7 @@ My ramblings on various stock analysis and data mining.
 Jupyter lab has a nicer interface.
 * cd to the current dir where to start
 * `jupyter lab`
+* For Github codespace: `jupyter lab --no-browser`
 
 #### Magic command
 Ref: https://ipython.readthedocs.io/en/stable/interactive/magics.html
