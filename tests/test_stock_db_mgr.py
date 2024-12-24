@@ -8,7 +8,6 @@ import stock_db_mgr as sdm
 
 _STOCK_DB_TEST_PATH = './stock_db/test'
 _STOCK_DB_EMPTY_PATH = './stock_db/empty'
-_ADJ_CLOSE = 'Adj Close'
 
 
 def test_creation_default_date_range():
@@ -53,6 +52,7 @@ def test_get_all_symbols():
 @pytest.mark.webtest
 def test_download_data():
     db_dir = _STOCK_DB_EMPTY_PATH
+    tu.empty_folder_and_confirm(db_dir)
     db = sdm.StockDBMgr(db_dir)
     assert 'SPY' not in db._dic
     db.get_symbol_data('SPY')
@@ -66,9 +66,9 @@ def test_download_data():
 @pytest.mark.xfail(reason="Known Yahoo Historical Errors")
 @pytest.mark.parametrize("symbol", sdm.StockDBMgr(_STOCK_DB_TEST_PATH).get_all_symbols())
 def test_validate_symbol_data(symbol):
-    db = sdm.StockDBMgr(_STOCK_DB_TEST_PATH,
-                        datetime.date(2023, 1, 1),
-                        datetime.date(2023, 2, 1))
+    end = datetime.date.today()
+    start = end - datetime.timedelta(days=365)
+    db = sdm.StockDBMgr(_STOCK_DB_TEST_PATH, start, end)
     assert db.validate_symbol_data(symbol)
 
 
@@ -76,6 +76,7 @@ def test_validate_symbol_data_fail():
     # Manipulation to not mark this test webtest.
     symbol = 'SPY'
     db_dir = _STOCK_DB_EMPTY_PATH
+    tu.empty_folder_and_confirm(db_dir)
     shutil.copy(fu.symbol_to_filename(symbol, _STOCK_DB_TEST_PATH), db_dir)
     file = fu.symbol_to_filename(symbol, db_dir)
 
@@ -96,6 +97,7 @@ def test_validate_symbol_data_fail():
 @pytest.mark.webtest
 def test_update_all_symbols():
     db_dir = _STOCK_DB_EMPTY_PATH
+    tu.empty_folder_and_confirm(db_dir)
     filename = fu.symbol_to_filename('SPY', db_dir)
     assert not os.path.exists(filename)
     db = sdm.StockDBMgr(db_dir)
@@ -113,7 +115,7 @@ def test_update_all_symbols():
     tu.empty_folder_and_confirm(db_dir)
 
 
-def test_get_symbol_data_adj_default():
+def test_get_symbol_data():
     db = sdm.StockDBMgr(_STOCK_DB_TEST_PATH)
     symbol = "SPY"
     df1 = db.get_symbol_data(symbol)
@@ -122,35 +124,12 @@ def test_get_symbol_data_adj_default():
     assert (df1 == df2).all().all()
     assert len(df1) == len(df2)
     assert df1 is df2
-    # Note: other columns are tested in test_finance_utils.
-    assert _ADJ_CLOSE not in df1.columns
-
-
-def test_get_symbol_data_adj_explicit():
-    # Test
-    db = sdm.StockDBMgr(_STOCK_DB_TEST_PATH, adjust_price=True)
-    symbol = "SPY"
-    df = db.get_symbol_data(symbol)
-    # Note: other columns are tested in test_finance_utils.
-    assert _ADJ_CLOSE not in df.columns
-
-
-def test_get_symbol_data_noadj():
-    db = sdm.StockDBMgr(_STOCK_DB_TEST_PATH, adjust_price=False)
-    symbol = "SPY"
-    df1 = db.get_symbol_data(symbol)
-    assert df1.axes[1].name == symbol
-    df2 = db.get_symbol_data(symbol)
-    assert (df1 == df2).all().all()
-    assert len(df1) == len(df2)
-    assert df1 is df2
-    # Note: other columns are tested in test_finance_utils.
-    assert _ADJ_CLOSE in df1.columns
 
 
 @pytest.mark.webtest
 def test_get_symbol_data_bad_1():
     db_dir = _STOCK_DB_EMPTY_PATH
+    tu.empty_folder_and_confirm(db_dir)
     db = sdm.StockDBMgr(db_dir)
     df = db.get_symbol_data('BAAD')
     assert df is None
@@ -160,6 +139,7 @@ def test_get_symbol_data_bad_1():
 @pytest.mark.webtest
 def test_get_symbol_data_bad_2():
     db_dir = _STOCK_DB_EMPTY_PATH
+    tu.empty_folder_and_confirm(db_dir)
     db = sdm.StockDBMgr(db_dir)
     # A stock symbol or ticker is a unique series of letters assigned
     # to a security for trading purposes. Stocks listed on the
@@ -205,7 +185,7 @@ def test_get_all_symbol_dataframe():
 
 
 def test_get_all_symbol_single_data_item():
-    db = sdm.StockDBMgr(_STOCK_DB_TEST_PATH, adjust_price=False)
+    db = sdm.StockDBMgr(_STOCK_DB_TEST_PATH)
     symbol_list = db.get_all_symbols()
     df1 = db.get_symbol_data(symbol_list[0])
     for data in df1.columns:

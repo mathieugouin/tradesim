@@ -84,12 +84,10 @@ def test_filename_to_symbol(filename, symbol):
 
 @pytest.mark.toimprove
 @pytest.mark.xfail(reason="Known Yahoo Historical Errors")
-@pytest.mark.parametrize("adj", [False, True])
-def test_validate_dataframe_ok(adj):
-    df = fu.load_dataframe(_TEST_STOCK_FILE,
-                           datetime.date(2023, 1, 1),
-                           datetime.date(2023, 2, 1),
-                           adj)
+def test_validate_dataframe_ok():
+    end = datetime.date.today()
+    start = end - datetime.timedelta(days=365)
+    df = fu.load_dataframe(_TEST_STOCK_FILE, start, end)
     assert fu.validate_dataframe(df)
 
 
@@ -102,12 +100,10 @@ def test_validate_dataframe_missing_column(col):
     assert not fu.validate_dataframe(df)
 
 
-@pytest.mark.parametrize("adj", [False, True])
-def test_validate_dataframe_extra_column(adj):
+def test_validate_dataframe_extra_column():
     df = fu.load_dataframe(_TEST_STOCK_FILE,
                            datetime.date(2023, 1, 1),
-                           datetime.date(2023, 2, 1),
-                           adj)
+                           datetime.date(2023, 2, 1))
     df["DUMMY"] = 0  # Add dummy extra columns
     assert not fu.validate_dataframe(df)
     df["DUMMY2"] = 1  # Add another dummy extra columns
@@ -184,9 +180,9 @@ def test_update_all_symbols():
     tu.empty_folder_and_confirm(directory)
 
 
-def test_load_dataframe_adj():
+def test_load_dataframe():
     filename = _TEST_STOCK_FILE
-    df = fu.load_dataframe(filename, datetime.date(2018, 1, 1), datetime.date(2018, 4, 1), True)
+    df = fu.load_dataframe(filename, datetime.date(2018, 1, 1), datetime.date(2018, 4, 1))
     # DataFrame axes is a list.  It has the row axis labels and column axis labels
     # as the only members. They are returned in that order.
     assert df.axes[1].name == fu.filename_to_symbol(_TEST_STOCK_FILE)
@@ -195,23 +191,6 @@ def test_load_dataframe_adj():
 
     df_col = list(df.columns)
     test_col = ['Open', 'High', 'Low', 'Close', 'Volume']
-    assert len(df_col) == len(test_col)
-
-    for col in test_col:
-        assert col in df_col
-
-
-def test_load_dataframe_no_adj():
-    filename = _TEST_STOCK_FILE
-    df = fu.load_dataframe(filename, datetime.date(2018, 1, 1), datetime.date(2018, 4, 1), False)
-    # DataFrame axes is a list.  It has the row axis labels and column axis labels
-    # as the only members. They are returned in that order.
-    assert df.axes[1].name == fu.filename_to_symbol(_TEST_STOCK_FILE)
-
-    assert df.notna().all().all()
-
-    df_col = list(df.columns)
-    test_col = ['Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume']
     assert len(df_col) == len(test_col)
 
     for col in test_col:
