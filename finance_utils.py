@@ -170,7 +170,7 @@ def normalize_dataframe(df):
     return df / df.iloc[0]
 
 
-def load_dataframe(csv_file, start_date, end_date, adjust_price=True):
+def load_dataframe(csv_file, start_date, end_date):
     """Load a CSV stock data file into a pandas DataFrame.
 
     The DataFrame is sorted chronologically by date.
@@ -197,15 +197,6 @@ def load_dataframe(csv_file, start_date, end_date, adjust_price=True):
             # To show the NaN
             print(df.loc[df.isna().all(axis='columns')])
             raise AssertionError("ERROR {} contains isolated NaN".format(csv_file))
-
-        # if adjust_price:
-        #     # Adjusting Columns based on Adjusted Close
-        #     ratio = df['Adj Close'] / df['Close']
-
-        #     for col in ['Open', 'High', 'Low']:  # n/a for 'Volume'
-        #         df[col] *= ratio
-        #     df.drop('Close', axis='columns', inplace=True)
-        #     df.rename(columns={'Adj Close': 'Close'}, inplace=True)
 
         # Axis naming matching the symbol name
         df.rename_axis(filename_to_symbol(csv_file), axis='columns', inplace=True)
