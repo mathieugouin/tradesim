@@ -57,31 +57,31 @@ def test_param_2(a, b, s):
 @pytest.mark.dummytest
 @pytest.mark.webtest
 def test_webtest_1():
-    assert True
+    assert my_sum(2, 2) == 4
 
 
 @pytest.mark.dummytest
 @pytest.mark.webtest
 def test_webtest_2():
-    assert True
+    assert my_sum(2, 2) == 4
 
 
 @pytest.mark.dummytest
 @pytest.mark.smoketest
 def test_smoketest_1():
-    assert True
+    assert my_sum(2, 2) == 4
 
 
 @pytest.mark.dummytest
 @pytest.mark.smoketest
 def test_smoketest_2():
-    assert True
+    assert my_sum(2, 2) == 4
 
 
 @pytest.mark.dummytest
 @pytest.mark.toimprove
 def test_toimprove():
-    assert True
+    assert my_sum(2, 2) == 4
 
 
 @pytest.mark.dummytest
@@ -103,19 +103,19 @@ def test_exception():
 @pytest.mark.xfail(reason="This test is known to fail and actually fails")
 @pytest.mark.dummytest
 def test_known_failure():
-    assert False
+    assert my_sum(2, 2) == 5
 
 
 @pytest.mark.xfail(reason="This test is known to fail but does not actually fail")
 @pytest.mark.dummytest
 def test_known_failure_no_fail():
-    assert True
+    assert my_sum(2, 2) == 4
 
 
 @pytest.mark.dummytest
 @pytest.mark.sideeffect
 def test_sideeffect():
-    assert True
+    assert my_sum(2, 2) == 4
 
 
 @pytest.mark.dummytest
