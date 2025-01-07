@@ -151,22 +151,20 @@ def test_get_all_symbols():
 
 
 @pytest.mark.webtest
-def test_download_data():
+def test_download_data(tmp_path):
     symbol = 'SPY'
-    directory = 'stock_db/empty'
+    directory = tmp_path
     start_date = datetime.date(2010, 1, 1)
     end_date = datetime.date(2012, 1, 1)
     fu.download_data(symbol, directory, start_date, end_date)
     assert len(fu.get_all_symbols(directory)) == 1
-    # Clean-up
-    tu.empty_folder_and_confirm(directory)
 
 
-@pytest.mark.toimprove  # Should update more than one symbols...
+@pytest.mark.toimprove  # Should update more than one symbols, should confirm for update new data
 @pytest.mark.webtest
-def test_update_all_symbols():
+def test_update_all_symbols(tmp_path):
     symbol = 'SPY'
-    directory = 'stock_db/empty'
+    directory = tmp_path
     filename = fu.symbol_to_filename(symbol, directory)
     # Create an empty stock file
     open(filename, 'w').close()
@@ -175,9 +173,6 @@ def test_update_all_symbols():
     end_date = datetime.date(2012, 1, 1)
     fu.update_all_symbols(directory, start_date, end_date)
     assert len(fu.get_all_symbols(directory)) == 1
-
-    # Clean-up
-    tu.empty_folder_and_confirm(directory)
 
 
 def test_load_dataframe():
