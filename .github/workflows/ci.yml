@@ -114,13 +114,16 @@ jobs:
       - name: "Display coverage report"
         run: |
           python -m coverage report
+          python -m coverage html
 
       # https://github.com/actions/upload-artifact
       - name: "Upload coverage data to github"
         uses: "actions/upload-artifact@v4"
         with:
           name: "Coverage ${{ matrix.python-version }} on ${{ matrix.os }}"
-          path: .coverage
+          path:
+            - .coverage
+            - coverage_html
           include-hidden-files: true
           if-no-files-found: error  # In case coverage was not properly generated
           retention-days: 1  # Default is 90 days.
