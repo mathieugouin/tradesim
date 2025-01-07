@@ -132,8 +132,8 @@ def test_validate_symbol_data_file_ok():
     assert fu.validate_symbol_data_file(_TEST_STOCK_FILE)
 
 
-def test_validate_symbol_data_file_bad():
-    filename = 'stock_db/empty/bad_csv.txt'
+def test_validate_symbol_data_file_bad(tmp_path):
+    filename = tmp_path / 'bad_csv.txt'
     assert not os.path.exists(filename)
     with open(filename, 'w') as file:
         file.write('this_is_a_bad_csv_header\n')
@@ -141,8 +141,6 @@ def test_validate_symbol_data_file_bad():
         file.write('4,5,6\n')
     assert os.path.exists(filename)
     assert not fu.validate_symbol_data_file(filename)
-    os.remove(filename)
-    assert not os.path.exists(filename)
 
 
 def test_get_all_symbols():
