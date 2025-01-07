@@ -71,8 +71,9 @@ def test_validate_symbol_data(symbol):
 
 def test_validate_symbol_data_fail(tmp_path):
     db_dir = tmp_path
+    symbol = 'SPY'
     # create a corrupted CSV file
-    file = fu.symbol_to_filename('SPY', db_dir)
+    file = fu.symbol_to_filename(symbol, db_dir)
     with open(file, 'w') as file_handle:
         file_handle.write('this_is_a_bad_csv_header\n')
         file_handle.write('1,2,3\n')
