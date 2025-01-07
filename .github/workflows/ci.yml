@@ -121,9 +121,9 @@ jobs:
         uses: "actions/upload-artifact@v4"
         with:
           name: "Coverage ${{ matrix.python-version }} on ${{ matrix.os }}"
-          path:
-            - .coverage
-            - coverage_html
+          path: |
+            .coverage
+            coverage_html
           include-hidden-files: true
           if-no-files-found: error  # In case coverage was not properly generated
           retention-days: 1  # Default is 90 days.
