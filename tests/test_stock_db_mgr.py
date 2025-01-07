@@ -63,7 +63,7 @@ def test_download_data(tmp_path):
 
 @pytest.mark.toimprove
 @pytest.mark.xfail(reason="Known Yahoo Historical Errors")
-@pytest.mark.parametrize("symbol", sdm.StockDBMgr(_STOCK_DB_TEST_PATH).get_all_symbols())
+@pytest.mark.parametrize("symbol", _STOCK_DB_TEST_SYMBOLS)
 def test_validate_symbol_data(symbol):
     end = datetime.date.today()
     start = end - datetime.timedelta(days=365)
@@ -72,8 +72,8 @@ def test_validate_symbol_data(symbol):
 
 
 def test_validate_symbol_data_fail(tmp_path):
-    db_dir = tmp_path
     symbol = 'SPY'
+    db_dir = tmp_path
     # create a corrupted CSV file
     file = fu.symbol_to_filename(symbol, db_dir)
     with open(file, 'w') as file_handle:
@@ -88,8 +88,8 @@ def test_validate_symbol_data_fail(tmp_path):
 
 @pytest.mark.webtest
 def test_update_all_symbols(tmp_path):
-    db_dir = tmp_path
     symbol = 'SPY'
+    db_dir = tmp_path
     filename = fu.symbol_to_filename(symbol, db_dir)
     assert not os.path.exists(filename)
     db = sdm.StockDBMgr(db_dir)
@@ -117,22 +117,21 @@ def test_get_symbol_data():
 
 
 @pytest.mark.webtest
-def test_get_symbol_data_bad_1(tmp_path):
-    db_dir = tmp_path
-    db = sdm.StockDBMgr(db_dir)
-    df = db.get_symbol_data('BAAD')
-    assert df is None
+@pytest.mark.parametrize("symbol", [
+    # Not a ticker:
+    'BAAD',
 
-
-@pytest.mark.webtest
-def test_get_symbol_data_bad_2(tmp_path):
-    db_dir = tmp_path
-    db = sdm.StockDBMgr(db_dir)
+    # Invalid ticker:
     # A stock symbol or ticker is a unique series of letters assigned
     # to a security for trading purposes. Stocks listed on the
     # New York Stock Exchange (NYSE) can have four or fewer letters.
     # Nasdaq-listed securities can have up to five characters.
-    df = db.get_symbol_data('XXXZZZ')  # Invalid ticker
+    'XXXZZZ',
+])
+def test_get_symbol_data_bad(tmp_path, symbol):
+    db_dir = tmp_path
+    db = sdm.StockDBMgr(db_dir)
+    df = db.get_symbol_data(symbol)
     assert df is None
 
 
