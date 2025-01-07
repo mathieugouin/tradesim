@@ -14,3 +14,13 @@
 branch = True
 
 source = .
+
+dynamic_context = test_function
+
+
+[report]
+precision = 2
+
+[html]
+directory = coverage_html
+show_contexts = true
