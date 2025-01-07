@@ -1,29 +1,29 @@
 import datetime
 import os
-import shutil
 import pytest
-from tests import test_utils as tu
 import finance_utils as fu
 import stock_db_mgr as sdm
 
 _STOCK_DB_TEST_PATH = './stock_db/test'
-_STOCK_DB_EMPTY_PATH = './stock_db/empty'
+_STOCK_DB_TEST_SYMBOLS = fu.get_symbols_from_file("./stock_db/test.txt")
 
 
-def test_creation_default_date_range():
+@pytest.mark.parametrize("symbol", _STOCK_DB_TEST_SYMBOLS)
+def test_creation_default_date_range(symbol):
     db = sdm.StockDBMgr(_STOCK_DB_TEST_PATH)
-    df = db.get_symbol_data('SPY')
+    df = db.get_symbol_data(symbol)
     start = datetime.date(2020, 3, 16)
     stop = datetime.date(2020, 3, 20)
     assert df.iloc[0].name.date() < start
     assert df.iloc[-1].name.date() > stop
 
 
-def test_creation_custom_date_range():
+@pytest.mark.parametrize("symbol", _STOCK_DB_TEST_SYMBOLS)
+def test_creation_custom_date_range(symbol):
     start = datetime.date(2020, 3, 16)
     stop = datetime.date(2020, 3, 20)
     db = sdm.StockDBMgr(_STOCK_DB_TEST_PATH, start, stop)
-    df = db.get_symbol_data('SPY')
+    df = db.get_symbol_data(symbol)
     assert df.iloc[0].name.date() == start
     assert df.iloc[-1].name.date() == stop
 
@@ -50,21 +50,20 @@ def test_get_all_symbols():
 
 
 @pytest.mark.webtest
-def test_download_data():
-    db_dir = _STOCK_DB_EMPTY_PATH
-    tu.empty_folder_and_confirm(db_dir)
+def test_download_data(tmp_path):
+    symbol = 'SPY'
+    db_dir = tmp_path
     db = sdm.StockDBMgr(db_dir)
-    assert 'SPY' not in db._dic
-    db.get_symbol_data('SPY')
-    assert 'SPY' in db._dic
-    db.download_data('SPY')
-    assert 'SPY' not in db._dic
-    tu.empty_folder_and_confirm(db_dir)
+    assert symbol not in db._dic
+    db.get_symbol_data(symbol)
+    assert symbol in db._dic
+    db.download_data(symbol)
+    assert symbol not in db._dic
 
 
 @pytest.mark.toimprove
 @pytest.mark.xfail(reason="Known Yahoo Historical Errors")
-@pytest.mark.parametrize("symbol", sdm.StockDBMgr(_STOCK_DB_TEST_PATH).get_all_symbols())
+@pytest.mark.parametrize("symbol", _STOCK_DB_TEST_SYMBOLS)
 def test_validate_symbol_data(symbol):
     end = datetime.date.today()
     start = end - datetime.timedelta(days=365)
@@ -72,15 +71,11 @@ def test_validate_symbol_data(symbol):
     assert db.validate_symbol_data(symbol)
 
 
-def test_validate_symbol_data_fail():
-    # Manipulation to not mark this test webtest.
+def test_validate_symbol_data_fail(tmp_path):
     symbol = 'SPY'
-    db_dir = _STOCK_DB_EMPTY_PATH
-    tu.empty_folder_and_confirm(db_dir)
-    shutil.copy(fu.symbol_to_filename(symbol, _STOCK_DB_TEST_PATH), db_dir)
+    db_dir = tmp_path
+    # create a corrupted CSV file
     file = fu.symbol_to_filename(symbol, db_dir)
-
-    # Corrupt CSV file
     with open(file, 'w') as file_handle:
         file_handle.write('this_is_a_bad_csv_header\n')
         file_handle.write('1,2,3\n')
@@ -90,29 +85,24 @@ def test_validate_symbol_data_fail():
     db = sdm.StockDBMgr(db_dir)
     assert not db.validate_symbol_data(symbol)
 
-    # Clean-up
-    tu.empty_folder_and_confirm(db_dir)
-
 
 @pytest.mark.webtest
-def test_update_all_symbols():
-    db_dir = _STOCK_DB_EMPTY_PATH
-    tu.empty_folder_and_confirm(db_dir)
-    filename = fu.symbol_to_filename('SPY', db_dir)
+def test_update_all_symbols(tmp_path):
+    symbol = 'SPY'
+    db_dir = tmp_path
+    filename = fu.symbol_to_filename(symbol, db_dir)
     assert not os.path.exists(filename)
     db = sdm.StockDBMgr(db_dir)
-    assert 'SPY' not in db._dic
+    assert symbol not in db._dic
     # Get a single symbol
-    df = db.get_symbol_data('SPY')
+    df = db.get_symbol_data(symbol)
     assert len(df) > 100
     assert os.path.exists(filename)
     # Symbol is in cache
-    assert 'SPY' in db._dic
+    assert symbol in db._dic
     db.update_all_symbols()
     # Symbol is not in cache
-    assert 'SPY' not in db._dic
-    # Clean-up
-    tu.empty_folder_and_confirm(db_dir)
+    assert symbol not in db._dic
 
 
 def test_get_symbol_data():
@@ -127,27 +117,22 @@ def test_get_symbol_data():
 
 
 @pytest.mark.webtest
-def test_get_symbol_data_bad_1():
-    db_dir = _STOCK_DB_EMPTY_PATH
-    tu.empty_folder_and_confirm(db_dir)
-    db = sdm.StockDBMgr(db_dir)
-    df = db.get_symbol_data('BAAD')
-    assert df is None
-    tu.empty_folder_and_confirm(db_dir)
+@pytest.mark.parametrize("symbol", [
+    # Not a ticker:
+    'BAAD',
 
-
-@pytest.mark.webtest
-def test_get_symbol_data_bad_2():
-    db_dir = _STOCK_DB_EMPTY_PATH
-    tu.empty_folder_and_confirm(db_dir)
-    db = sdm.StockDBMgr(db_dir)
+    # Invalid ticker:
     # A stock symbol or ticker is a unique series of letters assigned
     # to a security for trading purposes. Stocks listed on the
     # New York Stock Exchange (NYSE) can have four or fewer letters.
     # Nasdaq-listed securities can have up to five characters.
-    df = db.get_symbol_data('XXXZZZ')  # Invalid ticker
+    'XXXZZZ',
+])
+def test_get_symbol_data_bad(tmp_path, symbol):
+    db_dir = tmp_path
+    db = sdm.StockDBMgr(db_dir)
+    df = db.get_symbol_data(symbol)
     assert df is None
-    tu.empty_folder_and_confirm(db_dir)
 
 
 def test_get_all_symbol_data():

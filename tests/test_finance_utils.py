@@ -3,7 +3,6 @@ import os
 import numpy as np
 import pandas as pd
 import pytest
-from tests import test_utils as tu
 import finance_utils as fu
 
 
@@ -132,8 +131,8 @@ def test_validate_symbol_data_file_ok():
     assert fu.validate_symbol_data_file(_TEST_STOCK_FILE)
 
 
-def test_validate_symbol_data_file_bad():
-    filename = 'stock_db/empty/bad_csv.txt'
+def test_validate_symbol_data_file_bad(tmp_path):
+    filename = tmp_path / 'bad_csv.txt'
     assert not os.path.exists(filename)
     with open(filename, 'w') as file:
         file.write('this_is_a_bad_csv_header\n')
@@ -141,8 +140,6 @@ def test_validate_symbol_data_file_bad():
         file.write('4,5,6\n')
     assert os.path.exists(filename)
     assert not fu.validate_symbol_data_file(filename)
-    os.remove(filename)
-    assert not os.path.exists(filename)
 
 
 def test_get_all_symbols():
@@ -151,22 +148,20 @@ def test_get_all_symbols():
 
 
 @pytest.mark.webtest
-def test_download_data():
+def test_download_data(tmp_path):
     symbol = 'SPY'
-    directory = 'stock_db/empty'
+    directory = tmp_path
     start_date = datetime.date(2010, 1, 1)
     end_date = datetime.date(2012, 1, 1)
     fu.download_data(symbol, directory, start_date, end_date)
     assert len(fu.get_all_symbols(directory)) == 1
-    # Clean-up
-    tu.empty_folder_and_confirm(directory)
 
 
-@pytest.mark.toimprove  # Should update more than one symbols...
+@pytest.mark.toimprove  # Should update more than one symbols, should confirm for update new data
 @pytest.mark.webtest
-def test_update_all_symbols():
+def test_update_all_symbols(tmp_path):
     symbol = 'SPY'
-    directory = 'stock_db/empty'
+    directory = tmp_path
     filename = fu.symbol_to_filename(symbol, directory)
     # Create an empty stock file
     open(filename, 'w').close()
@@ -175,9 +170,6 @@ def test_update_all_symbols():
     end_date = datetime.date(2012, 1, 1)
     fu.update_all_symbols(directory, start_date, end_date)
     assert len(fu.get_all_symbols(directory)) == 1
-
-    # Clean-up
-    tu.empty_folder_and_confirm(directory)
 
 
 def test_load_dataframe():
