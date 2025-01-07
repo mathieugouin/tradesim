@@ -1,8 +1,6 @@
 import datetime
 import os
-import shutil
 import pytest
-from tests import test_utils as tu
 import finance_utils as fu
 import stock_db_mgr as sdm
 

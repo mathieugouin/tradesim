@@ -3,7 +3,6 @@ import os
 import numpy as np
 import pandas as pd
 import pytest
-from tests import test_utils as tu
 import finance_utils as fu
 
 
