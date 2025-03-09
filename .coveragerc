@@ -15,6 +15,7 @@ branch = True
 
 source = .
 
+# The [run] dynamic_context setting has only one option now. Set it to test_function to start a new dynamic context for every test function.
 dynamic_context = test_function
 
 
@@ -22,5 +23,9 @@ dynamic_context = test_function
 precision = 2
 
 [html]
+title = TradeSim Coverage Report
 directory = coverage_html
 show_contexts = true
+
+[xml]
+output = coverage.xml

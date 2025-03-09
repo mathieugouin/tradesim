@@ -50,10 +50,10 @@ jobs:
 
     steps:
       - name: "Check out the repo"
-        uses: "actions/checkout@v3"
+        uses: "actions/checkout@v4"
 
       - name: "Set up Python ${{ matrix.python-version }}"
-        uses: "actions/setup-python@v4"
+        uses: "actions/setup-python@v5"
         with:
           python-version: ${{ matrix.python-version }}
 
@@ -84,10 +84,9 @@ jobs:
         run: |
           # Append coverage (-a)
           # The 'test' DB folder contains a few symbols used during tests.
-          python -m coverage run -a get_yahoo_finance_data.py --concurrent 1 --file stock_db/test.txt --dir ./stock_db/test --startdate 20100101 --verbose
+          python -m coverage run -a --context="get_yahoo_finance_data.py" get_yahoo_finance_data.py --concurrent 1 --file stock_db/test.txt --dir ./stock_db/test --startdate 20100101 --verbose
 
       # Append coverage (-a)
-      # -r...  # show all except regular pass
       # https://docs.pytest.org/en/7.4.x/how-to/output.html
       - name: "Execute tests with coverage"
         run: |
@@ -105,14 +104,15 @@ jobs:
       # Append coverage (-a)
       - name: "Additional utilities execution"
         run: |
-          python -m coverage run -a dl_validation.py
-          python -m coverage run -a playground.py
-          python -m coverage run -a update_stock_lists.py
+          python -m coverage run -a --context="dl_validation.py" dl_validation.py
+          python -m coverage run -a --context="playground.py" playground.py
+          python -m coverage run -a --context="update_stock_lists.py" update_stock_lists.py
 
       - name: "Display coverage report"
         run: |
           python -m coverage report
           python -m coverage html
+          python -m coverage xml
 
       # https://github.com/actions/upload-artifact
       - name: "Upload coverage data to github"
