@@ -22,11 +22,11 @@ matplotlib
 scipy
 yfinance
 requests
-lxml
 
 # Required for CI:
 pytest
 coverage
+lxml
 
 # For notebook handling
 # ipython
