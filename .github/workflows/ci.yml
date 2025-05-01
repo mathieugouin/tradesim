@@ -26,11 +26,13 @@ jobs:
     runs-on: "${{ matrix.os }}"
 
     # ref: https://github.com/mikepenz/action-junit-report/issues/23
+    # ref: https://github.com/orgoro/coverage/issues/310
     # ref: https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#permissions
     # required for junit report
     permissions:
       contents: read
       checks: write
+      pull-requests: write
 
     strategy:
       matrix:
