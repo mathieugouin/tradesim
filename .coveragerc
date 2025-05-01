@@ -18,6 +18,7 @@ source = .
 # The [run] dynamic_context setting has only one option now. Set it to test_function to start a new dynamic context for every test function.
 dynamic_context = test_function
 
+relative_files = True
 
 [report]
 precision = 2

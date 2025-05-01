@@ -114,6 +114,12 @@ jobs:
           python -m coverage html
           python -m coverage xml
 
+      - name: "GitHub Coverage Report"
+        uses: orgoro/coverage@v3.2
+        with:
+          coverageFile: coverage.xml
+          token: ${{ secrets.GITHUB_TOKEN }}
+
       # https://github.com/actions/upload-artifact
       - name: "Upload coverage data to github"
         uses: "actions/upload-artifact@v4"
@@ -122,9 +128,10 @@ jobs:
           path: |
             .coverage
             coverage_html
+            coverage.xml
           include-hidden-files: true
           if-no-files-found: error  # In case coverage was not properly generated
-          retention-days: 1  # Default is 90 days.
+          retention-days: 7  # Default is 90 days.
 
 
   ##########################################################################################
