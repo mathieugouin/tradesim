@@ -22,6 +22,7 @@ matplotlib
 scipy
 yfinance
 requests
+lxml
 
 # Required for CI:
 pytest
