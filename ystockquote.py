@@ -84,7 +84,9 @@ def get_dividend_yield(symbol):
             ]
         )
     if dividend is not None:
-        dividend *= 100.0  # Bring to percentage
+        # TBD not required?
+        # dividend *= 100.0  # Bring to percentage
+        pass
     else:
         dividend = 0.0
     return dividend
