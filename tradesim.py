@@ -2,9 +2,6 @@
 # http://stats.stackexchange.com/questions/1595/python-as-a-statistics-workbench
 # http://en.wikipedia.org/wiki/Algorithmic_trading
 
-# To make print working for Python2/3
-from __future__ import print_function
-
 import datetime
 
 import numpy as np

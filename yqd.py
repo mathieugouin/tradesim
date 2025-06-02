@@ -1,8 +1,7 @@
 """yqd.py - Yahoo Quote Downloader."""
 
-# To make print working for Python2/3
-from __future__ import print_function
 import yfinance as yf
+
 
 def load_yahoo_quote(ticker, begindate, enddate, filename):
     """Loads the corresponding history from Yahoo.

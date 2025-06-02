@@ -3,9 +3,6 @@
 # http://pandas.pydata.org/pandas-docs/stable/dsintro.html
 # -------------------------------------------------------------------------------
 
-# To make print working for Python2/3
-from __future__ import print_function
-
 import string
 import pandas as pd
 import numpy as np

@@ -3,9 +3,6 @@
 # TBD: Could put all this in notebook.
 
 
-# To make print working for Python2/3
-from __future__ import print_function
-
 import datetime
 
 # user

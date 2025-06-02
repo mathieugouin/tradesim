@@ -1,8 +1,5 @@
 """Module to define the Position class."""
 
-# To make print working for Python2/3
-from __future__ import print_function
-
 
 class Position(object):
     """Represents a position held in a portfolio."""
