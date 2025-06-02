@@ -14,9 +14,6 @@ like
 ^N225 19840104 # Nikkei 225
 """
 
-# To make print working for Python2/3
-from __future__ import print_function
-
 # System
 import sys
 import threading

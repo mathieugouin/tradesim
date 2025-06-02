@@ -1,6 +1,3 @@
-# To make print working for Python2/3
-from __future__ import print_function
-
 import numpy as np
 import matplotlib.pyplot as plt
 
