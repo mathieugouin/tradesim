@@ -1,4 +1,5 @@
-"""Example test module."""
+"""Example test module.
+
 import logging
 import pytest
 
@@ -141,3 +142,4 @@ def test_log_error():
 @pytest.mark.dummytest
 def test_log_critical():
     logging.critical("test critical message")
+"""
