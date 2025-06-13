@@ -1,115 +1,108 @@
 # Symbol	Company
+AAV.TO	Advantage Energy Ltd.
 ABX.TO	Barrick Gold Corporation
 AC.TO	Air Canada
-ACB.TO	Aurora Cannabis Inc.
 ACO-X.TO	ATCO Ltd.
 AEM.TO	Agnico Eagle Mines Limited
+AG.TO	First Majestic Silver Corp.
 AGI.TO	Alamos Gold Inc.
 AIF.TO	Altus Group Limited
 ALA.TO	AltaGas Ltd.
 AP-UN.TO	Allied Properties Real Estate Investment Trust
 AQN.TO	Algonquin Power & Utilities Corp.
-ARE.TO	Aecon Group Inc.
 ARX.TO	ARC Resources Ltd.
-#ATA.TO	ATS Automation Tooling Systems Inc.
+ASTL.TO	Algoma Steel Group Inc.
 ATD.TO	Alimentation Couche-Tard Inc.
+ATH.TO	Athabasca Oil Corporation
+ATRL.TO	AtkinsRéalis Group Inc.
+ATS.TO	ATS Corporation
 ATZ.TO	Aritzia Inc.
-#AUP.TO	Aurinia Pharmaceuticals Inc.
-AX-UN.TO	Artis Real Estate Investment Trust
-#BAM-A.TO	Brookfield Asset Management Inc.
+AYA.TO	Aya Gold & Silver Inc.
+BAM.TO	Brookfield Asset Management Ltd.
 BB.TO	BlackBerry Limited
 BBD-B.TO	Bombardier Inc.
 BBU-UN.TO	Brookfield Business Partners L.P.
 BCE.TO	BCE Inc.
 BDGI.TO	Badger Infrastructure Solutions Ltd.
+BDT.TO	Bird Construction Inc.
 BEI-UN.TO	Boardwalk Real Estate Investment Trust
 BEP-UN.TO	Brookfield Renewable Partners L.P.
 BHC.TO	Bausch Health Companies Inc.
 BIP-UN.TO	Brookfield Infrastructure Partners L.P.
-BIR.TO	Birchcliff Energy
-BLDP.TO	Ballard Power Systems Inc.
+BIR.TO	Birchcliff Energy Ltd.
 BLX.TO	Boralex Inc.
 BMO.TO	Bank of Montreal
+BN.TO	Brookfield Corporation
 BNS.TO	Bank of Nova Scotia
-#BPY-UN.TO	Brookfield Property Partners L.P.
+BTE.TO	Baytex Energy Corp.
 BTO.TO	B2Gold Corp.
 BYD.TO	Boyd Group Services Inc.
 CAE.TO	CAE Inc.
 CAR-UN.TO	Canadian Apartment Properties Real Estate Investment Trust
-CAS.TO	Cascades Inc.
 CCA.TO	Cogeco Communications Inc.
 CCL-B.TO	CCL Industries Inc.
 CCO.TO	Cameco Corporation
-CF.TO	Canaccord Genuity Group Inc.
-CFP.TO	Canfor Corporation
+CEU.TO	CES Energy Solutions Corp.
 CG.TO	Centerra Gold Inc.
 CHP-UN.TO	Choice Properties Real Estate Investment Trust
 CIGI.TO	Colliers International Group Inc.
 CIX.TO	CI Financial Corp.
-CJR-B.TO	Corus Entertainment Inc.
 CJT.TO	Cargojet Inc.
 CLS.TO	Celestica Inc.
 CM.TO	Canadian Imperial Bank of Commerce
 CNQ.TO	Canadian Natural Resources Limited
 CNR.TO	Canadian National Railway Company
-CP.TO	Canadian Pacific Railway Limited
-CPG.TO	Crescent Point Energy Corp.
+CP.TO	Canadian Pacific Kansas City Limited
 CPX.TO	Capital Power Corporation
-CRON.TO	Cronos Group Inc.
 CRR-UN.TO	Crombie Real Estate Investment Trust
 CRT-UN.TO	CT Real Estate Investment Trust
-CS.TO	Capstone Mining Corp.
+CS.TO	Capstone Copper Corp.
 CSH-UN.TO	Chartwell Retirement Residences
 CSU.TO	Constellation Software Inc.
 CTC-A.TO	Canadian Tire Corporation Limited
-CTS.TO	Converge Technology Solutions Corp.
 CU.TO	Canadian Utilities Limited
-#CUF-UN.TO	Cominar Real Estate Investment Trust
 CVE.TO	Cenovus Energy Inc.
 CWB.TO	Canadian Western Bank
-D-UN.TO	Dream Office Real Estate Investment Trust
-DCBO.TO	Docebo Inc.
+CXB.TO	Calibre Mining Corp.
+DFY.TO	Definity Financial Corporation
 DIR-UN.TO	Dream Industrial Real Estate Investment Trust
 DML.TO	Denison Mines Corp.
-DND.TO	Dye & Durham Limited
 DOL.TO	Dollarama Inc.
 DOO.TO	BRP Inc.
 DPM.TO	Dundee Precious Metals Inc.
 DSG.TO	Descartes Systems Group Inc.
-ECN.TO	ECN Capital Corp.
-EDR.TO	Endeavour Silver Corp.
 EFN.TO	Element Fleet Management Corp.
+EFR.TO	Energy Fuels Inc.
 EIF.TO	Exchange Income Corporation
 ELD.TO	Eldorado Gold Corporation
 EMA.TO	Emera Incorporated
-EMP-A.TO	Empire Company
+EMP-A.TO	Empire Company Limited
 ENB.TO	Enbridge Inc.
 ENGH.TO	Enghouse Systems Limited
-EQB.TO	Equitable Group Inc.
+EQB.TO	EQB Inc.
 EQX.TO	Equinox Gold Corp.
-ERF.TO	Enerplus Corporation
 ERO.TO	Ero Copper Corp.
 FCR-UN.TO	First Capital Real Estate Investment Trust
 FFH.TO	Fairfax Financial Holdings Limited
+FIL.TO	Filo Corp.
 FM.TO	First Quantum Minerals Ltd.
 FNV.TO	Franco-Nevada Corporation
-FR.TO	First Majestic Silver Corp.
+FRU.TO	Freehold Royalties Ltd.
 FSV.TO	FirstService Corporation
 FTS.TO	Fortis Inc.
 FTT.TO	Finning International Inc.
-FVI.TO	Fortuna Silver Mines Inc.
+FVI.TO	Fortuna Mining Corp.
 GEI.TO	Gibson Energy Inc.
 GFL.TO	GFL Environmental Inc.
 GIB-A.TO	CGI Inc.
 GIL.TO	Gildan Activewear Inc.
-GOOS.TO	Canada Goose Holdings Inc.
 GRT-UN.TO	Granite Real Estate Investment Trust
 GSY.TO	goeasy Ltd.
 GWO.TO	Great-West Lifeco Inc.
 H.TO	Hydro One Limited
 HBM.TO	Hudbay Minerals Inc.
-HCG.TO	Home Capital Group Inc.
 HR-UN.TO	H&R Real Estate Investment Trust
+HWX.TO	Headwater Exploration Inc.
 IAG.TO	iA Financial Corporation Inc.
 IFC.TO	Intact Financial Corporation
 IFP.TO	Interfor Corporation
@@ -118,33 +111,32 @@ IIP-UN.TO	InterRent Real Estate Investment Trust
 IMG.TO	Iamgold Corporation
 IMO.TO	Imperial Oil Limited
 INE.TO	Innergex Renewable Energy Inc.
-#IPL.TO	Inter Pipeline Ltd.
-#ITP.TO	Intertape Polymer Group Inc.
+IPCO.TO	International Petroleum Corporation
 IVN.TO	Ivanhoe Mines Ltd.
 JWEL.TO	Jamieson Wellness Inc.
 K.TO	Kinross Gold Corporation
+KEL.TO	Kelt Exploration Ltd.
 KEY.TO	Keyera Corp.
-#KL.TO	Kirkland Lake Gold Ltd.
 KMP-UN.TO	Killam Apartment Real Estate Investment Trust
 KNT.TO	K92 Mining Inc.
 KXS.TO	Kinaxis Inc.
 L.TO	Loblaw Companies Limited
-LAC.TO	Lithium Americas Corp.
 LB.TO	Laurentian Bank of Canada
 LIF.TO	Labrador Iron Ore Royalty Corporation
 LNR.TO	Linamar Corporation
-LSPD.TO	Lightspeed POS Inc.
+LSPD.TO	Lightspeed Commerce Inc.
+LUG.TO	Lundin Gold Inc.
 LUN.TO	Lundin Mining Corporation
-#LWRK.TO	LifeWorks Inc.
 MAG.TO	MAG Silver Corp.
+MATR.TO	Mattr Corp.
+MDA.TO	MDA Space Ltd.
 MEG.TO	MEG Energy Corp.
 MFC.TO	Manulife Financial Corporation
 MFI.TO	Maple Leaf Foods Inc.
 MG.TO	Magna International Inc.
-MRE.TO	Martinrea International Inc.
 MRU.TO	Metro Inc.
 MTL.TO	Mullen Group Ltd.
-MTY.TO	MTY Food Group
+MTY.TO	MTY Food Group Inc.
 MX.TO	Methanex Corporation
 NA.TO	National Bank of Canada
 NFI.TO	NFI Group Inc.
@@ -152,47 +144,48 @@ NG.TO	NovaGold Resources Inc.
 NGD.TO	New Gold Inc.
 NPI.TO	Northland Power Inc.
 NTR.TO	Nutrien Ltd.
+NVA.TO	NuVista Energy Ltd.
 NVEI.TO	Nuvei Corporation
-NWC.TO	The North West Company Inc.
+NWC.TO	North West Company Inc.
 NWH-UN.TO	NorthWest Healthcare Properties Real Estate Investment Trust
 NXE.TO	NexGen Energy Ltd.
 OGC.TO	OceanaGold Corporation
-OGI.TO	OrganiGram Holdings Inc.
+OLA.TO	Orla Mining Ltd.
 ONEX.TO	Onex Corporation
 OR.TO	Osisko Gold Royalties Ltd.
 OSK.TO	Osisko Mining Inc.
 OTEX.TO	Open Text Corporation
 PAAS.TO	Pan American Silver Corp.
 PBH.TO	Premium Brands Holdings Corporation
+PD.TO	Precision Drilling Corporation
+PET.TO	Pet Valu Holdings Ltd.
+PEY.TO	Peyto Exploration & Development Corp.
 PKI.TO	Parkland Corporation
+PMZ-UN.TO	Primaris Real Estate Investment Trust
+POU.TO	Paramount Resources Ltd.
 POW.TO	Power Corporation of Canada
 PPL.TO	Pembina Pipeline Corporation
 PRMW.TO	Primo Water Corporation
+PSI.TO	Pason Systems Inc.
 PSK.TO	PrairieSky Royalty Ltd.
-#PVG.TO	Pretium Resources Inc.
 PXT.TO	Parex Resources Inc.
 QBR-B.TO	Quebecor Inc.
 QSR.TO	Restaurant Brands International Inc.
-RBA.TO	Ritchie Bros. Auctioneers Incorporated
 RCH.TO	Richelieu Hardware Ltd.
 RCI-B.TO	Rogers Communications Inc.
-REAL.TO	Real Matters Inc.
 REI-UN.TO	RioCan Real Estate Investment Trust
-RNW.TO	TransAlta Renewables Inc.
 RUS.TO	Russel Metals Inc.
 RY.TO	Royal Bank of Canada
 SAP.TO	Saputo Inc.
 SEA.TO	Seabridge Gold Inc.
+SES.TO	Secure Energy Services Inc.
 SHOP.TO	Shopify Inc.
 SIA.TO	Sienna Senior Living Inc.
 SII.TO	Sprott Inc.
 SIL.TO	SilverCrest Metals Inc.
 SJ.TO	Stella-Jones Inc.
-#SJR-B.TO	Shaw Communications Inc.
 SLF.TO	Sun Life Financial Inc.
-#SMU-UN.TO	Summit Industrial Income REIT
-SNC.TO	SNC-Lavalin Group Inc.
-SOY.TO	SunOpta Inc.
+SOBO.TO	South Bow Corporation
 SPB.TO	Superior Plus Corp.
 SRU-UN.TO	SmartCentres Real Estate Investment Trust
 SSL.TO	Sandstorm Gold Ltd.
@@ -200,39 +193,32 @@ SSRM.TO	SSR Mining Inc.
 STLC.TO	Stelco Holdings Inc.
 STN.TO	Stantec Inc.
 SU.TO	Suncor Energy Inc.
-SVM.TO	Silvercorp Metals Inc.
+SVI.TO	StorageVault Canada Inc.
 T.TO	Telus Corporation
 TA.TO	TransAlta Corporation
 TCL-A.TO	Transcontinental Inc.
-TCN.TO	Tricon Residential Inc.
 TD.TO	Toronto-Dominion Bank
 TECK-B.TO	Teck Resources Limited
 TFII.TO	TFI International Inc.
+TFPM.TO	Triple Flag Precious Metals Corp.
 TIH.TO	Toromont Industries Ltd.
-TIXT.TO	Telus International
-TLRY.TO	Tilray Inc.
-TOU.TO	Tourmaline Oil
+TLRY.TO	Tilray Brands Inc.
+TOU.TO	Tourmaline Oil Corp.
 TOY.TO	Spin Master Corp.
+TPZ.TO	Topaz Energy Corp.
 TRI.TO	Thomson Reuters Corporation
 TRP.TO	TC Energy Corporation
-#TRQ.TO	Turquoise Hill Resources Ltd.
 TSU.TO	Trisura Group Ltd.
+TVE.TO	Tamarack Valley Energy Ltd.
 TXG.TO	Torex Gold Resources Inc.
 VET.TO	Vermilion Energy Inc.
-#VFF.TO	Village Farms International, Inc.
+VRN.TO	Veren Inc.
 WCN.TO	Waste Connections Inc.
 WCP.TO	Whitecap Resources Inc.
 WDO.TO	Wesdome Gold Mines Ltd.
-WEED.TO	Canopy Growth Corporation
-WELL.TO	WELL Health Technologies Corp.
 WFG.TO	West Fraser Timber Co. Ltd.
-#WIR-UN.TO	WPT Industrial Real Estate Investment Trust
 WN.TO	George Weston Limited
 WPK.TO	Winpak Ltd.
 WPM.TO	Wheaton Precious Metals Corp.
-WPRT.TO	Westport Fuel Systems Inc.
 WSP.TO	WSP Global Inc.
-WTE.TO	Westshore Terminals Investment Corporation
 X.TO	TMX Group Limited
-#YRI.TO	Yamana Gold Inc.
-ZZZ.TO	Sleep Country Canada Holdings Inc.

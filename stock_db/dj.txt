@@ -1,6 +1,7 @@
 # Symbol	Company
 AAPL	Apple
 AMGN	Amgen
+AMZN	Amazon
 AXP	American Express
 BA	Boeing
 CAT	Caterpillar
@@ -8,12 +9,10 @@ CRM	Salesforce
 CSCO	Cisco
 CVX	Chevron
 DIS	Disney
-DOW	Dow
 GS	Goldman Sachs
 HD	Home Depot
 HON	Honeywell
 IBM	IBM
-INTC	Intel
 JNJ	Johnson & Johnson
 JPM	JPMorgan Chase
 KO	Coca-Cola
@@ -22,10 +21,11 @@ MMM	3M
 MRK	Merck
 MSFT	Microsoft
 NKE	Nike
+NVDA	Nvidia
 PG	Procter & Gamble
+SHW	Sherwin-Williams
 TRV	Travelers
 UNH	UnitedHealth Group
 V	Visa
 VZ	Verizon
-WBA	Walgreens Boots Alliance
 WMT	Walmart

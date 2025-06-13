@@ -83,8 +83,9 @@ def _main():
     parser = argparse.ArgumentParser(description='Yahoo historical quotes downloader')
     parser.add_argument('-f', '--file', action='store', default='./tickers.txt',
                         help='read ticker list from file, it uses ./tickers.txt as default')
-    parser.add_argument('-c', '--concurrent', type=int, default=10,
-                        action='store', help='# of concurrent connections used for the download')
+    parser.add_argument('-c', '--concurrent', type=int, default=1,
+                        action='store', help='Number of concurrent connections used for the download. '
+                        'This option is kept for backward compatibility.  Only 1 connection is used.')
     parser.add_argument('-d', '--dir', action='store', default='./rawdata',
                         help='save data to this directory, it uses ./rawdata/ as default')
     parser.add_argument('-s', '--startdate', default=start_date, action='store',
@@ -118,19 +119,20 @@ def _main():
         ticker = line.split()[0]
 
         if options.verbose:
-            print("Adding {} from {} to {}".format(ticker, options.startdate, options.todate))
+            print(f"Adding {ticker} from {options.startdate} to {options.todate}")
 
         queue.put((ticker, options.startdate, options.todate))
 
     # Check args
     _my_assert(queue.queue, "no Tickers given")
     nb_tickers = len(queue.queue)
-    connections = min(options.concurrent, nb_tickers)
-    _my_assert(1 <= connections <= 255, "too much concurrent connections asked")
+    # connections = min(options.concurrent, nb_tickers)
+    # Force to 1 connections, yfinance does not seem to support multithreading
+    connections = 1
+    # _my_assert(1 <= connections <= 255, "too much concurrent connections asked")
 
     if options.verbose:
-        print("----- Getting {} tickers using {} simultaneous connections -----".format(
-            nb_tickers, connections))
+        print(f"----- Getting {nb_tickers} tickers using {connections} simultaneous connections -----")
 
     # start a bunch of threads, passing them the queue of jobs to do
     threads = []

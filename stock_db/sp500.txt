@@ -1,17 +1,15 @@
 # Symbol	Company
 A	Agilent Technologies
-AAL	American Airlines Group
-AAP	Advance Auto Parts
 AAPL	Apple Inc.
 ABBV	AbbVie
-ABC	AmerisourceBergen
-ABT	Abbott
+ABNB	Airbnb
+ABT	Abbott Laboratories
 ACGL	Arch Capital Group
 ACN	Accenture
 ADBE	Adobe Inc.
 ADI	Analog Devices
-ADM	ADM
-ADP	ADP
+ADM	Archer Daniels Midland
+ADP	Automatic Data Processing
 ADSK	Autodesk
 AEE	Ameren
 AEP	American Electric Power
@@ -20,15 +18,14 @@ AFL	Aflac
 AIG	American International Group
 AIZ	Assurant
 AJG	Arthur J. Gallagher & Co.
-AKAM	Akamai
+AKAM	Akamai Technologies
 ALB	Albemarle Corporation
 ALGN	Align Technology
-ALK	Alaska Air Group
 ALL	Allstate
 ALLE	Allegion
 AMAT	Applied Materials
 AMCR	Amcor
-AMD	AMD
+AMD	Advanced Micro Devices
 AME	Ametek
 AMGN	Amgen
 AMP	Ameriprise Financial
@@ -36,17 +33,17 @@ AMT	American Tower
 AMZN	Amazon
 ANET	Arista Networks
 ANSS	Ansys
-AON	Aon
+AON	Aon plc
 AOS	A. O. Smith
 APA	APA Corporation
-APD	Air Products and Chemicals
+APD	Air Products
 APH	Amphenol
+APO	Apollo Global Management
 APTV	Aptiv
 ARE	Alexandria Real Estate Equities
 ATO	Atmos Energy
-ATVI	Activision Blizzard
 AVB	AvalonBay Communities
-AVGO	Broadcom Inc.
+AVGO	Broadcom
 AVY	Avery Dennison
 AWK	American Water Works
 AXON	Axon Enterprise
@@ -56,25 +53,24 @@ BA	Boeing
 BAC	Bank of America
 BALL	Ball Corporation
 BAX	Baxter International
-BBWI	Bath & Body Works, Inc.
 BBY	Best Buy
 BDX	Becton Dickinson
-BEN	Franklin Templeton
+BEN	Franklin Resources
 BF-B	Brown–Forman
-BG	Bunge Limited
+BG	Bunge Global
 BIIB	Biogen
-BIO	Bio-Rad
 BK	BNY Mellon
 BKNG	Booking Holdings
 BKR	Baker Hughes
+BLDR	Builders FirstSource
 BLK	BlackRock
 BMY	Bristol Myers Squibb
 BR	Broadridge Financial Solutions
 BRK-B	Berkshire Hathaway
 BRO	Brown & Brown
 BSX	Boston Scientific
-BWA	BorgWarner
-BXP	Boston Properties
+BX	Blackstone Inc.
+BXP	BXP, Inc.
 C	Citigroup
 CAG	Conagra Brands
 CAH	Cardinal Health
@@ -85,10 +81,8 @@ CBOE	Cboe Global Markets
 CBRE	CBRE Group
 CCI	Crown Castle
 CCL	Carnival
-CDAY	Ceridian
 CDNS	Cadence Design Systems
-CDW	CDW
-CE	Celanese
+CDW	CDW Corporation
 CEG	Constellation Energy
 CF	CF Industries
 CFG	Citizens Financial Group
@@ -99,7 +93,6 @@ CI	Cigna
 CINF	Cincinnati Financial
 CL	Colgate-Palmolive
 CLX	Clorox
-CMA	Comerica
 CMCSA	Comcast
 CME	CME Group
 CMG	Chipotle Mexican Grill
@@ -108,19 +101,22 @@ CMS	CMS Energy
 CNC	Centene Corporation
 CNP	CenterPoint Energy
 COF	Capital One
-COO	CooperCompanies
+COIN	Coinbase
+COO	Cooper Companies (The)
 COP	ConocoPhillips
+COR	Cencora
 COST	Costco
-CPB	Campbell Soup Company
+CPAY	Corpay
+CPB	Campbell's Company (The)
 CPRT	Copart
 CPT	Camden Property Trust
 CRL	Charles River Laboratories
 CRM	Salesforce
+CRWD	CrowdStrike
 CSCO	Cisco
 CSGP	CoStar Group
-CSX	CSX
+CSX	CSX Corporation
 CTAS	Cintas
-CTLT	Catalent
 CTRA	Coterra
 CTSH	Cognizant
 CTVA	Corteva
@@ -129,51 +125,55 @@ CVX	Chevron Corporation
 CZR	Caesars Entertainment
 D	Dominion Energy
 DAL	Delta Air Lines
+DASH	DoorDash
+DAY	Dayforce
 DD	DuPont
-DE	John Deere
-DFS	Discover Financial
+DE	Deere & Company
+DECK	Deckers Brands
+DELL	Dell Technologies
 DG	Dollar General
 DGX	Quest Diagnostics
-DHI	D.R. Horton
+DHI	D. R. Horton
 DHR	Danaher Corporation
-DIS	Disney
-DISH	Dish Network
+DIS	Walt Disney Company (The)
 DLR	Digital Realty
 DLTR	Dollar Tree
+DOC	Healthpeak Properties
 DOV	Dover Corporation
 DOW	Dow Inc.
 DPZ	Domino's
 DRI	Darden Restaurants
 DTE	DTE Energy
 DUK	Duke Energy
-DVA	DaVita Inc.
+DVA	DaVita
 DVN	Devon Energy
-DXC	DXC Technology
 DXCM	Dexcom
 EA	Electronic Arts
-EBAY	eBay
+EBAY	eBay Inc.
 ECL	Ecolab
 ED	Consolidated Edison
 EFX	Equifax
+EG	Everest Group
 EIX	Edison International
 EL	Estée Lauder Companies (The)
 ELV	Elevance Health
 EMN	Eastman Chemical Company
 EMR	Emerson Electric
-ENPH	Enphase
+ENPH	Enphase Energy
 EOG	EOG Resources
 EPAM	EPAM Systems
 EQIX	Equinix
 EQR	Equity Residential
-EQT	EQT
-ES	Eversource
+EQT	EQT Corporation
+ERIE	Erie Indemnity
+ES	Eversource Energy
 ESS	Essex Property Trust
 ETN	Eaton Corporation
 ETR	Entergy
-ETSY	Etsy
 EVRG	Evergy
 EW	Edwards Lifesciences
 EXC	Exelon
+EXE	Expand Energy
 EXPD	Expeditors International
 EXPE	Expedia Group
 EXR	Extra Space Storage
@@ -187,20 +187,20 @@ FE	FirstEnergy
 FFIV	F5, Inc.
 FI	Fiserv
 FICO	Fair Isaac
-FIS	FIS
-FITB	Fifth Third Bank
-FLT	Fleetcor
-FMC	FMC Corporation
+FIS	Fidelity National Information Services
+FITB	Fifth Third Bancorp
 FOX	Fox Corporation (Class B)
 FOXA	Fox Corporation (Class A)
-FRT	Federal Realty
+FRT	Federal Realty Investment Trust
 FSLR	First Solar
 FTNT	Fortinet
 FTV	Fortive
 GD	General Dynamics
-GE	General Electric
+GDDY	GoDaddy
+GE	GE Aerospace
 GEHC	GE HealthCare
 GEN	Gen Digital
+GEV	GE Vernova
 GILD	Gilead Sciences
 GIS	General Mills
 GL	Globe Life
@@ -230,7 +230,8 @@ HPQ	HP Inc.
 HRL	Hormel Foods
 HSIC	Henry Schein
 HST	Host Hotels & Resorts
-HSY	Hershey's
+HSY	Hershey Company (The)
+HUBB	Hubbell Incorporated
 HUM	Humana
 HWM	Howmet Aerospace
 IBM	IBM
@@ -238,7 +239,6 @@ ICE	Intercontinental Exchange
 IDXX	Idexx Laboratories
 IEX	IDEX Corporation
 IFF	International Flavors & Fragrances
-ILMN	Illumina
 INCY	Incyte
 INTC	Intel
 INTU	Intuit
@@ -254,36 +254,40 @@ ITW	Illinois Tool Works
 IVZ	Invesco
 J	Jacobs Solutions
 JBHT	J.B. Hunt
+JBL	Jabil
 JCI	Johnson Controls
 JKHY	Jack Henry & Associates
 JNJ	Johnson & Johnson
 JNPR	Juniper Networks
 JPM	JPMorgan Chase
-K	Kellogg's
+K	Kellanova
 KDP	Keurig Dr Pepper
 KEY	KeyCorp
-KEYS	Keysight
+KEYS	Keysight Technologies
 KHC	Kraft Heinz
 KIM	Kimco Realty
+KKR	KKR & Co.
 KLAC	KLA Corporation
 KMB	Kimberly-Clark
 KMI	Kinder Morgan
 KMX	CarMax
 KO	Coca-Cola Company (The)
 KR	Kroger
+KVUE	Kenvue
 L	Loews Corporation
 LDOS	Leidos
 LEN	Lennar
-LH	LabCorp
+LH	Labcorp
 LHX	L3Harris
+LII	Lennox International
 LIN	Linde plc
 LKQ	LKQ Corporation
-LLY	Eli Lilly and Company
+LLY	Lilly (Eli)
 LMT	Lockheed Martin
-LNC	Lincoln Financial
 LNT	Alliant Energy
 LOW	Lowe's
 LRCX	Lam Research
+LULU	Lululemon Athletica
 LUV	Southwest Airlines
 LVS	Las Vegas Sands
 LW	Lamb Weston
@@ -295,7 +299,7 @@ MAR	Marriott International
 MAS	Masco
 MCD	McDonald's
 MCHP	Microchip Technology
-MCK	McKesson
+MCK	McKesson Corporation
 MCO	Moody's Corporation
 MDLZ	Mondelez International
 MDT	Medtronic
@@ -316,9 +320,8 @@ MPC	Marathon Petroleum
 MPWR	Monolithic Power Systems
 MRK	Merck & Co.
 MRNA	Moderna
-MRO	Marathon Oil
 MS	Morgan Stanley
-MSCI	MSCI
+MSCI	MSCI Inc.
 MSFT	Microsoft
 MSI	Motorola Solutions
 MTB	M&T Bank
@@ -336,32 +339,30 @@ NKE	Nike, Inc.
 NOC	Northrop Grumman
 NOW	ServiceNow
 NRG	NRG Energy
-NSC	Norfolk Southern Railway
+NSC	Norfolk Southern
 NTAP	NetApp
 NTRS	Northern Trust
 NUE	Nucor
 NVDA	Nvidia
 NVR	NVR, Inc.
-NWL	Newell Brands
 NWS	News Corp (Class B)
 NWSA	News Corp (Class A)
 NXPI	NXP Semiconductors
 O	Realty Income
 ODFL	Old Dominion
-OGN	Organon & Co.
-OKE	ONEOK
+OKE	Oneok
 OMC	Omnicom Group
 ON	ON Semiconductor
 ORCL	Oracle Corporation
-ORLY	O'Reilly Auto Parts
+ORLY	O’Reilly Automotive
 OTIS	Otis Worldwide
 OXY	Occidental Petroleum
+PANW	Palo Alto Networks
 PARA	Paramount Global
 PAYC	Paycom
 PAYX	Paychex
 PCAR	Paccar
 PCG	PG&E Corporation
-PEAK	Healthpeak
 PEG	Public Service Enterprise Group
 PEP	PepsiCo
 PFE	Pfizer
@@ -372,30 +373,27 @@ PH	Parker Hannifin
 PHM	PulteGroup
 PKG	Packaging Corporation of America
 PLD	Prologis
+PLTR	Palantir Technologies
 PM	Philip Morris International
 PNC	PNC Financial Services
 PNR	Pentair
-PNW	Pinnacle West
-PODD	Insulet
+PNW	Pinnacle West Capital
+PODD	Insulet Corporation
 POOL	Pool Corporation
 PPG	PPG Industries
 PPL	PPL Corporation
 PRU	Prudential Financial
 PSA	Public Storage
 PSX	Phillips 66
-PTC	PTC
+PTC	PTC Inc.
 PWR	Quanta Services
-PXD	Pioneer Natural Resources
 PYPL	PayPal
 QCOM	Qualcomm
-QRVO	Qorvo
 RCL	Royal Caribbean Group
-RE	Everest Re
 REG	Regency Centers
-REGN	Regeneron
+REGN	Regeneron Pharmaceuticals
 RF	Regions Financial Corporation
-RHI	Robert Half
-RJF	Raymond James
+RJF	Raymond James Financial
 RL	Ralph Lauren Corporation
 RMD	ResMed
 ROK	Rockwell Automation
@@ -403,27 +401,28 @@ ROL	Rollins, Inc.
 ROP	Roper Technologies
 ROST	Ross Stores
 RSG	Republic Services
-RTX	Raytheon Technologies
+RTX	RTX Corporation
 RVTY	Revvity
 SBAC	SBA Communications
 SBUX	Starbucks
 SCHW	Charles Schwab Corporation
-SEDG	SolarEdge
-SEE	Sealed Air
 SHW	Sherwin-Williams
 SJM	J.M. Smucker Company (The)
 SLB	Schlumberger
+SMCI	Supermicro
 SNA	Snap-on
 SNPS	Synopsys
 SO	Southern Company
+SOLV	Solventum
 SPG	Simon Property Group
 SPGI	S&P Global
-SRE	Sempra Energy
+SRE	Sempra
 STE	Steris
 STLD	Steel Dynamics
 STT	State Street Corporation
 STX	Seagate Technology
 STZ	Constellation Brands
+SW	Smurfit Westrock
 SWK	Stanley Black & Decker
 SWKS	Skyworks Solutions
 SYF	Synchrony Financial
@@ -436,12 +435,13 @@ TDY	Teledyne Technologies
 TECH	Bio-Techne
 TEL	TE Connectivity
 TER	Teradyne
-TFC	Truist
-TFX	Teleflex
+TFC	Truist Financial
 TGT	Target Corporation
 TJX	TJX Companies
+TKO	TKO Group Holdings
 TMO	Thermo Fisher Scientific
 TMUS	T-Mobile US
+TPL	Texas Pacific Land Corporation
 TPR	Tapestry, Inc.
 TRGP	Targa Resources
 TRMB	Trimble Inc.
@@ -456,6 +456,7 @@ TXN	Texas Instruments
 TXT	Textron
 TYL	Tyler Technologies
 UAL	United Airlines Holdings
+UBER	Uber
 UDR	UDR, Inc.
 UHS	Universal Health Services
 ULTA	Ulta Beauty
@@ -463,15 +464,16 @@ UNH	UnitedHealth Group
 UNP	Union Pacific Corporation
 UPS	United Parcel Service
 URI	United Rentals
-USB	U.S. Bank
+USB	U.S. Bancorp
 V	Visa Inc.
-VFC	VF Corporation
 VICI	Vici Properties
 VLO	Valero Energy
+VLTO	Veralto
 VMC	Vulcan Materials Company
-VRSK	Verisk
+VRSK	Verisk Analytics
 VRSN	Verisign
 VRTX	Vertex Pharmaceuticals
+VST	Vistra Corp.
 VTR	Ventas
 VTRS	Viatris
 VZ	Verizon
@@ -479,26 +481,24 @@ WAB	Wabtec
 WAT	Waters Corporation
 WBA	Walgreens Boots Alliance
 WBD	Warner Bros. Discovery
+WDAY	Workday, Inc.
 WDC	Western Digital
 WEC	WEC Energy Group
 WELL	Welltower
 WFC	Wells Fargo
-WHR	Whirlpool Corporation
 WM	Waste Management
 WMB	Williams Companies
 WMT	Walmart
-WRB	Berkley
-WRK	WestRock
+WRB	W. R. Berkley Corporation
+WSM	Williams-Sonoma, Inc.
 WST	West Pharmaceutical Services
 WTW	Willis Towers Watson
 WY	Weyerhaeuser
 WYNN	Wynn Resorts
 XEL	Xcel Energy
 XOM	ExxonMobil
-XRAY	Dentsply Sirona
 XYL	Xylem Inc.
 YUM	Yum! Brands
 ZBH	Zimmer Biomet
 ZBRA	Zebra Technologies
-ZION	Zions Bancorporation
 ZTS	Zoetis
