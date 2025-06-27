@@ -6,10 +6,9 @@ import os
 import glob
 import csv
 import math
-# For socket timeout
-import socket
-# Use six to import urllib so it is working for Python2/3
-from six.moves import urllib
+import socket  # For socket timeout
+import urllib.request
+import urllib.error
 
 # Custom
 import pandas as pd
