@@ -32,7 +32,6 @@ AMP	Ameriprise Financial
 AMT	American Tower
 AMZN	Amazon
 ANET	Arista Networks
-ANSS	Ansys
 AON	Aon plc
 AOS	A. O. Smith
 APA	APA Corporation
@@ -128,6 +127,7 @@ DAL	Delta Air Lines
 DASH	DoorDash
 DAY	Dayforce
 DD	DuPont
+DDOG	Datadog
 DE	Deere & Company
 DECK	Deckers Brands
 DELL	Dell Technologies
@@ -219,7 +219,6 @@ HAS	Hasbro
 HBAN	Huntington Bancshares
 HCA	HCA Healthcare
 HD	Home Depot (The)
-HES	Hess Corporation
 HIG	Hartford (The)
 HII	Huntington Ingalls Industries
 HLT	Hilton Worldwide
@@ -234,6 +233,7 @@ HSY	Hershey Company (The)
 HUBB	Hubbell Incorporated
 HUM	Humana
 HWM	Howmet Aerospace
+IBKR	Interactive Brokers
 IBM	IBM
 ICE	Intercontinental Exchange
 IDXX	Idexx Laboratories
@@ -258,7 +258,6 @@ JBL	Jabil
 JCI	Johnson Controls
 JKHY	Jack Henry & Associates
 JNJ	Johnson & Johnson
-JNPR	Juniper Networks
 JPM	JPMorgan Chase
 K	Kellanova
 KDP	Keurig Dr Pepper
@@ -358,7 +357,6 @@ ORLY	O’Reilly Automotive
 OTIS	Otis Worldwide
 OXY	Occidental Petroleum
 PANW	Palo Alto Networks
-PARA	Paramount Global
 PAYC	Paycom
 PAYX	Paychex
 PCAR	Paccar
@@ -384,6 +382,7 @@ PPG	PPG Industries
 PPL	PPL Corporation
 PRU	Prudential Financial
 PSA	Public Storage
+PSKY	Paramount Skydance Corporation
 PSX	Phillips 66
 PTC	PTC Inc.
 PWR	Quanta Services
@@ -451,6 +450,7 @@ TSCO	Tractor Supply
 TSLA	Tesla, Inc.
 TSN	Tyson Foods
 TT	Trane Technologies
+TTD	Trade Desk (The)
 TTWO	Take-Two Interactive
 TXN	Texas Instruments
 TXT	Textron
@@ -479,7 +479,6 @@ VTRS	Viatris
 VZ	Verizon
 WAB	Wabtec
 WAT	Waters Corporation
-WBA	Walgreens Boots Alliance
 WBD	Warner Bros. Discovery
 WDAY	Workday, Inc.
 WDC	Western Digital
@@ -498,6 +497,7 @@ WYNN	Wynn Resorts
 XEL	Xcel Energy
 XOM	ExxonMobil
 XYL	Xylem Inc.
+XYZ	Block, Inc.
 YUM	Yum! Brands
 ZBH	Zimmer Biomet
 ZBRA	Zebra Technologies
