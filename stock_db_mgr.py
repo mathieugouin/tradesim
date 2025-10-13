@@ -20,7 +20,7 @@ _default_start_date = datetime.date(1900, 1, 1)
 _default_end_date = datetime.date.today()
 
 
-class StockDBMgr(object):
+class StockDBMgr:
     """Stock Data Base Manager: handles stock data stored in CSV files."""
 
     def __init__(self, basedir, start_date=None, end_date=None):

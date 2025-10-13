@@ -9,7 +9,7 @@ import position as pos
 import finance_utils as fu
 
 
-class VirtualAccount(object):
+class VirtualAccount:
     """Handles an account linked to a stock DB.
 
     Does not support partial sell of position.

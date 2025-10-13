@@ -1,7 +1,7 @@
 """Module to define the Position class."""
 
 
-class Position(object):
+class Position:
     """Represents a position held in a portfolio."""
 
     def __init__(self, bar, symbol, nb_share, price, name="buy", commission=9.95):
