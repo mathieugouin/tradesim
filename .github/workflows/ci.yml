@@ -8,6 +8,8 @@
 # https://github.com/nedbat/coveragepy/blob/master/.github/workflows/coverage.yml
 
 name: "Python Build"
+permissions:
+  contents: read
 
 on:
   push:
