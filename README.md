@@ -11,7 +11,7 @@
 My ramblings on various stock analysis and data mining.
 
 ## Prerequisites
-* Python 2.7 or 3.6+
+* Python 3.6+
 * NumPy (<http://www.numpy.org>)
 * SciPy (<http://www.scipy.org>)
 * Pandas (<http://pandas.pydata.org/>)
@@ -26,7 +26,6 @@ My ramblings on various stock analysis and data mining.
 #### Setup
 * `python3 -m pip install --upgrade pip`
 * `python3 -m pip install ipython`
-* `python3 -m pip install jupyter`
 * `python3 -m pip install jupyterlab`
 * Make sure `~/.local/bin/` is in the path
 
@@ -34,15 +33,11 @@ My ramblings on various stock analysis and data mining.
 * cd to the current dir where to start
 * `ipython`
 
-#### Classic Jupyter Notebook Run
-* cd to the current dir where to start
-* `jupyter notebook`
-* Or to directly open a notebook: `jupyter notebook tradesim_notebook.ipynb`
-
 #### Jupyter Lab Notebook Run
 Jupyter lab has a nicer interface.
 * cd to the current dir where to start
 * `jupyter lab`
+* For Github codespace: `jupyter lab --no-browser`
 
 #### Magic command
 Ref: https://ipython.readthedocs.io/en/stable/interactive/magics.html

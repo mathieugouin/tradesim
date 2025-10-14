@@ -4,9 +4,6 @@ This class provides convenient methods to work with local CSV files containing
 historical financial data.
 """
 
-# To make print working for Python2/3
-from __future__ import print_function
-
 # system
 import datetime
 import os
@@ -23,10 +20,10 @@ _default_start_date = datetime.date(1900, 1, 1)
 _default_end_date = datetime.date.today()
 
 
-class StockDBMgr(object):
+class StockDBMgr:
     """Stock Data Base Manager: handles stock data stored in CSV files."""
 
-    def __init__(self, basedir, start_date=None, end_date=None, adjust_price=True):
+    def __init__(self, basedir, start_date=None, end_date=None):
         """Instantiate the class.
 
         When no dates are provided, they are set as follows:
@@ -40,7 +37,6 @@ class StockDBMgr(object):
         self._basedir = os.path.abspath(basedir)
         self._start_date = start_date
         self._end_date = end_date
-        self._adjust_price = adjust_price
         self._dic = {}
 
     def __str__(self):
@@ -50,7 +46,6 @@ class StockDBMgr(object):
         s += "  Base directory: %s\n" % self._basedir
         s += "  Start Date: %s\n" % self._start_date
         s += "  End Date: %s\n" % self._end_date
-        s += "  Adjust price: %s\n" % self._adjust_price
         if len(self._dic) > 0:
             s += "  Cached symbols:\n"
             for symbol in self._dic:
@@ -93,8 +88,7 @@ class StockDBMgr(object):
             if not os.path.exists(filename):
                 self.download_data(symbol)
             df = fu.load_dataframe(filename,
-                                   self._start_date, self._end_date,
-                                   adjust_price=self._adjust_price)
+                                   self._start_date, self._end_date)
             if df is None:
                 print("Error: data for {} contains error".format(symbol))
             else:
@@ -126,7 +120,7 @@ class StockDBMgr(object):
             keys=symbols)
 
         # Axis naming
-        df.rename_axis(mapper=['Symbol', 'Data'], axis='columns', inplace=True)
+        df = df.rename_axis(mapper=['Symbol', 'Data'], axis='columns')
 
         return df
 
@@ -163,9 +157,9 @@ class StockDBMgr(object):
                 keys=symbols)
 
             # Discarding NaN values that are all NaN for a given row
-            df.dropna(how='all', inplace=True)
+            df = df.dropna(how='all')
 
             # Axis naming
-            df.rename_axis(data_item, axis='columns', inplace=True)
+            df = df.rename_axis(data_item, axis='columns')
 
         return df

@@ -2,18 +2,28 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Python: File w/ Args",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "args": "${command:pickArgs}"
+        },
+        {
             "name": "Python: File",
-            "type": "python",
+            "type": "debugpy",
             "request": "launch",
             "program": "${file}",
             "justMyCode": true
         },
         {
             "name": "Python Config for test explorer (hidden)",
-            "type": "python",
+            "type": "debugpy",
             "request": "launch",
             "console": "integratedTerminal",
-            "purpose": ["debug-test"],
+            "purpose": [
+                "debug-test"
+            ],
             "justMyCode": true,
             "presentation": {
                 "hidden": true,

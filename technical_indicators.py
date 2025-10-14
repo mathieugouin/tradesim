@@ -1,8 +1,5 @@
 """Provides various utility functions and technical indicators."""
 
-# To make print working for Python2/3
-from __future__ import print_function
-
 import numpy as np
 from scipy import signal
 

@@ -5,9 +5,6 @@ Will the trading commissions eat up our profit?
 What if the commission was zero?
 """
 
-# To make print working for Python2/3
-from __future__ import print_function
-
 import datetime
 
 import numpy as np

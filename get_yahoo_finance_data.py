@@ -14,9 +14,6 @@ like
 ^N225 19840104 # Nikkei 225
 """
 
-# To make print working for Python2/3
-from __future__ import print_function
-
 # System
 import sys
 import threading
@@ -64,13 +61,8 @@ class WorkerThread(threading.Thread):
 
             if not options.offline:
                 # download ticker data using yqd
-                all_lines = yqd.load_yahoo_quote(ticker, fromdate, todate)
-
-                if len(all_lines) > 5:  # safety check
-                    filename = os.path.join(options.dir, filename_ticker + '.csv')
-
-                    with open(filename, 'w') as fp:
-                        fp.write(all_lines)
+                filename = os.path.join(options.dir, filename_ticker + '.csv')
+                yqd.load_yahoo_quote(ticker, fromdate, todate, filename)
 
             if options.verbose:
                 print("fetched: " + ticker)
@@ -91,8 +83,9 @@ def _main():
     parser = argparse.ArgumentParser(description='Yahoo historical quotes downloader')
     parser.add_argument('-f', '--file', action='store', default='./tickers.txt',
                         help='read ticker list from file, it uses ./tickers.txt as default')
-    parser.add_argument('-c', '--concurrent', type=int, default=10,
-                        action='store', help='# of concurrent connections used for the download')
+    parser.add_argument('-c', '--concurrent', type=int, default=1,
+                        action='store', help='Number of concurrent connections used for the download. '
+                        'This option is kept for backward compatibility.  Only 1 connection is used.')
     parser.add_argument('-d', '--dir', action='store', default='./rawdata',
                         help='save data to this directory, it uses ./rawdata/ as default')
     parser.add_argument('-s', '--startdate', default=start_date, action='store',
@@ -126,28 +119,21 @@ def _main():
         ticker = line.split()[0]
 
         if options.verbose:
-            print("Adding {} from {} to {}".format(ticker, options.startdate, options.todate))
+            print(f"Adding {ticker} from {options.startdate} to {options.todate}")
 
         queue.put((ticker, options.startdate, options.todate))
 
     # Check args
     _my_assert(queue.queue, "no Tickers given")
     nb_tickers = len(queue.queue)
-    connections = min(options.concurrent, nb_tickers)
+    # connections = min(options.concurrent, nb_tickers)
+    # Force to 1 connections, yfinance does not support multithreading
+    # Ref: https://github.com/ranaroussi/yfinance/issues/2557
+    connections = 1
     _my_assert(1 <= connections <= 255, "too much concurrent connections asked")
 
     if options.verbose:
-        print("----- Getting {} tickers using {} simultaneous connections -----".format(
-            nb_tickers, connections))
-
-    if not options.offline:
-        if options.verbose:
-            print("Downloading dummy quote...")
-        # Get a dummy small quote from Y! to get the crumb & cookie before the threads start.
-        _my_assert(len(yqd.load_yahoo_quote('^GSPC', '20180212', '20180212')) > 5,
-                   "Error: initial download did not work")
-        if options.verbose:
-            print("...completed.")
+        print(f"----- Getting {nb_tickers} tickers using {connections} simultaneous connections -----")
 
     # start a bunch of threads, passing them the queue of jobs to do
     threads = []

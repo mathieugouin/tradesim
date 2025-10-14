@@ -4,15 +4,12 @@ This class provides the means to operate on a virtual account.
 Buy and sell operation can be performed.
 """
 
-# To make print working for Python2/3
-from __future__ import print_function
-
 import math
 import position as pos
 import finance_utils as fu
 
 
-class VirtualAccount(object):
+class VirtualAccount:
     """Handles an account linked to a stock DB.
 
     Does not support partial sell of position.

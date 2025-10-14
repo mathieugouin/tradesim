@@ -3,9 +3,6 @@
 # TBD: Could put all this in notebook.
 
 
-# To make print working for Python2/3
-from __future__ import print_function
-
 import datetime
 
 # user
@@ -43,7 +40,7 @@ def correlation_test():
 
     db = sdm.StockDBMgr('stock_db/test', startdate, enddate)
     df = db.get_all_symbol_single_data_item('Close')
-    df.dropna(how='any', inplace=True)
+    df = df.dropna(how='any')
 
     dfc = df.corr()
 

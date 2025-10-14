@@ -8,6 +8,8 @@
 # https://github.com/nedbat/coveragepy/blob/master/.github/workflows/coverage.yml
 
 name: "Python Build"
+permissions:
+  contents: read
 
 on:
   push:
@@ -26,33 +28,36 @@ jobs:
     runs-on: "${{ matrix.os }}"
 
     # ref: https://github.com/mikepenz/action-junit-report/issues/23
+    # ref: https://github.com/orgoro/coverage/issues/310
     # ref: https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#permissions
     # required for junit report
     permissions:
       contents: read
       checks: write
+      pull-requests: write
 
     strategy:
       matrix:
         os:
-          - ubuntu-20.04  # Fix OS version to have old python availability
-          #- ubuntu-latest
+          #- ubuntu-20.04  # Fix OS version to have old python availability
+          - ubuntu-latest
           #- macos-latest
           #- windows-latest
         python-version:
           #- "2.7"
           #- "3.6"
-          - "3.8"
+          #- "3.8"
           - "3.10"
+          - "3.12"
       # Let the other builds complete if one is failed.
       fail-fast: false
 
     steps:
       - name: "Check out the repo"
-        uses: "actions/checkout@v3"
+        uses: actions/checkout@v5
 
       - name: "Set up Python ${{ matrix.python-version }}"
-        uses: "actions/setup-python@v4"
+        uses: actions/setup-python@v6
         with:
           python-version: ${{ matrix.python-version }}
 
@@ -71,9 +76,9 @@ jobs:
         run: |
           # https://flake8.pycqa.org/en/latest/user/configuration.html
           # stop the build if there are Python syntax errors or undefined names
-          python -m flake8 --select=E9,F63,F7,F82
+          python -m flake8 --select=E9,F63,F7,F82 .
           # exit-zero treats all errors as warnings.
-          python -m flake8 . --exit-zero
+          python -m flake8 --exit-zero .
 
       - name: "Lint with prospector"
         run: |
@@ -81,24 +86,22 @@ jobs:
 
       - name: "Pre-Test setup"
         run: |
-          # The 'empty' DB folder is always kept empty after each test.
-          mkdir -p stock_db/empty
           # Append coverage (-a)
           # The 'test' DB folder contains a few symbols used during tests.
-          python -m coverage run -a get_yahoo_finance_data.py --concurrent 1 --file stock_db/test.txt --dir ./stock_db/test --startdate 20100101 --verbose
+          python -m coverage run -a --context="get_yahoo_finance_data.py" get_yahoo_finance_data.py --concurrent 1 --file stock_db/test.txt --dir ./stock_db/test --startdate 20100101 --verbose
 
       # Append coverage (-a)
-      # -r...  # show all except regular pass
       # https://docs.pytest.org/en/7.4.x/how-to/output.html
       - name: "Execute tests with coverage"
         run: |
           python -m coverage run -a -m pytest -v
 
       - name: "Publish Test Report"
-        uses: mikepenz/action-junit-report@v4.0.3
+        uses: mikepenz/action-junit-report@5b7ee5a21e8674b695313d769f3cbdfd5d4d53a4  # v6.0.0
         if: success() || failure()  # always run even if the previous step fails
         with:
-          summary: "pytest results"
+          summary: "Tradesim Pytest Results"
+          check_name: "Pytest Results"
           report_paths: 'tests/results*.xml'
           job_summary: true
           detailed_summary: true
@@ -106,22 +109,34 @@ jobs:
       # Append coverage (-a)
       - name: "Additional utilities execution"
         run: |
-          python -m coverage run -a dl_validation.py
-          python -m coverage run -a playground.py
-          python -m coverage run -a update_stock_lists.py
+          python -m coverage run -a --context="dl_validation.py" dl_validation.py
+          python -m coverage run -a --context="playground.py" playground.py
+          python -m coverage run -a --context="update_stock_lists.py" update_stock_lists.py
 
       - name: "Display coverage report"
         run: |
           python -m coverage report
+          python -m coverage html
+          python -m coverage xml
+
+      - name: "GitHub Coverage Report"
+        uses: orgoro/coverage@3f13a558c5af7376496aa4848bf0224aead366ac  # v3.2
+        with:
+          coverageFile: coverage.xml
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       # https://github.com/actions/upload-artifact
       - name: "Upload coverage data to github"
-        uses: "actions/upload-artifact@v3"
+        uses: actions/upload-artifact@v4
         with:
           name: "Coverage ${{ matrix.python-version }} on ${{ matrix.os }}"
-          path: .coverage
+          path: |
+            .coverage
+            coverage_html
+            coverage.xml
+          include-hidden-files: true
           if-no-files-found: error  # In case coverage was not properly generated
-          retention-days: 1  # Default is 90 days.
+          retention-days: 7  # Default is 90 days.
 
 
   ##########################################################################################
@@ -134,25 +149,26 @@ jobs:
       # IMPORTANT: matrix need to match build matrix
       matrix:
         os:
-          - ubuntu-20.04  # Fix OS version to have old python availability
-          #- ubuntu-latest
+          #- ubuntu-20.04  # Fix OS version to have old python availability
+          - ubuntu-latest
           #- macos-latest
           #- windows-latest
         python-version:
           #- "2.7"
           #- "3.6"
-          - "3.8"
+          #- "3.8"
           - "3.10"
+          - "3.12"
       # No need to continue if one upload failed.
       fail-fast: true
 
     steps:
       # Required for codecov script to confirm which commit.
       - name: "Check out the repo"
-        uses: "actions/checkout@v3"
+        uses: actions/checkout@v5
 
       - name: "Set up Python ${{ matrix.python-version }}"
-        uses: "actions/setup-python@v4"
+        uses: actions/setup-python@v6
         with:
           python-version: ${{ matrix.python-version }}
 
@@ -164,7 +180,7 @@ jobs:
 
       # https://github.com/actions/download-artifact
       - name: "Download coverage data from github"
-        uses: "actions/download-artifact@v3"
+        uses: actions/download-artifact@v5
         with:
           name: "Coverage ${{ matrix.python-version }} on ${{ matrix.os }}"
 
@@ -178,7 +194,7 @@ jobs:
           env
 
       - name: "Upload coverage to Codecov"
-        uses: "codecov/codecov-action@v3"
+        uses: codecov/codecov-action@5a1091511ad55cbe89839c7260b706298ca349f7  # v5.5.1
         with:
           #public repo, so token is irrelevant, but to try to help with failed upload
           token: ${{ secrets.CODECOV_TOKEN }} # not required for public repos
@@ -195,13 +211,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: "Check out the repo"
-        uses: "actions/checkout@v3"
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
       - name: SonarCloud Scan
-        uses: SonarSource/sonarcloud-github-action@master
+        uses: SonarSource/sonarqube-scan-action@fd88b7d7ccbaefd23d8f36f73b59db7a3d246602 # v6.0.0
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
 

@@ -1,4 +1,5 @@
-"""Example test module."""
+"""Example test module.
+
 import logging
 import pytest
 
@@ -25,7 +26,7 @@ def my_sum(a, b):
 def exception_function(x):
     if x <= 0:
         raise AssertionError("x must be greater than 0")
-    return x + 1
+    return x
 
 
 @pytest.mark.dummytest
@@ -91,7 +92,7 @@ def test_print_pass():
 
 @pytest.mark.dummytest
 def test_no_exception():
-    assert 2 == exception_function(1)
+    assert 1 == exception_function(1)
 
 
 @pytest.mark.dummytest
@@ -100,10 +101,16 @@ def test_exception():
         exception_function(0)
 
 
-@pytest.mark.xfail(reason="This test is known to fail")
+@pytest.mark.xfail(reason="This test is known to fail and actually fails")
 @pytest.mark.dummytest
 def test_known_failure():
     assert my_sum(2, 2) == 5
+
+
+@pytest.mark.xfail(reason="This test is known to fail but does not actually fail")
+@pytest.mark.dummytest
+def test_known_failure_no_fail():
+    assert my_sum(2, 2) == 4
 
 
 @pytest.mark.dummytest
@@ -135,3 +142,4 @@ def test_log_error():
 @pytest.mark.dummytest
 def test_log_critical():
     logging.critical("test critical message")
+"""

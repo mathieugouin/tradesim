@@ -3,7 +3,6 @@ import os
 import numpy as np
 import pandas as pd
 import pytest
-from tests import test_utils as tu
 import finance_utils as fu
 
 
@@ -83,12 +82,10 @@ def test_filename_to_symbol(filename, symbol):
 
 
 @pytest.mark.toimprove
-@pytest.mark.parametrize("adj", [False, True])
-def test_validate_dataframe_ok(adj):
-    df = fu.load_dataframe(_TEST_STOCK_FILE,
-                           datetime.date(2023, 1, 1),
-                           datetime.date(2023, 2, 1),
-                           adj)
+def test_validate_dataframe_ok():
+    end = datetime.date.today()
+    start = end - datetime.timedelta(days=365)
+    df = fu.load_dataframe(_TEST_STOCK_FILE, start, end)
     assert fu.validate_dataframe(df)
 
 
@@ -97,16 +94,14 @@ def test_validate_dataframe_missing_column(col):
     df = fu.load_dataframe(_TEST_STOCK_FILE,
                            datetime.date(2023, 1, 1),
                            datetime.date(2023, 2, 1))
-    df.drop(col, axis='columns', inplace=True)
+    df = df.drop(col, axis='columns')
     assert not fu.validate_dataframe(df)
 
 
-@pytest.mark.parametrize("adj", [False, True])
-def test_validate_dataframe_extra_column(adj):
+def test_validate_dataframe_extra_column():
     df = fu.load_dataframe(_TEST_STOCK_FILE,
                            datetime.date(2023, 1, 1),
-                           datetime.date(2023, 2, 1),
-                           adj)
+                           datetime.date(2023, 2, 1))
     df["DUMMY"] = 0  # Add dummy extra columns
     assert not fu.validate_dataframe(df)
     df["DUMMY2"] = 1  # Add another dummy extra columns
@@ -135,8 +130,8 @@ def test_validate_symbol_data_file_ok():
     assert fu.validate_symbol_data_file(_TEST_STOCK_FILE)
 
 
-def test_validate_symbol_data_file_bad():
-    filename = 'stock_db/empty/bad_csv.txt'
+def test_validate_symbol_data_file_bad(tmp_path):
+    filename = tmp_path / 'bad_csv.txt'
     assert not os.path.exists(filename)
     with open(filename, 'w') as file:
         file.write('this_is_a_bad_csv_header\n')
@@ -144,8 +139,6 @@ def test_validate_symbol_data_file_bad():
         file.write('4,5,6\n')
     assert os.path.exists(filename)
     assert not fu.validate_symbol_data_file(filename)
-    os.remove(filename)
-    assert not os.path.exists(filename)
 
 
 def test_get_all_symbols():
@@ -154,22 +147,20 @@ def test_get_all_symbols():
 
 
 @pytest.mark.webtest
-def test_download_data():
+def test_download_data(tmp_path):
     symbol = 'SPY'
-    directory = 'stock_db/empty'
+    directory = tmp_path
     start_date = datetime.date(2010, 1, 1)
     end_date = datetime.date(2012, 1, 1)
     fu.download_data(symbol, directory, start_date, end_date)
     assert len(fu.get_all_symbols(directory)) == 1
-    # Clean-up
-    tu.empty_folder_and_confirm(directory)
 
 
 @pytest.mark.webtest
 @pytest.mark.parametrize("loop", range(20))
-def test_download_data_repetitive(loop):
+def test_download_data_repetitive(loop, tmp_path):
     symbol = 'XOM'
-    directory = 'stock_db/empty'
+    directory = tmp_path
     start_date = datetime.date(2018, 1, 1)
     end_date = datetime.date.today()
     fu.download_data(symbol, directory, start_date, end_date)
@@ -179,15 +170,12 @@ def test_download_data_repetitive(loop):
                            end_date)
     assert not fu.validate_dataframe(df)
 
-    # Clean-up
-    tu.empty_folder_and_confirm(directory)
 
-
-@pytest.mark.toimprove  # Should update more than one symbols...
+@pytest.mark.toimprove  # Should update more than one symbols, should confirm for update new data
 @pytest.mark.webtest
-def test_update_all_symbols():
+def test_update_all_symbols(tmp_path):
     symbol = 'SPY'
-    directory = 'stock_db/empty'
+    directory = tmp_path
     filename = fu.symbol_to_filename(symbol, directory)
     # Create an empty stock file
     open(filename, 'w').close()
@@ -197,13 +185,10 @@ def test_update_all_symbols():
     fu.update_all_symbols(directory, start_date, end_date)
     assert len(fu.get_all_symbols(directory)) == 1
 
-    # Clean-up
-    tu.empty_folder_and_confirm(directory)
 
-
-def test_load_dataframe_adj():
+def test_load_dataframe():
     filename = _TEST_STOCK_FILE
-    df = fu.load_dataframe(filename, datetime.date(2018, 1, 1), datetime.date(2018, 4, 1), True)
+    df = fu.load_dataframe(filename, datetime.date(2018, 1, 1), datetime.date(2018, 4, 1))
     # DataFrame axes is a list.  It has the row axis labels and column axis labels
     # as the only members. They are returned in that order.
     assert df.axes[1].name == fu.filename_to_symbol(_TEST_STOCK_FILE)
@@ -212,23 +197,6 @@ def test_load_dataframe_adj():
 
     df_col = list(df.columns)
     test_col = ['Open', 'High', 'Low', 'Close', 'Volume']
-    assert len(df_col) == len(test_col)
-
-    for col in test_col:
-        assert col in df_col
-
-
-def test_load_dataframe_no_adj():
-    filename = _TEST_STOCK_FILE
-    df = fu.load_dataframe(filename, datetime.date(2018, 1, 1), datetime.date(2018, 4, 1), False)
-    # DataFrame axes is a list.  It has the row axis labels and column axis labels
-    # as the only members. They are returned in that order.
-    assert df.axes[1].name == fu.filename_to_symbol(_TEST_STOCK_FILE)
-
-    assert df.notna().all().all()
-
-    df_col = list(df.columns)
-    test_col = ['Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume']
     assert len(df_col) == len(test_col)
 
     for col in test_col:
@@ -310,7 +278,7 @@ def test_clean_dataframe_middle_nan():
     assert df.equals(df2)
 
 
-def test_fill_nan_data_notinplace():
+def test_fill_nan_data():
     filename = _TEST_STOCK_FILE
     df = fu.load_dataframe(filename, datetime.date(2018, 1, 1), datetime.date(2018, 4, 1))
     # Test by adding some NaN
@@ -323,21 +291,6 @@ def test_fill_nan_data_notinplace():
     assert not df2.isna().any().any()
     # Original df not modified:
     assert df.isna().any().any()
-
-
-def test_fill_nan_data_inplace():
-    filename = _TEST_STOCK_FILE
-    df = fu.load_dataframe(filename, datetime.date(2018, 1, 1), datetime.date(2018, 4, 1))
-    # Test by adding some NaN
-    df.iloc[0:10, 0] = np.nan  # beginning
-    df.iloc[11:20, 1] = np.nan  # middle
-    df.iloc[-10:, 2] = np.nan  # end
-    assert df.isna().any().any()
-    df2 = fu.fill_nan_data(df, inplace=True)
-    # Original df modified:
-    assert not df.isna().any().any()
-    # Returned df2 None
-    assert df2 is None
 
 
 def test_normalize_dataframe():

@@ -1,18 +1,14 @@
 """Finance utilities library."""
 
-# To make print working for Python2/3
-from __future__ import print_function
-
 # System
 import re
 import os
 import glob
 import csv
 import math
-# For socket timeout
-import socket
-# Use six to import urllib so it is working for Python2/3
-from six.moves import urllib
+import socket  # For socket timeout
+import urllib.request
+import urllib.error
 
 # Custom
 import pandas as pd
@@ -115,11 +111,7 @@ def download_data(symbol, basedir, start_date, end_date):
 
     f = symbol_to_filename(symbol, basedir)
 
-    data = yqd.load_yahoo_quote(symbol, d1, d2)
-    # prevent writing invalid data
-    if len(data) > 0:
-        with open(f, 'w') as fh:
-            fh.write(data)
+    yqd.load_yahoo_quote(symbol, d1, d2, f)
 
 
 def update_all_symbols(basedir, start_date, end_date):
@@ -146,26 +138,19 @@ def clean_dataframe(df, start_date):
     return df.loc[start_date:][valid_symbols_at_start.intersection(valid_symbols_at_end)]
 
 
-def fill_nan_data(df, inplace=False):
+def fill_nan_data(df):
     """Fill the data in the given DataFrame so no NaN gaps remain.
 
     This is done by:
     1. Fill forward nan with last known good value.
     2. Fill backward nan with first known good value.
-    Returns: DataFrame with missing values filled or None if inplace=True.
+    Returns: DataFrame with missing values filled.
     """
     # Data filling is done in 2 steps
-    if inplace:
-        # 1. Fill forward nan with last known good value.
-        df.ffill(inplace=inplace)
-        # 2. Fill backward nan with first known good value.
-        df.bfill(inplace=inplace)
-        return None
-
     # 1. Fill forward nan with last known good value.
-    df2 = df.ffill(inplace=inplace)
+    df2 = df.ffill()
     # 2. Fill backward nan with first known good value.
-    df2 = df2.bfill(inplace=inplace)
+    df2 = df2.bfill()
     return df2
 
 
@@ -174,7 +159,7 @@ def normalize_dataframe(df):
     return df / df.iloc[0]
 
 
-def load_dataframe(csv_file, start_date, end_date, adjust_price=True):
+def load_dataframe(csv_file, start_date, end_date):
     """Load a CSV stock data file into a pandas DataFrame.
 
     The DataFrame is sorted chronologically by date.
@@ -188,13 +173,13 @@ def load_dataframe(csv_file, start_date, end_date, adjust_price=True):
         if df.index.duplicated().any():
             raise AssertionError('Duplicated index in file {}'.format(csv_file))
 
-        df.sort_index(inplace=True)
+        df = df.sort_index()
 
         # Keep only the required date range
         df = df.loc[start_date:end_date]
 
         # Discarding NaN values that are all NaN for a given row
-        df.dropna(how='all', inplace=True)
+        df = df.dropna(how='all')
 
         # Make sure none isolated remains:
         if df.isna().any().any():
@@ -202,17 +187,8 @@ def load_dataframe(csv_file, start_date, end_date, adjust_price=True):
             print(df.loc[df.isna().all(axis='columns')])
             raise AssertionError("ERROR {} contains isolated NaN".format(csv_file))
 
-        if adjust_price:
-            # Adjusting Columns based on Adjusted Close
-            ratio = df['Adj Close'] / df['Close']
-
-            for col in ['Open', 'High', 'Low']:  # n/a for 'Volume'
-                df[col] *= ratio
-            df.drop('Close', axis='columns', inplace=True)
-            df.rename(columns={'Adj Close': 'Close'}, inplace=True)
-
         # Axis naming matching the symbol name
-        df.rename_axis(filename_to_symbol(csv_file), axis='columns', inplace=True)
+        df = df.rename_axis(filename_to_symbol(csv_file), axis='columns')
 
         return df
 

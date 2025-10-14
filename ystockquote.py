@@ -16,7 +16,7 @@ def _get_info(symbol, data):
 
     info = ticker.info
     if data in info:
-        value = ticker.info[data]
+        value = info[data]
     else:
         value = None
 
@@ -84,7 +84,9 @@ def get_dividend_yield(symbol):
             ]
         )
     if dividend is not None:
-        dividend *= 100.0  # Bring to percentage
+        # TBD MGouin: already in % ???
+        # dividend *= 100.0  # Bring to percentage
+        pass
     else:
         dividend = 0.0
     return dividend

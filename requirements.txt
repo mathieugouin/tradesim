@@ -22,6 +22,7 @@ matplotlib
 scipy
 yfinance
 requests
+lxml
 
 # Required for CI:
 pytest
@@ -30,9 +31,7 @@ coverage
 # For notebook handling
 # ipython
 # ipykernel
-# jupyter
 # jupyterlab
-# notebook
 # seaborn
 
 # To investigate:
