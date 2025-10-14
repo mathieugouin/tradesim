@@ -14,7 +14,7 @@ def plot_test():
     df2 = pd.read_csv('../portfolio2.csv', index_col='Date', parse_dates=True)
 
     df = df2.join(df1, how='outer')
-    df.interpolate(method='linear', inplace=True)
+    df = df.interpolate(method='linear')
     df.plot()
     plt.show()
 
@@ -27,8 +27,8 @@ def dataframe_test2():
         data=np.random.randn(nrow, ncol),
         index=dates,
         columns=list(string.ascii_uppercase[0:ncol]))
-    df.rename_axis('Date', axis='rows', inplace=True)
-    df.rename_axis('DATA', axis='columns', inplace=True)
+    df = df.rename_axis('Date', axis='rows')
+    df = df.rename_axis('DATA', axis='columns')
     print(df)
     df['A'].plot(label='Label A', linestyle='None', marker='x')
     df['B'].plot(label='Label B', linestyle='None', marker='o')
@@ -46,7 +46,7 @@ def dataframe_test():
     print(df.describe())
     print(df.head())
 
-    df.sort_index(inplace=True)
+    df = df.sort_index()
 
     # Column indexing
     print(df['Close'][:10])  # (and row indexing)
@@ -77,7 +77,7 @@ def dataframe_test():
     for col in ['Open', 'High', 'Low', 'Close']:
         df[col] *= r
 
-    df.drop('Adj Close', axis=1, inplace=True)
+    df = df.drop('Adj Close', axis=1)
 
     print(df.head())
     print(df.describe())

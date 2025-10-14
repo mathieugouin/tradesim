@@ -29,13 +29,13 @@ def update_dj():
     # Make sure Symbol column is first, only keep relevant columns
     df = df.loc[:, ["Symbol", "Company"]]
 
-    df.sort_values(by="Symbol", inplace=True)
+    df = df.sort_values(by="Symbol")
 
     # yahoo use - instead of .
     df["Symbol"] = df["Symbol"].map(lambda s: s.replace(".", "-"))
 
     # insert comment
-    df.rename(columns={"Symbol": "# Symbol"}, inplace=True)
+    df = df.rename(columns={"Symbol": "# Symbol"})
 
     # write
     df.to_csv("stock_db/dj.txt", sep="\t", index=False, encoding="utf-8")
@@ -59,12 +59,12 @@ def update_tsx():
     if not found:
         return
 
-    df.rename(columns={"Ticker": "Symbol"}, inplace=True)
+    df = df.rename(columns={"Ticker": "Symbol"})
 
     # Make sure Symbol column is first, only keep relevant columns
     df = df.loc[:, ["Symbol", "Company"]]
 
-    df.sort_values(by="Symbol", inplace=True)
+    df = df.sort_values(by="Symbol")
 
     # yahoo use - instead of .
     df["Symbol"] = df["Symbol"].map(lambda s: s.replace(".", "-"))
@@ -73,7 +73,7 @@ def update_tsx():
     df["Symbol"] = df["Symbol"].map(lambda s: s + ".TO")
 
     # insert comment
-    df.rename(columns={"Symbol": "# Symbol"}, inplace=True)
+    df = df.rename(columns={"Symbol": "# Symbol"})
 
     # write
     df.to_csv("stock_db/tsx.txt", sep="\t", index=False, encoding="utf-8")
@@ -91,15 +91,15 @@ def update_sp500():
     # Make sure Symbol column is first, only keep relevant columns
     df = df.loc[:, ["Symbol", "Security"]]
 
-    df.rename(columns={"Security": "Company"}, inplace=True)
+    df = df.rename(columns={"Security": "Company"})
 
-    df.sort_values(by="Symbol", inplace=True)
+    df = df.sort_values(by="Symbol")
 
     # yahoo use - instead of .
     df["Symbol"] = df["Symbol"].map(lambda s: s.replace(".", "-"))
 
     # insert comment
-    df.rename(columns={"Symbol": "# Symbol"}, inplace=True)
+    df = df.rename(columns={"Symbol": "# Symbol"})
 
     # write
     df.to_csv("stock_db/sp500.txt", sep="\t", index=False, encoding="utf-8")
