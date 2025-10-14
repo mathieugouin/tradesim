@@ -51,7 +51,7 @@ def demo_fu():
     df.iloc[11:20, 1] = np.nan  # middle
     df.iloc[-10:, 2] = np.nan  # end
     print(df.isna().any())
-    fu.fill_nan_data(df, inplace=True)
+    df = fu.fill_nan_data(df)
     print(df.isna().any())
 
     url_array = [

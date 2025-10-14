@@ -120,7 +120,7 @@ class StockDBMgr:
             keys=symbols)
 
         # Axis naming
-        df.rename_axis(mapper=['Symbol', 'Data'], axis='columns', inplace=True)
+        df = df.rename_axis(mapper=['Symbol', 'Data'], axis='columns')
 
         return df
 
@@ -157,9 +157,9 @@ class StockDBMgr:
                 keys=symbols)
 
             # Discarding NaN values that are all NaN for a given row
-            df.dropna(how='all', inplace=True)
+            df = df.dropna(how='all')
 
             # Axis naming
-            df.rename_axis(data_item, axis='columns', inplace=True)
+            df = df.rename_axis(data_item, axis='columns')
 
         return df

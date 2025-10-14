@@ -95,7 +95,7 @@ def test_validate_dataframe_missing_column(col):
     df = fu.load_dataframe(_TEST_STOCK_FILE,
                            datetime.date(2023, 1, 1),
                            datetime.date(2023, 2, 1))
-    df.drop(col, axis='columns', inplace=True)
+    df = df.drop(col, axis='columns')
     assert not fu.validate_dataframe(df)
 
 
@@ -264,7 +264,7 @@ def test_clean_dataframe_middle_nan():
     assert df.equals(df2)
 
 
-def test_fill_nan_data_notinplace():
+def test_fill_nan_data():
     filename = _TEST_STOCK_FILE
     df = fu.load_dataframe(filename, datetime.date(2018, 1, 1), datetime.date(2018, 4, 1))
     # Test by adding some NaN
@@ -277,21 +277,6 @@ def test_fill_nan_data_notinplace():
     assert not df2.isna().any().any()
     # Original df not modified:
     assert df.isna().any().any()
-
-
-def test_fill_nan_data_inplace():
-    filename = _TEST_STOCK_FILE
-    df = fu.load_dataframe(filename, datetime.date(2018, 1, 1), datetime.date(2018, 4, 1))
-    # Test by adding some NaN
-    df.iloc[0:10, 0] = np.nan  # beginning
-    df.iloc[11:20, 1] = np.nan  # middle
-    df.iloc[-10:, 2] = np.nan  # end
-    assert df.isna().any().any()
-    df2 = fu.fill_nan_data(df, inplace=True)
-    # Original df modified:
-    assert not df.isna().any().any()
-    # Returned df2 None
-    assert df2 is None
 
 
 def test_normalize_dataframe():
