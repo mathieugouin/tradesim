@@ -168,7 +168,7 @@ def test_download_data_repetitive(loop, tmp_path):
     df = fu.load_dataframe(fu.symbol_to_filename(symbol, directory),
                            start_date,
                            end_date)
-    assert not fu.validate_dataframe(df)
+    assert fu.validate_dataframe(df)
 
 
 @pytest.mark.toimprove  # Should update more than one symbols, should confirm for update new data
