@@ -76,9 +76,9 @@ jobs:
         run: |
           # https://flake8.pycqa.org/en/latest/user/configuration.html
           # stop the build if there are Python syntax errors or undefined names
-          python -m flake8 --select=E9,F63,F7,F82
+          python -m flake8 --select=E9,F63,F7,F82 .
           # exit-zero treats all errors as warnings.
-          python -m flake8 . --exit-zero
+          python -m flake8 --exit-zero .
 
       - name: "Lint with prospector"
         run: |
