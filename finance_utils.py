@@ -215,20 +215,27 @@ def validate_dataframe(df):
     if len(df.columns) == len(required_columns) + 1 and "Adj Close" not in df:
         return False
 
-    check = True
+    # Because of very small floating error, we round to 6 digits
+    # Ref: https://github.com/mathieugouin/tradesim/issues/60
+    dic = {}
+    dic['Open'] = df['Open'].round(6)
+    dic['High'] = df['High'].round(6)
+    dic['Low'] = df['Low'].round(6)
+    dic['Close'] = df['Close'].round(6)
 
+    check = True
     # Compare with High
-    if (df['High'] < df['Open']).any():
+    if (dic['High'] < dic['Open']).any():
         check = False
-    if (df['High'] < df['Low']).any():
+    if (dic['High'] < dic['Low']).any():
         check = False
-    if (df['High'] < df['Close']).any():
+    if (dic['High'] < dic['Close']).any():
         check = False
 
     # Compare with Low
-    if (df['Low'] > df['Open']).any():
+    if (dic['Low'] > dic['Open']).any():
         check = False
-    if (df['Low'] > df['Close']).any():
+    if (dic['Low'] > dic['Close']).any():
         check = False
 
     return check
