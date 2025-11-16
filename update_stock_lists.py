@@ -19,12 +19,20 @@ _headers = {
 
 def update_dj():
     """Update Dow Jones list"""
-    h = pd.read_html(
+    df_list = pd.read_html(
         "https://en.wikipedia.org/wiki/Dow_Jones_Industrial_Average",
         keep_default_na=False,
         storage_options=_headers,
     )
-    df = h[2]  # 3rd table
+
+    df = None
+    for df_temp in df_list:
+        if "Symbol" in df_temp.columns and "Company" in df_temp.columns:
+            df = df_temp
+            break
+
+    if df is None:
+        raise RuntimeError("Dow Jones list not found")
 
     # Make sure Symbol column is first, only keep relevant columns
     df = df.loc[:, ["Symbol", "Company"]]
@@ -43,21 +51,20 @@ def update_dj():
 
 def update_tsx():
     """Update TSX list"""
-    h = pd.read_html(
+    df_list = pd.read_html(
         "https://en.wikipedia.org/wiki/S%26P/TSX_Composite_Index",
         keep_default_na=False,
         storage_options=_headers,
     )
 
     df = None
-    found = False
-    for df in h:
-        if "Ticker" in df.columns and "Company" in df.columns:
-            found = True
+    for df_temp in df_list:
+        if "Ticker" in df_temp.columns and "Company" in df_temp.columns:
+            df = df_temp
             break
 
-    if not found:
-        return
+    if df is None:
+        raise RuntimeError("TSX list not found")
 
     df = df.rename(columns={"Ticker": "Symbol"})
 
@@ -81,12 +88,19 @@ def update_tsx():
 
 def update_sp500():
     """Update SP-500 list"""
-    h = pd.read_html(
+    df_list = pd.read_html(
         "https://en.wikipedia.org/wiki/List_of_S%26P_500_companies",
         keep_default_na=False,
         storage_options=_headers,
     )
-    df = h[0]  # first table
+
+    for df_temp in df_list:
+        if "Symbol" in df_temp.columns and "Security" in df_temp.columns:
+            df = df_temp
+            break
+
+    if df is None:
+        raise RuntimeError("SP-500 list not found")
 
     # Make sure Symbol column is first, only keep relevant columns
     df = df.loc[:, ["Symbol", "Security"]]
