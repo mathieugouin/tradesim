@@ -24,7 +24,7 @@ NKE	Nike
 NVDA	Nvidia
 PG	Procter & Gamble
 SHW	Sherwin-Williams
-TRV	Travelers
+TRV	Travelers Companies, Inc.
 UNH	UnitedHealth Group
 V	Visa
 VZ	Verizon
