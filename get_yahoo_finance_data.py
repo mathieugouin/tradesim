@@ -127,6 +127,8 @@ def _main():
     _my_assert(queue.queue, "no Tickers given")
     nb_tickers = len(queue.queue)
     # connections = min(options.concurrent, nb_tickers)
+    if options.concurrent > 1:
+        print("Warning: yfinance does not support multithreading, forcing to 1 connection.")
     # Force to 1 connections, yfinance does not support multithreading
     # Ref: https://github.com/ranaroussi/yfinance/issues/2557
     connections = 1
