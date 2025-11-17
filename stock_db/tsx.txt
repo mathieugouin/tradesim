@@ -46,7 +46,7 @@ CEU.TO	CES Energy Solutions Corp.
 CG.TO	Centerra Gold Inc.
 CHP-UN.TO	Choice Properties Real Estate Investment Trust
 CIGI.TO	Colliers International Group Inc.
-CIX.TO	CI Financial Corp.
+#CIX.TO	CI Financial Corp.
 CJT.TO	Cargojet Inc.
 CLS.TO	Celestica Inc.
 CM.TO	Canadian Imperial Bank of Commerce
@@ -62,8 +62,8 @@ CSU.TO	Constellation Software Inc.
 CTC-A.TO	Canadian Tire Corporation Limited
 CU.TO	Canadian Utilities Limited
 CVE.TO	Cenovus Energy Inc.
-CWB.TO	Canadian Western Bank
-CXB.TO	Calibre Mining Corp.
+#CWB.TO	Canadian Western Bank
+#CXB.TO	Calibre Mining Corp.
 DFY.TO	Definity Financial Corporation
 DIR-UN.TO	Dream Industrial Real Estate Investment Trust
 DML.TO	Denison Mines Corp.
@@ -84,7 +84,7 @@ EQX.TO	Equinox Gold Corp.
 ERO.TO	Ero Copper Corp.
 FCR-UN.TO	First Capital Real Estate Investment Trust
 FFH.TO	Fairfax Financial Holdings Limited
-FIL.TO	Filo Corp.
+#FIL.TO	Filo Corp.
 FM.TO	First Quantum Minerals Ltd.
 FNV.TO	Franco-Nevada Corporation
 FRU.TO	Freehold Royalties Ltd.
@@ -110,7 +110,7 @@ IGM.TO	IGM Financial Inc.
 IIP-UN.TO	InterRent Real Estate Investment Trust
 IMG.TO	Iamgold Corporation
 IMO.TO	Imperial Oil Limited
-INE.TO	Innergex Renewable Energy Inc.
+#INE.TO	Innergex Renewable Energy Inc.
 IPCO.TO	International Petroleum Corporation
 IVN.TO	Ivanhoe Mines Ltd.
 JWEL.TO	Jamieson Wellness Inc.
@@ -127,7 +127,7 @@ LNR.TO	Linamar Corporation
 LSPD.TO	Lightspeed Commerce Inc.
 LUG.TO	Lundin Gold Inc.
 LUN.TO	Lundin Mining Corporation
-MAG.TO	MAG Silver Corp.
+#MAG.TO	MAG Silver Corp.
 MATR.TO	Mattr Corp.
 MDA.TO	MDA Space Ltd.
 MEG.TO	MEG Energy Corp.
@@ -145,7 +145,7 @@ NGD.TO	New Gold Inc.
 NPI.TO	Northland Power Inc.
 NTR.TO	Nutrien Ltd.
 NVA.TO	NuVista Energy Ltd.
-NVEI.TO	Nuvei Corporation
+#NVEI.TO	Nuvei Corporation
 NWC.TO	North West Company Inc.
 NWH-UN.TO	NorthWest Healthcare Properties Real Estate Investment Trust
 NXE.TO	NexGen Energy Ltd.
@@ -153,7 +153,7 @@ OGC.TO	OceanaGold Corporation
 OLA.TO	Orla Mining Ltd.
 ONEX.TO	Onex Corporation
 OR.TO	Osisko Gold Royalties Ltd.
-OSK.TO	Osisko Mining Inc.
+#OSK.TO	Osisko Mining Inc.
 OTEX.TO	Open Text Corporation
 PAAS.TO	Pan American Silver Corp.
 PBH.TO	Premium Brands Holdings Corporation
@@ -182,7 +182,7 @@ SES.TO	Secure Energy Services Inc.
 SHOP.TO	Shopify Inc.
 SIA.TO	Sienna Senior Living Inc.
 SII.TO	Sprott Inc.
-SIL.TO	SilverCrest Metals Inc.
+#SIL.TO	SilverCrest Metals Inc.
 SJ.TO	Stella-Jones Inc.
 SLF.TO	Sun Life Financial Inc.
 SOBO.TO	South Bow Corporation
@@ -190,7 +190,7 @@ SPB.TO	Superior Plus Corp.
 SRU-UN.TO	SmartCentres Real Estate Investment Trust
 SSL.TO	Sandstorm Gold Ltd.
 SSRM.TO	SSR Mining Inc.
-STLC.TO	Stelco Holdings Inc.
+#STLC.TO	Stelco Holdings Inc.
 STN.TO	Stantec Inc.
 SU.TO	Suncor Energy Inc.
 SVI.TO	StorageVault Canada Inc.
@@ -212,7 +212,7 @@ TSU.TO	Trisura Group Ltd.
 TVE.TO	Tamarack Valley Energy Ltd.
 TXG.TO	Torex Gold Resources Inc.
 VET.TO	Vermilion Energy Inc.
-VRN.TO	Veren Inc.
+#VRN.TO	Veren Inc.
 WCN.TO	Waste Connections Inc.
 WCP.TO	Whitecap Resources Inc.
 WDO.TO	Wesdome Gold Mines Ltd.
