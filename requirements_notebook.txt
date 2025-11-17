@@ -1,0 +1,4 @@
+# File: requirements_notebook.txt
+# Requirements for Jupyter notebook handling and visualization
+jupyterlab
+seaborn

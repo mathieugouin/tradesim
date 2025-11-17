@@ -28,11 +28,7 @@ lxml
 pytest
 coverage
 
-# For notebook handling
-# ipython
-# ipykernel
-# jupyterlab
-# seaborn
+# For notebook handling: Refer to requirements_notebook.txt
 
 # To investigate:
 # yahoofinancials
