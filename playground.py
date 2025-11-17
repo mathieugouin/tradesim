@@ -4,9 +4,11 @@
 
 
 import datetime
+import pandas as pd
 
 # user
 import stock_db_mgr as sdm
+import finance_utils as fu
 
 
 startdate = datetime.date(2014, 1, 6)  # Start of Questrade portfolio
@@ -14,8 +16,8 @@ startdate = datetime.date(2014, 1, 6)  # Start of Questrade portfolio
 today = datetime.date.today()
 
 # Pick one:
-enddate = datetime.date(2018, 1, 1)
-# enddate = today
+# enddate = datetime.date(2018, 1, 1)
+enddate = today
 
 
 def indicator_test():
@@ -40,15 +42,26 @@ def correlation_test():
 
     db = sdm.StockDBMgr('stock_db/test', startdate, enddate)
     df = db.get_all_symbol_single_data_item('Close')
-    df = df.dropna(how='any')
+    df = fu.clean_dataframe(df, startdate)
+    df = fu.fill_nan_data(df)
 
     dfc = df.corr()
 
-    print(dfc)
+    with pd.option_context(
+        "display.max_rows", None,
+        "display.max_columns", None,
+        "display.width", None,
+        "display.max_colwidth", None
+    ):
+        print("Correlation matrix:")
+        print(dfc)
 
-    # Find inverse correlation
-    print(dfc.min())
-    print(dfc.idxmin())
+        # Results
+        dfr = pd.DataFrame(dfc.min(), columns=["Correlation"])
+        dfr["Symbol"] = dfc.idxmin()
+        dfr = dfr.sort_values(by=["Correlation"])
+        print("Min correlation per symbol:")
+        print(dfr)
 
 
 def _main():
