@@ -82,7 +82,6 @@ def test_filename_to_symbol(filename, symbol):
 
 
 @pytest.mark.toimprove
-@pytest.mark.xfail(reason="Known Yahoo Historical Errors")
 def test_validate_dataframe_ok():
     end = datetime.date.today()
     start = end - datetime.timedelta(days=365)
@@ -155,6 +154,21 @@ def test_download_data(tmp_path):
     end_date = datetime.date(2012, 1, 1)
     fu.download_data(symbol, directory, start_date, end_date)
     assert len(fu.get_all_symbols(directory)) == 1
+
+
+@pytest.mark.webtest
+@pytest.mark.parametrize("loop", range(20))
+def test_download_data_repetitive(loop, tmp_path):
+    symbol = 'XOM'
+    directory = tmp_path
+    start_date = datetime.date(2018, 1, 1)
+    end_date = datetime.date.today()
+    fu.download_data(symbol, directory, start_date, end_date)
+    assert len(fu.get_all_symbols(directory)) == 1
+    df = fu.load_dataframe(fu.symbol_to_filename(symbol, directory),
+                           start_date,
+                           end_date)
+    assert fu.validate_dataframe(df)
 
 
 @pytest.mark.toimprove  # Should update more than one symbols, should confirm for update new data

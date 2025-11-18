@@ -62,7 +62,6 @@ def test_download_data(tmp_path):
 
 
 @pytest.mark.toimprove
-@pytest.mark.xfail(reason="Known Yahoo Historical Errors")
 @pytest.mark.parametrize("symbol", _STOCK_DB_TEST_SYMBOLS)
 def test_validate_symbol_data(symbol):
     end = datetime.date.today()
